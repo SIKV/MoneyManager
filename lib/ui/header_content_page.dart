@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/spacings.dart';
+
 class HeaderContentPage extends StatelessWidget {
   final Color headerColor;
 
@@ -10,6 +12,7 @@ class HeaderContentPage extends StatelessWidget {
   final String? secondarySubtitle;
 
   final IconData? actionIcon;
+  final VoidCallback? onActionPressed;
 
   final Widget content;
   final double contentBorderRadius;
@@ -22,6 +25,7 @@ class HeaderContentPage extends StatelessWidget {
     this.secondaryTitle,
     this.secondarySubtitle,
     this.actionIcon,
+    this.onActionPressed,
     required this.content,
     this.contentBorderRadius = 24,
   }) : super(key: key);
@@ -84,10 +88,10 @@ class HeaderContentPage extends StatelessWidget {
   Widget _actionButton() {
     if (actionIcon != null) {
       return ElevatedButton(
-        onPressed: () {},
+        onPressed: onActionPressed,
         style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(Spacings.three),
           backgroundColor: Colors.white,
           foregroundColor: headerColor,
         ),

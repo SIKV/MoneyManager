@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'theme/theme.dart';
 import 'ui/home_page.dart';
 
 void main() {
@@ -17,7 +18,10 @@ class App extends StatelessWidget {
             pageBuilder: (BuildContext context,
                 Animation<double> animation,
                 Animation<double> secondaryAnimation) {
-              return const HomePage();
+              return Theme(
+                data: createTheme(AppTheme.light),
+                child: const HomePage(),
+              );
             }
         );
     }
