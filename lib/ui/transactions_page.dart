@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:moneymanager/ui/transaction_item.dart';
 
+import '../theme/spacings.dart';
+import '../theme/theme.dart';
 import 'header_content_page.dart';
 import 'transactions_header_settings.dart';
 
@@ -22,8 +25,34 @@ class TransactionsPage extends StatelessWidget {
           },
         );
       },
-      content: const Center(
-        child: Text('Transactions'),
+      content: ListView.builder(
+        itemCount: 25,
+        padding: const EdgeInsets.all(Spacings.four),
+        itemBuilder: (context, index) {
+          return (index % 10 != 0) ? _item() : _sectionItem();
+        },
+      ),
+    );
+  }
+
+  Widget _item() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Spacings.three),
+      child: TransactionItem(
+        type: TransactionItemType.outcome,
+        icon: Icons.fastfood,
+        title: 'Food',
+        subtitle: 'KFC',
+        amount: 499,
+        onPressed: () {},
+      ),
+    );
+  }
+
+  Widget _sectionItem() {
+    return const Center(
+      child: Text('Today',
+        style: TextStyles.itemSectionNormal,
       ),
     );
   }

@@ -1,5 +1,6 @@
 /// Do not use for [borderRadius].
 class Spacings {
+  static const double half = 2;
   static const double one = 4;
   static const double two = 8;
   static const double three = 12;
