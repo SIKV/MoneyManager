@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../theme/spacings.dart';
-import '../theme/theme.dart';
+import '../theme/styles.dart';
 import 'close_circle_button.dart';
 
 class TransactionsHeaderSettings extends StatelessWidget {

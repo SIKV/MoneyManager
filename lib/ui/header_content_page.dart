@@ -37,7 +37,7 @@ class HeaderContentPage extends StatelessWidget {
       child: Column(
         children: [
           _header(context),
-          _content(),
+          _content(context),
         ],
       ),
     );
@@ -104,12 +104,12 @@ class HeaderContentPage extends StatelessWidget {
     }
   }
 
-  Widget _content() {
+  Widget _content(BuildContext context) {
     return Expanded(
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white, // TODO Use theme color.
+          color: Theme.of(context).canvasColor, // TODO Use theme color.
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(contentBorderRadius),
             topRight: Radius.circular(contentBorderRadius),

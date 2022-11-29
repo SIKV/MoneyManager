@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'theme/theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'ui/home_page.dart';
 
 void main() {
-  runApp(const App());
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
@@ -18,10 +23,7 @@ class App extends StatelessWidget {
             pageBuilder: (BuildContext context,
                 Animation<double> animation,
                 Animation<double> secondaryAnimation) {
-              return Theme(
-                data: createTheme(AppTheme.light),
-                child: const HomePage(),
-              );
+              return const HomePage();
             }
         );
     }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moneymanager/ui/transaction_item.dart';
 
 import '../theme/spacings.dart';
-import '../theme/theme.dart';
+import '../theme/styles.dart';
 import 'header_content_page.dart';
 import 'transactions_header_settings.dart';
 

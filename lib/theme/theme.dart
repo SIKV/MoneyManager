@@ -1,46 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:moneymanager/theme/colors.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'theme.g.dart';
 
 enum AppTheme {
-  light
+  light, dark
 }
 
-class TextStyles {
-  static const TextStyle titleNormal = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w500,
-  );
+@riverpod
+class AppThemeManager extends _$AppThemeManager {
+  AppTheme _theme = AppTheme.light; // TODO Change default value.
+  AppTheme get theme => _theme;
 
-  static const TextStyle itemNormal = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.normal,
-  );
+  @override
+  AppTheme build() {
+    return _theme;
+  }
 
-  static const TextStyle itemSectionNormal = TextStyle(
-  );
-
-  static const TextStyle subtitleNormal = TextStyle(
-    fontSize: 14,
-    color: Colors.grey,
-  );
-
-  static const TextStyle income = TextStyle(
-    fontSize: 18,
-    color: Colors.green,
-  );
-
-  static const TextStyle outcome = TextStyle(
-    fontSize: 18,
-  );
+  void setTheme(AppTheme theme) {
+    _theme = theme;
+    ref.invalidateSelf();
+  }
 }
 
-ThemeData createTheme(AppTheme theme) {
-  return ThemeData(
-    bottomSheetTheme: const BottomSheetThemeData(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(24),
+extension GetThemeData on AppTheme {
+  ThemeData themeData() {
+    Brightness brightness = this == AppTheme.light
+        ? Brightness.light : Brightness.dark;
+
+    AppColors colors = this == AppTheme.light
+        ? AppColorsLight() :  AppColorsDark();
+
+    return ThemeData(
+      brightness: brightness,
+      primaryColor: colors.primary,
+      canvasColor: colors.canvas,
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: colors.bottomSheetBackgroundColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
