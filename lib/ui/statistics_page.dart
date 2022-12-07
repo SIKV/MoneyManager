@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../localizations.dart';
 import 'header_content_page.dart';
 
 class StatisticsPage extends StatelessWidget {
@@ -9,11 +10,11 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return HeaderContentPage(
       headerColor: Colors.teal.shade200,
-      primaryTitle: 'Statistics',
+      primaryTitle: Strings.statisticsPageTitle.localized(context),
       primarySubtitle: '4 Nov 2022 - 30 Nov 2022',
       actionIcon: Icons.calendar_today,
-      content: const Center(
-        child: Text('Statistics'),
+      content: Center(
+        child: Text(Strings.statisticsPageTitle.localized(context)),
       ),
     );
   }

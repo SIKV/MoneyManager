@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/localizations.dart';
 
 import '../theme/theme.dart';
 import 'more_page.dart';
@@ -46,26 +47,26 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
           selectedItemColor: Colors.lightBlue,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Transactions'
+                icon: const Icon(Icons.home),
+                label: Strings.transactionsPageTitle.localized(context),
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.bar_chart_sharp),
-                label: 'Statistics'
+                icon: const Icon(Icons.bar_chart_sharp),
+                label: Strings.statisticsPageTitle.localized(context),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.add),
-                label: 'Add'
+                label: '',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Search'
+                icon: const Icon(Icons.search),
+                label: Strings.searchPageTitle.localized(context),
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.more_horiz),
-                label: 'More'
+                icon: const Icon(Icons.more_horiz),
+                label: Strings.morePageTitle.localized(context),
             ),
           ],
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/localizations.dart';
 
 import 'ui/home_page.dart';
 
@@ -48,8 +50,13 @@ class App extends StatelessWidget {
       textStyle: const TextStyle(),
       color: Colors.lightBlue,
       localizationsDelegates: const [
-        DefaultWidgetsLocalizations.delegate,
-        DefaultMaterialLocalizations.delegate
+        AppLocalizationsDelegate(),
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('uk', ''),
       ],
     );
   }
