@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/localizations.dart';
 
+import '../theme/icons.dart';
 import '../theme/theme.dart';
 import 'more_page.dart';
 import 'search_page.dart';
@@ -49,11 +50,11 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
           onTap: _onItemTapped,
           items: [
             BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
+                icon: const Icon(AppIcons.transactionsPage),
                 label: Strings.transactionsPageTitle.localized(context),
             ),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.bar_chart_sharp),
+                icon: const Icon(AppIcons.statisticsPage),
                 label: Strings.statisticsPageTitle.localized(context),
             ),
             const BottomNavigationBarItem(
@@ -61,11 +62,11 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
                 label: '',
             ),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.search),
+                icon: const Icon(AppIcons.searchPage),
                 label: Strings.searchPageTitle.localized(context),
             ),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.more_horiz),
+                icon: const Icon(AppIcons.morePage),
                 label: Strings.morePageTitle.localized(context),
             ),
           ],

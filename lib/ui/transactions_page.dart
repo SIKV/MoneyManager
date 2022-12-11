@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/ui/transaction_item.dart';
 
 import '../theme/spacings.dart';
@@ -15,7 +16,7 @@ class TransactionsPage extends StatelessWidget {
       headerColor: Colors.lightBlue.shade200,
       primaryTitle: '\$25.390.50',
       primarySubtitle: 'This month expenses',
-      actionIcon: Icons.tune,
+      actionIcon: AppIcons.transactionsHeaderSettings,
       onActionPressed: () {
         showModalBottomSheet(
           context: context,
