@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:moneymanager/theme/icons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/transaction_item.dart';
+import 'package:moneymanager/theme/icons.dart';
 
 import '../../theme/spacings.dart';
 import '../../theme/styles.dart';
+import '../../theme/theme.dart';
 import '../../ui/widget/header_content_page.dart';
 import 'transactions_header_settings.dart';
 
-class TransactionsPage extends StatelessWidget {
+class TransactionsPage extends ConsumerWidget {
   const TransactionsPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppTheme appTheme = ref.watch(appThemeManagerProvider);
+
     return HeaderContentPage(
-      headerColor: Colors.lightBlue.shade200,
+      headerColor: appTheme.colors.transactionsHeader,
       primaryTitle: '\$25.390.50',
       primarySubtitle: 'This month expenses',
       actionIcon: AppIcons.transactionsHeaderSettings,

@@ -43,29 +43,28 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
       data: appTheme.themeData(),
       child: Scaffold(
         body: _pages[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.lightBlue,
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: [
-            BottomNavigationBarItem(
+        bottomNavigationBar: NavigationBar(
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: _onItemTapped,
+          destinations: [
+            NavigationDestination(
                 icon: const Icon(AppIcons.transactionsPage),
                 label: Strings.transactionsPageTitle.localized(context),
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
                 icon: const Icon(AppIcons.statisticsPage),
                 label: Strings.statisticsPageTitle.localized(context),
             ),
-            const BottomNavigationBarItem(
+            const NavigationDestination(
                 icon: Icon(Icons.add),
                 label: '',
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
                 icon: const Icon(AppIcons.searchPage),
                 label: Strings.searchPageTitle.localized(context),
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
                 icon: const Icon(AppIcons.morePage),
                 label: Strings.morePageTitle.localized(context),
             ),

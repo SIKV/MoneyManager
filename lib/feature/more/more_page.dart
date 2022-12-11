@@ -10,8 +10,10 @@ class MorePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AppTheme appTheme = ref.watch(appThemeManagerProvider);
+
     return HeaderContentPage(
-      headerColor: Colors.brown.shade200,
+      headerColor: appTheme.colors.moreHeader,
       primaryTitle: Strings.morePageTitle.localized(context),
       primarySubtitle: 'version 0.1',
       actionIcon: Icons.brightness_4,
@@ -25,10 +27,10 @@ class MorePage extends ConsumerWidget {
   }
 
   void _updateTheme(AppThemeManager themeManager) {
-    if (themeManager.theme == AppTheme.light) {
-      themeManager.setTheme(AppTheme.dark);
+    if (themeManager.theme.type == AppThemeType.light) {
+      themeManager.setTheme(AppThemeType.dark);
     } else {
-      themeManager.setTheme(AppTheme.light);
+      themeManager.setTheme(AppThemeType.light);
     }
   }
 }

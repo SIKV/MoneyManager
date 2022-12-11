@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/theme/radius.dart';
 
+import '../../theme/colors.dart';
 import '../../theme/spacings.dart';
+import '../../theme/theme.dart';
 
-class HeaderContentPage extends StatelessWidget {
+class HeaderContentPage extends ConsumerWidget {
   final Color headerColor;
 
   final String primaryTitle;
@@ -15,7 +19,7 @@ class HeaderContentPage extends StatelessWidget {
   final VoidCallback? onActionPressed;
 
   final Widget content;
-  final double contentBorderRadius;
+  final Radius contentBorderRadius;
 
   const HeaderContentPage({
     Key? key,
@@ -27,23 +31,25 @@ class HeaderContentPage extends StatelessWidget {
     this.actionIcon,
     this.onActionPressed,
     required this.content,
-    this.contentBorderRadius = 24,
+    this.contentBorderRadius = AppRadius.bigger,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppTheme appTheme = ref.watch(appThemeManagerProvider);
+
     return ColoredBox(
       color: headerColor,
       child: Column(
         children: [
-          _header(context),
-          _content(context),
+          _header(context, appTheme.colors),
+          _content(appTheme.colors),
         ],
       ),
     );
   }
 
-  Widget _header(BuildContext context) {
+  Widget _header(BuildContext context, AppColors colors) {
     return Padding(
       padding: EdgeInsets.only(
         top: MediaQuery
@@ -61,42 +67,43 @@ class HeaderContentPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(primaryTitle,
-                  style: const TextStyle( // TODO Use theme style.
-                    color: Colors.black,
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                  )
+                style: TextStyle(
+                  color: colors.colorScheme.onPrimary,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(
                 height: 2,
               ),
               Text(primarySubtitle,
-                style: TextStyle( // TODO Use theme style.
-                  color: Colors.black.withAlpha(140),
+                style: TextStyle(
+                  color: colors.colorScheme.onPrimary.withAlpha(200),
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                 ),
               ),
             ],
           ),
-          _actionButton(),
+          _actionButton(colors),
         ],
       ),
     );
   }
 
-  Widget _actionButton() {
+  Widget _actionButton(AppColors colors) {
     if (actionIcon != null) {
       return ElevatedButton(
         onPressed: onActionPressed,
         style: ElevatedButton.styleFrom(
+          elevation: 1,
           shape: const CircleBorder(),
           padding: const EdgeInsets.all(Spacings.three),
-          backgroundColor: Colors.white,
+          backgroundColor: colors.colorScheme.onPrimary,
           foregroundColor: headerColor,
         ),
         child: Icon(actionIcon,
-          color: Colors.black,
+          color: colors.colorScheme.primary,
         ),
       );
     } else {
@@ -104,15 +111,15 @@ class HeaderContentPage extends StatelessWidget {
     }
   }
 
-  Widget _content(BuildContext context) {
+  Widget _content(AppColors colors) {
     return Expanded(
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor, // TODO Use theme color.
+          color: colors.colorScheme.background,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(contentBorderRadius),
-            topRight: Radius.circular(contentBorderRadius),
+            topLeft: contentBorderRadius,
+            topRight: contentBorderRadius,
           ),
         ),
         child: content,
