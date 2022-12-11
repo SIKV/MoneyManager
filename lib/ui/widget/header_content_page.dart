@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/spacings.dart';
+import '../../theme/spacings.dart';
 
 class HeaderContentPage extends StatelessWidget {
   final Color headerColor;

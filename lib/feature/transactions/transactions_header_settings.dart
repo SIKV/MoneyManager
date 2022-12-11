@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
-import '../theme/spacings.dart';
-import '../theme/styles.dart';
-import 'close_circle_button.dart';
+import '../../theme/spacings.dart';
+import '../../theme/styles.dart';
+import '../../ui/widget/close_circle_button.dart';
 
 class TransactionsHeaderSettings extends StatelessWidget {
   const TransactionsHeaderSettings({Key? key}) : super(key: key);

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanager/theme/icons.dart';
-import 'package:moneymanager/ui/transaction_item.dart';
+import 'package:moneymanager/feature/transactions/transaction_item.dart';
 
-import '../theme/spacings.dart';
-import '../theme/styles.dart';
-import 'header_content_page.dart';
+import '../../theme/spacings.dart';
+import '../../theme/styles.dart';
+import '../../ui/widget/header_content_page.dart';
 import 'transactions_header_settings.dart';
 
 class TransactionsPage extends StatelessWidget {

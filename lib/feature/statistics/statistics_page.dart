@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanager/theme/icons.dart';
 
-import '../localizations.dart';
-import 'header_content_page.dart';
+import '../../localizations.dart';
+import '../../ui/widget/header_content_page.dart';
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({Key? key}) : super(key: key);

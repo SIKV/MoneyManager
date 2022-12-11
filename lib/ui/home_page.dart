@@ -4,10 +4,10 @@ import 'package:moneymanager/localizations.dart';
 
 import '../theme/icons.dart';
 import '../theme/theme.dart';
-import 'more_page.dart';
-import 'search_page.dart';
-import 'statistics_page.dart';
-import 'transactions_page.dart';
+import '../feature/more/more_page.dart';
+import '../feature/search/search_page.dart';
+import '../feature/statistics/statistics_page.dart';
+import '../feature/transactions/transactions_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);

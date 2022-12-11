@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/theme.dart';
 
-import '../localizations.dart';
-import 'header_content_page.dart';
+import '../../localizations.dart';
+import '../../ui/widget/header_content_page.dart';
 
 class MorePage extends ConsumerWidget {
   const MorePage({Key? key}) : super(key: key);

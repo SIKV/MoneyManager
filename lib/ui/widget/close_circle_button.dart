@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/spacings.dart';
+import '../../theme/spacings.dart';
 
 class CloseCircleButton extends StatelessWidget {
   final VoidCallback onPressed;

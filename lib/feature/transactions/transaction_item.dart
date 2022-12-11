@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/spacings.dart';
-import '../theme/styles.dart';
+import '../../theme/spacings.dart';
+import '../../theme/styles.dart';
 
 enum TransactionItemType {
   income, outcome
