@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/localizations.dart';
 
+import '../feature/more/more_page.dart';
+import '../feature/transactions/transactions_page.dart';
 import '../theme/icons.dart';
 import '../theme/theme.dart';
-import '../feature/more/more_page.dart';
-import '../feature/search/search_page.dart';
-import '../feature/statistics/statistics_page.dart';
-import '../feature/transactions/transactions_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,9 +21,7 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
 
   static const _pages = [
     TransactionsPage(),
-    StatisticsPage(),
     Center(child: Text('Add')),
-    SearchPage(),
     MorePage(),
   ];
 
@@ -49,24 +45,16 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
           onDestinationSelected: _onItemTapped,
           destinations: [
             NavigationDestination(
-                icon: const Icon(AppIcons.transactionsPage),
-                label: Strings.transactionsPageTitle.localized(context),
-            ),
-            NavigationDestination(
-                icon: const Icon(AppIcons.statisticsPage),
-                label: Strings.statisticsPageTitle.localized(context),
+              icon: const Icon(AppIcons.transactionsPage),
+              label: Strings.transactionsPageTitle.localized(context),
             ),
             const NavigationDestination(
-                icon: Icon(Icons.add),
-                label: '',
+              icon: Icon(Icons.add),
+              label: '',
             ),
             NavigationDestination(
-                icon: const Icon(AppIcons.searchPage),
-                label: Strings.searchPageTitle.localized(context),
-            ),
-            NavigationDestination(
-                icon: const Icon(AppIcons.morePage),
-                label: Strings.morePageTitle.localized(context),
+              icon: const Icon(AppIcons.morePage),
+              label: Strings.morePageTitle.localized(context),
             ),
           ],
         ),

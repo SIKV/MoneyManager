@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/theme.dart';
 
 import '../../localizations.dart';
-import '../../ui/widget/header_content_page.dart';
+import '../../theme/icons.dart';
+import '../../ui/widget/collapsing_header_content.dart';
 
 class MorePage extends ConsumerWidget {
   const MorePage({Key? key}) : super(key: key);
@@ -12,16 +13,20 @@ class MorePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
-    return HeaderContentPage(
-      headerColor: appTheme.colors.moreHeader,
-      primaryTitle: Strings.morePageTitle.localized(context),
-      primarySubtitle: 'version 0.1',
-      actionIcon: Icons.brightness_4,
-      onActionPressed: () {
+    return CollapsingHeaderContent(
+      colors: appTheme.colors,
+      startColor: appTheme.colors.moreHeaderStart,
+      endColor: appTheme.colors.moreHeaderEnd,
+      collapsedHeight: 78,
+      expandedHeight: 208,
+      title: Strings.morePageTitle.localized(context),
+      primaryAction: appTheme.type == AppThemeType.light ? AppIcons.moreSetDarkTheme : AppIcons.moreSetLightTheme,
+      primaryActionBackground: appTheme.colors.alwaysWhite,
+      onPrimaryActionPressed: () {
         _updateTheme(ref.read(appThemeManagerProvider.notifier));
       },
-      content: Center(
-        child: Text(Strings.morePageTitle.localized(context)),
+      sliver: SliverToBoxAdapter(
+        child: Container(),
       ),
     );
   }

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/transaction_item.dart';
 import 'package:moneymanager/theme/icons.dart';
+import 'package:moneymanager/ui/widget/collapsing_header_content.dart';
+import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
+import '../../localizations.dart';
 import '../../theme/spacings.dart';
 import '../../theme/styles.dart';
 import '../../theme/theme.dart';
-import '../../ui/widget/header_content_page.dart';
 import 'transactions_header_settings.dart';
 
 class TransactionsPage extends ConsumerWidget {
@@ -16,12 +18,17 @@ class TransactionsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
-    return HeaderContentPage(
-      headerColor: appTheme.colors.transactionsHeader,
-      primaryTitle: '\$25.390.50',
-      primarySubtitle: 'This month expenses',
-      actionIcon: AppIcons.transactionsHeaderSettings,
-      onActionPressed: () {
+    return CollapsingHeaderContent(
+      colors: appTheme.colors,
+      startColor: appTheme.colors.transactionsHeaderStart,
+      endColor: appTheme.colors.transactionsHeaderEnd,
+      collapsedHeight: 78,
+      expandedHeight: 346,
+      title: '25 390 50',
+      titleSuffix: ' \$',
+      subtitle: 'This month expenses',
+      primaryAction: AppIcons.transactionsHeaderSettings,
+      onPrimaryActionPressed: () {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
@@ -30,12 +37,36 @@ class TransactionsPage extends ConsumerWidget {
           },
         );
       },
-      content: ListView.builder(
-        itemCount: 25,
-        padding: const EdgeInsets.all(Spacings.four),
-        itemBuilder: (context, index) {
+      secondaryActions: [
+        HeaderCircleButton(
+          title: Strings.categoriesPageTitle.localized(context),
+          icon: AppIcons.categoriesPage,
+          onPressed: () { },
+        ),
+        HeaderCircleButton(
+          title: Strings.statisticsPageTitle.localized(context),
+          icon: AppIcons.statisticsPage,
+          onPressed: () { },
+        ),
+        HeaderCircleButton(
+          title: Strings.searchPageTitle.localized(context),
+          icon: AppIcons.searchPage,
+          onPressed: () { },
+        ),
+      ],
+      sliver: sampleList(),
+    );
+  }
+
+  Widget sampleList() {
+    return SliverPadding(
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
           return (index % 10 != 0) ? _item() : _sectionItem();
-        },
+          },
+          childCount: 35,
+        ),
       ),
     );
   }

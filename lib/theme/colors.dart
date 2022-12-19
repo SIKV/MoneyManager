@@ -3,9 +3,17 @@ import 'package:flutter/material.dart';
 abstract class AppColors {
   ColorScheme get colorScheme;
 
-  Color get transactionsHeader => const Color(0xFF02B289);
-  Color get statisticsHeader => const Color(0xFF02B289);
-  Color get moreHeader => const Color(0xFFd5bdaf);
+  Color get alwaysWhite => const Color(0xFFFAFAFA);
+  Color get alwaysBlack => const Color(0xFF0A0A0A);
+
+  Color get transactionsHeaderStart => const Color(0xFF02B289);
+  Color get transactionsHeaderEnd => const Color(0xFF07251F);
+
+  Color get statisticsHeaderStart => const Color(0xFF3074FF);
+  Color get statisticsHeaderEnd => const Color(0xFFD244E7);
+
+  Color get moreHeaderStart => const Color(0xFF607677);
+  Color get moreHeaderEnd => const Color(0xFF0D82A4);
 }
 
 class LightAppColors extends AppColors {

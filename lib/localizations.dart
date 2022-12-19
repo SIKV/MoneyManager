@@ -3,9 +3,10 @@ import 'package:flutter/widgets.dart';
 
 class Strings {
   static const String transactionsPageTitle = 'transactionsPageTitle';
+  static const String morePageTitle = 'morePageTitle';
+  static const String categoriesPageTitle = 'categoriesPageTitle';
   static const String statisticsPageTitle = 'statisticsPageTitle';
   static const String searchPageTitle = 'searchPageTitle';
-  static const String morePageTitle = 'morePageTitle';
 }
 
 extension GetLocalizedString on String {
@@ -41,15 +42,17 @@ class AppLocalizations {
   static const _localized = <String, Map<String, String>>{
     'en': {
       Strings.transactionsPageTitle: 'Transactions',
+      Strings.morePageTitle: 'More',
+      Strings.categoriesPageTitle: 'Categories',
       Strings.statisticsPageTitle: 'Statistics',
       Strings.searchPageTitle: 'Search',
-      Strings.morePageTitle: 'More',
     },
     'uk': {
       Strings.transactionsPageTitle: 'Транзакції',
+      Strings.morePageTitle: 'Ще',
+      Strings.categoriesPageTitle: 'Категорії',
       Strings.statisticsPageTitle: 'Статистика',
       Strings.searchPageTitle: 'Пошук',
-      Strings.morePageTitle: 'Більше',
     }
   };
 }
