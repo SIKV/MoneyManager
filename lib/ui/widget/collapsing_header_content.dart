@@ -140,7 +140,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
             mainAxisSize: MainAxisSize.min,
             children: [
               buildSecondaryActions(),
-              buildContentRoundBorder(),
+              buildContentRoundBorder(context),
             ],
           ),
         ),
@@ -316,11 +316,11 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  Widget buildContentRoundBorder() {
+  Widget buildContentRoundBorder(BuildContext context) {
     return Container(
       height: lerpDouble(contentBorderHeight, 0, scrollProgress),
       decoration: BoxDecoration(
-        color: colors.alwaysWhite,
+        color: Theme.of(context).canvasColor,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
