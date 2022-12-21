@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/localizations.dart';
+import 'package:moneymanager/theme/theme.dart';
 
 import 'ui/home_page.dart';
 
@@ -13,42 +14,16 @@ void main() {
   );
 }
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
-  Route? onGenerateRoute(RouteSettings settings) {
-    Route? page;
-
-    switch (settings.name) {
-      case '/':
-        page = PageRouteBuilder(
-            pageBuilder: (BuildContext context,
-                Animation<double> animation,
-                Animation<double> secondaryAnimation) {
-              return const HomePage();
-            }
-        );
-    }
-
-    return page;
-  }
-
-  Route onUnknownRoute(RouteSettings settings) {
-    return PageRouteBuilder(
-        pageBuilder: (BuildContext context,
-            Animation<double> animation, Animation<double> secondaryAnimation) {
-          return Container();
-        }
-    );
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return WidgetsApp(
-      onGenerateRoute: onGenerateRoute,
-      onUnknownRoute: onUnknownRoute,
-      textStyle: const TextStyle(),
-      color: Colors.lightBlue,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppTheme appTheme = ref.watch(appThemeManagerProvider);
+
+    return MaterialApp(
+      theme: appTheme.themeData(),
+      home: const HomePage(),
       localizationsDelegates: const [
         AppLocalizationsDelegate(),
         GlobalWidgetsLocalizations.delegate,
