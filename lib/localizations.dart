@@ -7,6 +7,13 @@ class Strings {
   static const String categoriesPageTitle = 'categoriesPageTitle';
   static const String statisticsPageTitle = 'statisticsPageTitle';
   static const String searchPageTitle = 'searchPageTitle';
+
+  // Categories page
+  static const String addCategory = 'addCategory';
+  static const String categoryTitle = 'categoryTitle';
+  static const String addSubcategory = 'addSubcategory';
+  static const String saveCategory = 'saveCategory';
+  static const String deleteCategory = 'deleteCategory';
 }
 
 extension GetLocalizedString on String {
@@ -46,13 +53,15 @@ class AppLocalizations {
       Strings.categoriesPageTitle: 'Categories',
       Strings.statisticsPageTitle: 'Statistics',
       Strings.searchPageTitle: 'Search',
+
+      Strings.addCategory: 'Add category',
+      Strings.categoryTitle: 'Category title',
+      Strings.addSubcategory: 'Add subcategory',
+      Strings.saveCategory: 'Save',
+      Strings.deleteCategory: 'Delete',
     },
     'uk': {
-      Strings.transactionsPageTitle: 'Транзакції',
-      Strings.morePageTitle: 'Ще',
-      Strings.categoriesPageTitle: 'Категорії',
-      Strings.statisticsPageTitle: 'Статистика',
-      Strings.searchPageTitle: 'Пошук',
+      // TODO: Add translations.
     }
   };
 }

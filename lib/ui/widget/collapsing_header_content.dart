@@ -45,29 +45,31 @@ class CollapsingHeaderContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
-    return CustomScrollView(
-      slivers: [
-        SliverPersistentHeader(
-          pinned: true,
-          floating: false,
-          delegate: _HeaderDelegate(
-            colors: appTheme.colors,
-            startColor: startColor,
-            endColor: endColor,
-            expandedHeight: expandedHeight,
-            collapsedHeight: collapsedHeight,
-            titlePrefix: titlePrefix,
-            title: title,
-            titleSuffix: titleSuffix,
-            subtitle: subtitle,
-            primaryAction: primaryAction,
-            primaryActionBackground: primaryActionBackground,
-            onPrimaryActionPressed: onPrimaryActionPressed,
-            secondaryActions: secondaryActions,
+    return Material(
+      child: CustomScrollView(
+        slivers: [
+          SliverPersistentHeader(
+            pinned: true,
+            floating: false,
+            delegate: _HeaderDelegate(
+              colors: appTheme.colors,
+              startColor: startColor,
+              endColor: endColor,
+              expandedHeight: expandedHeight,
+              collapsedHeight: collapsedHeight,
+              titlePrefix: titlePrefix,
+              title: title,
+              titleSuffix: titleSuffix,
+              subtitle: subtitle,
+              primaryAction: primaryAction,
+              primaryActionBackground: primaryActionBackground,
+              onPrimaryActionPressed: onPrimaryActionPressed,
+              secondaryActions: secondaryActions,
+            ),
           ),
-        ),
-        sliver,
-      ],
+          sliver,
+        ],
+      ),
     );
   }
 }

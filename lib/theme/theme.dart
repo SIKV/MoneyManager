@@ -14,6 +14,7 @@ abstract class AppTheme {
 
   ThemeData themeData() {
     return ThemeData(
+      useMaterial3: true,
       colorScheme: colors.colorScheme,
       bottomSheetTheme: const BottomSheetThemeData(
         shape: RoundedRectangleBorder(

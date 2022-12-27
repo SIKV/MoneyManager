@@ -6,24 +6,35 @@ abstract class AppColors {
   Color get alwaysWhite => const Color(0xFFFAFAFA);
   Color get alwaysBlack => const Color(0xFF0A0A0A);
 
+  Color get itemTranslucentBackground;
+
   Color get transactionsHeaderStart => const Color(0xFF02B289);
   Color get transactionsHeaderEnd => const Color(0xFF07251F);
+
+  Color get moreHeaderStart => const Color(0xFF607677);
+  Color get moreHeaderEnd => const Color(0xFF0D82A4);
 
   Color get statisticsHeaderStart => const Color(0xFF3074FF);
   Color get statisticsHeaderEnd => const Color(0xFFD244E7);
 
-  Color get moreHeaderStart => const Color(0xFF607677);
-  Color get moreHeaderEnd => const Color(0xFF0D82A4);
+  Color get categoriesHeaderStart => const Color(0xFF3C5E9F);
+  Color get categoriesHeaderEnd => const Color(0xFF4C2752);
 }
 
 class LightAppColors extends AppColors {
   @override
   ColorScheme get colorScheme => lightColorScheme;
+
+  @override
+  Color get itemTranslucentBackground => const Color(0xBFFFFFFF);
 }
 
 class DarkAppColors extends AppColors {
   @override
   ColorScheme get colorScheme => darkColorScheme;
+
+  @override
+  Color get itemTranslucentBackground => Colors.black12;
 }
 
 const lightColorScheme = ColorScheme(

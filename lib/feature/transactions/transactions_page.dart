@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/transaction_item.dart';
+import 'package:moneymanager/routes.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/ui/widget/collapsing_header_content.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
@@ -41,7 +42,9 @@ class TransactionsPage extends ConsumerWidget {
         HeaderCircleButton(
           title: Strings.categoriesPageTitle.localized(context),
           icon: AppIcons.categoriesPage,
-          onPressed: () { },
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.categories);
+          },
         ),
         HeaderCircleButton(
           title: Strings.statisticsPageTitle.localized(context),

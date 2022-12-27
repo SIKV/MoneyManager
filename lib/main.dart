@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/localizations.dart';
+import 'package:moneymanager/routes.dart';
 import 'package:moneymanager/theme/theme.dart';
 
 import 'ui/home_page.dart';
@@ -24,6 +25,7 @@ class App extends ConsumerWidget {
     return MaterialApp(
       theme: appTheme.themeData(),
       home: const HomePage(),
+      routes: AppRoutes.routes,
       localizationsDelegates: const [
         AppLocalizationsDelegate(),
         GlobalWidgetsLocalizations.delegate,
