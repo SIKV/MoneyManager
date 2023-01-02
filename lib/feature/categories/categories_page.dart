@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/domain/transaction_subcategory.dart';
+import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/feature/categories/category_item.dart';
+import 'package:moneymanager/feature/categories/categories_list_controller.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/collapsing_header_content.dart';
@@ -9,18 +10,6 @@ import 'package:moneymanager/ui/widget/collapsing_header_content.dart';
 import '../../domain/transaction_category.dart';
 import '../../localizations.dart';
 import '../../theme/theme.dart';
-
-final sampleCategories = [
-  const TransactionCategory(
-    id: '1',
-    title: 'Food',
-    emoji: '🍔',
-    subcategories: [
-      TransactionSubcategory(id: '1', title: 'Subcategory 1'),
-      TransactionSubcategory(id: '1', title: 'Subcategory 2'),
-    ]
-  ),
-];
 
 class CategoriesPage extends ConsumerWidget {
   const CategoriesPage({Key? key}) : super(key: key);
@@ -31,7 +20,8 @@ class CategoriesPage extends ConsumerWidget {
 
     return Theme(
       data: appTheme.themeData().copyWith(
-        colorScheme: ColorScheme.fromSeed(seedColor: appTheme.colors.categoriesHeaderEnd),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: appTheme.colors.categoriesHeaderEnd),
       ),
       child: Stack(
         children: [
@@ -52,7 +42,7 @@ class CategoriesPage extends ConsumerWidget {
                 label: Text(Strings.addCategory.localized(context)),
                 icon: const Icon(AppIcons.categoriesAddCategory),
                 onPressed: () {
-                  addCategory(context);
+                  addCategory(context, ref);
                 },
               ),
             ),
@@ -62,31 +52,51 @@ class CategoriesPage extends ConsumerWidget {
     );
   }
 
-  void addCategory(BuildContext context) {
+  void addCategory(BuildContext context, WidgetRef ref) {
     // TODO: Implement
+    final categoriesListController = ref.read(categoriesListControllerProvider.notifier);
+    categoriesListController.addCategory(
+      const TransactionCategory(
+          id: '1',
+          title: 'New category',
+          emoji: '🍇',
+          subcategories: []
+      ),
+    );
   }
 }
 
-class _CategoriesList extends StatelessWidget {
-  const _CategoriesList();
+class _CategoriesList extends ConsumerWidget {
+  const _CategoriesList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Spacings.four,
-            vertical: Spacings.two,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categories = ref.watch(categoriesListControllerProvider);
+
+    return categories.when(
+      loading: () => SliverToBoxAdapter(
+        child: Container(),
+      ),
+      error: (err, _) => const SliverToBoxAdapter(
+        child: Text('Error fetching categories'),
+      ),
+      data: (categories) =>
+          SliverList(
+            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Spacings.four,
+                  vertical: Spacings.two,
+                ),
+                child: CategoryItem(
+                  category: categories[index],
+                  onPressed: () {
+                    editCategory(context, categories[index]);
+                  },
+                ),
+              );
+            }, childCount: categories.length),
           ),
-          child: CategoryItem(
-            category: sampleCategories[index],
-            onPressed: () {
-              editCategory(context, sampleCategories[index]);
-            },
-          ),
-        );
-      }, childCount: sampleCategories.length),
     );
   }
 
