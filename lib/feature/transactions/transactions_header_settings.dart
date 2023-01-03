@@ -15,13 +15,9 @@ class TransactionsHeaderSettings extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Align(
+          const Align(
             alignment: Alignment.topRight,
-            child: CloseCircleButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            child: CloseCircleButton(),
           ),
           const Text("Primary",
             style: TextStyles.titleNormal,

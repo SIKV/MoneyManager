@@ -6,12 +6,8 @@ import 'package:moneymanager/theme/theme.dart';
 import '../../theme/spacings.dart';
 
 class CloseCircleButton extends ConsumerWidget {
-  final VoidCallback onPressed;
 
-  const CloseCircleButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
+  const CloseCircleButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +19,9 @@ class CloseCircleButton extends ConsumerWidget {
         color: colors.colorScheme.surfaceVariant,
         child: InkWell(
           splashColor: Colors.grey,
-          onTap: onPressed,
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: Icon(Icons.close,
             color: colors.colorScheme.onSurfaceVariant,
           ),

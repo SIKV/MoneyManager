@@ -18,6 +18,7 @@ dependencies:
   riverpod_annotation: ^1.0.4
 
   cupertino_icons: ^1.0.2
+  emoji_picker_flutter: ^1.5.1
 
 dev_dependencies:
   flutter_test:

@@ -14,12 +14,19 @@ class CategoriesListController extends AsyncNotifier<List<TransactionCategory>> 
   @override
   Future<List<TransactionCategory>> build() async {
     return ref.read(categoriesRepositoryProvider)
-        .getCategories();
+        .getAll();
   }
 
-  void addCategory(TransactionCategory category) {
+  void addOrUpdateCategory(TransactionCategory category) {
     ref.read(categoriesRepositoryProvider)
-        .addCategory(category);
+        .addOrUpdate(category);
+
+    ref.invalidateSelf();
+  }
+
+  void deleteCategory(String categoryId) {
+    ref.read(categoriesRepositoryProvider)
+        .delete(categoryId);
 
     ref.invalidateSelf();
   }

@@ -8,12 +8,16 @@ class Strings {
   static const String statisticsPageTitle = 'statisticsPageTitle';
   static const String searchPageTitle = 'searchPageTitle';
 
+  static const String add = 'add';
+  static const String save = 'save';
+  static const String cancel = 'cancel';
+  static const String delete = 'delete';
+
   // Categories page
   static const String addCategory = 'addCategory';
   static const String categoryTitle = 'categoryTitle';
   static const String addSubcategory = 'addSubcategory';
-  static const String saveCategory = 'saveCategory';
-  static const String deleteCategory = 'deleteCategory';
+  static const String newSubcategory = 'newSubcategory';
 }
 
 extension GetLocalizedString on String {
@@ -54,11 +58,15 @@ class AppLocalizations {
       Strings.statisticsPageTitle: 'Statistics',
       Strings.searchPageTitle: 'Search',
 
+      Strings.add: 'Add',
+      Strings.save: 'Save',
+      Strings.cancel: 'Cancel',
+      Strings.delete: 'Delete',
+
       Strings.addCategory: 'Add category',
       Strings.categoryTitle: 'Category title',
       Strings.addSubcategory: 'Add subcategory',
-      Strings.saveCategory: 'Save',
-      Strings.deleteCategory: 'Delete',
+      Strings.newSubcategory: 'New subcategory',
     },
     'uk': {
       // TODO: Add translations.

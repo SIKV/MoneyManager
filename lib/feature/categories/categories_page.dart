@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/data/providers.dart';
-import 'package:moneymanager/feature/categories/category_item.dart';
 import 'package:moneymanager/feature/categories/categories_list_controller.dart';
+import 'package:moneymanager/feature/categories/category_editor.dart';
+import 'package:moneymanager/feature/categories/category_item.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/collapsing_header_content.dart';
@@ -53,14 +53,13 @@ class CategoriesPage extends ConsumerWidget {
   }
 
   void addCategory(BuildContext context, WidgetRef ref) {
-    // TODO: Implement
-    final categoriesListController = ref.read(categoriesListControllerProvider.notifier);
-    categoriesListController.addCategory(
-      const TransactionCategory(
-          id: '1',
-          title: 'New category',
-          emoji: '🍇',
-          subcategories: []
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      builder: (context) =>
+      const CategoryEditor(
+        action: CategoryEditorAction.add,
       ),
     );
   }
@@ -74,15 +73,18 @@ class _CategoriesList extends ConsumerWidget {
     final categories = ref.watch(categoriesListControllerProvider);
 
     return categories.when(
-      loading: () => SliverToBoxAdapter(
-        child: Container(),
-      ),
-      error: (err, _) => const SliverToBoxAdapter(
+      loading: () =>
+          SliverToBoxAdapter(
+            child: Container(),
+          ),
+      error: (err, _) =>
+      const SliverToBoxAdapter(
         child: Text('Error fetching categories'),
       ),
       data: (categories) =>
           SliverList(
-            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+            delegate: SliverChildBuilderDelegate((BuildContext context,
+                int index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: Spacings.four,
@@ -101,6 +103,15 @@ class _CategoriesList extends ConsumerWidget {
   }
 
   void editCategory(BuildContext context, TransactionCategory category) {
-    // TODO: Implement
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      builder: (context) =>
+          CategoryEditor(
+            action: CategoryEditorAction.edit,
+            category: category,
+          ),
+    );
   }
 }
