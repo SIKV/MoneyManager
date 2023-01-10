@@ -66,7 +66,12 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(Spacings.four),
+      padding: EdgeInsets.only(
+        top: Spacings.four,
+        left: Spacings.four,
+        right: Spacings.four,
+        bottom: Spacings.four + MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -104,6 +109,8 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
               Expanded(
                 child: TextField(
                   controller: titleTextController,
+                  autofocus: true,
+                  textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
                     labelText: Strings.categoryTitle.localized(context),
                   ),
