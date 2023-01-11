@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/transaction_item.dart';
 import 'package:moneymanager/routes.dart';
 import 'package:moneymanager/theme/icons.dart';
-import 'package:moneymanager/ui/widget/collapsing_header_content.dart';
+import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
 import '../../localizations.dart';
@@ -19,7 +19,7 @@ class TransactionsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
-    return CollapsingHeaderContent(
+    return CollapsingHeaderPage(
       colors: appTheme.colors,
       startColor: appTheme.colors.transactionsHeaderStart,
       endColor: appTheme.colors.transactionsHeaderEnd,

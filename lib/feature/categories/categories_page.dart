@@ -5,7 +5,7 @@ import 'package:moneymanager/feature/categories/category_editor.dart';
 import 'package:moneymanager/feature/categories/category_item.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/spacings.dart';
-import 'package:moneymanager/ui/widget/collapsing_header_content.dart';
+import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
 
 import '../../domain/transaction_category.dart';
 import '../../localizations.dart';
@@ -25,7 +25,7 @@ class CategoriesPage extends ConsumerWidget {
       ),
       child: Stack(
         children: [
-          CollapsingHeaderContent(
+          CollapsingHeaderPage(
             colors: appTheme.colors,
             startColor: appTheme.colors.categoriesHeaderStart,
             endColor: appTheme.colors.categoriesHeaderEnd,

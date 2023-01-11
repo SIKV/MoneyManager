@@ -4,7 +4,7 @@ import 'package:moneymanager/theme/theme.dart';
 
 import '../../localizations.dart';
 import '../../theme/icons.dart';
-import '../../ui/widget/collapsing_header_content.dart';
+import '../../ui/widget/collapsing_header_page.dart';
 
 class MorePage extends ConsumerWidget {
   const MorePage({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class MorePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
-    return CollapsingHeaderContent(
+    return CollapsingHeaderPage(
       colors: appTheme.colors,
       startColor: appTheme.colors.moreHeaderStart,
       endColor: appTheme.colors.moreHeaderEnd,

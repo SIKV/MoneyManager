@@ -7,7 +7,7 @@ import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
 import '../../theme/theme.dart';
 
-class CollapsingHeaderContent extends ConsumerWidget {
+class CollapsingHeaderPage extends ConsumerWidget {
   final AppColors colors;
   final Color startColor;
   final Color endColor;
@@ -23,7 +23,7 @@ class CollapsingHeaderContent extends ConsumerWidget {
   final List<HeaderCircleButton>? secondaryActions;
   final Widget sliver;
 
-  const CollapsingHeaderContent({
+  const CollapsingHeaderPage({
     Key? key,
     required this.colors,
     required this.startColor,
@@ -112,7 +112,9 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     paddingTop = MediaQuery.of(context).padding.top;
-    scrollProgress = shrinkOffset / maxExtent;
+
+    final scrollProgress = shrinkOffset / (maxExtent - minExtent);
+    this.scrollProgress = (scrollProgress > 1.0) ? 1.0 : scrollProgress;
 
     return Stack(
       children: [

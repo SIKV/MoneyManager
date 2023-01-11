@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/icons.dart';
-import 'package:moneymanager/ui/widget/collapsing_header_content.dart';
+import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
 
 import '../../localizations.dart';
 import '../../theme/theme.dart';
@@ -13,7 +13,7 @@ class StatisticsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
-    return CollapsingHeaderContent(
+    return CollapsingHeaderPage(
       colors: appTheme.colors,
       startColor: appTheme.colors.statisticsHeaderStart,
       endColor: appTheme.colors.statisticsHeaderEnd,
