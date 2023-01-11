@@ -10,7 +10,7 @@ import '../../localizations.dart';
 import '../../theme/spacings.dart';
 import '../../theme/styles.dart';
 import '../../theme/theme.dart';
-import 'transactions_header_settings.dart';
+import 'header/transactions_header_settings.dart';
 
 class TransactionsPage extends ConsumerWidget {
   const TransactionsPage({Key? key}) : super(key: key);

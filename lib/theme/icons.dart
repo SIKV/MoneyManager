@@ -9,6 +9,7 @@ class AppIcons {
 
   // Transactions page
   static const IconData transactionsHeaderSettings = Icons.more_vert;
+  static const IconData transactionsHeaderSettingsSelectedValue = Icons.check_rounded;
 
   // More page
   static const IconData moreSetDarkTheme = Icons.dark_mode_rounded;

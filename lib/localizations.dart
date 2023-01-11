@@ -13,6 +13,18 @@ class Strings {
   static const String cancel = 'cancel';
   static const String delete = 'delete';
 
+  static const String generalErrorMessage = 'generalErrorMessage';
+
+  // Transactions page
+  static const String dayIncome = 'dayIncome';
+  static const String dayExpenses = 'dayExpenses';
+  static const String weekIncome = 'weekIncome';
+  static const String weekExpenses = 'weekExpenses';
+  static const String monthIncome = 'monthIncome';
+  static const String monthExpenses = 'monthExpenses';
+  static const String yearIncome = 'yearIncome';
+  static const String yearExpenses = 'yearExpenses';
+
   // Categories page
   static const String addCategory = 'addCategory';
   static const String categoryTitle = 'categoryTitle';
@@ -63,6 +75,19 @@ class AppLocalizations {
       Strings.cancel: 'Cancel',
       Strings.delete: 'Delete',
 
+      Strings.generalErrorMessage: 'Something went wrong',
+
+      // Transactions page
+      Strings.dayIncome: 'This day income',
+      Strings.dayExpenses: 'This day expenses',
+      Strings.weekIncome: 'This week income',
+      Strings.weekExpenses: 'This week expenses',
+      Strings.monthIncome: 'This month income',
+      Strings.monthExpenses: 'This month expenses',
+      Strings.yearIncome: 'This year income',
+      Strings.yearExpenses: 'This year expenses',
+
+      // Categories page
       Strings.addCategory: 'Add category',
       Strings.categoryTitle: 'Category title',
       Strings.addSubcategory: 'Add subcategory',
