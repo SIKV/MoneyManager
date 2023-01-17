@@ -12,7 +12,8 @@ class Strings {
   static const String save = 'save';
   static const String cancel = 'cancel';
   static const String delete = 'delete';
-
+  static const String income = 'income';
+  static const String expense = 'expense';
   static const String generalErrorMessage = 'generalErrorMessage';
 
   // Transactions page
@@ -74,7 +75,8 @@ class AppLocalizations {
       Strings.save: 'Save',
       Strings.cancel: 'Cancel',
       Strings.delete: 'Delete',
-
+      Strings.income: 'Income',
+      Strings.expense: 'Expense',
       Strings.generalErrorMessage: 'Something went wrong',
 
       // Transactions page

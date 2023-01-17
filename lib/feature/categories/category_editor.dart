@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
+import 'package:moneymanager/domain/transaction_category_type.dart';
 import 'package:moneymanager/feature/categories/emoji/emoji_picker_content.dart';
 import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/icons.dart';
@@ -17,6 +19,8 @@ enum CategoryEditorAction {
 
 const _emojiContainerSize = 48.0;
 const _emojiFontSize = 24.0;
+
+const _defaultTransactionCategoryType = TransactionCategoryType.expense;
 
 // TODO: Add data validation.
 // TODO: Add title text limit, subcategories list size limit.
@@ -35,30 +39,31 @@ class CategoryEditor extends ConsumerStatefulWidget {
 }
 
 class _CategoryEditorState extends ConsumerState<CategoryEditor> {
-  late TransactionCategory newCategory;
+  late TransactionCategory _newCategory;
 
-  late TextEditingController titleTextController;
-  late TextEditingController subcategoryTextController;
+  late TextEditingController _titleTextController;
+  late TextEditingController _subcategoryTextController;
 
   @override
   void initState() {
     super.initState();
 
-    newCategory = widget.category ?? TransactionCategory(
+    _newCategory = widget.category ?? TransactionCategory(
       id: generateUniqueId(),
+      type: _defaultTransactionCategoryType,
       title: '',
     );
 
-    titleTextController = TextEditingController();
-    titleTextController.text = newCategory.title;
+    _titleTextController = TextEditingController();
+    _titleTextController.text = _newCategory.title;
 
-    subcategoryTextController = TextEditingController();
+    _subcategoryTextController = TextEditingController();
   }
 
   @override
   void dispose() {
-    titleTextController.dispose();
-    subcategoryTextController.dispose();
+    _titleTextController.dispose();
+    _subcategoryTextController.dispose();
 
     super.dispose();
   }
@@ -76,15 +81,28 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Align(
-            alignment: Alignment.topRight,
-            child: CloseCircleButton(),
+          Row(
+            children: [
+              CupertinoSlidingSegmentedControl<TransactionCategoryType>(
+                groupValue: _newCategory.type,
+                onValueChanged: _typeChanged,
+                children: <TransactionCategoryType, Widget>{
+                  TransactionCategoryType.income: Text(Strings.income.localized(context)),
+                  TransactionCategoryType.expense: Text(Strings.expense.localized(context)),
+                },
+              ),
+              const Spacer(),
+              const CloseCircleButton(),
+            ],
           ),
+
+          const SizedBox(height: Spacings.five),
+
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               InkWell(
-                onTap: selectEmoji,
+                onTap: _selectEmoji,
                 child: Container(
                   height: _emojiContainerSize,
                   width: _emojiContainerSize,
@@ -96,7 +114,7 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
                     ),
                     shape: BoxShape.circle,
                   ),
-                  child: Text(newCategory.emoji ?? '',
+                  child: Text(_newCategory.emoji ?? '',
                     style: const TextStyle(
                       fontSize: _emojiFontSize,
                     ),
@@ -108,7 +126,7 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
 
               Expanded(
                 child: TextField(
-                  controller: titleTextController,
+                  controller: _titleTextController,
                   autofocus: true,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
@@ -122,31 +140,39 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
           const SizedBox(height: Spacings.six),
 
           _Subcategories(
-            subcategories: newCategory.subcategories,
-            onAddSubcategoryPressed: showAddSubcategoryDialog,
-            onDeleteSubcategoryPressed: deleteSubcategory,
+            subcategories: _newCategory.subcategories,
+            onAddSubcategoryPressed: _showAddSubcategoryDialog,
+            onDeleteSubcategoryPressed: _deleteSubcategory,
           ),
 
           const SizedBox(height: Spacings.six),
 
           _Actions(
             action: widget.action,
-            onSavePressed: saveCategory,
-            onDeletePressed: deleteCategory,
+            onSavePressed: _saveCategory,
+            onDeletePressed: _deleteCategory,
           ),
         ],
       ),
     );
   }
 
-  void selectEmoji() {
+  void _typeChanged(TransactionCategoryType? type) {
+    setState(() {
+      _newCategory = _newCategory.copyWith(
+        type: type,
+      );
+    });
+  }
+
+  void _selectEmoji() {
     showModalBottomSheet(
       context: context,
       builder: (context) =>
           EmojiPickerContent(
             onEmojiSelected: (emoji) {
               setState(() {
-                newCategory = newCategory.copyWith(
+                _newCategory = _newCategory.copyWith(
                   emoji: emoji,
                 );
               });
@@ -156,18 +182,18 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
     );
   }
 
-  void showAddSubcategoryDialog() {
+  void _showAddSubcategoryDialog() {
     showDialog(
       context: context,
       builder: (_) =>  AlertDialog(
         content: TextField(
-          controller: subcategoryTextController,
+          controller: _subcategoryTextController,
           autofocus: true,
           textCapitalization: TextCapitalization.sentences,
           textInputAction: TextInputAction.done,
           onSubmitted: (_) {
-            addSubcategory();
-            close();
+            _addSubcategory();
+            _close();
           },
           decoration: InputDecoration(
             labelText: Strings.newSubcategory.localized(context),
@@ -176,13 +202,13 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
         actions: [
           FilledButton(
             onPressed: () {
-              addSubcategory();
-              close();
+              _addSubcategory();
+              _close();
             },
             child: Text(Strings.add.localized(context)),
           ),
           OutlinedButton(
-            onPressed: close,
+            onPressed: _close,
             child: Text(Strings.cancel.localized(context)),
           ),
         ],
@@ -190,50 +216,50 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
     );
   }
 
-  void addSubcategory() {
+  void _addSubcategory() {
     setState(() {
       final subcategory = TransactionSubcategory(
         id: generateUniqueId(),
-        title: subcategoryTextController.text,
+        title: _subcategoryTextController.text,
       );
 
-      subcategoryTextController.clear();
+      _subcategoryTextController.clear();
 
-      newCategory = newCategory.copyWith(
-        subcategories: newCategory.subcategories.toList()
+      _newCategory = _newCategory.copyWith(
+        subcategories: _newCategory.subcategories.toList()
           ..add(subcategory),
       );
     });
   }
 
-  void deleteSubcategory(TransactionSubcategory subcategory) {
+  void _deleteSubcategory(TransactionSubcategory subcategory) {
     setState(() {
-      newCategory = newCategory.copyWith(
-        subcategories: newCategory.subcategories.toList()
+      _newCategory = _newCategory.copyWith(
+        subcategories: _newCategory.subcategories.toList()
           ..remove(subcategory),
       );
     });
   }
 
-  void saveCategory() {
-    newCategory = newCategory.copyWith(
-      title: titleTextController.text,
+  void _saveCategory() {
+    _newCategory = _newCategory.copyWith(
+      title: _titleTextController.text,
     );
 
     ref.read(categoriesListControllerProvider.notifier)
-        .addOrUpdateCategory(newCategory);
+        .addOrUpdateCategory(_newCategory);
 
-    close();
+    _close();
   }
 
-  void deleteCategory() {
+  void _deleteCategory() {
     ref.read(categoriesListControllerProvider.notifier)
-        .deleteCategory(newCategory.id);
+        .deleteCategory(_newCategory.id);
 
-    close();
+    _close();
   }
 
-  void close() {
+  void _close() {
     Navigator.pop(context);
   }
 }
