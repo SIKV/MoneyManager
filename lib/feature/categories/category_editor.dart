@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
-import 'package:moneymanager/domain/transaction_category_type.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/emoji/emoji_picker_content.dart';
 import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/icons.dart';
@@ -20,7 +20,7 @@ enum CategoryEditorAction {
 const _emojiContainerSize = 48.0;
 const _emojiFontSize = 24.0;
 
-const _defaultTransactionCategoryType = TransactionCategoryType.expense;
+const _defaultTransactionCategoryType = TransactionType.expense;
 
 // TODO: Add data validation.
 // TODO: Add title text limit, subcategories list size limit.
@@ -83,12 +83,12 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
         children: [
           Row(
             children: [
-              CupertinoSlidingSegmentedControl<TransactionCategoryType>(
+              CupertinoSlidingSegmentedControl<TransactionType>(
                 groupValue: _newCategory.type,
                 onValueChanged: _typeChanged,
-                children: <TransactionCategoryType, Widget>{
-                  TransactionCategoryType.income: Text(Strings.income.localized(context)),
-                  TransactionCategoryType.expense: Text(Strings.expense.localized(context)),
+                children: <TransactionType, Widget>{
+                  TransactionType.income: Text(Strings.income.localized(context)),
+                  TransactionType.expense: Text(Strings.expense.localized(context)),
                 },
               ),
               const Spacer(),
@@ -157,7 +157,7 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
     );
   }
 
-  void _typeChanged(TransactionCategoryType? type) {
+  void _typeChanged(TransactionType? type) {
     setState(() {
       _newCategory = _newCategory.copyWith(
         type: type,

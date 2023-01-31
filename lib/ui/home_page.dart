@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/localizations.dart';
+import 'package:moneymanager/routes.dart';
 
 import '../feature/more/more_page.dart';
 import '../feature/transactions/transactions_page.dart';
@@ -15,19 +16,24 @@ class HomePage extends ConsumerStatefulWidget {
   }
 }
 
+// TODO: Refactor
 class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
   int _selectedIndex = 0;
 
-  static const _pages = [
-    TransactionsPage(),
-    Center(child: Text('Add')),
-    MorePage(),
+  static final _pages = [
+    const TransactionsPage(),
+    Container(),
+    const MorePage(),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _onDestinationSelected(int index) {
+    if (index == 1) {
+      Navigator.pushNamed(context, AppRoutes.addTransaction);
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
@@ -35,9 +41,8 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: NavigationBar(
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         selectedIndex: _selectedIndex,
-        onDestinationSelected: _onItemTapped,
+        onDestinationSelected: _onDestinationSelected,
         destinations: [
           NavigationDestination(
             icon: const Icon(AppIcons.transactionsPage),

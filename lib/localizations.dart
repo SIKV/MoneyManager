@@ -16,6 +16,12 @@ class Strings {
   static const String expense = 'expense';
   static const String generalErrorMessage = 'generalErrorMessage';
 
+  // Transaction properties
+  static const String date = 'date';
+  static const String category = 'category';
+  static const String amount = 'amount';
+  static const String note = 'note';
+
   // Transactions page
   static const String dayIncome = 'dayIncome';
   static const String dayExpenses = 'dayExpenses';
@@ -78,6 +84,12 @@ class AppLocalizations {
       Strings.income: 'Income',
       Strings.expense: 'Expense',
       Strings.generalErrorMessage: 'Something went wrong',
+
+      // Transaction properties
+      Strings.date: 'Date',
+      Strings.category: 'Category',
+      Strings.amount: 'Amount',
+      Strings.note: 'Note',
 
       // Transactions page
       Strings.dayIncome: 'This day income',

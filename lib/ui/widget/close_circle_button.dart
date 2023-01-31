@@ -16,14 +16,14 @@ class CloseCircleButton extends ConsumerWidget {
     return ClipOval(
       child: Container(
         padding: const EdgeInsets.all(Spacings.two),
-        color: colors.colorScheme.surfaceVariant,
+        color: Theme.of(context).colorScheme.surfaceVariant,
         child: InkWell(
           splashColor: Colors.grey,
           onTap: () {
             Navigator.pop(context);
           },
           child: Icon(Icons.close,
-            color: colors.colorScheme.onSurfaceVariant,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
       ),

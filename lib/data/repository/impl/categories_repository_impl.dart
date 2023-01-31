@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:moneymanager/domain/transaction_category.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 
 import '../categories_repository.dart';
 
@@ -15,6 +16,12 @@ class CategoriesRepositoryImpl implements CategoriesRepository {
   @override
   Future<List<TransactionCategory>> getAll() {
     return Future.value(categories);
+  }
+
+  @override
+  Future<List<TransactionCategory>> getAllByType(TransactionType type) {
+    final filteredCategories = categories.where((it) => it.type == type).toList();
+    return Future.value(filteredCategories);
   }
 
   @override

@@ -19,6 +19,9 @@ abstract class AppColors {
 
   Color get categoriesHeaderStart => const Color(0xFF3C5E9F);
   Color get categoriesHeaderEnd => const Color(0xFF4C2752);
+
+  Color get expenseTransaction => const Color(0xFFFA5959);
+  Color get incomeTransaction => const Color(0xFF21AB8B);
 }
 
 class LightAppColors extends AppColors {

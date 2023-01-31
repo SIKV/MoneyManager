@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
-import 'package:moneymanager/domain/transaction_category_type.dart';
 import 'package:moneymanager/domain/transaction_subcategory.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 
 @immutable
 class TransactionCategory {
   final String id;
-  final TransactionCategoryType type;
+  final TransactionType type;
   final String title;
   final String? emoji;
   final List<TransactionSubcategory> subcategories;
@@ -19,7 +19,7 @@ class TransactionCategory {
   });
 
   TransactionCategory copyWith({
-    TransactionCategoryType? type,
+    TransactionType? type,
     String? title,
     String? emoji,
     List<TransactionSubcategory>? subcategories,
