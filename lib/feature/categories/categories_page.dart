@@ -1,58 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/feature/categories/categories_list_controller.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/category_editor.dart';
-import 'package:moneymanager/feature/categories/category_item.dart';
+import 'package:moneymanager/feature/categories/ui/categories_list.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/spacings.dart';
-import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
 
-import '../../domain/transaction_category.dart';
 import '../../localizations.dart';
-import '../../theme/theme.dart';
+import 'controller/categories_controller.dart';
 
 class CategoriesPage extends ConsumerWidget {
   const CategoriesPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final AppTheme appTheme = ref.watch(appThemeManagerProvider);
-
-    return Theme(
-      data: appTheme.themeData().copyWith(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: appTheme.colors.categoriesHeaderEnd),
-      ),
-      child: Stack(
-        children: [
-          CollapsingHeaderPage(
-            colors: appTheme.colors,
-            startColor: appTheme.colors.categoriesHeaderStart,
-            endColor: appTheme.colors.categoriesHeaderEnd,
-            collapsedHeight: 64,
-            expandedHeight: 192,
-            title: Strings.categoriesPageTitle.localized(context),
-            sliver: const _CategoriesList(),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(Spacings.six),
-              child: FloatingActionButton.extended(
-                label: Text(Strings.addCategory.localized(context)),
-                icon: const Icon(AppIcons.categoriesAddCategory),
-                onPressed: () {
-                  addCategory(context, ref);
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  void _selectType(int index, WidgetRef ref) {
+    ref.read(categoriesControllerProvider.notifier)
+        .selectType(index);
   }
 
-  void addCategory(BuildContext context, WidgetRef ref) {
+  void _addCategory(BuildContext context, WidgetRef ref) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -63,55 +28,62 @@ class CategoriesPage extends ConsumerWidget {
       ),
     );
   }
-}
-
-class _CategoriesList extends ConsumerWidget {
-  const _CategoriesList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories = ref.watch(categoriesListControllerProvider);
+    final state = ref.watch(categoriesControllerProvider);
 
-    return categories.when(
-      loading: () =>
-          SliverToBoxAdapter(
-            child: Container(),
+    return state.when(
+      loading: () => Container(),
+      error: (_, __) => Container(),
+      data: (state) {
+        final types = state.types
+            .map((it) => Text(it.getTitle(context)))
+            .toList();
+
+        final isSelectedTypes = state.types
+            .map((it) => it == state.selectedType)
+            .toList();
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(Strings.categoriesPageTitle.localized(context)),
           ),
-      error: (err, _) =>
-      const SliverToBoxAdapter(
-        child: Text('Error fetching categories'),
-      ),
-      data: (categories) =>
-          SliverList(
-            delegate: SliverChildBuilderDelegate((BuildContext context,
-                int index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Spacings.four,
-                  vertical: Spacings.two,
-                ),
-                child: CategoryItem(
-                  category: categories[index],
-                  onPressed: () {
-                    editCategory(context, categories[index]);
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: ToggleButtons(
+                  constraints: BoxConstraints(
+                    minWidth: (MediaQuery.of(context).size.width / 2) - Spacings.four,
+                    minHeight: 46,
+                  ),
+                  onPressed: (index) {
+                    _selectType(index, ref);
                   },
+                  isSelected: isSelectedTypes,
+                  children: types,
                 ),
-              );
-            }, childCount: categories.length),
+              ),
+              Expanded(
+                child: CategoriesList(
+                  categories: state.categories,
+                ),
+              ),
+            ],
           ),
-    );
-  }
-
-  void editCategory(BuildContext context, TransactionCategory category) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: false,
-      builder: (context) =>
-          CategoryEditor(
-            action: CategoryEditorAction.edit,
-            category: category,
+          floatingActionButton: FloatingActionButton.extended(
+            label: Text(Strings.addCategory.localized(context)),
+            icon: const Icon(AppIcons.categoriesAddCategory),
+            onPressed: () {
+              _addCategory(context, ref);
+            },
           ),
+          floatingActionButtonLocation: FloatingActionButtonLocation
+              .centerFloat,
+        );
+      },
     );
   }
 }

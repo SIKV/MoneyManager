@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanager/theme/colors.dart';
+import 'package:moneymanager/theme/radius.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'theme.g.dart';
@@ -22,6 +23,9 @@ abstract class AppTheme {
             top: Radius.circular(24),
           ),
         ),
+      ),
+      toggleButtonsTheme: const ToggleButtonsThemeData(
+        borderRadius: BorderRadius.all(Radius.circular(AppRadius.two)),
       ),
     );
   }

@@ -23,14 +23,18 @@ class CategoryItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appTheme = ref.watch(appThemeManagerProvider);
 
+    final subcategories = category.subcategories
+        .map((it) => it.title)
+        .join(_subcategorySeparator);
+
     return InkWell(
       onTap: onPressed,
-      borderRadius: BorderRadius.circular(AppRadius.three),
+      borderRadius: BorderRadius.circular(AppRadius.two),
       child: Container(
         padding: const EdgeInsets.all(Spacings.four),
         decoration: BoxDecoration(
           color: appTheme.colors.itemTranslucentBackground,
-          borderRadius: BorderRadius.circular(AppRadius.three),
+          borderRadius: BorderRadius.circular(AppRadius.two),
         ),
         child: Row(
           children: [
@@ -47,10 +51,11 @@ class CategoryItem extends ConsumerWidget {
                   Text(category.title,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  Text(
-                    category.subcategories.map((it) => it.title).join(_subcategorySeparator),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
+                  if (subcategories.isNotEmpty) ...[
+                    Text(subcategories,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    )
+                  ],
                 ],
               ),
             ),

@@ -11,7 +11,7 @@ import 'package:moneymanager/utils.dart';
 import '../../domain/transaction_subcategory.dart';
 import '../../theme/spacings.dart';
 import '../../ui/widget/close_circle_button.dart';
-import 'categories_list_controller.dart';
+import 'controller/categories_controller.dart';
 
 enum CategoryEditorAction {
   add, edit
@@ -246,14 +246,14 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
       title: _titleTextController.text,
     );
 
-    ref.read(categoriesListControllerProvider.notifier)
+    ref.read(categoriesControllerProvider.notifier)
         .addOrUpdateCategory(_newCategory);
 
     _close();
   }
 
   void _deleteCategory() {
-    ref.read(categoriesListControllerProvider.notifier)
+    ref.read(categoriesControllerProvider.notifier)
         .deleteCategory(_newCategory.id);
 
     _close();

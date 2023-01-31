@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.dart';
-import 'package:moneymanager/feature/transaction/extensions.dart';
 import 'package:moneymanager/feature/transaction/provider/transaction_maker_provider.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
