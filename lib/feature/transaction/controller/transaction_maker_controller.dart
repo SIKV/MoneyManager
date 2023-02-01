@@ -7,12 +7,12 @@ import 'package:moneymanager/utils.dart';
 
 import '../domain/transaction_maker_state.dart';
 
-final transactionMakerProvider = NotifierProvider
-    .autoDispose<_TransactionMakerNotifier, TransactionMakerState>(() {
-      return _TransactionMakerNotifier();
+final transactionMakerControllerProvider = NotifierProvider
+    .autoDispose<_TransactionMakerController, TransactionMakerState>(() {
+      return _TransactionMakerController();
 });
 
-class _TransactionMakerNotifier extends AutoDisposeNotifier<TransactionMakerState> {
+class _TransactionMakerController extends AutoDisposeNotifier<TransactionMakerState> {
   TransactionMakerState _state = TransactionMakerState(
     transactionId: generateUniqueId(),
     createdAt: DateTime.now().millisecondsSinceEpoch,

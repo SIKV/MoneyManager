@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.dart';
-import 'package:moneymanager/feature/transaction/provider/transaction_maker_provider.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
-import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
 import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
+import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
 import '../../domain/transaction.dart';
 import '../../localizations.dart';
 import '../../theme/theme.dart';
+import 'controller/transaction_maker_controller.dart';
 
 const _noValuePlaceholder = '...';
 
@@ -34,15 +34,14 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     super.initState();
 
     final transaction = widget.transaction;
-
     if (transaction != null) {
-      ref.read(transactionMakerProvider.notifier)
+      ref.read(transactionMakerControllerProvider.notifier)
           .setTransaction(transaction);
     }
   }
 
   void _selectProperty(TransactionProperty value) {
-    ref.read(transactionMakerProvider.notifier)
+    ref.read(transactionMakerControllerProvider.notifier)
         .selectProperty(value);
   }
 
@@ -63,7 +62,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
   @override
   Widget build(BuildContext context) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
-    final state = ref.watch(transactionMakerProvider);
+    final state = ref.watch(transactionMakerControllerProvider);
 
     final themeData = appTheme.themeData();
 

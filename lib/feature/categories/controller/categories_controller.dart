@@ -7,11 +7,11 @@ import 'package:moneymanager/feature/categories/domain/categories_state.dart';
 
 import '../../../data/providers.dart';
 
-final categoriesControllerProvider = AsyncNotifierProvider<CategoriesController, CategoriesState>(() {
-  return CategoriesController();
+final categoriesControllerProvider = AsyncNotifierProvider<_CategoriesController, CategoriesState>(() {
+  return _CategoriesController();
 });
 
-class CategoriesController extends AsyncNotifier<CategoriesState> {
+class _CategoriesController extends AsyncNotifier<CategoriesState> {
   CategoriesState _state = const CategoriesState(
     types: TransactionType.values,
     selectedType: TransactionType.income,

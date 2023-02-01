@@ -2,30 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
-import 'package:moneymanager/feature/transaction/provider/transaction_categories_provider.dart';
 
-import '../provider/transaction_maker_provider.dart';
+import '../controller/transaction_categories_controller.dart';
+import '../controller/transaction_maker_controller.dart';
 
 class CategorySelector extends ConsumerWidget {
   const CategorySelector({Key? key}) : super(key: key);
 
   void _categoryPressed(TransactionCategory category, WidgetRef ref) {
-    final transactionMaker = ref.read(transactionMakerProvider.notifier);
+    final controller = ref.read(transactionMakerControllerProvider.notifier);
 
-    transactionMaker.setCategory(category);
+    controller.setCategory(category);
 
     // TODO: Select subcategory
 
-    transactionMaker.selectProperty(TransactionProperty.amount);
+    controller.selectProperty(TransactionProperty.amount);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionType = ref.watch(transactionMakerProvider
+    final transactionType = ref.watch(transactionMakerControllerProvider
         .select((state) => state.type)
     );
 
-    final transactionCategories = ref.watch(transactionCategoriesProvider(transactionType));
+    final transactionCategories = ref.watch(transactionCategoriesControllerProvider(transactionType));
 
     return transactionCategories.when(
       loading: () {

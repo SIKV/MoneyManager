@@ -6,12 +6,12 @@ import 'package:moneymanager/domain/transaction_type.dart';
 import '../../../data/providers.dart';
 import '../../../domain/transaction_category.dart';
 
-final transactionCategoriesProvider = AsyncNotifierProvider
-    .family.autoDispose<_TransactionCategoriesNotifier, List<TransactionCategory>, TransactionType>(() {
-      return _TransactionCategoriesNotifier();
+final transactionCategoriesControllerProvider = AsyncNotifierProvider
+    .family.autoDispose<_TransactionCategoriesController, List<TransactionCategory>, TransactionType>(() {
+      return _TransactionCategoriesController();
     });
 
-class _TransactionCategoriesNotifier extends AutoDisposeFamilyAsyncNotifier<
+class _TransactionCategoriesController extends AutoDisposeFamilyAsyncNotifier<
     List<TransactionCategory>, TransactionType> {
 
   @override

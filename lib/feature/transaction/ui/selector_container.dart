@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/feature/transaction/provider/transaction_maker_provider.dart';
 import 'package:moneymanager/feature/transaction/ui/category_selector.dart';
 
+import '../controller/transaction_maker_controller.dart';
 import '../domain/transaction_property.dart';
 
 class SelectorContainer extends ConsumerWidget {
@@ -10,7 +10,7 @@ class SelectorContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedProperty = ref.watch(transactionMakerProvider
+    final selectedProperty = ref.watch(transactionMakerControllerProvider
         .select((state) => state.selectedProperty));
 
     switch (selectedProperty) {
