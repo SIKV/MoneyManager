@@ -1,21 +1,11 @@
-import 'package:flutter/widgets.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class TransactionSubcategory {
-  final String id;
-  final String title;
+part 'transaction_subcategory.freezed.dart';
 
-  const TransactionSubcategory({
-    required this.id,
-    required this.title,
-  });
-
-  TransactionSubcategory copyWith({
-    String? title,
-  }) {
-    return TransactionSubcategory(
-      id: id,
-      title: title ?? this.title,
-    );
-  }
+@freezed
+class TransactionSubcategory with _$TransactionSubcategory {
+  const factory TransactionSubcategory({
+    required String id,
+    required String title,
+  }) = _TransactionSubcategory;
 }

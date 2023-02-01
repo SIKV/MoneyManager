@@ -17,6 +17,6 @@ class _TransactionCategoriesController extends AutoDisposeFamilyAsyncNotifier<
   @override
   FutureOr<List<TransactionCategory>> build(TransactionType type) {
     return ref.read(categoriesRepositoryProvider)
-        .getAllByType(type);
+        .getAll(type);
   }
 }

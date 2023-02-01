@@ -14,12 +14,7 @@ class CategoriesRepositoryImpl implements CategoriesRepository {
   }
 
   @override
-  Future<List<TransactionCategory>> getAll() {
-    return Future.value(categories);
-  }
-
-  @override
-  Future<List<TransactionCategory>> getAllByType(TransactionType type) {
+  Future<List<TransactionCategory>> getAll(TransactionType type) {
     final filteredCategories = categories.where((it) => it.type == type).toList();
     return Future.value(filteredCategories);
   }

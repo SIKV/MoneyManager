@@ -21,7 +21,7 @@ class _CategoriesController extends AsyncNotifier<CategoriesState> {
   @override
   Future<CategoriesState> build() async {
     final categories = await ref.read(categoriesRepositoryProvider)
-        .getAllByType(_state.selectedType);
+        .getAll(_state.selectedType);
 
     _state = _state.copyWith(
       categories: categories

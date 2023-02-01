@@ -160,7 +160,7 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
   void _typeChanged(TransactionType? type) {
     setState(() {
       _newCategory = _newCategory.copyWith(
-        type: type,
+        type: type ?? TransactionType.income,
       );
     });
   }
