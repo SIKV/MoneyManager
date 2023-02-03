@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/feature/transactions/transaction_item.dart';
+import 'package:moneymanager/feature/transactions/ui/transactions_list.dart';
 import 'package:moneymanager/routes.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
 import '../../localizations.dart';
-import '../../theme/spacings.dart';
-import '../../theme/styles.dart';
 import '../../theme/theme.dart';
-import 'header/transactions_header_settings.dart';
+import 'ui/header_settings.dart';
 
 class TransactionsPage extends ConsumerWidget {
   const TransactionsPage({Key? key}) : super(key: key);
@@ -34,7 +32,7 @@ class TransactionsPage extends ConsumerWidget {
           context: context,
           isScrollControlled: true,
           builder: (context) {
-            return const TransactionsHeaderSettings();
+            return const HeaderSettings();
           },
         );
       },
@@ -57,42 +55,7 @@ class TransactionsPage extends ConsumerWidget {
           onPressed: () { },
         ),
       ],
-      sliver: sampleList(),
-    );
-  }
-
-  Widget sampleList() {
-    return SliverPadding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      sliver: SliverList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-          return (index % 10 != 0) ? _item() : _sectionItem();
-          },
-          childCount: 35,
-        ),
-      ),
-    );
-  }
-
-  Widget _item() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: Spacings.three),
-      child: TransactionItem(
-        type: TransactionItemType.outcome,
-        icon: Icons.fastfood,
-        title: 'Food',
-        subtitle: 'KFC',
-        amount: 499,
-        onPressed: () {},
-      ),
-    );
-  }
-
-  Widget _sectionItem() {
-    return const Center(
-      child: Text('Today',
-        style: TextStyles.itemSectionNormal,
-      ),
+      sliver: const TransactionsList(),
     );
   }
 }

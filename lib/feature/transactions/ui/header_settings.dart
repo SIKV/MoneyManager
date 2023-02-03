@@ -1,23 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
-import 'package:moneymanager/feature/transactions/header/transactions_header_controller.dart';
 import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/icons.dart';
 
 import '../../../theme/spacings.dart';
 import '../../../ui/widget/close_circle_button.dart';
-import '../domain/transactions_header_value.dart';
+import '../domain/header_value.dart';
 
-class TransactionsHeaderSettings extends ConsumerWidget {
-  const TransactionsHeaderSettings({Key? key}) : super(key: key);
+class HeaderSettings extends ConsumerWidget {
+  const HeaderSettings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final config = ref.watch(transactionsHeaderControllerProvider);
+    final state = ref.watch(headerControllerProvider);
 
-    return config.when(
+    return state.when(
       loading: () => Container(),
       error: (_, __) => SizedBox(
         height: 124,
@@ -41,7 +40,7 @@ class TransactionsHeaderSettings extends ConsumerWidget {
                 values: config.values,
                 selectedValue: config.selectedValue,
                 onSelectValue: (value) {
-                  ref.read(transactionsHeaderControllerProvider.notifier)
+                  ref.read(headerControllerProvider.notifier)
                       .selectValue(value);
 
                   Navigator.pop(context);
@@ -54,8 +53,8 @@ class TransactionsHeaderSettings extends ConsumerWidget {
 }
 
 class _ValuesList extends StatelessWidget {
-  final List<TransactionsHeaderValue> values;
-  final TransactionsHeaderValue selectedValue;
+  final List<HeaderValue> values;
+  final HeaderValue selectedValue;
   final Function onSelectValue;
 
   const _ValuesList({
