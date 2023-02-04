@@ -30,6 +30,62 @@ class _TransactionsListController extends AsyncNotifier<List<TransactionItemUiMo
         amount: '-50',
         emoji: '🙈',
       ),
+      const TransactionUiModel(
+        id: '2',
+        title: 'Title',
+        subtitle: 'Subtitle',
+        amount: '-50',
+        emoji: '🙈',
+      ),
+      const TransactionUiModel(
+        id: '2',
+        title: 'Title',
+        subtitle: 'Subtitle',
+        amount: '-50',
+        emoji: '🙈',
+      ),
+      const TransactionUiModel(
+        id: '2',
+        title: 'Title',
+        subtitle: 'Subtitle',
+        amount: '-50',
+        emoji: '🙈',
+      ),
+      const TransactionUiModel(
+        id: '2',
+        title: 'Title',
+        subtitle: 'Subtitle',
+        amount: '-50',
+        emoji: '🙈',
+      ),
+      const TransactionUiModel(
+        id: '2',
+        title: 'Title',
+        subtitle: 'Subtitle',
+        amount: '-50',
+        emoji: '🙈',
+      ),
+      const TransactionUiModel(
+        id: '2',
+        title: 'Title',
+        subtitle: 'Subtitle',
+        amount: '-50',
+        emoji: '🙈',
+      ),
+      const TransactionUiModel(
+        id: '2',
+        title: 'Title',
+        subtitle: 'Subtitle',
+        amount: '-50',
+        emoji: '🙈',
+      ),
+      const TransactionUiModel(
+        id: '2',
+        title: 'Title',
+        subtitle: 'Subtitle',
+        amount: '-50',
+        emoji: '🙈',
+      ),
     ];
   }
 }

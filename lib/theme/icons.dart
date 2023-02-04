@@ -7,6 +7,9 @@ class AppIcons {
   static const IconData statisticsPage = Icons.bar_chart_sharp;
   static const IconData searchPage = Icons.search;
 
+  static const IconData addIncome = Icons.arrow_circle_down_outlined;
+  static const IconData addExpense = Icons.arrow_circle_up_outlined;
+
   // Transactions page
   static const IconData transactionsHeaderSettings = Icons.more_vert;
   static const IconData transactionsHeaderSettingsSelectedValue = Icons.check_rounded;

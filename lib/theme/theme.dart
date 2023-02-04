@@ -17,10 +17,14 @@ abstract class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: colors.colorScheme,
+      navigationBarTheme: const NavigationBarThemeData(
+        height: 68,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      ),
       bottomSheetTheme: const BottomSheetThemeData(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            top: Radius.circular(24),
+            top: Radius.circular(16),
           ),
         ),
       ),
