@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/ui/transactions_list.dart';
 import 'package:moneymanager/routes.dart';
-import 'package:moneymanager/theme/icons.dart';
+import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
@@ -26,7 +26,7 @@ class TransactionsPage extends ConsumerWidget {
       title: '25 390 50',
       titleSuffix: ' \$',
       subtitle: 'This month expenses',
-      primaryAction: AppIcons.transactionsHeaderSettings,
+      primaryActionAsset: Assets.chevronDown,
       onPrimaryActionPressed: () {
         showModalBottomSheet(
           context: context,
@@ -39,19 +39,19 @@ class TransactionsPage extends ConsumerWidget {
       secondaryActions: [
         HeaderCircleButton(
           title: Strings.categoriesPageTitle.localized(context),
-          icon: AppIcons.categoriesPage,
+          iconAsset: Assets.listRight,
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.categories);
           },
         ),
         HeaderCircleButton(
           title: Strings.statisticsPageTitle.localized(context),
-          icon: AppIcons.statisticsPage,
+          iconAsset: Assets.chartVertical,
           onPressed: () { },
         ),
         HeaderCircleButton(
           title: Strings.searchPageTitle.localized(context),
-          icon: AppIcons.searchPage,
+          iconAsset: Assets.search,
           onPressed: () { },
         ),
       ],

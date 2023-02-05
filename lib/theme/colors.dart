@@ -14,9 +14,6 @@ abstract class AppColors {
   Color get moreHeaderStart;
   Color get moreHeaderEnd;
 
-  Color get statisticsHeaderStart => const Color(0xFF3074FF);
-  Color get statisticsHeaderEnd => const Color(0xFFD244E7);
-
   Color get expenseTransaction => const Color(0xFFFA5959);
   Color get incomeTransaction => const Color(0xFF21AB8B);
 }

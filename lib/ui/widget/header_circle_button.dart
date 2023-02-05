@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/colors.dart';
 import 'package:moneymanager/theme/theme.dart';
+import 'package:moneymanager/ui/widget/SvgIcon.dart';
 
 import '../../theme/spacings.dart';
 
 class HeaderCircleButton extends ConsumerWidget {
   final String title;
-  final IconData icon;
+  final String iconAsset;
   final VoidCallback onPressed;
 
   const HeaderCircleButton({
     Key? key,
     required this.title,
-    required this.icon,
+    required this.iconAsset,
     required this.onPressed,
   }) : super(key: key);
 
@@ -35,7 +36,7 @@ class HeaderCircleButton extends ConsumerWidget {
                 color: Colors.black45,
                 shape: BoxShape.circle
             ),
-            child: Icon(icon,
+            child: SvgIcon(iconAsset,
               color: colors.alwaysWhite,
             ),
           ),

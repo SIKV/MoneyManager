@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/localizations.dart';
+import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/theme/theme.dart';
+import 'package:moneymanager/ui/widget/SvgIcon.dart';
 
 import '../feature/more/more_page.dart';
 import '../feature/transactions/transactions_page.dart';
@@ -79,7 +81,8 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
         onDestinationSelected: _onDestinationSelected,
         destinations: [
           NavigationDestination(
-            icon: const Icon(AppIcons.transactionsPage),
+            icon: const SvgIcon(Assets.homeOutline),
+            selectedIcon: const SvgIcon(Assets.home),
             label: Strings.transactionsPageTitle.localized(context),
           ),
           Center(
@@ -103,7 +106,7 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
             ),
           ),
           NavigationDestination(
-            icon: const Icon(AppIcons.morePage),
+            icon: const SvgIcon(Assets.menuHorizontal),
             label: Strings.morePageTitle.localized(context),
           ),
         ],

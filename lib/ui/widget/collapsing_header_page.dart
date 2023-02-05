@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/colors.dart';
+import 'package:moneymanager/ui/widget/SvgIcon.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
 import '../../theme/theme.dart';
@@ -17,7 +18,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
   final String title;
   final String? titleSuffix;
   final String? subtitle;
-  final IconData? primaryAction;
+  final String? primaryActionAsset;
   final Color primaryActionBackground;
   final VoidCallback? onPrimaryActionPressed;
   final List<HeaderCircleButton>? secondaryActions;
@@ -34,7 +35,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
     required this.title,
     this.titleSuffix,
     this.subtitle,
-    this.primaryAction,
+    this.primaryActionAsset,
     this.primaryActionBackground = Colors.transparent,
     this.onPrimaryActionPressed,
     this.secondaryActions,
@@ -61,7 +62,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
               title: title,
               titleSuffix: titleSuffix,
               subtitle: subtitle,
-              primaryAction: primaryAction,
+              primaryActionAsset: primaryActionAsset,
               primaryActionBackground: primaryActionBackground,
               onPrimaryActionPressed: onPrimaryActionPressed,
               secondaryActions: secondaryActions,
@@ -84,7 +85,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   final String title;
   final String? titleSuffix;
   final String? subtitle;
-  final IconData? primaryAction;
+  final String? primaryActionAsset;
   final Color primaryActionBackground;
   final VoidCallback? onPrimaryActionPressed;
   final List<HeaderCircleButton>? secondaryActions;
@@ -99,7 +100,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.title,
     this.titleSuffix,
     this.subtitle,
-    this.primaryAction,
+    this.primaryActionAsset,
     required this.primaryActionBackground,
     this.onPrimaryActionPressed,
     this.secondaryActions,
@@ -292,7 +293,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
       )
     ];
 
-    final primaryAction = this.primaryAction;
+    final primaryAction = primaryActionAsset;
     if (primaryAction != null) {
       rowChildren.add(
         Container(
@@ -301,7 +302,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
             borderRadius: BorderRadius.circular(32),
           ),
           child: IconButton(
-            icon: Icon(primaryAction,
+            icon: SvgIcon(primaryAction,
               color: colors.alwaysBlack,
             ),
             onPressed: onPrimaryActionPressed,

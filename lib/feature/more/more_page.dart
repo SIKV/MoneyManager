@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/theme/theme.dart';
 
 import '../../localizations.dart';
-import '../../theme/icons.dart';
 import '../../ui/widget/collapsing_header_page.dart';
 
 class MorePage extends ConsumerWidget {
@@ -20,7 +20,7 @@ class MorePage extends ConsumerWidget {
       collapsedHeight: 78,
       expandedHeight: 208,
       title: Strings.morePageTitle.localized(context),
-      primaryAction: appTheme.type == AppThemeType.light ? AppIcons.moreSetDarkTheme : AppIcons.moreSetLightTheme,
+      primaryActionAsset: appTheme.type == AppThemeType.light ? Assets.moon : Assets.sun,
       primaryActionBackground: appTheme.colors.alwaysWhite,
       onPrimaryActionPressed: () {
         _updateTheme(ref.read(appThemeManagerProvider.notifier));
