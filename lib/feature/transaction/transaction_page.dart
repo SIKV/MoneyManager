@@ -8,19 +8,19 @@ import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
 import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
-import '../../domain/transaction.dart';
 import '../../localizations.dart';
+import '../../navigation/transaction_page_args.dart';
 import '../../theme/theme.dart';
 import 'controller/transaction_maker_controller.dart';
 
 const _noValuePlaceholder = '...';
 
 class TransactionPage extends ConsumerStatefulWidget {
-  final Transaction? transaction;
+  final TransactionPageArgs args;
 
   const TransactionPage({
     super.key,
-    this.transaction,
+    required this.args,
   });
 
   @override
@@ -33,10 +33,15 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
   void initState() {
     super.initState();
 
-    final transaction = widget.transaction;
+    final transaction = widget.args.transaction;
+    final type = widget.args.type;
+
     if (transaction != null) {
       ref.read(transactionMakerControllerProvider.notifier)
           .setTransaction(transaction);
+    } else if (type != null) {
+      ref.read(transactionMakerControllerProvider.notifier)
+          .setType(type);
     }
   }
 

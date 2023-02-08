@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/localizations.dart';
+import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/theme/theme.dart';
 import 'package:moneymanager/ui/widget/SvgIcon.dart';
 
 import '../feature/more/more_page.dart';
 import '../feature/transactions/transactions_page.dart';
+import '../navigation/transaction_page_args.dart';
 import '../theme/icons.dart';
 import '../theme/spacings.dart';
 
@@ -34,6 +37,14 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
     });
   }
 
+  void _openTransactionPage(BuildContext context, TransactionType type) {
+    Navigator.pushNamed(context, AppRoutes.transaction,
+      arguments: TransactionPageArgs(
+        type: type,
+      ),
+    );
+  }
+
   void _addTransaction(WidgetRef ref) {
     final theme = ref.watch(appThemeManagerProvider);
 
@@ -49,7 +60,8 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
             children: [
               ListTile(
                 onTap: () {
-                  // TODO: Implement.
+                  Navigator.pop(context);
+                  _openTransactionPage(context, TransactionType.income);
                 },
                 leading: Icon(AppIcons.addIncome,
                   color: theme.colors.incomeTransaction,
@@ -58,7 +70,8 @@ class _HomePageState extends ConsumerState<ConsumerStatefulWidget> {
               ),
               ListTile(
                 onTap: () {
-                  // TODO: Implement.
+                  Navigator.pop(context);
+                  _openTransactionPage(context, TransactionType.expense);
                 },
                 leading: Icon(AppIcons.addExpense,
                   color: theme.colors.expenseTransaction,
