@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/ui/category_selector.dart';
+import 'package:moneymanager/feature/transaction/ui/date_time_selector.dart';
 
 import '../controller/transaction_maker_controller.dart';
 import '../domain/transaction_property.dart';
@@ -15,7 +16,7 @@ class SelectorContainer extends ConsumerWidget {
 
     switch (selectedProperty) {
       case TransactionProperty.date:
-        return const Text('Date');
+        return const DateTimeSelector();
       case TransactionProperty.category:
         return const CategorySelector();
       case TransactionProperty.amount:

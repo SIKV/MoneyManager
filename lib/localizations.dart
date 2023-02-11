@@ -16,11 +16,12 @@ class Strings {
   static const String expense = 'expense';
   static const String generalErrorMessage = 'generalErrorMessage';
 
-  // Transaction properties
+  // Transaction page
   static const String date = 'date';
   static const String category = 'category';
   static const String amount = 'amount';
   static const String note = 'note';
+  static const String selectTimeHint = 'selectTimeHint';
 
   // Transactions page
   static const String dayIncome = 'dayIncome';
@@ -85,11 +86,12 @@ class AppLocalizations {
       Strings.expense: 'Expense',
       Strings.generalErrorMessage: 'Something went wrong',
 
-      // Transaction properties
+      // Transaction page
       Strings.date: 'Date',
       Strings.category: 'Category',
       Strings.amount: 'Amount',
       Strings.note: 'Note',
+      Strings.selectTimeHint: 'Scroll down to select time ▼',
 
       // Transactions page
       Strings.dayIncome: 'This day income',
