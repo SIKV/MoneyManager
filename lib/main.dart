@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/feature/account/add_account_page.dart';
 import 'package:moneymanager/feature/categories/categories_page.dart';
 import 'package:moneymanager/feature/transaction/transaction_page.dart';
 import 'package:moneymanager/localizations.dart';
@@ -36,6 +37,8 @@ class App extends ConsumerWidget {
             return MaterialPageRoute(builder: (_) => TransactionPage(
               args: settings.arguments as TransactionPageArgs,
             ));
+          case AppRoutes.addAccount:
+            return MaterialPageRoute(builder: (_) => const AddAccountPage());
         }
         assert(false, '${settings.name} route is not implemented.');
         return null;

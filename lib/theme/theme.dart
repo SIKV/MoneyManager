@@ -31,6 +31,16 @@ abstract class AppTheme {
       toggleButtonsTheme: const ToggleButtonsThemeData(
         borderRadius: BorderRadius.all(Radius.circular(AppRadius.two)),
       ),
+      textTheme: TextTheme(
+        headlineLarge: TextStyle(
+          color: colors.colorScheme.onSurface,
+          fontSize: 36,
+          fontWeight: FontWeight.bold,
+        ),
+        bodySmall: const TextStyle(
+          fontSize: 14,
+        ),
+      ),
     );
   }
 }

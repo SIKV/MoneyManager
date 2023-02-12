@@ -38,6 +38,12 @@ class Strings {
   static const String categoryTitle = 'categoryTitle';
   static const String addSubcategory = 'addSubcategory';
   static const String newSubcategory = 'newSubcategory';
+
+  // Add Account page
+  static const String addAccountTitle = 'addAccountTitle';
+  static const String addAccountSubtitle = 'addAccountSubtitle';
+  static const String addAccountActionButton = 'addAccountActionButton';
+  static const String selectCurrencyPlaceholder = 'selectCurrencyPlaceholder';
 }
 
 extension GetLocalizedString on String {
@@ -108,6 +114,12 @@ class AppLocalizations {
       Strings.categoryTitle: 'Category title',
       Strings.addSubcategory: 'Add subcategory',
       Strings.newSubcategory: 'New subcategory',
+
+      // Add Account page
+      Strings.addAccountTitle: 'Add Account',
+      Strings.addAccountSubtitle: 'Choose a currency for your account ',
+      Strings.addAccountActionButton: 'Add Account',
+      Strings.selectCurrencyPlaceholder: 'Select currency',
     },
     'uk': {
       // TODO: Add translations.

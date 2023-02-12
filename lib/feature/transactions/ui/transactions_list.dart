@@ -49,9 +49,7 @@ class TransactionsList extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: Spacings.two),
                 child: Center(
                   child: Text(item.title,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontSize: 14,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               );

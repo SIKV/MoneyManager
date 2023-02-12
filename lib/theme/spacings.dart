@@ -7,4 +7,6 @@ class Spacings {
   static const double four = 16;
   static const double five = 24;
   static const double six = 32;
+  static const double seven = 36;
+  static const double eight = 48;
 }
