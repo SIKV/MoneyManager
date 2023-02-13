@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/colors.dart';
-import 'package:moneymanager/ui/widget/SvgIcon.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
 import '../../theme/theme.dart';
@@ -18,9 +17,8 @@ class CollapsingHeaderPage extends ConsumerWidget {
   final String title;
   final String? titleSuffix;
   final String? subtitle;
-  final String? primaryActionAsset;
-  final Color primaryActionBackground;
-  final VoidCallback? onPrimaryActionPressed;
+  final String? tertiaryTitle;
+  final Widget? primaryAction;
   final List<HeaderCircleButton>? secondaryActions;
   final Widget sliver;
 
@@ -35,9 +33,8 @@ class CollapsingHeaderPage extends ConsumerWidget {
     required this.title,
     this.titleSuffix,
     this.subtitle,
-    this.primaryActionAsset,
-    this.primaryActionBackground = Colors.transparent,
-    this.onPrimaryActionPressed,
+    this.tertiaryTitle,
+    this.primaryAction,
     this.secondaryActions,
     required this.sliver,
   }) : super(key: key);
@@ -62,9 +59,8 @@ class CollapsingHeaderPage extends ConsumerWidget {
               title: title,
               titleSuffix: titleSuffix,
               subtitle: subtitle,
-              primaryActionAsset: primaryActionAsset,
-              primaryActionBackground: primaryActionBackground,
-              onPrimaryActionPressed: onPrimaryActionPressed,
+              tertiaryTitle: tertiaryTitle,
+              primaryAction: primaryAction,
               secondaryActions: secondaryActions,
             ),
           ),
@@ -85,9 +81,8 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   final String title;
   final String? titleSuffix;
   final String? subtitle;
-  final String? primaryActionAsset;
-  final Color primaryActionBackground;
-  final VoidCallback? onPrimaryActionPressed;
+  final String? tertiaryTitle;
+  final Widget? primaryAction;
   final List<HeaderCircleButton>? secondaryActions;
 
   _HeaderDelegate({
@@ -100,9 +95,8 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.title,
     this.titleSuffix,
     this.subtitle,
-    this.primaryActionAsset,
-    required this.primaryActionBackground,
-    this.onPrimaryActionPressed,
+    this.tertiaryTitle,
+    this.primaryAction,
     this.secondaryActions,
   });
 
@@ -219,11 +213,23 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     final subtitleTextStyle = TextStyle.lerp(
         TextStyle(
           color: colors.alwaysBlack,
-          fontSize: 16,
+          fontSize: 15,
         ),
         TextStyle(
           color: colors.alwaysBlack,
           fontSize: 13,
+        ),
+        scrollProgress
+    );
+
+    final tertiaryTitleTextStyle = TextStyle.lerp(
+        TextStyle(
+          color: colors.alwaysBlack,
+          fontSize: 15,
+        ),
+        const TextStyle(
+          color: Colors.transparent,
+          fontSize: 0,
         ),
         scrollProgress
     );
@@ -279,6 +285,15 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
       );
     }
 
+    final tertiaryTitle = this.tertiaryTitle;
+    if (tertiaryTitle != null) {
+      children.add(
+        Text(tertiaryTitle,
+          style: tertiaryTitleTextStyle,
+        ),
+      );
+    }
+
     final padding = EdgeInsets.lerp(
       const EdgeInsets.only(left: 36, top: 48, right: 36),
       const EdgeInsets.only(left: 24, top: 16, right: 16),
@@ -293,22 +308,9 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
       )
     ];
 
-    final primaryAction = primaryActionAsset;
+    final primaryAction = this.primaryAction;
     if (primaryAction != null) {
-      rowChildren.add(
-        Container(
-          decoration: BoxDecoration(
-            color: primaryActionBackground,
-            borderRadius: BorderRadius.circular(32),
-          ),
-          child: IconButton(
-            icon: SvgIcon(primaryAction,
-              color: colors.alwaysBlack,
-            ),
-            onPressed: onPrimaryActionPressed,
-          ),
-        ),
-      );
+      rowChildren.add(primaryAction);
     }
 
     return Padding(

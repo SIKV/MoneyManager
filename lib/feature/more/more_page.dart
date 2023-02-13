@@ -4,6 +4,7 @@ import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/theme/theme.dart';
 
 import '../../localizations.dart';
+import '../../ui/widget/SvgIcon.dart';
 import '../../ui/widget/collapsing_header_page.dart';
 
 class MorePage extends ConsumerWidget {
@@ -20,11 +21,20 @@ class MorePage extends ConsumerWidget {
       collapsedHeight: 78,
       expandedHeight: 208,
       title: Strings.morePageTitle.localized(context),
-      primaryActionAsset: appTheme.type == AppThemeType.light ? Assets.moon : Assets.sun,
-      primaryActionBackground: appTheme.colors.alwaysWhite,
-      onPrimaryActionPressed: () {
-        _updateTheme(ref.read(appThemeManagerProvider.notifier));
-      },
+      primaryAction: Container(
+        decoration: BoxDecoration(
+          color: appTheme.colors.alwaysWhite,
+          borderRadius: BorderRadius.circular(32),
+        ),
+        child: IconButton(
+          icon: SvgIcon(appTheme.type == AppThemeType.light ? Assets.moon : Assets.sun,
+            color: appTheme.colors.alwaysBlack,
+          ),
+          onPressed: () {
+            _updateTheme(ref.read(appThemeManagerProvider.notifier));
+          },
+        ),
+      ),
       sliver: SliverToBoxAdapter(
         child: Container(),
       ),

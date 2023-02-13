@@ -8,4 +8,5 @@ class Assets {
   static const String chevronDown = 'assets/chevron_down.svg';
   static const String moon = 'assets/moon.svg';
   static const String sun = 'assets/sun.svg';
+  static const String menu = 'assets/menu-hamburger.svg';
 }
