@@ -4,6 +4,7 @@ import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/theme/theme.dart';
 
 import '../../localizations.dart';
+import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
 import '../../ui/widget/collapsing_header_page.dart';
 
@@ -42,7 +43,7 @@ class MorePage extends ConsumerWidget {
   }
 
   void _updateTheme(AppThemeManager themeManager) {
-    if (themeManager.theme.type == AppThemeType.light) {
+    if (themeManager.getType() == AppThemeType.light) {
       themeManager.setTheme(AppThemeType.dark);
     } else {
       themeManager.setTheme(AppThemeType.light);

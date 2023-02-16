@@ -12,6 +12,7 @@ import '../feature/transactions/transactions_page.dart';
 import '../navigation/transaction_page_args.dart';
 import '../theme/icons.dart';
 import '../theme/spacings.dart';
+import '../theme/theme_manager.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);

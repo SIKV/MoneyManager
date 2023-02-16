@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanager/theme/colors.dart';
 import 'package:moneymanager/theme/radius.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'theme.g.dart';
 
 enum AppThemeType {
-  light, dark
+  light(0),
+  dark(1);
+
+  const AppThemeType(this.id);
+
+  final int id;
 }
 
 abstract class AppTheme {
@@ -59,27 +61,4 @@ class DarkAppTheme extends AppTheme {
 
   @override
   AppColors get colors => DarkAppColors();
-}
-
-@riverpod
-class AppThemeManager extends _$AppThemeManager {
-  AppTheme _theme = LightAppTheme(); // TODO: Change default value.
-  AppTheme get theme => _theme;
-
-  @override
-  AppTheme build() {
-    return _theme;
-  }
-
-  void setTheme(AppThemeType type) {
-    switch (type) {
-      case AppThemeType.light:
-        _theme = LightAppTheme();
-        break;
-      case AppThemeType.dark:
-        _theme = DarkAppTheme();
-        break;
-    }
-    ref.invalidateSelf();
-  }
 }

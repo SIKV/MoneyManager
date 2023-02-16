@@ -11,6 +11,7 @@ import 'package:moneymanager/theme/spacings.dart';
 import '../../localizations.dart';
 import '../../navigation/transaction_page_args.dart';
 import '../../theme/theme.dart';
+import '../../theme/theme_manager.dart';
 import 'controller/transaction_maker_controller.dart';
 
 const _noValuePlaceholder = '...';

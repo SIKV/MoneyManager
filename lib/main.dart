@@ -7,14 +7,24 @@ import 'package:moneymanager/feature/transaction/transaction_page.dart';
 import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/navigation/transaction_page_args.dart';
+import 'package:moneymanager/preferences.dart';
 import 'package:moneymanager/theme/theme.dart';
+import 'package:moneymanager/theme/theme_manager.dart';
 
 import 'ui/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final preferences = Preferences();
+  await preferences.load();
+
   runApp(
-    const ProviderScope(
-      child: App(),
+    ProviderScope(
+      overrides: [
+        preferencesProvider.overrideWith((ref) => preferences),
+      ],
+      child: const App(),
     ),
   );
 }

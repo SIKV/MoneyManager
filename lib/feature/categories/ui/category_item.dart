@@ -4,7 +4,8 @@ import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/radius.dart';
 import 'package:moneymanager/theme/spacings.dart';
-import 'package:moneymanager/theme/theme.dart';
+
+import '../../../theme/theme_manager.dart';
 
 const _emojiSize = 24.0;
 const _subcategorySeparator = ', ';

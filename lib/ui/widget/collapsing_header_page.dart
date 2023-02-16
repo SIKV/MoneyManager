@@ -6,6 +6,7 @@ import 'package:moneymanager/theme/colors.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
 import '../../theme/theme.dart';
+import '../../theme/theme_manager.dart';
 
 class CollapsingHeaderPage extends ConsumerWidget {
   final AppColors colors;

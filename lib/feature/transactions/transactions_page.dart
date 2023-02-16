@@ -8,6 +8,7 @@ import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
 import '../../localizations.dart';
 import '../../theme/theme.dart';
+import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
 import 'ui/header_settings.dart';
 

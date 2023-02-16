@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/colors.dart';
-import 'package:moneymanager/theme/theme.dart';
 import 'package:moneymanager/ui/widget/SvgIcon.dart';
 
 import '../../theme/spacings.dart';
+import '../../theme/theme_manager.dart';
 
 class HeaderCircleButton extends ConsumerWidget {
   final String title;
@@ -20,10 +20,7 @@ class HeaderCircleButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AppColors colors = ref
-        .read(appThemeManagerProvider.notifier)
-        .theme
-        .colors;
+    AppColors colors = ref.read(appThemeManagerProvider.notifier).getColors();
 
     return InkWell(
       onTap: onPressed,

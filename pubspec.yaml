@@ -22,6 +22,7 @@ dependencies:
   emoji_picker_flutter: ^1.5.1
   flutter_svg: ^1.1.6
   currency_picker: ^2.0.14
+  shared_preferences: ^2.0.17
 
 dev_dependencies:
   flutter_test:
