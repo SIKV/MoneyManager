@@ -1,7 +1,16 @@
 import 'package:moneymanager/domain/account.dart';
+
 import '../domain/currency.dart';
+import '../domain/transaction_category.dart';
+import '../domain/transaction_subcategory.dart';
+import '../domain/transaction_type.dart';
 import 'local/entity/account_entity.dart';
 import 'local/entity/currency_entity.dart';
+import 'local/entity/transaction_category_entity.dart';
+import 'local/entity/transaction_subcategory_entity.dart';
+import 'local/entity/transaction_type_entity.dart';
+
+/// Account
 
 extension AccountEntityToDomain on AccountEntity {
   Account? toDomain() {
@@ -34,6 +43,85 @@ extension DomainToAccountEntity on Account {
         symbol: currency.symbol,
         emoji: currency.emoji,
       ),
+    );
+  }
+}
+
+/// TransactionTypeEntity
+
+extension TransactionTypeEntityToDomain on TransactionTypeEntity {
+  TransactionType toDomain() {
+    switch (this) {
+      case TransactionTypeEntity.income:
+        return TransactionType.income;
+      case TransactionTypeEntity.expense:
+        return TransactionType.expense;
+    }
+  }
+}
+
+extension DomainToTransactionTypeEntity on TransactionType {
+  TransactionTypeEntity toEntity() {
+    switch (this) {
+      case TransactionType.income:
+        return TransactionTypeEntity.income;
+      case TransactionType.expense:
+        return TransactionTypeEntity.expense;
+    }
+  }
+}
+
+/// TransactionSubcategory
+
+extension TransactionSubcategoryEntityToDomain on TransactionSubcategoryEntity {
+  TransactionSubcategory? toDomain() {
+    final id = this.id;
+    final title = this.title;
+
+    if (id == null || title == null) {
+      return null;
+    } else {
+      return TransactionSubcategory(
+        id: id,
+        title: title,
+      );
+    }
+  }
+}
+
+extension DomainToTransactionSubcategoryEntity on TransactionSubcategory {
+  TransactionSubcategoryEntity toEntity() {
+    return TransactionSubcategoryEntity(
+      id: id,
+      title: title,
+    );
+  }
+}
+
+/// TransactionCategory
+
+extension TransactionCategoryEntityToDomain on TransactionCategoryEntity {
+  TransactionCategory toDomain() {
+    return TransactionCategory(
+      id: id,
+      type: type.toDomain(),
+      title: title,
+      emoji: emoji,
+      subcategories: subcategories.map((it) => it.toDomain())
+          .whereType<TransactionSubcategory>()
+          .toList(),
+    );
+  }
+}
+
+extension DomainToTransactionCategoryEntity on TransactionCategory {
+  TransactionCategoryEntity toEntity() {
+    return TransactionCategoryEntity(
+      id: id,
+      type: type.toEntity(),
+      title: title,
+      emoji: emoji,
+      subcategories: subcategories.map((it) => it.toEntity()).toList(),
     );
   }
 }

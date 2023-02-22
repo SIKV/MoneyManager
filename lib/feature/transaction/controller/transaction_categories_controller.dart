@@ -7,16 +7,16 @@ import '../../../data/providers.dart';
 import '../../../domain/transaction_category.dart';
 
 final transactionCategoriesControllerProvider = AsyncNotifierProvider
-    .family.autoDispose<_TransactionCategoriesController, List<TransactionCategory>, TransactionType>(() {
-      return _TransactionCategoriesController();
+    .family.autoDispose<TransactionCategoriesController, List<TransactionCategory>, TransactionType>(() {
+      return TransactionCategoriesController();
     });
 
-class _TransactionCategoriesController extends AutoDisposeFamilyAsyncNotifier<
+class TransactionCategoriesController extends AutoDisposeFamilyAsyncNotifier<
     List<TransactionCategory>, TransactionType> {
 
   @override
-  FutureOr<List<TransactionCategory>> build(TransactionType type) {
-    return ref.read(categoriesRepositoryProvider)
-        .getAll(type);
+  FutureOr<List<TransactionCategory>> build(TransactionType arg) async {
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
+    return await categoriesRepository.getAll(arg);
   }
 }

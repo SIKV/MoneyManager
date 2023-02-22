@@ -7,45 +7,48 @@ import 'package:moneymanager/feature/categories/domain/categories_state.dart';
 
 import '../../../data/providers.dart';
 
-final categoriesControllerProvider = AsyncNotifierProvider<_CategoriesController, CategoriesState>(() {
-  return _CategoriesController();
+final categoriesControllerProvider = AsyncNotifierProvider<CategoriesController, CategoriesState>(() {
+  return CategoriesController();
 });
 
-class _CategoriesController extends AsyncNotifier<CategoriesState> {
-  CategoriesState _state = const CategoriesState(
-    types: TransactionType.values,
-    selectedType: TransactionType.income,
-    categories: [],
-  );
+class CategoriesController extends AsyncNotifier<CategoriesState> {
 
   @override
   Future<CategoriesState> build() async {
-    final categories = await ref.read(categoriesRepositoryProvider)
-        .getAll(_state.selectedType);
+    final selectedType = state.value?.selectedType ?? TransactionType.income;
 
-    _state = _state.copyWith(
-      categories: categories
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
+    final categories = await categoriesRepository.getAll(selectedType);
+
+    return CategoriesState(
+      types: TransactionType.values,
+      selectedType: selectedType,
+      categories: categories,
     );
-    return _state;
   }
 
-  void selectType(int index) {
-    _state = _state.copyWith(
-      selectedType: _state.types[index]
+  void selectType(int index) async {
+    final currentState = await future;
+
+    state = AsyncValue.data(
+      currentState.copyWith(
+        selectedType: currentState.types[index],
+      )
     );
+
     ref.invalidateSelf();
   }
 
-  void addOrUpdateCategory(TransactionCategory category) {
-    ref.read(categoriesRepositoryProvider)
-        .addOrUpdate(category);
+  void addOrUpdateCategory(TransactionCategory category) async {
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
+    await categoriesRepository.addOrUpdate(category);
 
     ref.invalidateSelf();
   }
 
-  void deleteCategory(String categoryId) {
-    ref.read(categoriesRepositoryProvider)
-        .delete(categoryId);
+  void deleteCategory(int categoryId) async {
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
+    await categoriesRepository.delete(categoryId);
 
     ref.invalidateSelf();
   }

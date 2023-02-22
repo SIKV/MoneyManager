@@ -49,7 +49,7 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
     super.initState();
 
     _newCategory = widget.category ?? TransactionCategory(
-      id: generateUniqueId(),
+      id: generateUniqueInt(),
       type: _defaultTransactionCategoryType,
       title: '',
     );

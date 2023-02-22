@@ -1,0 +1,4 @@
+enum TransactionTypeEntity {
+  income,
+  expense,
+}
