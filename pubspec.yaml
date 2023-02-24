@@ -16,7 +16,6 @@ dependencies:
 
   flutter_riverpod: ^2.1.1
   riverpod_annotation: ^1.0.4
-
   cupertino_icons: ^1.0.2
   freezed_annotation: ^2.2.0
   emoji_picker_flutter: ^1.5.1
@@ -25,6 +24,7 @@ dependencies:
   shared_preferences: ^2.0.17
   isar: ^3.0.5
   isar_flutter_libs: ^3.0.5
+  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

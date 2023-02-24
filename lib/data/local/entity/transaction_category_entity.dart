@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 import 'package:moneymanager/data/local/entity/transaction_subcategory_entity.dart';
 import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
@@ -5,7 +6,7 @@ import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
 part 'transaction_category_entity.g.dart';
 
 @collection
-class TransactionCategoryEntity {
+class TransactionCategoryEntity extends Equatable {
   @Name("id")
   final Id id;
 
@@ -22,11 +23,14 @@ class TransactionCategoryEntity {
   @Name("subcategories")
   final List<TransactionSubcategoryEntity> subcategories;
 
-  TransactionCategoryEntity({
+  const TransactionCategoryEntity({
     required this.id,
     required this.type,
     required this.title,
     required this.emoji,
     required this.subcategories,
   });
+
+  @override
+  List<Object?> get props => [id];
 }
