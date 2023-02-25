@@ -1,20 +1,22 @@
+import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 import 'package:moneymanager/data/local/entity/currency_entity.dart';
 
 part 'account_entity.g.dart';
 
-@collection
-class AccountEntity {
-  final Id internalId;
-
+@Collection(ignore: {'props'})
+class AccountEntity extends Equatable {
   @Name("id")
-  final String id;
+  final Id id;
 
   @Name("currency")
   final CurrencyEntity currency;
 
-  AccountEntity({
+  const AccountEntity({
     required this.id,
     required this.currency,
-  }) : internalId = Isar.autoIncrement;
+  });
+
+  @override
+  List<Object?> get props => [id];
 }

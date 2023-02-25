@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 
 part 'currency_entity.g.dart';
 
-@embedded
-class CurrencyEntity {
+@Embedded(ignore: {'props'})
+class CurrencyEntity extends Equatable {
   @Name("code")
   final String? code;
 
@@ -16,10 +17,13 @@ class CurrencyEntity {
   @Name("emoji")
   final String? emoji;
 
-  CurrencyEntity({
+  const CurrencyEntity({
     this.code,
     this.name,
     this.symbol,
     this.emoji,
   });
+
+  @override
+  List<Object?> get props => [code, name, symbol];
 }

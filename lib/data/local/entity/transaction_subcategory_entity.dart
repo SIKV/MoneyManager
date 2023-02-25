@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 
 part 'transaction_subcategory_entity.g.dart';
 
-@embedded
+@Embedded(ignore: {'props'})
 class TransactionSubcategoryEntity extends Equatable {
   @Name("id")
   final String? id;

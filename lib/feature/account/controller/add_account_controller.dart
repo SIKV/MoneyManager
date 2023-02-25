@@ -37,7 +37,7 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
 
       accountsRepository.addOrUpdate(
         Account(
-          id: generateUniqueId(),
+          id: generateUniqueInt(),
           currency: currency,
         ),
       );

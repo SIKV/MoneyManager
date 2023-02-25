@@ -6,7 +6,7 @@ part 'account.freezed.dart';
 @freezed
 class Account with _$Account {
   const factory Account({
-    required String id,
+    required int id,
     required Currency currency,
   }) = _Account;
 }

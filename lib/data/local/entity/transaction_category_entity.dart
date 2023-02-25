@@ -5,7 +5,7 @@ import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
 
 part 'transaction_category_entity.g.dart';
 
-@collection
+@Collection(ignore: {'props'})
 class TransactionCategoryEntity extends Equatable {
   @Name("id")
   final Id id;
