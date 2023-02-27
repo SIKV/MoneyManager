@@ -10,7 +10,7 @@ import 'package:moneymanager/navigation/transaction_page_args.dart';
 import 'package:moneymanager/theme/theme.dart';
 import 'package:moneymanager/theme/theme_manager.dart';
 
-import 'ui/home_page.dart';
+import 'feature/home/home_page.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});

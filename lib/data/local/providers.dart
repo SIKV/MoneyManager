@@ -6,12 +6,16 @@ import 'package:moneymanager/data/local/entity/transaction_category_entity.dart'
 import 'datasource/accounts_local_data_source.dart';
 import 'datasource/categories_local_data_source.dart';
 
-final accountsLocalDataSourceProvider = FutureProvider((_) async {
-  final isar = await Isar.open([AccountEntitySchema]);
+final isarProvider = FutureProvider((_) async {
+  return Isar.open([AccountEntitySchema, TransactionCategoryEntitySchema]);
+});
+
+final accountsLocalDataSourceProvider = FutureProvider((ref) async {
+  final isar = await ref.watch(isarProvider.future);
   return AccountsLocalDataSource(isar);
 });
 
-final categoriesLocalDataSourceProvider = FutureProvider((_) async {
-  final isar = await Isar.open([TransactionCategoryEntitySchema]);
+final categoriesLocalDataSourceProvider = FutureProvider((ref) async {
+  final isar = await ref.watch(isarProvider.future);
   return CategoriesLocalDataSource(isar);
 });
