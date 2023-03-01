@@ -4,10 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final preferencesProvider = Provider<Preferences>((_) => Preferences());
 
+const _keyCurrentAccount = 'currentAccount';
 const _keyTheme = 'theme';
 
 class Preferences {
   late final SharedPreferences _prefs;
+
+  int? _currentAccountId;
+  int? get currentAccountId => _currentAccountId;
 
   AppThemeType? _theme;
   AppThemeType? get theme =>_theme;
@@ -15,11 +19,18 @@ class Preferences {
   Future<void> load() async {
     _prefs = await SharedPreferences.getInstance();
 
+    _currentAccountId = _prefs.getInt(_keyCurrentAccount);
+
     final themeId = _prefs.getInt(_keyTheme);
     if (themeId != null) {
       _theme = AppThemeType.values
           .firstWhere((element) => element.id == themeId);
     }
+  }
+
+  void setCurrentAccount(int id) {
+    _prefs.setInt(_keyCurrentAccount, id);
+    _currentAccountId = id;
   }
 
   void setTheme(AppThemeType? theme) {
@@ -31,4 +42,3 @@ class Preferences {
     _theme = theme;
   }
 }
-

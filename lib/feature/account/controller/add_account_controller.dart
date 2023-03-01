@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/domain/currency.dart';
 import 'package:moneymanager/feature/account/domain/add_account_state.dart';
+import 'package:moneymanager/preferences.dart';
 
 import '../../../domain/account.dart';
 import '../../../utils.dart';
@@ -33,14 +34,16 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
     final currency = currentState.selectedCurrency;
 
     if (currency != null) {
-      final accountsRepository = await ref.read(accountsRepositoryProvider.future);
-
-      accountsRepository.addOrUpdate(
-        Account(
-          id: generateUniqueInt(),
-          currency: currency,
-        ),
+      final account = Account(
+        id: generateUniqueInt(),
+        currency: currency,
       );
+
+      final accountsRepository = await ref.read(accountsRepositoryProvider.future);
+      accountsRepository.addOrUpdate(account);
+
+      ref.read(preferencesProvider)
+          .setCurrentAccount(account.id);
 
       state = AsyncValue.data(
           currentState.copyWith(

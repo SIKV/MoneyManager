@@ -12,8 +12,7 @@ class AddAccountPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedCurrency = ref.watch(addAccountControllerProvider)
-        .value?.selectedCurrency;
+    final state = ref.watch(addAccountControllerProvider).value;
 
     ref.listen(addAccountControllerProvider, (previous, next) {
       if (next.value?.accountAdded == true) {
@@ -27,11 +26,19 @@ class AddAccountPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(Spacings.four),
+              Padding(
+                padding: const EdgeInsets.all(Spacings.four),
                 child: Align(
                   alignment: Alignment.topLeft,
-                  child: CloseCircleButton(),
+                  child: CloseCircleButton(
+                    onTap: () {
+                      if (state?.isFirstAccount == true) {
+                        // TODO Close the app
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    }
+                  ),
                 ),
               ),
 
@@ -54,7 +61,7 @@ class AddAccountPage extends ConsumerWidget {
               const SizedBox(height: Spacings.eight),
 
               FilledButton(
-                onPressed: selectedCurrency != null ? () => _addAccount(context, ref) : null,
+                onPressed: state?.selectedCurrency != null ? () => _addAccount(context, ref) : null,
                 child: Text(Strings.addAccountActionButton.localized(context)),
               ),
             ],

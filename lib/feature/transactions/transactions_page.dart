@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/feature/account/change_account_page.dart';
 import 'package:moneymanager/feature/transactions/ui/transactions_list.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
@@ -28,7 +29,10 @@ class TransactionsPage extends ConsumerWidget {
       title: '0',
       titleSuffix: ' \$',
       subtitle: 'This month expenses',
-      tertiaryTitle: '0 Transactions',
+      tertiaryTitle: '0 transactions',
+      onTitlePressed: () {
+        _showChangeAccount(context);
+      },
       primaryAction: IconButton(
         icon: SvgIcon(Assets.menu,
           size: 32,
@@ -56,6 +60,16 @@ class TransactionsPage extends ConsumerWidget {
         ),
       ],
       sliver: const TransactionsList(),
+    );
+  }
+
+  void _showChangeAccount(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return const ChangeAccountPage();
+      },
     );
   }
 

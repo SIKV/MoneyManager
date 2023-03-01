@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+// TODO Change strings format to pageName_stringName.
 class Strings {
   static const String transactionsPageTitle = 'transactionsPageTitle';
   static const String morePageTitle = 'morePageTitle';
@@ -44,6 +45,11 @@ class Strings {
   static const String addAccountSubtitle = 'addAccountSubtitle';
   static const String addAccountActionButton = 'addAccountActionButton';
   static const String selectCurrencyPlaceholder = 'selectCurrencyPlaceholder';
+
+  // Change Account page
+  static const String changeAccountPage_addAccountTitle = 'changeAccountPage_addAccountTitle';
+  static const String changeAccountPage_addAccountSubtitle = 'changeAccountPage_addAccountSubtitle';
+
 }
 
 extension GetLocalizedString on String {
@@ -120,6 +126,10 @@ class AppLocalizations {
       Strings.addAccountSubtitle: 'Choose a currency for your account ',
       Strings.addAccountActionButton: 'Add Account',
       Strings.selectCurrencyPlaceholder: 'Select currency',
+
+      // Change Account page
+      Strings.changeAccountPage_addAccountTitle: 'Add account',
+      Strings.changeAccountPage_addAccountSubtitle: 'Tap here to create a new account',
     },
     'uk': {
       // TODO: Add translations.

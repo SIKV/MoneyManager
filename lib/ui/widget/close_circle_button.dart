@@ -4,7 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/spacings.dart';
 
 class CloseCircleButton extends ConsumerWidget {
-  const CloseCircleButton({super.key});
+  final VoidCallback? onTap;
+
+  const CloseCircleButton({
+    super.key,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +20,11 @@ class CloseCircleButton extends ConsumerWidget {
         child: InkWell(
           splashColor: Colors.grey,
           onTap: () {
-            Navigator.pop(context);
+            if (onTap != null) {
+              onTap?.call();
+            } else {
+              Navigator.pop(context);
+            }
           },
           child: Icon(Icons.close,
             color: Theme.of(context).colorScheme.onSurfaceVariant,

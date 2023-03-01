@@ -19,6 +19,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
   final String? titleSuffix;
   final String? subtitle;
   final String? tertiaryTitle;
+  final VoidCallback? onTitlePressed;
   final Widget? primaryAction;
   final List<HeaderCircleButton>? secondaryActions;
   final Widget sliver;
@@ -35,6 +36,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
     this.titleSuffix,
     this.subtitle,
     this.tertiaryTitle,
+    this.onTitlePressed,
     this.primaryAction,
     this.secondaryActions,
     required this.sliver,
@@ -61,6 +63,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
               titleSuffix: titleSuffix,
               subtitle: subtitle,
               tertiaryTitle: tertiaryTitle,
+              onTitlePressed: onTitlePressed,
               primaryAction: primaryAction,
               secondaryActions: secondaryActions,
             ),
@@ -83,6 +86,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   final String? titleSuffix;
   final String? subtitle;
   final String? tertiaryTitle;
+  final VoidCallback? onTitlePressed;
   final Widget? primaryAction;
   final List<HeaderCircleButton>? secondaryActions;
 
@@ -97,6 +101,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     this.titleSuffix,
     this.subtitle,
     this.tertiaryTitle,
+    this.onTitlePressed,
     this.primaryAction,
     this.secondaryActions,
   });
@@ -205,7 +210,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
         ),
         TextStyle(
           color: colors.alwaysWhite,
-          fontSize: 18,
+          fontSize: 22,
           fontWeight: FontWeight.w400,
         ),
         scrollProgress
@@ -262,10 +267,33 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
       );
     }
 
+    final titleActionPaddings = EdgeInsets.lerp(
+        const EdgeInsets.only(left: 4, top: 9),
+        const EdgeInsets.only(left: 4, top: 4),
+        scrollProgress
+    );
+
     final List<Widget> children = [
-      RichText(
-        text: TextSpan(
-          children: spanChildren,
+      InkWell(
+        onTap: () {
+          onTitlePressed?.call();
+        },
+        child: Row(
+          children: [
+            RichText(
+              text: TextSpan(
+                children: spanChildren,
+              ),
+            ),
+            if (onTitlePressed != null) ...[
+              Padding(
+                padding: titleActionPaddings ?? const EdgeInsets.only(),
+                child: Icon(Icons.arrow_drop_down,
+                  color: colors.alwaysWhite,
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     ];
