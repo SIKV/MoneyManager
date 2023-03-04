@@ -24,6 +24,8 @@ class Strings {
   static const String note = 'note';
   static const String selectTimeHint = 'selectTimeHint';
 
+  static const String transaction_enterNoteHint = 'transaction_enterNoteHint';
+
   // Transactions page
   static const String dayIncome = 'dayIncome';
   static const String dayExpenses = 'dayExpenses';
@@ -104,6 +106,7 @@ class AppLocalizations {
       Strings.amount: 'Amount',
       Strings.note: 'Note',
       Strings.selectTimeHint: 'Scroll down to select time ▼',
+      Strings.transaction_enterNoteHint: 'Enter a note...',
 
       // Transactions page
       Strings.dayIncome: 'This day income',

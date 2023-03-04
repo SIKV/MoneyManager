@@ -13,6 +13,7 @@ final transactionMakerControllerProvider = NotifierProvider
 });
 
 class _TransactionMakerController extends AutoDisposeNotifier<TransactionMakerState> {
+  // TODO: Refactor.
   TransactionMakerState _state = TransactionMakerState(
     transactionId: generateUniqueId(),
     createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -60,6 +61,13 @@ class _TransactionMakerController extends AutoDisposeNotifier<TransactionMakerSt
   void setCategory(TransactionCategory category) {
     _state = _state.copyWith(
       category: category,
+    );
+    ref.invalidateSelf();
+  }
+
+  void setNote(String? note) {
+    _state = _state.copyWith(
+      note: note,
     );
     ref.invalidateSelf();
   }

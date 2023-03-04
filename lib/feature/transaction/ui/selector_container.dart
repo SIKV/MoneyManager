@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/ui/category_selector.dart';
 import 'package:moneymanager/feature/transaction/ui/date_time_selector.dart';
+import 'package:moneymanager/feature/transaction/ui/note_selector.dart';
 
 import '../controller/transaction_maker_controller.dart';
 import '../domain/transaction_property.dart';
@@ -22,7 +23,7 @@ class SelectorContainer extends ConsumerWidget {
       case TransactionProperty.amount:
         return const Text('Amount');
       case TransactionProperty.note:
-        return const Text('Note');
+        return const NoteSelector();
     }
   }
 }

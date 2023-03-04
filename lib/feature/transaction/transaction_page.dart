@@ -68,11 +68,52 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
   @override
   Widget build(BuildContext context) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
-    final state = ref.watch(transactionMakerControllerProvider);
-
     final themeData = appTheme.themeData();
 
+    final state = ref.watch(transactionMakerControllerProvider);
     final category = _getCategory(state);
+
+    final notePropertyItem = PropertyItem(
+      title: Strings.note.localized(context),
+      value: state.note ?? '...',
+      isSelected: state.selectedProperty == TransactionProperty.note,
+      onSelected: () {
+        _selectProperty(TransactionProperty.note);
+      },
+    );
+
+    final List<Widget> properties = [
+      PropertyItem(
+        title: Strings.date.localized(context),
+        value: '27 Jan 2023   01:37',
+        isSelected: state.selectedProperty == TransactionProperty.date,
+        onSelected: () {
+          _selectProperty(TransactionProperty.date);
+        },
+      ),
+      const SizedBox(height: Spacings.two),
+      PropertyItem(
+        title: Strings.category.localized(context),
+        value: category,
+        isSelected: state.selectedProperty == TransactionProperty.category,
+        onSelected: () {
+          _selectProperty(TransactionProperty.category);
+        },
+      ),
+      const SizedBox(height: Spacings.two),
+      PropertyItem(
+        title: Strings.amount.localized(context),
+        value: '...',
+        isSelected: state.selectedProperty == TransactionProperty.amount,
+        onSelected: () {
+          _selectProperty(TransactionProperty.amount);
+        },
+      ),
+      const SizedBox(height: Spacings.two),
+      notePropertyItem,
+    ];
+
+    final shouldShowOnlyNote = MediaQuery.of(context).viewInsets.bottom > 0.0;
 
     return Theme(
       data: themeData.copyWith(
@@ -91,61 +132,16 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 24),
               child: Column(
-                children: [
-                  PropertyItem(
-                    title: Strings.date.localized(context),
-                    value: '27 Jan 2023   01:37',
-                    isSelected: state.selectedProperty == TransactionProperty.date,
-                    onSelected: () {
-                      _selectProperty(TransactionProperty.date);
-                    },
-                  ),
-
-                  const SizedBox(height: Spacings.two),
-
-                  PropertyItem(
-                    title: Strings.category.localized(context),
-                    value: category,
-                    isSelected: state.selectedProperty == TransactionProperty.category,
-                    onSelected: () {
-                      _selectProperty(TransactionProperty.category);
-                    },
-                  ),
-
-                  const SizedBox(height: Spacings.two),
-
-                  PropertyItem(
-                    title: Strings.amount.localized(context),
-                    value: '...',
-                    isSelected: state.selectedProperty == TransactionProperty.amount,
-                    onSelected: () {
-                      _selectProperty(TransactionProperty.amount);
-                    },
-                  ),
-
-                  const SizedBox(height: Spacings.two),
-
-                  PropertyItem(
-                    title: Strings.note.localized(context),
-                    value: '...',
-                    isSelected: state.selectedProperty == TransactionProperty.note,
-                    onSelected: () {
-                      _selectProperty(TransactionProperty.note);
-                    },
-                  ),
-                ],
+                children: shouldShowOnlyNote ? [notePropertyItem] : properties,
               ),
             ),
-
             Container(
               height: 12,
               color: Colors.black26,
             ),
-
             const Expanded(
               child: SelectorContainer(),
             ),
-
             Padding(
               padding: const EdgeInsets.all(Spacings.four),
               child: FilledButton(

@@ -51,7 +51,10 @@ class PropertyItem extends StatelessWidget {
 
             Expanded(
               flex: 2,
-              child: Text(value),
+              child: Text(value,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
