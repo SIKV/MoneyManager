@@ -368,15 +368,18 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   Widget buildSecondaryActions() {
     final actions = secondaryActions;
     if (actions != null && actions.isNotEmpty) {
-      return AnimatedOpacity(
-        duration: const Duration(milliseconds: 150),
-        opacity: (scrollProgress > 0.2) ? 0 : 1,
-        child: Container(
-          padding: const EdgeInsets.only(bottom: 24),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: actions,
+      final double opacity = 1 - scrollProgress;
+      return Opacity(
+        opacity: opacity,
+        child: Visibility(
+          visible: opacity > 0.4,
+          child: Container(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: actions,
+            ),
           ),
         ),
       );
