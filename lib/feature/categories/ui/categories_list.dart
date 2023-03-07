@@ -7,11 +7,37 @@ import 'category_item.dart';
 
 class CategoriesList extends StatelessWidget {
   final List<TransactionCategory> categories;
+  final ReorderCallback onReorder;
 
   const CategoriesList({
     Key? key,
     required this.categories,
+    required this.onReorder,
   }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ReorderableListView.builder(
+      onReorder: onReorder,
+      itemCount: categories.length,
+      itemBuilder: (context, index) {
+        final category = categories[index];
+        return Padding(
+          key: Key('${category.id}'),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Spacings.four,
+            vertical: Spacings.one,
+          ),
+          child: CategoryItem(
+            category: category,
+            onPressed: () {
+              _editCategory(context, category);
+            },
+          ),
+        );
+      },
+    );
+  }
 
   void _editCategory(BuildContext context, TransactionCategory category) {
     showModalBottomSheet(
@@ -22,27 +48,6 @@ class CategoriesList extends StatelessWidget {
         action: CategoryEditorAction.edit,
         category: category,
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: categories.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Spacings.four,
-            vertical: Spacings.one,
-          ),
-          child: CategoryItem(
-            category: categories[index],
-            onPressed: () {
-              _editCategory(context, categories[index]);
-            },
-          ),
-        );
-      },
     );
   }
 }

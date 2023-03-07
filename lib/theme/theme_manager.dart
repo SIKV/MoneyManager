@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/preferences.dart';
+import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/theme/colors.dart';
 import 'package:moneymanager/theme/theme.dart';
 
@@ -32,7 +32,7 @@ class AppThemeManager extends Notifier<AppTheme> {
   }
 
   AppThemeType getType() {
-    final theme = ref.read(preferencesProvider).theme;
+    final theme = ref.read(localPreferencesProvider).theme;
 
     if (theme != null) {
       return theme;
@@ -52,7 +52,7 @@ class AppThemeManager extends Notifier<AppTheme> {
   }
 
   void setTheme(AppThemeType? theme) {
-    ref.read(preferencesProvider)
+    ref.read(localPreferencesProvider)
         .setTheme(theme);
 
     ref.invalidateSelf();

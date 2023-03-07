@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/category_editor.dart';
 import 'package:moneymanager/feature/categories/ui/categories_list.dart';
@@ -11,23 +12,6 @@ import 'controller/categories_controller.dart';
 
 class CategoriesPage extends ConsumerWidget {
   const CategoriesPage({Key? key}) : super(key: key);
-
-  void _selectType(int index, WidgetRef ref) {
-    ref.read(categoriesControllerProvider.notifier)
-        .selectType(index);
-  }
-
-  void _addCategory(BuildContext context, WidgetRef ref) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: false,
-      builder: (context) =>
-      const CategoryEditor(
-        action: CategoryEditorAction.add,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,7 +44,7 @@ class CategoriesPage extends ConsumerWidget {
                     minHeight: 46,
                   ),
                   onPressed: (index) {
-                    _selectType(index, ref);
+                    _selectType(ref, index);
                   },
                   isSelected: isSelectedTypes,
                   children: types,
@@ -69,6 +53,9 @@ class CategoriesPage extends ConsumerWidget {
               Expanded(
                 child: CategoriesList(
                   categories: state.categories,
+                  onReorder: (oldIndex, newIndex) {
+                    _reorder(ref, state.categories[oldIndex], oldIndex, newIndex);
+                  },
                 ),
               ),
             ],
@@ -84,6 +71,28 @@ class CategoriesPage extends ConsumerWidget {
               .centerFloat,
         );
       },
+    );
+  }
+
+  void _selectType(WidgetRef ref, int index) {
+    ref.read(categoriesControllerProvider.notifier)
+        .selectType(index);
+  }
+
+  void _reorder(WidgetRef ref, TransactionCategory category, int oldIndex, int newIndex) {
+    ref.read(categoriesControllerProvider.notifier)
+        .reorder(category, oldIndex, newIndex);
+  }
+
+  void _addCategory(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      builder: (context) =>
+      const CategoryEditor(
+        action: CategoryEditorAction.add,
+      ),
     );
   }
 }

@@ -1,13 +1,15 @@
+import 'dart:core';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final preferencesProvider = Provider<Preferences>((_) => Preferences());
+final localPreferencesProvider = Provider<LocalPreferences>((_) => LocalPreferences());
 
 const _keyCurrentAccount = 'currentAccount';
 const _keyTheme = 'theme';
 
-class Preferences {
+class LocalPreferences {
   late final SharedPreferences _prefs;
 
   int? _currentAccountId;
