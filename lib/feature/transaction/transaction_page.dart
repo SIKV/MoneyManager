@@ -103,7 +103,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       const SizedBox(height: Spacings.two),
       PropertyItem(
         title: Strings.amount.localized(context),
-        value: '...',
+        value: state.formattedAmount,
         isSelected: state.selectedProperty == TransactionProperty.amount,
         onSelected: () {
           _selectProperty(TransactionProperty.amount);
@@ -136,8 +136,8 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
               ),
             ),
             Container(
-              height: 12,
-              color: Colors.black26,
+              height: Spacings.one,
+              color: Theme.of(context).colorScheme.shadow,
             ),
             const Expanded(
               child: SelectorContainer(),

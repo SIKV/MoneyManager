@@ -6,6 +6,7 @@ abstract class AppColors {
   Color get alwaysWhite => const Color(0xFFFAFAFA);
   Color get alwaysBlack => const Color(0xFF0A0A0A);
 
+  Color get slightlyGray;
   Color get itemTranslucentBackground;
 
   Color get transactionsHeaderStart;
@@ -21,6 +22,9 @@ abstract class AppColors {
 class LightAppColors extends AppColors {
   @override
   ColorScheme get colorScheme => lightColorScheme;
+
+  @override
+  Color get slightlyGray => Colors.black12;
 
   @override
   Color get itemTranslucentBackground => const Color(0xBFFFFFFF);
@@ -41,6 +45,9 @@ class LightAppColors extends AppColors {
 class DarkAppColors extends AppColors {
   @override
   ColorScheme get colorScheme => darkColorScheme;
+
+  @override
+  Color get slightlyGray => Colors.black26;
 
   @override
   Color get itemTranslucentBackground => Colors.black12;

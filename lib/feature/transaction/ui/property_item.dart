@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/radius.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
-class PropertyItem extends StatelessWidget {
+import '../../../theme/theme_manager.dart';
+
+class PropertyItem extends ConsumerWidget {
   final String title;
   final String value;
   final bool isSelected;
@@ -17,8 +20,12 @@ class PropertyItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final borderColor = isSelected ? Theme.of(context).colorScheme.primary : Colors.black26;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appTheme = ref.watch(appThemeManagerProvider);
+
+    final borderColor = isSelected
+        ? Theme.of(context).colorScheme.primary
+        : appTheme.colors.slightlyGray;
 
     final titleColor = isSelected
         ? Theme.of(context).colorScheme.primary

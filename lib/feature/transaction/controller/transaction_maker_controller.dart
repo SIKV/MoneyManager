@@ -21,6 +21,7 @@ class _TransactionMakerController extends AutoDisposeNotifier<TransactionMakerSt
     category: null,
     subcategory: null,
     amount: 0,
+    formattedAmount: '',
     note: null,
     selectedProperty: TransactionProperty.category,
   );
@@ -63,6 +64,10 @@ class _TransactionMakerController extends AutoDisposeNotifier<TransactionMakerSt
       category: category,
     );
     ref.invalidateSelf();
+  }
+
+  void processAmountKey(String key) {
+    // TODO: Implement
   }
 
   void setNote(String? note) {

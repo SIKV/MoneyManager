@@ -16,6 +16,7 @@ class TransactionMakerState with _$TransactionMakerState {
     required TransactionCategory? category,
     required TransactionSubcategory? subcategory,
     required double amount,
+    required String formattedAmount,
     required String? note,
     required TransactionProperty selectedProperty
   }) = _TransactionMakerState;

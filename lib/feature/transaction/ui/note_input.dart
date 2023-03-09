@@ -7,14 +7,14 @@ import 'package:moneymanager/theme/spacings.dart';
 const _maxLines = 7;
 const _maxLength = 512;
 
-class NoteSelector extends ConsumerStatefulWidget {
-  const NoteSelector({Key? key}) : super(key: key);
+class NoteInput extends ConsumerStatefulWidget {
+  const NoteInput({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _NoteSelectorState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _NoteInputState();
 }
 
-class _NoteSelectorState extends ConsumerState<NoteSelector> {
+class _NoteInputState extends ConsumerState<NoteInput> {
   final textEditingController = TextEditingController();
 
   @override
