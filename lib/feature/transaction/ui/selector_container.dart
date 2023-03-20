@@ -14,17 +14,24 @@ class SelectorContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedProperty = ref.watch(transactionMakerControllerProvider
-        .select((state) => state.selectedProperty));
+        .selectAsync((state) => state.selectedProperty));
 
-    switch (selectedProperty) {
-      case TransactionProperty.date:
-        return const DateTimeSelector();
-      case TransactionProperty.category:
-        return const CategorySelector();
-      case TransactionProperty.amount:
-        return const AmountInput();
-      case TransactionProperty.note:
-        return const NoteInput();
-    }
+    return FutureBuilder(
+      future: selectedProperty,
+      builder: (context, snapshot) {
+        switch (snapshot.data) {
+          case TransactionProperty.date:
+            return const DateTimeSelector();
+          case TransactionProperty.category:
+            return const CategorySelector();
+          case TransactionProperty.amount:
+            return const AmountInput();
+          case TransactionProperty.note:
+            return const NoteInput();
+          default:
+            return Container();
+        }
+      },
+    );
   }
 }

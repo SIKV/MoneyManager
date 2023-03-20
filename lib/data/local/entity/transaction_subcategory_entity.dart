@@ -6,7 +6,7 @@ part 'transaction_subcategory_entity.g.dart';
 @Embedded(ignore: {'props'})
 class TransactionSubcategoryEntity extends Equatable {
   @Name("id")
-  final String? id;
+  final int? id;
 
   @Name("title")
   final String? title;

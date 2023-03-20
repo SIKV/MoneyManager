@@ -15,13 +15,18 @@ class CategoriesLocalDataSource {
     });
   }
 
+  Future<TransactionCategoryEntity?> getById(int id) async {
+    return await isar.transactionCategoryEntitys
+        .where()
+        .idEqualTo(id)
+        .findFirst();
+  }
+
   Future<List<TransactionCategoryEntity>> getAll(TransactionTypeEntity type) async {
-    final categories = await isar.transactionCategoryEntitys
+    return await isar.transactionCategoryEntitys
         .filter()
         .typeEqualTo(type)
         .findAll();
-
-    return categories;
   }
 
   Future<void> delete(int id) async {

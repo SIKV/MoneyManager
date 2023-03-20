@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:moneymanager/domain/currency.dart';
+import 'package:moneymanager/feature/transaction/domain/transaction_blueprint.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 
 import '../../../domain/transaction_category.dart';
@@ -10,14 +12,8 @@ part 'transaction_maker_state.freezed.dart';
 @freezed
 class TransactionMakerState with _$TransactionMakerState {
   const factory TransactionMakerState({
-    required String transactionId,
-    required int createdAt,
-    required TransactionType type,
-    required TransactionCategory? category,
-    required TransactionSubcategory? subcategory,
-    required double amount,
-    required String formattedAmount,
-    required String? note,
-    required TransactionProperty selectedProperty
+    required TransactionBlueprint transaction,
+    required TransactionProperty selectedProperty,
+    required List<TransactionCategory> categories,
   }) = _TransactionMakerState;
 }

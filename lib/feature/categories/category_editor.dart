@@ -219,7 +219,7 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
   void _addSubcategory() {
     setState(() {
       final subcategory = TransactionSubcategory(
-        id: generateUniqueId(),
+        id: generateUniqueInt(),
         title: _subcategoryTextController.text,
       );
 

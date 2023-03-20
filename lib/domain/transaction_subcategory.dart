@@ -5,7 +5,7 @@ part 'transaction_subcategory.freezed.dart';
 @freezed
 class TransactionSubcategory with _$TransactionSubcategory {
   const factory TransactionSubcategory({
-    required String id,
+    required int id,
     required String title,
   }) = _TransactionSubcategory;
 }

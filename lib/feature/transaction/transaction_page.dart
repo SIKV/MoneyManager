@@ -34,16 +34,8 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
   void initState() {
     super.initState();
 
-    final transaction = widget.args.transaction;
-    final type = widget.args.type;
-
-    if (transaction != null) {
-      ref.read(transactionMakerControllerProvider.notifier)
-          .setTransaction(transaction);
-    } else if (type != null) {
-      ref.read(transactionMakerControllerProvider.notifier)
-          .setType(type);
-    }
+    ref.read(transactionMakerControllerProvider.notifier)
+        .init(widget.args);
   }
 
   void _selectProperty(TransactionProperty value) {
@@ -52,11 +44,12 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
   }
 
   void _saveTransaction() {
-    // TODO: Implement
+    ref.read(transactionMakerControllerProvider.notifier)
+        .save();
   }
 
   String _getCategory(TransactionMakerState state) {
-    final category = state.category;
+    final category = state.transaction.category;
 
     if (category != null) {
       return '${category.emoji ?? ''}   ${category.title}';
@@ -70,12 +63,18 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
     final themeData = appTheme.themeData();
 
-    final state = ref.watch(transactionMakerControllerProvider);
+    final state = ref.watch(transactionMakerControllerProvider).value;
+
+    if (state == null) {
+      // TODO:
+      return Container();
+    }
+
     final category = _getCategory(state);
 
     final notePropertyItem = PropertyItem(
       title: Strings.note.localized(context),
-      value: state.note ?? '...',
+      value: state.transaction.note ?? '...',
       isSelected: state.selectedProperty == TransactionProperty.note,
       onSelected: () {
         _selectProperty(TransactionProperty.note);
@@ -103,7 +102,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       const SizedBox(height: Spacings.two),
       PropertyItem(
         title: Strings.amount.localized(context),
-        value: state.formattedAmount,
+        value: state.transaction.formattedAmount,
         isSelected: state.selectedProperty == TransactionProperty.amount,
         onSelected: () {
           _selectProperty(TransactionProperty.amount);
@@ -118,7 +117,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     return Theme(
       data: themeData.copyWith(
         colorScheme: themeData.colorScheme.copyWith(
-          primary: state.type.getColor(appTheme.colors),
+          primary: state.transaction.type.getColor(appTheme.colors),
         ),
       ),
       child: Scaffold(
@@ -150,7 +149,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
                   minimumSize: const Size.fromHeight(36),
                 ),
                 child: Text(
-                  '${Strings.add.localized(context)} ${state.type.getTitle(context)}',
+                  '${Strings.add.localized(context)} ${state.transaction.type.getTitle(context)}',
                 ),
               ),
             ),

@@ -1,91 +1,36 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/data/providers.dart';
 
 import '../domain/transaction_item_ui_model.dart';
 
 final transactionsListControllerProvider = AsyncNotifierProvider<
-    _TransactionsListController, List<TransactionItemUiModel>>(() {
-  return _TransactionsListController();
+    TransactionsListController, List<TransactionItemUiModel>>(() {
+  return TransactionsListController();
 });
 
-class _TransactionsListController extends AsyncNotifier<List<TransactionItemUiModel>> {
+class TransactionsListController extends AsyncNotifier<List<TransactionItemUiModel>> {
 
   @override
-  FutureOr<List<TransactionItemUiModel>> build() {
-    return [
-      const TransactionSectionUiModel(title: 'Today'),
-      const TransactionUiModel(
-        id: '1',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '10',
-        emoji: '🍔',
-      ),
-      const TransactionSectionUiModel(title: 'Yesterday'),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-      const TransactionUiModel(
-        id: '2',
-        title: 'Title',
-        subtitle: 'Subtitle',
-        amount: '-50',
-        emoji: '🙈',
-      ),
-    ];
+  FutureOr<List<TransactionItemUiModel>> build() async {
+    final transactionsRepository = await ref.watch(
+        transactionsRepositoryProvider.future);
+
+    final transactions = await transactionsRepository.getAll();
+
+    // TODO:
+
+    final mapped = transactions.map((it) {
+      return TransactionUiModel(
+        id: it.id,
+        emoji: it.category.emoji,
+        title: it.category.title,
+        subtitle: it.subcategory?.title,
+        amount: it.amount.toString(),
+      );
+    });
+
+    return mapped.toList();
   }
 }

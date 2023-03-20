@@ -11,18 +11,22 @@ class TypeSelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final transactionType = ref.watch(transactionMakerControllerProvider
-        .select((state) => state.type)
-    );
+        .selectAsync((state) => state.transaction.type));
 
-    return CupertinoSlidingSegmentedControl<TransactionType>(
-      groupValue: transactionType,
-      onValueChanged: (type) {
-        ref.read(transactionMakerControllerProvider.notifier)
-            .setType(type ?? TransactionType.income);
-      },
-      children: <TransactionType, Widget>{
-        TransactionType.income: Text(Strings.income.localized(context)),
-        TransactionType.expense: Text(Strings.expense.localized(context)),
+    return FutureBuilder(
+      future: transactionType,
+      builder: (context, snapshot) {
+        return CupertinoSlidingSegmentedControl<TransactionType>(
+          groupValue: snapshot.data,
+          onValueChanged: (type) {
+            ref.read(transactionMakerControllerProvider.notifier)
+                .setType(type ?? TransactionType.income);
+          },
+          children: <TransactionType, Widget>{
+            TransactionType.income: Text(Strings.income.localized(context)),
+            TransactionType.expense: Text(Strings.expense.localized(context)),
+          },
+        );
       },
     );
   }

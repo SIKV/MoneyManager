@@ -13,6 +13,11 @@ class CategoriesRepository {
     return localDataSource.addOrUpdate(category.toEntity());
   }
 
+  Future<TransactionCategory?> getById(int id) async {
+    final subcategory = await localDataSource.getById(id);
+    return subcategory?.toDomain();
+  }
+
   Future<List<TransactionCategory>> getAll(TransactionType type) async {
     final categories = await localDataSource.getAll(type.toEntity());
 

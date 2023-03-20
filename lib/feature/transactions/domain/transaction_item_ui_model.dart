@@ -7,7 +7,7 @@ abstract class TransactionItemUiModel {
 
 @immutable
 class TransactionUiModel extends TransactionItemUiModel {
-  final String id;
+  final int id;
   final String? emoji;
   final String title;
   final String? subtitle;

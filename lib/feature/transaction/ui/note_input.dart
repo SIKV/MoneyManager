@@ -22,9 +22,11 @@ class _NoteInputState extends ConsumerState<NoteInput> {
     super.initState();
 
     final note = ref.read(transactionMakerControllerProvider
-        .select((state) => state.note));
+        .selectAsync((state) => state.transaction.note));
 
-    textEditingController.text = note ?? '';
+    note.then((value) {
+      textEditingController.text = value ?? '';
+    });
 
     textEditingController.addListener(() {
       ref.read(transactionMakerControllerProvider.notifier)

@@ -12,6 +12,11 @@ class AccountsRepository {
     return localDataSource.addOrUpdate(account.toEntity());
   }
 
+  Future<Account?> getById(int id) async {
+    final account = await localDataSource.getById(id);
+    return account?.toDomain();
+  }
+
   Future<List<Account>> getAll() async {
     final accounts = await localDataSource.getAll();
     return accounts

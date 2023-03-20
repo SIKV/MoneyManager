@@ -14,6 +14,13 @@ class AccountsLocalDataSource {
     });
   }
 
+  Future<AccountEntity?> getById(int id) async {
+    return await isar.accountEntitys
+        .where()
+        .idEqualTo(id)
+        .findFirst();
+  }
+
   Future<List<AccountEntity>> getAll() async {
     final accounts = await isar.accountEntitys
         .where()
