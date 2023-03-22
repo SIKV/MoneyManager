@@ -1,9 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/controller/transaction_maker_controller.dart';
 import 'package:moneymanager/theme/spacings.dart';
-
-import '../../../theme/theme_manager.dart';
 
 class AmountInput extends ConsumerWidget {
   const AmountInput({Key? key}) : super(key: key);
@@ -23,9 +22,19 @@ class AmountInput extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _KeyItem(text: '1', onTap: _onKeyTap),
-                _KeyItem(text: '2', onTap: _onKeyTap),
-                _KeyItem(text: '3', onTap: _onKeyTap),
+                _KeyItem(text: '7', onTap: _onKeyTap),
+                _KeyItem(text: '8', onTap: _onKeyTap),
+                _KeyItem(text: '9', onTap: _onKeyTap),
+
+                _KeyContainer(
+                  isAction: true,
+                  onTap: () {
+                    // TODO: Implement
+                  },
+                  child: const Center(
+                    child: Icon(CupertinoIcons.delete_left),
+                  ),
+                ),
               ],
             ),
           ),
@@ -37,6 +46,13 @@ class AmountInput extends ConsumerWidget {
                 _KeyItem(text: '4', onTap: _onKeyTap),
                 _KeyItem(text: '5', onTap: _onKeyTap),
                 _KeyItem(text: '6', onTap: _onKeyTap),
+                _KeyItem(
+                  isAction: true,
+                  text: 'C',
+                  onTap: (_, __) {
+                    // TODO: Implement
+                  },
+                ),
               ],
             ),
           ),
@@ -45,26 +61,42 @@ class AmountInput extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _KeyItem(text: '7', onTap: _onKeyTap),
-                _KeyItem(text: '8', onTap: _onKeyTap),
-                _KeyItem(text: '9', onTap: _onKeyTap),
-              ],
-            ),
-          ),
-          const SizedBox(height: Spacings.two),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _KeyItem(text: '0', onTap: _onKeyTap),
-                _KeyItem(text: '.', onTap: _onKeyTap),
+                _KeyItem(text: '1', onTap: _onKeyTap),
+                _KeyItem(text: '2', onTap: _onKeyTap),
+                _KeyItem(text: '3', onTap: _onKeyTap),
 
                 _KeyContainer(
+                  isAction: true,
                   onTap: () {
                     // TODO: Implement
                   },
                   child: const Center(
-                    child: Icon(Icons.backspace),
+                    child: Icon(CupertinoIcons.plus_slash_minus),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: Spacings.two),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Opacity(
+                  opacity: 0,
+                  child: _KeyItem(text: '', onTap: (_, __) { }),
+                ),
+
+                _KeyItem(text: '0', onTap: _onKeyTap),
+                _KeyItem(text: '.', onTap: _onKeyTap),
+
+                _KeyContainer(
+                  isAction: true,
+                  onTap: () {
+                    // TODO: Implement
+                  },
+                  child: const Center(
+                    child: Icon(Icons.done),
                   ),
                 ),
               ],
@@ -82,11 +114,13 @@ class AmountInput extends ConsumerWidget {
 }
 
 class _KeyItem extends ConsumerWidget {
+  final bool isAction;
   final String text;
   final Function(WidgetRef, String) onTap;
 
   const _KeyItem({
     Key? key,
+    this.isAction = false,
     required this.text,
     required this.onTap,
   }) : super(key: key);
@@ -94,12 +128,13 @@ class _KeyItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return _KeyContainer(
+      isAction: isAction,
       onTap: () => onTap(ref, text),
       child: Center(
         child: Text(text,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 28,
-            fontWeight: FontWeight.normal,
+            fontWeight: isAction ? FontWeight.w300 : FontWeight.normal,
           ),
         ),
       ),
@@ -108,11 +143,13 @@ class _KeyItem extends ConsumerWidget {
 }
 
 class _KeyContainer extends ConsumerWidget {
+  final bool isAction;
   final VoidCallback onTap;
   final Widget child;
 
   const _KeyContainer({
     Key? key,
+    this.isAction = false,
     required this.onTap,
     required this.child,
   }) : super(key: key);
@@ -121,7 +158,9 @@ class _KeyContainer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return RawMaterialButton(
       onPressed: onTap,
-      fillColor: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.5),
+      fillColor: isAction
+          ? Theme.of(context).colorScheme.tertiaryContainer
+          : Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.5),
       elevation: 0,
       shape: const CircleBorder(),
       child: child,
