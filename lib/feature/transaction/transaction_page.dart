@@ -5,6 +5,7 @@ import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
+import 'package:moneymanager/feature/transaction/ui/transaction_actions.dart';
 import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
@@ -35,17 +36,12 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     super.initState();
 
     ref.read(transactionMakerControllerProvider.notifier)
-        .init(widget.args);
+        .initWithArgs(widget.args);
   }
 
   void _selectProperty(TransactionProperty value) {
     ref.read(transactionMakerControllerProvider.notifier)
         .selectProperty(value);
-  }
-
-  void _saveTransaction() {
-    ref.read(transactionMakerControllerProvider.notifier)
-        .save();
   }
 
   String _getCategory(TransactionMakerState state) {
@@ -141,17 +137,9 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
             const Expanded(
               child: SelectorContainer(),
             ),
-            Padding(
-              padding: const EdgeInsets.all(Spacings.four),
-              child: FilledButton(
-                onPressed: _saveTransaction,
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(36),
-                ),
-                child: Text(
-                  '${Strings.add.localized(context)} ${state.transaction.type.getTitle(context)}',
-                ),
-              ),
+            const Padding(
+              padding: EdgeInsets.all(Spacings.four),
+              child: TransactionActions(),
             ),
           ],
         ),

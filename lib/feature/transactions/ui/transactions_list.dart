@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/controller/transactions_list_controller.dart';
 import 'package:moneymanager/feature/transactions/ui/transaction_item.dart';
 import 'package:moneymanager/theme/spacings.dart';
-
+import '../../../navigation/routes.dart';
+import '../../../navigation/transaction_page_args.dart';
 import '../domain/transaction_item_ui_model.dart';
 
 class TransactionsList extends ConsumerWidget {
@@ -32,7 +33,7 @@ class TransactionsList extends ConsumerWidget {
             if (item is TransactionUiModel) {
               return InkWell(
                 onTap: () {
-                  // TODO: Implement.
+                  _viewTransaction(context, item.id);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -59,6 +60,14 @@ class TransactionsList extends ConsumerWidget {
           }, childCount: transactions.length),
         );
       },
+    );
+  }
+
+  void _viewTransaction(BuildContext context, int id) {
+    Navigator.pushNamed(context, AppRoutes.viewTransaction,
+      arguments: ViewTransactionPageArgs(
+        id: id,
+      ),
     );
   }
 }

@@ -25,6 +25,9 @@ class Strings {
   static const String selectTimeHint = 'selectTimeHint';
 
   static const String transaction_enterNoteHint = 'transaction_enterNoteHint';
+  static const String transaction_actionDelete = 'transaction_actionDelete';
+  static const String transaction_actionSave = 'transaction_actionSave';
+  static const String transaction_actionAdd = 'transaction_actionAdd';
 
   // Transactions page
   static const String dayIncome = 'dayIncome';
@@ -107,6 +110,9 @@ class AppLocalizations {
       Strings.note: 'Note',
       Strings.selectTimeHint: 'Scroll down to select time ▼',
       Strings.transaction_enterNoteHint: 'Enter a note...',
+      Strings.transaction_actionDelete: 'Delete',
+      Strings.transaction_actionSave: 'Save',
+      Strings.transaction_actionAdd: 'Add',
 
       // Transactions page
       Strings.dayIncome: 'This day income',

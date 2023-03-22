@@ -1,0 +1,4 @@
+enum UiMode {
+  add,
+  view
+}

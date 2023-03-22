@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/data/providers.dart';
@@ -8,6 +7,7 @@ import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_blueprint.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
+import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/utils.dart';
 
 import '../../../navigation/transaction_page_args.dart';
@@ -19,24 +19,35 @@ final transactionMakerControllerProvider = AsyncNotifierProvider
 });
 
 class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMakerState> {
-  Transaction? _initialTransaction;
+  late UiMode _uiMode;
+  late TransactionProperty _initialProperty;
   TransactionType? _initialType;
+  int? _initialTransactionId;
 
-  void init(TransactionPageArgs args) {
-    _initialTransaction = args.transaction;
-    _initialType = args.type;
-
+  void initWithArgs(TransactionPageArgs args) {
+    if (args is AddTransactionPageArgs) {
+      _uiMode = UiMode.add;
+      _initialProperty = TransactionProperty.category;
+      _initialType = args.type;
+    } else if (args is ViewTransactionPageArgs) {
+      _uiMode = UiMode.view;
+      _initialProperty = TransactionProperty.note;
+      _initialTransactionId = args.id;
+    } else {
+      throw ArgumentError('Unexpected args: $args');
+    }
     ref.invalidateSelf();
   }
 
   @override
   FutureOr<TransactionMakerState> build() async {
-    final transaction = await _createBlueprint(_initialTransaction);
+    final transaction = await _createBlueprint(_initialTransactionId);
 
     return TransactionMakerState(
-      transaction: transaction,
-      selectedProperty: TransactionProperty.category,
+      uiMode: _uiMode,
+      selectedProperty: _initialProperty,
       categories: await _getCategories(transaction.type),
+      transaction: transaction,
     );
   }
 
@@ -120,39 +131,53 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     return await categoriesRepository.getAll(type);
   }
 
-  Future<TransactionBlueprint> _createBlueprint(Transaction? transaction) async {
-    if (transaction != null) {
-      return TransactionBlueprint(
-        id: transaction.id,
-        createTimestamp: transaction.createTimestamp,
-        formattedCreateTimestamp: '',
-        // TODO: Init.
-        type: transaction.type,
-        category: transaction.category,
-        subcategory: transaction.subcategory,
-        currency: transaction.currency,
-        amount: transaction.amount,
-        formattedAmount: '',
-        // TODO: Init.
-        note: transaction.note,
-      );
-    } else {
-      final currentAccount = await(await ref.watch(accountProviderProvider.future))
-          .getCurrentAccount();
+  Future<TransactionBlueprint> _createBlueprint(int? transactionId) async {
+    if (transactionId != null) {
+      final transactionsRepository = await ref.watch(transactionsRepositoryProvider.future);
+      final transaction = await transactionsRepository.getById(transactionId);
 
-      return TransactionBlueprint(
-        id: generateUniqueInt(),
-        createTimestamp: DateTime.now().millisecondsSinceEpoch,
-        formattedCreateTimestamp: '',
-        // TODO: Init.
-        type: _initialType ?? TransactionType.expense,
-        category: null,
-        subcategory: null,
-        currency: currentAccount.currency,
-        amount: 0,
-        formattedAmount: '', // TODO: Init.
-        note: null,
-      );
+      if (transaction != null) {
+        return TransactionBlueprint(
+          id: transaction.id,
+          createTimestamp: transaction.createTimestamp,
+          formattedCreateTimestamp: '',
+          // TODO: Init.
+          type: transaction.type,
+          category: transaction.category,
+          subcategory: transaction.subcategory,
+          currency: transaction.currency,
+          amount: transaction.amount,
+          formattedAmount: '',
+          // TODO: Init.
+          note: transaction.note,
+        );
+      } else {
+        return _createDefaultBlueprint();
+      }
+    } else {
+      return _createDefaultBlueprint();
     }
+  }
+
+  Future<TransactionBlueprint> _createDefaultBlueprint() async {
+    final currentAccountProvider = await ref.watch(currentAccountProviderProvider.future);
+    final currentAccount = await currentAccountProvider.getCurrentAccount();
+
+    return TransactionBlueprint(
+      id: generateUniqueInt(),
+      createTimestamp: DateTime
+          .now()
+          .millisecondsSinceEpoch,
+      formattedCreateTimestamp: '',
+      // TODO: Init.
+      type: _initialType ?? TransactionType.expense,
+      category: null,
+      subcategory: null,
+      currency: currentAccount.currency,
+      amount: 0,
+      formattedAmount: '',
+      // TODO: Init.
+      note: null,
+    );
   }
 }

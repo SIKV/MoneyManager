@@ -15,7 +15,7 @@ abstract class AppColors {
   Color get moreHeaderStart;
   Color get moreHeaderEnd;
 
-  Color get expenseTransaction => const Color(0xFFFA5959);
+  Color get expenseTransaction => const Color(0xFFF86666);
   Color get incomeTransaction => const Color(0xFF21AB8B);
 }
 
@@ -24,7 +24,7 @@ class LightAppColors extends AppColors {
   ColorScheme get colorScheme => lightColorScheme;
 
   @override
-  Color get slightlyGray => Colors.black12;
+  Color get slightlyGray => const Color(0xBFD7D7D7);
 
   @override
   Color get itemTranslucentBackground => const Color(0xBFFFFFFF);

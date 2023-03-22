@@ -17,10 +17,11 @@ class AmountInput extends ConsumerWidget {
         right: Spacings.three,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _KeyItem(text: '1', onTap: _onKeyTap),
                 _KeyItem(text: '2', onTap: _onKeyTap),
@@ -28,8 +29,10 @@ class AmountInput extends ConsumerWidget {
               ],
             ),
           ),
+          const SizedBox(height: Spacings.two),
           Expanded(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _KeyItem(text: '4', onTap: _onKeyTap),
                 _KeyItem(text: '5', onTap: _onKeyTap),
@@ -37,8 +40,10 @@ class AmountInput extends ConsumerWidget {
               ],
             ),
           ),
+          const SizedBox(height: Spacings.two),
           Expanded(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _KeyItem(text: '7', onTap: _onKeyTap),
                 _KeyItem(text: '8', onTap: _onKeyTap),
@@ -46,8 +51,10 @@ class AmountInput extends ConsumerWidget {
               ],
             ),
           ),
+          const SizedBox(height: Spacings.two),
           Expanded(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _KeyItem(text: '0', onTap: _onKeyTap),
                 _KeyItem(text: '.', onTap: _onKeyTap),
@@ -88,10 +95,12 @@ class _KeyItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return _KeyContainer(
       onTap: () => onTap(ref, text),
-      child: Text(text,
-        style: const TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
+      child: Center(
+        child: Text(text,
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.normal,
+          ),
         ),
       ),
     );
@@ -110,26 +119,12 @@ class _KeyContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appTheme = ref.watch(appThemeManagerProvider);
-
-    return Expanded(
-      flex: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(Spacings.one),
-        child: Container(
-          decoration: BoxDecoration(
-            color: appTheme.colors.slightlyGray,
-            borderRadius: BorderRadius.circular(Spacings.two),
-          ),
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(Spacings.two),
-            child: Center(
-              child: child,
-            ),
-          ),
-        ),
-      ),
+    return RawMaterialButton(
+      onPressed: onTap,
+      fillColor: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.5),
+      elevation: 0,
+      shape: const CircleBorder(),
+      child: child,
     );
   }
 }

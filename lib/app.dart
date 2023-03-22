@@ -26,7 +26,8 @@ class App extends ConsumerWidget {
         switch (settings.name) {
           case AppRoutes.categories:
             return MaterialPageRoute(builder: (_) => const CategoriesPage());
-          case AppRoutes.transaction:
+          case AppRoutes.addTransaction:
+          case AppRoutes.viewTransaction:
             return MaterialPageRoute(builder: (_) => TransactionPage(
               args: settings.arguments as TransactionPageArgs,
             ));

@@ -115,7 +115,7 @@ class _HomeScaffold extends ConsumerWidget {
               ListTile(
                 onTap: () {
                   Navigator.pop(context);
-                  _openTransactionPage(context, TransactionType.income);
+                  _openAddTransaction(context, TransactionType.income);
                 },
                 leading: Icon(AppIcons.addIncome,
                   color: theme.colors.incomeTransaction,
@@ -125,7 +125,7 @@ class _HomeScaffold extends ConsumerWidget {
               ListTile(
                 onTap: () {
                   Navigator.pop(context);
-                  _openTransactionPage(context, TransactionType.expense);
+                  _openAddTransaction(context, TransactionType.expense);
                 },
                 leading: Icon(AppIcons.addExpense,
                   color: theme.colors.expenseTransaction,
@@ -139,9 +139,9 @@ class _HomeScaffold extends ConsumerWidget {
     );
   }
 
-  void _openTransactionPage(BuildContext context, TransactionType type) {
-    Navigator.pushNamed(context, AppRoutes.transaction,
-      arguments: TransactionPageArgs(
+  void _openAddTransaction(BuildContext context, TransactionType type) {
+    Navigator.pushNamed(context, AppRoutes.addTransaction,
+      arguments: AddTransactionPageArgs(
         type: type,
       ),
     );

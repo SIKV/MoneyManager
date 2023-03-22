@@ -15,6 +15,13 @@ class TransactionsLocalDataSource {
     });
   }
 
+  Future<TransactionEntity?> getById(int id) async {
+    return await isar.transactionEntitys
+        .where()
+        .idEqualTo(id)
+        .findFirst();
+  }
+
   Future<List<TransactionEntity>> getAll(int accountId) async {
     return await isar.transactionEntitys
         .where()

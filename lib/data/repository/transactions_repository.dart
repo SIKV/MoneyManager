@@ -4,14 +4,14 @@ import 'package:moneymanager/data/mapping.dart';
 import 'package:moneymanager/domain/currency.dart';
 
 import '../../domain/transaction.dart';
-import '../account_provider.dart';
+import '../current_account_provider.dart';
 import '../local/datasource/transactions_local_data_source.dart';
 import 'categories_repository.dart';
 
 class TransactionsRepository {
   final TransactionsLocalDataSource localDataSource;
   final CategoriesRepository categoriesRepository;
-  final AccountProvider accountProvider;
+  final CurrentAccountProvider accountProvider;
 
   TransactionsRepository(this.localDataSource, this.categoriesRepository, this.accountProvider);
 
@@ -19,6 +19,17 @@ class TransactionsRepository {
     return localDataSource.addOrUpdate(
         transaction.toEntity(accountProvider.getCurrentAccountId())
     );
+  }
+
+  Future<Transaction?> getById(int id) async {
+    final transaction = await localDataSource.getById(id);
+    final currency = (await accountProvider.getCurrentAccount()).currency;
+
+    if (transaction != null) {
+      return _mapTransaction(transaction, currency);
+    } else {
+      return null;
+    }
   }
 
   Future<List<Transaction>> getAll() async {

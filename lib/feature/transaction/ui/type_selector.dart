@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/transaction_type.dart';
@@ -13,10 +14,15 @@ class TypeSelector extends ConsumerWidget {
     final transactionType = ref.watch(transactionMakerControllerProvider
         .selectAsync((state) => state.transaction.type));
 
+    final thumbColor = Theme.of(context).brightness == Brightness.light
+        ? Theme.of(context).colorScheme.background
+        : Theme.of(context).colorScheme.primary.withOpacity(0.75);
+
     return FutureBuilder(
       future: transactionType,
       builder: (context, snapshot) {
         return CupertinoSlidingSegmentedControl<TransactionType>(
+          thumbColor: thumbColor,
           groupValue: snapshot.data,
           onValueChanged: (type) {
             ref.read(transactionMakerControllerProvider.notifier)

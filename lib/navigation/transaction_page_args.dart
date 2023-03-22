@@ -1,13 +1,25 @@
+import 'package:flutter/foundation.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 
-import '../domain/transaction.dart';
+@immutable
+abstract class TransactionPageArgs {
+  const TransactionPageArgs();
+}
 
-class TransactionPageArgs {
-  final Transaction? transaction;
-  final TransactionType? type;
+@immutable
+class AddTransactionPageArgs extends TransactionPageArgs {
+  final TransactionType type;
 
-  TransactionPageArgs({
-    this.transaction,
-    this.type,
+  const AddTransactionPageArgs({
+    required this.type,
+  });
+}
+
+@immutable
+class ViewTransactionPageArgs extends TransactionPageArgs {
+  final int id;
+
+  const ViewTransactionPageArgs({
+    required this.id,
   });
 }
