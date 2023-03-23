@@ -38,6 +38,7 @@ class Strings {
   static const String monthExpenses = 'monthExpenses';
   static const String yearIncome = 'yearIncome';
   static const String yearExpenses = 'yearExpenses';
+  static const String transactions_noItems = 'transactions_noItems';
 
   // Categories page
   static const String addCategory = 'addCategory';
@@ -123,6 +124,7 @@ class AppLocalizations {
       Strings.monthExpenses: 'This month expenses',
       Strings.yearIncome: 'This year income',
       Strings.yearExpenses: 'This year expenses',
+      Strings.transactions_noItems: 'No transactions yet',
 
       // Categories page
       Strings.addCategory: 'Add category',
