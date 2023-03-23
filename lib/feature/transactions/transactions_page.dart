@@ -43,7 +43,7 @@ class TransactionsPage extends ConsumerWidget {
       secondaryActions: [
         HeaderCircleButton(
           title: Strings.categoriesPageTitle.localized(context),
-          iconAsset: Assets.listRight,
+          iconAsset: Assets.cart,
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.categories);
           },
