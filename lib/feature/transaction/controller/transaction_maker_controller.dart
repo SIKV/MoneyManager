@@ -48,6 +48,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       selectedProperty: _initialProperty,
       categories: await _getCategories(transaction.type),
       transaction: transaction,
+      transactionSaved: false,
     );
   }
 
@@ -119,6 +120,10 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
           note: currentState.transaction.note,
         )
     );
+
+    _updateState((state) => state.copyWith(
+      transactionSaved: true,
+    ));
   }
 
   Future<void> _updateState(TransactionMakerState Function(TransactionMakerState state) update) async {

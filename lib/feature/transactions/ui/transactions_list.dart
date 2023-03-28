@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/feature/transactions/controller/transactions_list_controller.dart';
+import 'package:moneymanager/feature/transactions/provider/transactions_list_provider.dart';
 import 'package:moneymanager/feature/transactions/ui/transaction_item.dart';
 import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/spacings.dart';
@@ -14,7 +14,7 @@ class TransactionsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactions = ref.watch(transactionsListControllerProvider);
+    final transactions = ref.watch(transactionsListProvider);
 
     return transactions.when(
       loading: () {
@@ -59,10 +59,7 @@ class TransactionsList extends ConsumerWidget {
                   padding: const EdgeInsets.only(bottom: Spacings.two),
                   child: Center(
                     child: Text(item.title,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .bodySmall,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                 );

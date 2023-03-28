@@ -22,9 +22,10 @@ class TransactionsLocalDataSource {
         .findFirst();
   }
 
-  Future<List<TransactionEntity>> getAll(int accountId) async {
-    return await isar.transactionEntitys
-        .where()
-        .findAll();
+  Stream<List<TransactionEntity>> getAll(int accountId) {
+    return isar.transactionEntitys
+        .filter()
+        .accountIdEqualTo(accountId)
+        .watch(fireImmediately: true);
   }
 }

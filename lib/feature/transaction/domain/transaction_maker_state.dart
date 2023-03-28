@@ -14,5 +14,6 @@ class TransactionMakerState with _$TransactionMakerState {
     required TransactionProperty selectedProperty,
     required List<TransactionCategory> categories,
     required TransactionBlueprint transaction,
+    required bool transactionSaved,
   }) = _TransactionMakerState;
 }

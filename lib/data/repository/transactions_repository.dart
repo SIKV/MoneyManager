@@ -32,15 +32,16 @@ class TransactionsRepository {
     }
   }
 
-  Future<List<Transaction>> getAll() async {
-    final transactions = await localDataSource.getAll(accountProvider.getCurrentAccountId());
-    final currency = (await accountProvider.getCurrentAccount()).currency;
+  Stream<List<Transaction>> getAll() {
+    return localDataSource.getAll(accountProvider.getCurrentAccountId())
+        .asyncMap((list) async {
+          final currency = (await accountProvider.getCurrentAccount()).currency;
+          final mapped = list.map((it) => _mapTransaction(it, currency));
 
-    final mapped = transactions.map((it) => _mapTransaction(it, currency));
-
-    return (await Future.wait(mapped))
-        .whereType<Transaction>()
-        .toList();
+          return (await Future.wait(mapped))
+              .whereType<Transaction>()
+              .toList();
+        });
   }
 
   Future<Transaction?> _mapTransaction(TransactionEntity entity, Currency currency) async {

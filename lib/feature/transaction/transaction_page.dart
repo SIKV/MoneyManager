@@ -66,6 +66,13 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       return Container();
     }
 
+    ref.listen(transactionMakerControllerProvider
+        .select((state) => state.value?.transactionSaved), (previous, next) {
+      if (next == true) {
+        Navigator.pop(context);
+      }
+    });
+
     final category = _getCategory(state);
 
     final notePropertyItem = PropertyItem(
