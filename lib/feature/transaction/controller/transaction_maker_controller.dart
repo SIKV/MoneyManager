@@ -57,7 +57,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
         state.copyWith(
           transaction: state.transaction.copyWith(
             id: transaction.id,
-            createTimestamp: transaction.createTimestamp,
+            createDateTime: DateTime.fromMillisecondsSinceEpoch(transaction.createTimestamp),
             type: transaction.type,
             category: transaction.category,
             subcategory: transaction.subcategory,
@@ -79,6 +79,48 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       transaction: state.transaction.copyWith(
         type: type,
       ),
+    ));
+  }
+
+  void setCreationDate(DateTime date) async {
+    final currentState = await future;
+    DateTime createDateTime = currentState.transaction.createDateTime;
+
+    DateTime updatedCreateDateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      createDateTime.hour,
+      createDateTime.minute,
+      0, 0, 0,
+    );
+
+    _updateState((state) => state.copyWith(
+      transaction: state.transaction.copyWith(
+        createDateTime: updatedCreateDateTime,
+        formattedCreateDateTime: formatDateTime(updatedCreateDateTime),
+      )
+    ));
+  }
+
+  void setCreationTime(DateTime time) async {
+    final currentState = await future;
+    DateTime createDateTime = currentState.transaction.createDateTime;
+
+    DateTime updatedCreateDateTime = DateTime(
+      createDateTime.year,
+      createDateTime.month,
+      createDateTime.day,
+      time.hour,
+      time.minute,
+      0, 0, 0,
+    );
+
+    _updateState((state) => state.copyWith(
+        transaction: state.transaction.copyWith(
+          createDateTime: updatedCreateDateTime,
+          formattedCreateDateTime: formatDateTime(updatedCreateDateTime),
+        )
     ));
   }
 
@@ -111,7 +153,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     transactionsRepository.addOrUpdate(
         Transaction(
           id: currentState.transaction.id,
-          createTimestamp: currentState.transaction.createTimestamp,
+          createTimestamp: currentState.transaction.createDateTime.millisecondsSinceEpoch,
           type: currentState.transaction.type,
           category: currentState.transaction.category!, // TODO:
           subcategory: currentState.transaction.subcategory,
@@ -142,11 +184,13 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       final transaction = await transactionsRepository.getById(transactionId);
 
       if (transaction != null) {
+        final DateTime createDateTime = DateTime
+            .fromMillisecondsSinceEpoch(transaction.createTimestamp);
+
         return TransactionBlueprint(
           id: transaction.id,
-          createTimestamp: transaction.createTimestamp,
-          formattedCreateTimestamp: '',
-          // TODO: Init.
+          createDateTime: createDateTime,
+          formattedCreateDateTime: formatDateTime(createDateTime),
           type: transaction.type,
           category: transaction.category,
           subcategory: transaction.subcategory,
@@ -168,13 +212,12 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     final currentAccountProvider = await ref.watch(currentAccountProviderProvider.future);
     final currentAccount = await currentAccountProvider.getCurrentAccount();
 
+    final createDateTime = DateTime.now();
+
     return TransactionBlueprint(
       id: generateUniqueInt(),
-      createTimestamp: DateTime
-          .now()
-          .millisecondsSinceEpoch,
-      formattedCreateTimestamp: '',
-      // TODO: Init.
+      createDateTime: createDateTime,
+      formattedCreateDateTime: formatDateTime(createDateTime),
       type: _initialType ?? TransactionType.expense,
       category: null,
       subcategory: null,

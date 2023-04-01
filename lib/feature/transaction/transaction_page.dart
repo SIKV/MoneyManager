@@ -87,7 +87,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     final List<Widget> properties = [
       PropertyItem(
         title: Strings.date.localized(context),
-        value: '27 Jan 2023   01:37',
+        value: state.transaction.formattedCreateDateTime,
         isSelected: state.selectedProperty == TransactionProperty.date,
         onSelected: () {
           _selectProperty(TransactionProperty.date);

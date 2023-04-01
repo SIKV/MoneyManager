@@ -26,6 +26,8 @@ dependencies:
   isar_flutter_libs: ^3.0.5
   equatable: ^2.0.0
   collection: ^1.16.0
+  intl: ^0.17.0
+  flutter_time_picker_spinner: ^2.0.0
 
 dev_dependencies:
   flutter_test:

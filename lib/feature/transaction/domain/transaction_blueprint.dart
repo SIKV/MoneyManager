@@ -11,8 +11,8 @@ part 'transaction_blueprint.freezed.dart';
 class TransactionBlueprint with _$TransactionBlueprint {
   const factory TransactionBlueprint({
     required int id,
-    required int createTimestamp,
-    required String formattedCreateTimestamp,
+    required DateTime createDateTime,
+    required String formattedCreateDateTime,
     required TransactionType type,
     required TransactionCategory? category,
     required TransactionSubcategory? subcategory,
