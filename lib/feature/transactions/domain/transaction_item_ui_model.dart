@@ -22,7 +22,6 @@ class TransactionUiModel extends TransactionItemUiModel {
   });
 }
 
-
 @immutable
 class TransactionSectionUiModel extends TransactionItemUiModel {
   final String title;

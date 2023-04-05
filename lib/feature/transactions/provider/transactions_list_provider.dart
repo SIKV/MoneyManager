@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/common/currency_formatter.dart';
 import 'package:moneymanager/data/providers.dart';
 
 import '../domain/transaction_item_ui_model.dart';
 
 final transactionsListProvider = StreamProvider((ref)  {
   final transactionsRepository = ref.watch(transactionsRepositoryProvider).value;
+  final currencyFormatter = ref.watch(currencyFormatterProvider);
 
   final transactions = transactionsRepository?.getAll()
       .map((list) {
@@ -16,7 +18,10 @@ final transactionsListProvider = StreamProvider((ref)  {
             emoji: it.category.emoji,
             title: it.category.title,
             subtitle: it.subcategory?.title,
-            amount: it.amount.toString(),
+            amount: currencyFormatter.format(
+              currency: it.currency,
+              amount: it.amount,
+            ),
           );
         }).toList();
       });

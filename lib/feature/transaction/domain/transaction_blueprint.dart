@@ -17,7 +17,7 @@ class TransactionBlueprint with _$TransactionBlueprint {
     required TransactionCategory? category,
     required TransactionSubcategory? subcategory,
     required Currency currency,
-    required double amount,
+    required String amount,
     required String formattedAmount,
     required String? note,
   }) = _TransactionBlueprint;

@@ -1,16 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/common/currency_formatter.dart';
 import 'package:moneymanager/data/providers.dart';
+import 'package:moneymanager/domain/currency.dart';
 import 'package:moneymanager/domain/transaction.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
+import 'package:moneymanager/feature/transaction/domain/amount_key.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_blueprint.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/utils.dart';
 
 import '../../../navigation/transaction_page_args.dart';
+import '../amount_key_processor.dart';
 import '../domain/transaction_maker_state.dart';
 
 final transactionMakerControllerProvider = AsyncNotifierProvider
@@ -23,6 +27,8 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   late TransactionProperty _initialProperty;
   TransactionType? _initialType;
   int? _initialTransactionId;
+
+  final AmountKeyProcessor amountKeyProcessor = AmountKeyProcessor();
 
   void initWithArgs(TransactionPageArgs args) {
     if (args is AddTransactionPageArgs) {
@@ -61,7 +67,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
             type: transaction.type,
             category: transaction.category,
             subcategory: transaction.subcategory,
-            amount: transaction.amount,
+            amount: transaction.amount.toString(),
             note: transaction.note,
           ),
         ));
@@ -132,8 +138,26 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     ));
   }
 
-  void processAmountKey(String key) {
-    // TODO: Implement
+  void processAmountKey(AmountKey key) async {
+    final currentState = await future;
+
+    String amount = amountKeyProcessor.processAmountKey(
+      currentAmount: currentState.transaction.amount,
+      key: key,
+      onCalculatorPressed: () {
+        // TODO: Implement.
+      },
+      onDonePressed: () {
+        // TODO: Implement.
+      },
+    );
+
+    _updateState((state) => state.copyWith(
+      transaction: state.transaction.copyWith(
+        amount: amount,
+        formattedAmount: _formatAmount(amount, currentState.transaction.currency),
+      ),
+    ));
   }
 
   void setNote(String? note) {
@@ -158,7 +182,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
           category: currentState.transaction.category!, // TODO:
           subcategory: currentState.transaction.subcategory,
           currency: currentState.transaction.currency,
-          amount: currentState.transaction.amount,
+          amount: double.parse(currentState.transaction.amount),
           note: currentState.transaction.note,
         )
     );
@@ -178,6 +202,17 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     return await categoriesRepository.getAll(type);
   }
 
+  String _formatAmount(String amount, Currency currency) {
+    final currencyFormatter = ref.read(currencyFormatterProvider);
+    double amountNumber = amount.isEmpty ? 0 : double.parse(amount);
+
+    return currencyFormatter.format(
+      currency: currency,
+      amount: amountNumber,
+      alwaysShowDecimalPoint: amountKeyProcessor.hasDecimalPoint(amount),
+    );
+  }
+
   Future<TransactionBlueprint> _createBlueprint(int? transactionId) async {
     if (transactionId != null) {
       final transactionsRepository = await ref.watch(transactionsRepositoryProvider.future);
@@ -187,6 +222,8 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
         final DateTime createDateTime = DateTime
             .fromMillisecondsSinceEpoch(transaction.createTimestamp);
 
+        final amount = transaction.amount.toString();
+
         return TransactionBlueprint(
           id: transaction.id,
           createDateTime: createDateTime,
@@ -195,9 +232,8 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
           category: transaction.category,
           subcategory: transaction.subcategory,
           currency: transaction.currency,
-          amount: transaction.amount,
-          formattedAmount: '',
-          // TODO: Init.
+          amount: amount,
+          formattedAmount: _formatAmount(amount, transaction.currency),
           note: transaction.note,
         );
       } else {
@@ -213,6 +249,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     final currentAccount = await currentAccountProvider.getCurrentAccount();
 
     final createDateTime = DateTime.now();
+    const amount = '';
 
     return TransactionBlueprint(
       id: generateUniqueInt(),
@@ -222,9 +259,8 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       category: null,
       subcategory: null,
       currency: currentAccount.currency,
-      amount: 0,
-      formattedAmount: '',
-      // TODO: Init.
+      amount: amount,
+      formattedAmount: _formatAmount(amount, currentAccount.currency),
       note: null,
     );
   }

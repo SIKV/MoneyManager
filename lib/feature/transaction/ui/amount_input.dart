@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/controller/transaction_maker_controller.dart';
+import 'package:moneymanager/feature/transaction/domain/amount_key.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
 class AmountInput extends ConsumerWidget {
@@ -22,14 +23,14 @@ class AmountInput extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _KeyItem(text: '7', onTap: _onKeyTap),
-                _KeyItem(text: '8', onTap: _onKeyTap),
-                _KeyItem(text: '9', onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.seven, onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.eight, onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.nine, onTap: _onKeyTap),
 
                 _KeyContainer(
                   isAction: true,
                   onTap: () {
-                    // TODO: Implement
+                    _onKeyTap(ref, AmountKey.backspace);
                   },
                   child: const Center(
                     child: Icon(CupertinoIcons.delete_left),
@@ -43,15 +44,14 @@ class AmountInput extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _KeyItem(text: '4', onTap: _onKeyTap),
-                _KeyItem(text: '5', onTap: _onKeyTap),
-                _KeyItem(text: '6', onTap: _onKeyTap),
-                _KeyItem(
+                _TextKey(amountKey: AmountKey.four, onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.five, onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.six, onTap: _onKeyTap),
+
+                _TextKey(
                   isAction: true,
-                  text: 'C',
-                  onTap: (_, __) {
-                    // TODO: Implement
-                  },
+                  amountKey: AmountKey.clear,
+                  onTap: _onKeyTap,
                 ),
               ],
             ),
@@ -61,14 +61,14 @@ class AmountInput extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _KeyItem(text: '1', onTap: _onKeyTap),
-                _KeyItem(text: '2', onTap: _onKeyTap),
-                _KeyItem(text: '3', onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.one, onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.two, onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.three, onTap: _onKeyTap),
 
                 _KeyContainer(
                   isAction: true,
                   onTap: () {
-                    // TODO: Implement
+                    _onKeyTap(ref, AmountKey.calculator);
                   },
                   child: const Center(
                     child: Icon(CupertinoIcons.plus_slash_minus),
@@ -82,18 +82,15 @@ class AmountInput extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Opacity(
-                  opacity: 0,
-                  child: _KeyItem(text: '', onTap: (_, __) { }),
-                ),
+                const _FakeKey(),
 
-                _KeyItem(text: '0', onTap: _onKeyTap),
-                _KeyItem(text: '.', onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.zero, onTap: _onKeyTap),
+                _TextKey(amountKey: AmountKey.decimal, onTap: _onKeyTap),
 
                 _KeyContainer(
                   isAction: true,
                   onTap: () {
-                    // TODO: Implement
+                    _onKeyTap(ref, AmountKey.done);
                   },
                   child: const Center(
                     child: Icon(Icons.done),
@@ -107,21 +104,21 @@ class AmountInput extends ConsumerWidget {
     );
   }
 
-  void _onKeyTap(WidgetRef ref, String key) {
+  void _onKeyTap(WidgetRef ref, AmountKey key) {
     ref.read(transactionMakerControllerProvider.notifier)
         .processAmountKey(key);
   }
 }
 
-class _KeyItem extends ConsumerWidget {
+class _TextKey extends ConsumerWidget {
   final bool isAction;
-  final String text;
-  final Function(WidgetRef, String) onTap;
+  final AmountKey amountKey;
+  final Function(WidgetRef, AmountKey) onTap;
 
-  const _KeyItem({
+  const _TextKey({
     Key? key,
     this.isAction = false,
-    required this.text,
+    required this.amountKey,
     required this.onTap,
   }) : super(key: key);
 
@@ -129,9 +126,9 @@ class _KeyItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return _KeyContainer(
       isAction: isAction,
-      onTap: () => onTap(ref, text),
+      onTap: () => onTap(ref, amountKey),
       child: Center(
-        child: Text(text,
+        child: Text(amountKey.char,
           style: TextStyle(
             fontSize: 28,
             fontWeight: isAction ? FontWeight.w300 : FontWeight.normal,
@@ -164,6 +161,18 @@ class _KeyContainer extends ConsumerWidget {
       elevation: 0,
       shape: const CircleBorder(),
       child: child,
+    );
+  }
+}
+
+class _FakeKey extends StatelessWidget {
+  const _FakeKey({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: 0,
+      child: _TextKey(amountKey: AmountKey.zero, onTap: (_, __) { }),
     );
   }
 }
