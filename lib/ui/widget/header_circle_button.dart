@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/colors.dart';
 import 'package:moneymanager/ui/widget/SvgIcon.dart';
+import 'package:moneymanager/ui/widget/bouncing.dart';
 
 import '../../theme/spacings.dart';
 import '../../theme/theme_manager.dart';
@@ -22,7 +23,7 @@ class HeaderCircleButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AppColors colors = ref.read(appThemeManagerProvider.notifier).getColors();
 
-    return InkWell(
+    return Bouncing(
       onTap: onPressed,
       child: Column(
         mainAxisSize: MainAxisSize.min,
