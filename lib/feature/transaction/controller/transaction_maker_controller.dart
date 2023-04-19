@@ -79,12 +79,16 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     ));
   }
 
-  void setType(TransactionType type) {
-    // TODO: Reset category.
+  void setType(TransactionType type) async {
+    final categories = await _getCategories(type);
+
     _updateState((state) => state.copyWith(
       transaction: state.transaction.copyWith(
         type: type,
+        category: null,
+        subcategory: null,
       ),
+      categories: categories,
     ));
   }
 
