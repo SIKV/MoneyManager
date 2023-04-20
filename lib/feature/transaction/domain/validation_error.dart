@@ -1,0 +1,4 @@
+enum ValidationError {
+  emptyCategory,
+  emptyAmount
+}

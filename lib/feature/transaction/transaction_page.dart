@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
+import 'package:moneymanager/feature/transaction/domain/validation_error.dart';
 import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
 import 'package:moneymanager/feature/transaction/ui/transaction_actions.dart';
@@ -44,16 +45,6 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         .selectProperty(value);
   }
 
-  String _getCategory(TransactionMakerState state) {
-    final category = state.transaction.category;
-
-    if (category != null) {
-      return '${category.emoji ?? ''}   ${category.title}';
-    } else {
-      return _noValuePlaceholder;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
@@ -62,58 +53,16 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     final state = ref.watch(transactionMakerControllerProvider).value;
 
     if (state == null) {
-      // TODO:
+      // TODO
       return Container();
     }
 
-    ref.listen(transactionMakerControllerProvider
-        .select((state) => state.value?.transactionSaved), (previous, next) {
-      if (next == true) {
-        Navigator.pop(context);
-      }
-    });
+    _listenTransactionSaved();
+    _listenValidationErrors();
 
-    final category = _getCategory(state);
-
-    final notePropertyItem = PropertyItem(
-      title: Strings.note.localized(context),
-      value: state.transaction.note ?? '...',
-      isSelected: state.selectedProperty == TransactionProperty.note,
-      onSelected: () {
-        _selectProperty(TransactionProperty.note);
-      },
-    );
-
-    final List<Widget> properties = [
-      PropertyItem(
-        title: Strings.date.localized(context),
-        value: state.transaction.formattedCreateDateTime,
-        isSelected: state.selectedProperty == TransactionProperty.date,
-        onSelected: () {
-          _selectProperty(TransactionProperty.date);
-        },
-      ),
-      const SizedBox(height: Spacings.two),
-      PropertyItem(
-        title: Strings.category.localized(context),
-        value: category,
-        isSelected: state.selectedProperty == TransactionProperty.category,
-        onSelected: () {
-          _selectProperty(TransactionProperty.category);
-        },
-      ),
-      const SizedBox(height: Spacings.two),
-      PropertyItem(
-        title: Strings.amount.localized(context),
-        value: state.transaction.formattedAmount,
-        isSelected: state.selectedProperty == TransactionProperty.amount,
-        onSelected: () {
-          _selectProperty(TransactionProperty.amount);
-        },
-      ),
-      const SizedBox(height: Spacings.two),
-      notePropertyItem,
-    ];
+    final properties = _createPropertyItems(state);
+    // NOTE. Be careful of note property item position.
+    final notePropertyItem = properties.last;
 
     final shouldShowOnlyNote = MediaQuery.of(context).viewInsets.bottom > 0.0;
 
@@ -152,5 +101,93 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         ),
       ),
     );
+  }
+
+  List<Widget> _createPropertyItems(TransactionMakerState state) {
+    final category = state.transaction.category;
+    String categoryTitle = '';
+    if (category != null) {
+      categoryTitle = '${category.emoji ?? ''}   ${category.title}';
+    } else {
+       categoryTitle = _noValuePlaceholder;
+    }
+
+    return [
+      PropertyItem(
+        title: Strings.date.localized(context),
+        value: state.transaction.formattedCreateDateTime,
+        isSelected: state.selectedProperty == TransactionProperty.date,
+        onSelected: () {
+          _selectProperty(TransactionProperty.date);
+        },
+      ),
+      const SizedBox(height: Spacings.two),
+      PropertyItem(
+        title: Strings.category.localized(context),
+        value: categoryTitle,
+        isSelected: state.selectedProperty == TransactionProperty.category,
+        onSelected: () {
+          _selectProperty(TransactionProperty.category);
+        },
+      ),
+      const SizedBox(height: Spacings.two),
+      PropertyItem(
+        title: Strings.amount.localized(context),
+        value: state.transaction.formattedAmount,
+        isSelected: state.selectedProperty == TransactionProperty.amount,
+        onSelected: () {
+          _selectProperty(TransactionProperty.amount);
+        },
+      ),
+      const SizedBox(height: Spacings.two),
+      PropertyItem(
+        title: Strings.note.localized(context),
+        value: state.transaction.note ?? '...',
+        isSelected: state.selectedProperty == TransactionProperty.note,
+        onSelected: () {
+          _selectProperty(TransactionProperty.note);
+        },
+      ),
+    ];
+  }
+
+  void _listenTransactionSaved() {
+    ref.listen(transactionMakerControllerProvider
+        .select((state) => state.value?.transactionSaved), (previous, next) {
+      if (next == true) {
+        Navigator.pop(context);
+      }
+    });
+  }
+
+  void _listenValidationErrors() {
+    ref.listen(transactionMakerControllerProvider
+        .select((state) => state.value?.validationError), (previous, next) {
+
+      String? errorMessage;
+
+      switch (next) {
+        case ValidationError.emptyCategory:
+          errorMessage = Strings.transaction_validationErrorCategory.localized(context);
+          break;
+        case ValidationError.emptyAmount:
+          errorMessage = Strings.transaction_validationErrorAmount.localized(context);
+          break;
+        case null:
+          errorMessage = null;
+          break;
+      }
+
+      if (errorMessage != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+            )
+        );
+      }
+
+      ref.read(transactionMakerControllerProvider.notifier)
+          .resetValidationError();
+    });
   }
 }

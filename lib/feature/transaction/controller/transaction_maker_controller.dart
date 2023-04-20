@@ -16,6 +16,7 @@ import 'package:moneymanager/utils.dart';
 import '../../../navigation/transaction_page_args.dart';
 import '../amount_key_processor.dart';
 import '../domain/transaction_maker_state.dart';
+import '../domain/validation_error.dart';
 
 final transactionMakerControllerProvider = AsyncNotifierProvider
     .autoDispose<TransactionMakerController, TransactionMakerState>(() {
@@ -54,6 +55,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       selectedProperty: _initialProperty,
       categories: await _getCategories(transaction.type),
       transaction: transaction,
+      validationError: null,
       transactionSaved: false,
     );
   }
@@ -172,21 +174,43 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     ));
   }
 
+  void resetValidationError() {
+    _updateState((state) => state.copyWith(
+      validationError: null,
+    ));
+  }
+
   Future<void> save() async {
     final transactionsRepository = await ref.read(
         transactionsRepositoryProvider.future);
 
     final currentState = await future;
 
+    final category = currentState.transaction.category;
+    if (category == null) {
+      _updateState((state) => state.copyWith(
+        validationError: ValidationError.emptyCategory,
+      ));
+      return;
+    }
+
+    final amount = double.tryParse(currentState.transaction.amount);
+    if (amount == null) {
+      _updateState((state) => state.copyWith(
+        validationError: ValidationError.emptyAmount,
+      ));
+      return;
+    }
+
     transactionsRepository.addOrUpdate(
         Transaction(
           id: currentState.transaction.id,
           createTimestamp: currentState.transaction.createDateTime.millisecondsSinceEpoch,
           type: currentState.transaction.type,
-          category: currentState.transaction.category!, // TODO:
+          category: category,
           subcategory: currentState.transaction.subcategory,
           currency: currentState.transaction.currency,
-          amount: double.parse(currentState.transaction.amount),
+          amount: amount,
           note: currentState.transaction.note,
         )
     );

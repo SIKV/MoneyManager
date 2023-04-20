@@ -29,6 +29,9 @@ class Strings {
   static const String transaction_actionSave = 'transaction_actionSave';
   static const String transaction_actionAdd = 'transaction_actionAdd';
 
+  static const String transaction_validationErrorCategory = 'transaction_validationErrorCategory';
+  static const String transaction_validationErrorAmount = 'transaction_validationErrorAmount';
+
   // Transactions page
   static const String dayIncome = 'dayIncome';
   static const String dayExpenses = 'dayExpenses';
@@ -55,7 +58,6 @@ class Strings {
   // Change Account page
   static const String changeAccountPage_addAccountTitle = 'changeAccountPage_addAccountTitle';
   static const String changeAccountPage_addAccountSubtitle = 'changeAccountPage_addAccountSubtitle';
-
 }
 
 extension GetLocalizedString on String {
@@ -114,6 +116,8 @@ class AppLocalizations {
       Strings.transaction_actionDelete: 'Delete',
       Strings.transaction_actionSave: 'Save',
       Strings.transaction_actionAdd: 'Add',
+      Strings.transaction_validationErrorCategory: 'Please select a category.',
+      Strings.transaction_validationErrorAmount: 'Amount cannot be empty.',
 
       // Transactions page
       Strings.dayIncome: 'This day income',
