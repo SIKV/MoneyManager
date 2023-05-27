@@ -30,9 +30,6 @@ abstract class AppTheme {
           ),
         ),
       ),
-      toggleButtonsTheme: const ToggleButtonsThemeData(
-        borderRadius: BorderRadius.all(Radius.circular(AppRadius.two)),
-      ),
       textTheme: TextTheme(
         headlineLarge: TextStyle(
           color: colors.colorScheme.onSurface,

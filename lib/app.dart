@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/add_account_page.dart';
 import 'package:moneymanager/feature/categories/categories_page.dart';
+import 'package:moneymanager/feature/search/search_page.dart';
 import 'package:moneymanager/feature/transaction/transaction_page.dart';
 import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/navigation/routes.dart';
@@ -26,6 +27,8 @@ class App extends ConsumerWidget {
         switch (settings.name) {
           case AppRoutes.categories:
             return MaterialPageRoute(builder: (_) => const CategoriesPage());
+          case AppRoutes.search:
+            return MaterialPageRoute(builder: (_) => const SearchPage());
           case AppRoutes.addTransaction:
           case AppRoutes.viewTransaction:
             return MaterialPageRoute(builder: (_) => TransactionPage(

@@ -29,12 +29,12 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
     );
   }
 
-  void selectType(int index) async {
+  void selectType(TransactionType type) async {
     final currentState = await future;
 
     state = AsyncValue.data(
       currentState.copyWith(
-        selectedType: currentState.types[index],
+        selectedType: type,
       )
     );
 

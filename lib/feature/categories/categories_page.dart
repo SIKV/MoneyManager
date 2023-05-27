@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
@@ -21,42 +22,45 @@ class CategoriesPage extends ConsumerWidget {
       loading: () => Container(),
       error: (_, __) => Container(),
       data: (state) {
-        final types = state.types
-            .map((it) => Text(it.getTitle(context)))
-            .toList();
-
-        final isSelectedTypes = state.types
-            .map((it) => it == state.selectedType)
-            .toList();
-
         return Scaffold(
-          appBar: AppBar(
-            title: Text(Strings.categoriesPageTitle.localized(context)),
-          ),
-          body: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: ToggleButtons(
-                  constraints: BoxConstraints(
-                    minWidth: (MediaQuery.of(context).size.width / 2) - Spacings.four,
-                    minHeight: 46,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar.medium(
+                title: Text(Strings.categories_pageTitle.localized(context)),
+                actions: [
+                  IconButton(
+                    onPressed: () { },
+                    icon: const Icon(Icons.more_vert_rounded),
+                  )
+                ],
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: Spacings.four,
+                    right: Spacings.four,
+                    bottom: Spacings.four,
                   ),
-                  onPressed: (index) {
-                    _selectType(ref, index);
-                  },
-                  isSelected: isSelectedTypes,
-                  children: types,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: CupertinoSlidingSegmentedControl<TransactionType>(
+                      groupValue: state.selectedType,
+                      onValueChanged: (transactionType) {
+                        _selectType(ref, transactionType);
+                      },
+                      children: <TransactionType, Widget>{
+                        TransactionType.income: Text(Strings.income.localized(context)),
+                        TransactionType.expense: Text(Strings.expense.localized(context)),
+                      },
+                    ),
+                  ),
                 ),
               ),
-              Expanded(
-                child: CategoriesList(
-                  categories: state.categories,
-                  onReorder: (oldIndex, newIndex) {
-                    _reorder(ref, state.categories[oldIndex], oldIndex, newIndex);
-                  },
-                ),
+              CategoriesList(
+                categories: state.categories,
+                onReorder: (oldIndex, newIndex) {
+                  _reorder(ref, state.categories[oldIndex], oldIndex, newIndex);
+                },
               ),
             ],
           ),
@@ -67,16 +71,17 @@ class CategoriesPage extends ConsumerWidget {
               _addCategory(context, ref);
             },
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation
-              .centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         );
       },
     );
   }
 
-  void _selectType(WidgetRef ref, int index) {
-    ref.read(categoriesControllerProvider.notifier)
-        .selectType(index);
+  void _selectType(WidgetRef ref, TransactionType? type) {
+    if (type != null) {
+      ref.read(categoriesControllerProvider.notifier)
+          .selectType(type);
+    }
   }
 
   void _reorder(WidgetRef ref, TransactionCategory category, int oldIndex, int newIndex) {

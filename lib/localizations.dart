@@ -5,9 +5,7 @@ import 'package:flutter/widgets.dart';
 class Strings {
   static const String transactionsPageTitle = 'transactionsPageTitle';
   static const String morePageTitle = 'morePageTitle';
-  static const String categoriesPageTitle = 'categoriesPageTitle';
   static const String statisticsPageTitle = 'statisticsPageTitle';
-  static const String searchPageTitle = 'searchPageTitle';
 
   static const String add = 'add';
   static const String save = 'save';
@@ -44,10 +42,14 @@ class Strings {
   static const String transactions_noItems = 'transactions_noItems';
 
   // Categories page
+  static const String categories_pageTitle = 'categories_pageTitle';
   static const String addCategory = 'addCategory';
   static const String categoryTitle = 'categoryTitle';
   static const String addSubcategory = 'addSubcategory';
   static const String newSubcategory = 'newSubcategory';
+
+  // Search page
+  static const String search_pageTitle = 'search_pageTitle';
 
   // Add Account page
   static const String addAccountTitle = 'addAccountTitle';
@@ -94,9 +96,7 @@ class AppLocalizations {
     'en': {
       Strings.transactionsPageTitle: 'Transactions',
       Strings.morePageTitle: 'More',
-      Strings.categoriesPageTitle: 'Categories',
       Strings.statisticsPageTitle: 'Statistics',
-      Strings.searchPageTitle: 'Search',
 
       Strings.add: 'Add',
       Strings.save: 'Save',
@@ -131,10 +131,14 @@ class AppLocalizations {
       Strings.transactions_noItems: 'No transactions yet',
 
       // Categories page
+      Strings.categories_pageTitle: 'Categories',
       Strings.addCategory: 'Add category',
       Strings.categoryTitle: 'Category title',
       Strings.addSubcategory: 'Add subcategory',
       Strings.newSubcategory: 'New subcategory',
+
+      // Search page
+      Strings.search_pageTitle: 'Search',
 
       // Add Account page
       Strings.addAccountTitle: 'Add Account',

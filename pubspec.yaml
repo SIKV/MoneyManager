@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.0-255.2.beta <3.0.0'
+  sdk: '>=2.19.0-255.2.beta <3.11.0'
 
 dependencies:
   flutter:
@@ -26,7 +26,7 @@ dependencies:
   isar_flutter_libs: ^3.0.5
   equatable: ^2.0.0
   collection: ^1.16.0
-  intl: ^0.17.0
+  intl: ^0.18.0
   flutter_time_picker_spinner: ^2.0.0
 
 dev_dependencies:

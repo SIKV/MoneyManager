@@ -42,7 +42,7 @@ class TransactionsPage extends ConsumerWidget {
       ),
       secondaryActions: [
         HeaderCircleButton(
-          title: Strings.categoriesPageTitle.localized(context),
+          title: Strings.categories_pageTitle.localized(context),
           iconAsset: Assets.cart,
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.categories);
@@ -54,9 +54,11 @@ class TransactionsPage extends ConsumerWidget {
           onPressed: () { },
         ),
         HeaderCircleButton(
-          title: Strings.searchPageTitle.localized(context),
+          title: Strings.search_pageTitle.localized(context),
           iconAsset: Assets.search,
-          onPressed: () { },
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.search);
+          },
         ),
       ],
       sliver: const TransactionsList(),

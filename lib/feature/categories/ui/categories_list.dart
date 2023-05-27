@@ -17,26 +17,23 @@ class CategoriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableListView.builder(
-      onReorder: onReorder,
-      itemCount: categories.length,
-      itemBuilder: (context, index) {
-        final category = categories[index];
-        return Padding(
-          key: Key('${category.id}'),
-          padding: const EdgeInsets.symmetric(
-            horizontal: Spacings.four,
-            vertical: Spacings.one,
-          ),
-          child: CategoryItem(
-            category: category,
-            onPressed: () {
-              _editCategory(context, category);
-            },
-          ),
-        );
-      },
-    );
+    // TODO: Implement reordering.
+    return SliverList(delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+      final category = categories[index];
+      return Padding(
+        key: Key('${category.id}'),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Spacings.four,
+          vertical: Spacings.one,
+        ),
+        child: CategoryItem(
+          category: category,
+          onPressed: () {
+            _editCategory(context, category);
+          },
+        ),
+      );
+    }, childCount: categories.length));
   }
 
   void _editCategory(BuildContext context, TransactionCategory category) {
