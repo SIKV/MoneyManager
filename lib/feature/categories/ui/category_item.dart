@@ -24,10 +24,6 @@ class CategoryItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appTheme = ref.watch(appThemeManagerProvider);
 
-    final subcategories = category.subcategories
-        .map((it) => it.title)
-        .join(_subcategorySeparator);
-
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(AppRadius.two),
@@ -52,11 +48,6 @@ class CategoryItem extends ConsumerWidget {
                   Text(category.title,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  if (subcategories.isNotEmpty) ...[
-                    Text(subcategories,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    )
-                  ],
                 ],
               ),
             ),

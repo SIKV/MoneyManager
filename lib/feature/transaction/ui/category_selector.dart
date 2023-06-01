@@ -32,10 +32,8 @@ class CategorySelector extends ConsumerWidget {
             itemBuilder: (context, index) {
               final c = data[index];
               final title = '${c.emoji ?? ''}  ${c.title}';
-              final subtitle = c.subcategories.map((it) => it.title).join(' | ');
               return ListTile(
                 title: Text(title),
-                subtitle: Text(subtitle),
                 onTap: () {
                   _categoryPressed(c, ref);
                 },

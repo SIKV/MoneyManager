@@ -20,15 +20,11 @@ class TransactionCategoryEntity extends Equatable {
   @Name("emoji")
   final String? emoji;
 
-  @Name("subcategories")
-  final List<TransactionSubcategoryEntity> subcategories;
-
   const TransactionCategoryEntity({
     required this.id,
     required this.type,
     required this.title,
     required this.emoji,
-    required this.subcategories,
   });
 
   @override

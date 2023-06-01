@@ -23,9 +23,6 @@ class TransactionEntity extends Equatable {
   @Name('categoryId')
   final int categoryId;
 
-  @Name('subcategoryId')
-  final int? subcategoryId;
-
   @Name('amount')
   final double amount;
 
@@ -38,7 +35,6 @@ class TransactionEntity extends Equatable {
     required this.createTimestamp,
     required this.type,
     required this.categoryId,
-    required this.subcategoryId,
     required this.amount,
     required this.note,
   });

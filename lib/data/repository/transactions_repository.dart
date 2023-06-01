@@ -46,10 +46,9 @@ class TransactionsRepository {
 
   Future<Transaction?> _mapTransaction(TransactionEntity entity, Currency currency) async {
     final category = await categoriesRepository.getById(entity.categoryId);
-    final subcategory = category?.subcategories.firstWhereOrNull((s) => entity.id == s.id);
 
     if (category != null) {
-      return entity.toDomain(category, subcategory, currency);
+      return entity.toDomain(category, currency);
     } else {
       return null;
     }

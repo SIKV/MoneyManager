@@ -17,7 +17,6 @@ final transactionsListProvider = StreamProvider((ref)  {
             id: it.id,
             emoji: it.category.emoji,
             title: it.category.title,
-            subtitle: it.subcategory?.title,
             amount: currencyFormatter.format(
               currency: it.currency,
               amount: it.amount,

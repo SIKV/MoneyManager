@@ -5,10 +5,8 @@ import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/emoji/emoji_picker_content.dart';
 import 'package:moneymanager/localizations.dart';
-import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/utils.dart';
 
-import '../../domain/transaction_subcategory.dart';
 import '../../theme/spacings.dart';
 import '../../ui/widget/close_circle_button.dart';
 import 'controller/categories_controller.dart';
@@ -139,14 +137,6 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
 
           const SizedBox(height: Spacings.six),
 
-          _Subcategories(
-            subcategories: _newCategory.subcategories,
-            onAddSubcategoryPressed: _showAddSubcategoryDialog,
-            onDeleteSubcategoryPressed: _deleteSubcategory,
-          ),
-
-          const SizedBox(height: Spacings.six),
-
           _Actions(
             action: widget.action,
             onSavePressed: _saveCategory,
@@ -182,65 +172,6 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
     );
   }
 
-  void _showAddSubcategoryDialog() {
-    showDialog(
-      context: context,
-      builder: (_) =>  AlertDialog(
-        content: TextField(
-          controller: _subcategoryTextController,
-          autofocus: true,
-          textCapitalization: TextCapitalization.sentences,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (_) {
-            _addSubcategory();
-            _close();
-          },
-          decoration: InputDecoration(
-            labelText: Strings.newSubcategory.localized(context),
-          ),
-        ),
-        actions: [
-          FilledButton(
-            onPressed: () {
-              _addSubcategory();
-              _close();
-            },
-            child: Text(Strings.add.localized(context)),
-          ),
-          OutlinedButton(
-            onPressed: _close,
-            child: Text(Strings.cancel.localized(context)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _addSubcategory() {
-    setState(() {
-      final subcategory = TransactionSubcategory(
-        id: generateUniqueInt(),
-        title: _subcategoryTextController.text,
-      );
-
-      _subcategoryTextController.clear();
-
-      _newCategory = _newCategory.copyWith(
-        subcategories: _newCategory.subcategories.toList()
-          ..add(subcategory),
-      );
-    });
-  }
-
-  void _deleteSubcategory(TransactionSubcategory subcategory) {
-    setState(() {
-      _newCategory = _newCategory.copyWith(
-        subcategories: _newCategory.subcategories.toList()
-          ..remove(subcategory),
-      );
-    });
-  }
-
   void _saveCategory() {
     _newCategory = _newCategory.copyWith(
       title: _titleTextController.text,
@@ -261,42 +192,6 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
 
   void _close() {
     Navigator.pop(context);
-  }
-}
-
-class _Subcategories extends StatelessWidget {
-  final List<TransactionSubcategory> subcategories;
-  final VoidCallback onAddSubcategoryPressed;
-  final Function onDeleteSubcategoryPressed;
-
-  const _Subcategories({
-    Key? key,
-    required this.subcategories,
-    required this.onAddSubcategoryPressed,
-    required this.onDeleteSubcategoryPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: Spacings.two,
-      children: [
-        ...subcategories.map<Widget>((subcategory) =>
-            Chip(
-              label: Text(subcategory.title),
-              onDeleted: () {
-                onDeleteSubcategoryPressed(subcategory);
-              },
-            )).toList(),
-        ...[
-          ActionChip(
-            avatar: const Icon(AppIcons.categoriesAddSubcategory),
-            label: Text(Strings.addSubcategory.localized(context)),
-            onPressed: onAddSubcategoryPressed,
-          )
-        ]
-      ],
-    );
   }
 }
 

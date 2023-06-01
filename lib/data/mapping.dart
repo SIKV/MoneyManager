@@ -3,7 +3,6 @@ import 'package:moneymanager/domain/account.dart';
 import '../domain/currency.dart';
 import '../domain/transaction.dart';
 import '../domain/transaction_category.dart';
-import '../domain/transaction_subcategory.dart';
 import '../domain/transaction_type.dart';
 import 'local/entity/account_entity.dart';
 import 'local/entity/currency_entity.dart';
@@ -73,33 +72,6 @@ extension DomainToTransactionTypeEntity on TransactionType {
   }
 }
 
-/// TransactionSubcategory
-
-extension TransactionSubcategoryEntityToDomain on TransactionSubcategoryEntity {
-  TransactionSubcategory? toDomain() {
-    final id = this.id;
-    final title = this.title;
-
-    if (id == null || title == null) {
-      return null;
-    } else {
-      return TransactionSubcategory(
-        id: id,
-        title: title,
-      );
-    }
-  }
-}
-
-extension DomainToTransactionSubcategoryEntity on TransactionSubcategory {
-  TransactionSubcategoryEntity toEntity() {
-    return TransactionSubcategoryEntity(
-      id: id,
-      title: title,
-    );
-  }
-}
-
 /// TransactionCategory
 
 extension TransactionCategoryEntityToDomain on TransactionCategoryEntity {
@@ -109,9 +81,6 @@ extension TransactionCategoryEntityToDomain on TransactionCategoryEntity {
       type: type.toDomain(),
       title: title,
       emoji: emoji,
-      subcategories: subcategories.map((it) => it.toDomain())
-          .whereType<TransactionSubcategory>()
-          .toList(),
     );
   }
 }
@@ -123,7 +92,6 @@ extension DomainToTransactionCategoryEntity on TransactionCategory {
       type: type.toEntity(),
       title: title,
       emoji: emoji,
-      subcategories: subcategories.map((it) => it.toEntity()).toList(),
     );
   }
 }
@@ -131,13 +99,12 @@ extension DomainToTransactionCategoryEntity on TransactionCategory {
 /// Transaction
 
 extension TransactionEntityToDomain on TransactionEntity {
-  Transaction toDomain(TransactionCategory category, TransactionSubcategory? subcategory, Currency currency) {
+  Transaction toDomain(TransactionCategory category, Currency currency) {
     return Transaction(
       id: id,
       createTimestamp: createTimestamp,
       type: type.toDomain(),
       category: category,
-      subcategory: subcategory,
       currency: currency,
       amount: amount,
       note: note,
@@ -153,7 +120,6 @@ extension DomainToTransactionEntity on Transaction {
       createTimestamp: createTimestamp,
       type: type.toEntity(),
       categoryId: category.id,
-      subcategoryId: subcategory?.id,
       amount: amount,
       note: note,
     );
