@@ -15,7 +15,6 @@ const transactionCategoryEntityMock = TransactionCategoryEntity(
   type: TransactionTypeEntity.income,
   title: 'Mock',
   emoji: null,
-  subcategories: [],
 );
 
 const transactionTypeEntityMock = TransactionTypeEntity.income;
