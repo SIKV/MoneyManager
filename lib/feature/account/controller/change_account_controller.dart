@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:collection/collection.dart';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/domain/account.dart';
@@ -14,6 +14,7 @@ final changeAccountControllerProvider = AsyncNotifierProvider
     });
 
 class ChangeAccountController extends AutoDisposeAsyncNotifier<ChangeAccountState> {
+
   @override
   FutureOr<ChangeAccountState> build() async {
     final accountRepository = await ref.watch(accountsRepositoryProvider.future);
@@ -31,5 +32,7 @@ class ChangeAccountController extends AutoDisposeAsyncNotifier<ChangeAccountStat
   void selectAccount(Account account) {
     final preferences = ref.read(localPreferencesProvider);
     preferences.setCurrentAccount(account.id);
+
+    ref.invalidateSelf();
   }
 }

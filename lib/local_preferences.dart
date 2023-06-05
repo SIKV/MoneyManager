@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:core';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/theme.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final localPreferencesProvider = Provider<LocalPreferences>((_) => LocalPreferences());
@@ -15,6 +17,8 @@ class LocalPreferences {
   int? _currentAccountId;
   int? get currentAccountId => _currentAccountId;
 
+  final onCurrentAccountIdChanged = BehaviorSubject();
+
   AppThemeType? _theme;
   AppThemeType? get theme =>_theme;
 
@@ -22,6 +26,8 @@ class LocalPreferences {
     _prefs = await SharedPreferences.getInstance();
 
     _currentAccountId = _prefs.getInt(_keyCurrentAccount);
+
+    onCurrentAccountIdChanged.add(_currentAccountId);
 
     final themeId = _prefs.getInt(_keyTheme);
     if (themeId != null) {
@@ -33,6 +39,8 @@ class LocalPreferences {
   void setCurrentAccount(int id) {
     _prefs.setInt(_keyCurrentAccount, id);
     _currentAccountId = id;
+
+    onCurrentAccountIdChanged.add(_currentAccountId);
   }
 
   void setTheme(AppThemeType? theme) {

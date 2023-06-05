@@ -1,29 +1,28 @@
-import 'package:collection/collection.dart';
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
 import 'package:moneymanager/data/mapping.dart';
 import 'package:moneymanager/domain/currency.dart';
 
 import '../../domain/transaction.dart';
-import '../current_account_provider.dart';
+import '../../service/current_account_service.dart';
 import '../local/datasource/transactions_local_data_source.dart';
 import 'categories_repository.dart';
 
 class TransactionsRepository {
   final TransactionsLocalDataSource localDataSource;
   final CategoriesRepository categoriesRepository;
-  final CurrentAccountProvider accountProvider;
+  final CurrentAccountService currentAccountService;
 
-  TransactionsRepository(this.localDataSource, this.categoriesRepository, this.accountProvider);
+  TransactionsRepository(this.localDataSource, this.categoriesRepository, this.currentAccountService);
 
   Future<void> addOrUpdate(Transaction transaction) async {
     return localDataSource.addOrUpdate(
-        transaction.toEntity(accountProvider.getCurrentAccountId())
+        transaction.toEntity(currentAccountService.getCurrentAccountId())
     );
   }
 
   Future<Transaction?> getById(int id) async {
     final transaction = await localDataSource.getById(id);
-    final currency = (await accountProvider.getCurrentAccount()).currency;
+    final currency = (await currentAccountService.getCurrentAccount()).currency;
 
     if (transaction != null) {
       return _mapTransaction(transaction, currency);
@@ -33,9 +32,9 @@ class TransactionsRepository {
   }
 
   Stream<List<Transaction>> getAll() {
-    return localDataSource.getAll(accountProvider.getCurrentAccountId())
+    return localDataSource.getAll(currentAccountService.getCurrentAccountId())
         .asyncMap((list) async {
-          final currency = (await accountProvider.getCurrentAccount()).currency;
+          final currency = (await currentAccountService.getCurrentAccount()).currency;
           final mapped = list.map((it) => _mapTransaction(it, currency));
 
           return (await Future.wait(mapped))

@@ -4,6 +4,7 @@ import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/domain/validation_error.dart';
+import 'package:moneymanager/feature/transaction/ui/account_selector.dart';
 import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
 import 'package:moneymanager/feature/transaction/ui/transaction_actions.dart';
@@ -74,15 +75,20 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: const TypeSelector(),
+          title: const AccountSelector(),
           centerTitle: true,
         ),
         body: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 24),
+              padding: const EdgeInsets.only(
+                top: Spacings.three,
+                left: Spacings.five,
+                right: Spacings.five,
+                bottom: Spacings.four,
+              ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: shouldShowOnlyNote ? [notePropertyItem] : properties,
               ),
             ),
@@ -113,6 +119,11 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     }
 
     return [
+      const SizedBox(
+        width: double.infinity,
+        child: TypeSelector(),
+      ),
+      const SizedBox(height: Spacings.four),
       PropertyItem(
         title: Strings.date.localized(context),
         value: state.transaction.formattedCreateDateTime,

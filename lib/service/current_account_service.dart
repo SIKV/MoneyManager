@@ -2,11 +2,11 @@ import 'package:moneymanager/data/repository/accounts_repository.dart';
 import 'package:moneymanager/domain/account.dart';
 import 'package:moneymanager/local_preferences.dart';
 
-class CurrentAccountProvider {
+class CurrentAccountService {
   final AccountsRepository accountsRepository;
   final LocalPreferences localPreferences;
 
-  CurrentAccountProvider(this.accountsRepository, this.localPreferences);
+  CurrentAccountService(this.accountsRepository, this.localPreferences);
 
   int getCurrentAccountId() {
     final id = localPreferences.currentAccountId;

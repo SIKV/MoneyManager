@@ -16,7 +16,7 @@ class TypeSelector extends ConsumerWidget {
 
     final thumbColor = Theme.of(context).brightness == Brightness.light
         ? Theme.of(context).colorScheme.background
-        : Theme.of(context).colorScheme.primary.withOpacity(0.75);
+        : Theme.of(context).colorScheme.primary;
 
     return FutureBuilder(
       future: transactionType,

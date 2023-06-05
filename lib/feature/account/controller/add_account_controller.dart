@@ -40,7 +40,7 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
       );
 
       final accountsRepository = await ref.read(accountsRepositoryProvider.future);
-      accountsRepository.addOrUpdate(account);
+      await accountsRepository.addOrUpdate(account);
 
       ref.read(localPreferencesProvider)
           .setCurrentAccount(account.id);

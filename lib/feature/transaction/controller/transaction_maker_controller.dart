@@ -13,7 +13,9 @@ import 'package:moneymanager/feature/transaction/domain/transaction_property.dar
 import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/utils.dart';
 
+import '../../../common/provider/current_account_provider.dart';
 import '../../../navigation/transaction_page_args.dart';
+import '../../../service/providers.dart';
 import '../amount_key_processor.dart';
 import '../domain/transaction_maker_state.dart';
 import '../domain/validation_error.dart';
@@ -48,6 +50,11 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
 
   @override
   FutureOr<TransactionMakerState> build() async {
+    // Rebuild when the current account changed.
+    ref.watch(currentAccountProvider);
+
+    // TODO Do not reset all the properties when the current account changed.
+
     final transaction = await _createBlueprint(_initialTransactionId);
 
     return TransactionMakerState(
@@ -269,8 +276,8 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   Future<TransactionBlueprint> _createDefaultBlueprint() async {
-    final currentAccountProvider = await ref.watch(currentAccountProviderProvider.future);
-    final currentAccount = await currentAccountProvider.getCurrentAccount();
+    final currentAccountService = await ref.watch(currentAccountServiceProvider.future);
+    final currentAccount = await currentAccountService.getCurrentAccount();
 
     final createDateTime = DateTime.now();
     const amount = '';
