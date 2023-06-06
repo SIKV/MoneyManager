@@ -12,7 +12,7 @@ final homeControllerProvider = AsyncNotifierProvider<HomeController, HomeState>(
 class HomeController extends AsyncNotifier<HomeState> {
   @override
   FutureOr<HomeState> build() async {
-    final accountsRepository = await ref.watch(accountsRepositoryProvider.future);
+    final accountsRepository = await ref.watch(accountsRepositoryProvider);
     final accounts = await accountsRepository.getAll();
 
     return HomeState(

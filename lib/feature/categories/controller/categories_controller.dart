@@ -17,7 +17,7 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
   Future<CategoriesState> build() async {
     final selectedType = state.value?.selectedType ?? TransactionType.income;
 
-    final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
     final categories = await categoriesRepository.getAll(selectedType);
 
     // TODO: Get order from preferences.
@@ -42,14 +42,14 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
   }
 
   void addOrUpdateCategory(TransactionCategory category) async {
-    final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
     await categoriesRepository.addOrUpdate(category);
 
     ref.invalidateSelf();
   }
 
   void deleteCategory(int categoryId) async {
-    final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
     await categoriesRepository.delete(categoryId);
 
     ref.invalidateSelf();

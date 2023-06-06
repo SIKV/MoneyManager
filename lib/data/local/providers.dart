@@ -8,7 +8,7 @@ import 'datasource/accounts_local_data_source.dart';
 import 'datasource/categories_local_data_source.dart';
 import 'datasource/transactions_local_data_source.dart';
 
-final isarProvider = FutureProvider((_) async {
+final isarProvider = Provider((_) async {
   return Isar.open([
     AccountEntitySchema,
     TransactionCategoryEntitySchema,
@@ -16,17 +16,17 @@ final isarProvider = FutureProvider((_) async {
   ]);
 });
 
-final accountsLocalDataSourceProvider = FutureProvider((ref) async {
-  final isar = await ref.watch(isarProvider.future);
+final accountsLocalDataSourceProvider = Provider((ref) async {
+  final isar = await ref.watch(isarProvider);
   return AccountsLocalDataSource(isar);
 });
 
-final categoriesLocalDataSourceProvider = FutureProvider((ref) async {
-  final isar = await ref.watch(isarProvider.future);
+final categoriesLocalDataSourceProvider = Provider((ref) async {
+  final isar = await ref.watch(isarProvider);
   return CategoriesLocalDataSource(isar);
 });
 
-final transactionsLocalDataSourceProvider = FutureProvider((ref) async {
-  final isar = await ref.watch(isarProvider.future);
+final transactionsLocalDataSourceProvider = Provider((ref) async {
+  final isar = await ref.watch(isarProvider);
   return TransactionsLocalDataSource(isar);
 });

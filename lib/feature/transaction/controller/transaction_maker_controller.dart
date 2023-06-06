@@ -186,12 +186,11 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   Future<void> save() async {
-    final transactionsRepository = await ref.read(
-        transactionsRepositoryProvider.future);
+    final transactionsRepository = await ref.read(transactionsRepositoryProvider.future);
 
     final currentState = await future;
-
     final category = currentState.transaction.category;
+
     if (category == null) {
       _updateState((state) => state.copyWith(
         validationError: ValidationError.emptyCategory,
@@ -230,7 +229,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   Future<List<TransactionCategory>> _getCategories(TransactionType type) async {
-    final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
     return await categoriesRepository.getAll(type);
   }
 
@@ -276,7 +275,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   Future<TransactionBlueprint> _createDefaultBlueprint() async {
-    final currentAccountService = await ref.watch(currentAccountServiceProvider.future);
+    final currentAccountService = await ref.watch(currentAccountServiceProvider);
     final currentAccount = await currentAccountService.getCurrentAccount();
 
     final createDateTime = DateTime.now();

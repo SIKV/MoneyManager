@@ -6,20 +6,20 @@ import 'package:moneymanager/data/repository/transactions_repository.dart';
 
 import '../service/providers.dart';
 
-final accountsRepositoryProvider = FutureProvider((ref) async {
-  final localDataSource = await ref.watch(accountsLocalDataSourceProvider.future);
+final accountsRepositoryProvider = Provider((ref) async {
+  final localDataSource = await ref.watch(accountsLocalDataSourceProvider);
   return AccountsRepository(localDataSource);
 });
 
-final categoriesRepositoryProvider = FutureProvider((ref) async {
-  final localDataSource = await ref.watch(categoriesLocalDataSourceProvider.future);
+final categoriesRepositoryProvider = Provider((ref) async {
+  final localDataSource = await ref.watch(categoriesLocalDataSourceProvider);
   return CategoriesRepository(localDataSource);
 });
 
 final transactionsRepositoryProvider = FutureProvider((ref) async {
-  final localDataSource = await ref.watch(transactionsLocalDataSourceProvider.future);
-  final categoriesRepository = await ref.watch(categoriesRepositoryProvider.future);
-  final currentAccountService = await ref.watch(currentAccountServiceProvider.future);
+  final localDataSource = await ref.watch(transactionsLocalDataSourceProvider);
+  final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
+  final currentAccountService = await ref.watch(currentAccountServiceProvider);
 
   return TransactionsRepository(localDataSource, categoriesRepository, currentAccountService);
 });

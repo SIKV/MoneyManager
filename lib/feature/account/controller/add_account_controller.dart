@@ -19,7 +19,7 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
 
   @override
   FutureOr<AddAccountState> build() async {
-    final accountRepository = await ref.watch(accountsRepositoryProvider.future);
+    final accountRepository = await ref.watch(accountsRepositoryProvider);
     final accounts = await accountRepository.getAll();
 
     return AddAccountState(
@@ -39,7 +39,7 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
         currency: currency,
       );
 
-      final accountsRepository = await ref.read(accountsRepositoryProvider.future);
+      final accountsRepository = await ref.read(accountsRepositoryProvider);
       await accountsRepository.addOrUpdate(account);
 
       ref.read(localPreferencesProvider)

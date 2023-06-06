@@ -6,7 +6,7 @@ import 'package:moneymanager/data/providers.dart';
 
 import '../domain/transaction_item_ui_model.dart';
 
-final transactionsListProvider = StreamProvider((ref)  {
+final transactionsListProvider = StreamProvider((ref) {
   final transactionsRepository = ref.watch(transactionsRepositoryProvider).value;
   final currencyFormatter = ref.watch(currencyFormatterProvider);
 

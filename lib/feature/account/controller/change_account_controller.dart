@@ -17,7 +17,7 @@ class ChangeAccountController extends AutoDisposeAsyncNotifier<ChangeAccountStat
 
   @override
   FutureOr<ChangeAccountState> build() async {
-    final accountRepository = await ref.watch(accountsRepositoryProvider.future);
+    final accountRepository = await ref.watch(accountsRepositoryProvider);
     final accounts = await accountRepository.getAll();
 
     final preferences = ref.watch(localPreferencesProvider);
