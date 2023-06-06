@@ -1,4 +1,4 @@
-enum HeaderValue {
+enum TransactionFilter {
   dayIncome,
   dayExpenses,
   weekIncome,

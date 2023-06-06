@@ -1,27 +1,27 @@
 import 'package:flutter/widgets.dart';
 
 import '../../localizations.dart';
-import 'domain/header_value.dart';
+import 'domain/transaction_filter.dart';
 
-extension GetTitle on HeaderValue {
+extension TransactionFilterExtensions on TransactionFilter {
 
   String getTitle(BuildContext context) {
     switch (this) {
-      case HeaderValue.dayIncome:
+      case TransactionFilter.dayIncome:
         return Strings.dayIncome.localized(context);
-      case HeaderValue.dayExpenses:
+      case TransactionFilter.dayExpenses:
         return Strings.dayExpenses.localized(context);
-      case HeaderValue.weekIncome:
+      case TransactionFilter.weekIncome:
         return Strings.weekIncome.localized(context);
-      case HeaderValue.weekExpenses:
+      case TransactionFilter.weekExpenses:
         return Strings.weekExpenses.localized(context);
-      case HeaderValue.monthIncome:
+      case TransactionFilter.monthIncome:
         return Strings.monthIncome.localized(context);
-      case HeaderValue.monthExpenses:
+      case TransactionFilter.monthExpenses:
         return Strings.monthExpenses.localized(context);
-      case HeaderValue.yearIncome:
+      case TransactionFilter.yearIncome:
         return Strings.yearIncome.localized(context);
-      case HeaderValue.yearExpenses:
+      case TransactionFilter.yearExpenses:
         return Strings.yearExpenses.localized(context);
     }
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/change_account_page.dart';
+import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
+import 'package:moneymanager/feature/transactions/extensions.dart';
 import 'package:moneymanager/feature/transactions/ui/transactions_list.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
@@ -19,6 +21,7 @@ class TransactionsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
+    final headerState = ref.watch(headerControllerProvider);
 
     return CollapsingHeaderPage(
       colors: appTheme.colors,
@@ -26,9 +29,9 @@ class TransactionsPage extends ConsumerWidget {
       endColor: appTheme.colors.transactionsHeaderEnd,
       collapsedHeight: 78,
       expandedHeight: 346,
-      title: '0',
-      titleSuffix: ' \$',
-      subtitle: 'This month expenses',
+      title: headerState.value?.amount ?? '',
+      titleSuffix: ' ${headerState.value?.currentAccount?.currency.symbol}',
+      subtitle: headerState.value?.currentFilter.getTitle(context),
       tertiaryTitle: '0 transactions',
       onTitlePressed: () {
         _showChangeAccount(context);

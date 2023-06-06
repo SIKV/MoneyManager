@@ -7,7 +7,7 @@ import 'package:moneymanager/theme/icons.dart';
 
 import '../../../theme/spacings.dart';
 import '../../../ui/widget/close_circle_button.dart';
-import '../domain/header_value.dart';
+import '../domain/transaction_filter.dart';
 
 class HeaderSettings extends ConsumerWidget {
   const HeaderSettings({Key? key}) : super(key: key);
@@ -37,11 +37,11 @@ class HeaderSettings extends ConsumerWidget {
                 ),
               ),
               _ValuesList(
-                values: config.values,
-                selectedValue: config.selectedValue,
+                values: config.filters,
+                selectedValue: config.currentFilter,
                 onSelectValue: (value) {
                   ref.read(headerControllerProvider.notifier)
-                      .selectValue(value);
+                      .selectFilter(value);
 
                   Navigator.pop(context);
                 },
@@ -53,8 +53,8 @@ class HeaderSettings extends ConsumerWidget {
 }
 
 class _ValuesList extends StatelessWidget {
-  final List<HeaderValue> values;
-  final HeaderValue selectedValue;
+  final List<TransactionFilter> values;
+  final TransactionFilter selectedValue;
   final Function onSelectValue;
 
   const _ValuesList({
