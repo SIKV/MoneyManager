@@ -8,7 +8,6 @@ import 'local/entity/account_entity.dart';
 import 'local/entity/currency_entity.dart';
 import 'local/entity/transaction_category_entity.dart';
 import 'local/entity/transaction_entity.dart';
-import 'local/entity/transaction_subcategory_entity.dart';
 import 'local/entity/transaction_type_entity.dart';
 
 /// Account

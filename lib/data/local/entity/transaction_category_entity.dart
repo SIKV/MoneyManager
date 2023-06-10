@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
-import 'package:moneymanager/data/local/entity/transaction_subcategory_entity.dart';
 import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
 
 part 'transaction_category_entity.g.dart';

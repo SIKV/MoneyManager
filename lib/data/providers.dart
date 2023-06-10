@@ -16,7 +16,7 @@ final categoriesRepositoryProvider = Provider((ref) async {
   return CategoriesRepository(localDataSource);
 });
 
-final transactionsRepositoryProvider = FutureProvider((ref) async {
+final transactionsRepositoryProvider = Provider((ref) async {
   final localDataSource = await ref.watch(transactionsLocalDataSourceProvider);
   final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
   final currentAccountService = await ref.watch(currentAccountServiceProvider);

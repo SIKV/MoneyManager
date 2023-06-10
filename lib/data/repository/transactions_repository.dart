@@ -1,6 +1,7 @@
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
 import 'package:moneymanager/data/mapping.dart';
 import 'package:moneymanager/domain/currency.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 
 import '../../domain/transaction.dart';
 import '../../service/current_account_service.dart';
@@ -31,16 +32,24 @@ class TransactionsRepository {
     }
   }
 
-  Stream<List<Transaction>> getAll() {
-    return localDataSource.getAll(currentAccountService.getCurrentAccountId())
-        .asyncMap((list) async {
-          final currency = (await currentAccountService.getCurrentAccount()).currency;
-          final mapped = list.map((it) => _mapTransaction(it, currency));
+  Stream<List<Transaction>> getAll({
+    required TransactionType type,
+    required int fromTimestamp,
+    required int toTimestamp,
+  }) {
+    return localDataSource.getAll(
+      accountId: currentAccountService.getCurrentAccountId(),
+      transactionType: type.toEntity(),
+      fromTimestamp: fromTimestamp,
+      toTimestamp: toTimestamp,
+    ).asyncMap((list) async {
+      final currency = (await currentAccountService.getCurrentAccount()).currency;
+      final mapped = list.map((it) => _mapTransaction(it, currency));
 
-          return (await Future.wait(mapped))
-              .whereType<Transaction>()
-              .toList();
-        });
+      return (await Future.wait(mapped))
+          .whereType<Transaction>()
+          .toList();
+    });
   }
 
   Future<Transaction?> _mapTransaction(TransactionEntity entity, Currency currency) async {

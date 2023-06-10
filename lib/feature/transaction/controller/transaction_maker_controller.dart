@@ -186,7 +186,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   Future<void> save() async {
-    final transactionsRepository = await ref.read(transactionsRepositoryProvider.future);
+    final transactionsRepository = await ref.read(transactionsRepositoryProvider);
 
     final currentState = await future;
     final category = currentState.transaction.category;
@@ -246,7 +246,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
 
   Future<TransactionBlueprint> _createBlueprint(int? transactionId) async {
     if (transactionId != null) {
-      final transactionsRepository = await ref.watch(transactionsRepositoryProvider.future);
+      final transactionsRepository = await ref.watch(transactionsRepositoryProvider);
       final transaction = await transactionsRepository.getById(transactionId);
 
       if (transaction != null) {

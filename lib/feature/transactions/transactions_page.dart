@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/change_account_page.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
+import 'package:moneymanager/feature/transactions/provider/transactions_list_provider.dart';
 import 'package:moneymanager/feature/transactions/ui/transactions_list.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
@@ -22,6 +23,7 @@ class TransactionsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
     final headerState = ref.watch(headerControllerProvider);
+    final transactionsList = ref.watch(transactionsListProvider);
 
     return CollapsingHeaderPage(
       colors: appTheme.colors,
@@ -32,7 +34,7 @@ class TransactionsPage extends ConsumerWidget {
       title: headerState.value?.amount ?? '',
       titleSuffix: ' ${headerState.value?.currentAccount?.currency.symbol}',
       subtitle: headerState.value?.currentFilter.getTitle(context),
-      tertiaryTitle: '0 transactions',
+      tertiaryTitle: '${transactionsList.value?.length ?? 0} transactions', // TODO
       onTitlePressed: () {
         _showChangeAccount(context);
       },

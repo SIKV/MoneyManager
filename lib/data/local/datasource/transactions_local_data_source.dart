@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:isar/isar.dart';
-import 'package:moneymanager/data/local/entity/account_entity.dart';
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
+import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
 
 class TransactionsLocalDataSource {
   final Isar isar;
@@ -22,10 +22,17 @@ class TransactionsLocalDataSource {
         .findFirst();
   }
 
-  Stream<List<TransactionEntity>> getAll(int accountId) {
+  Stream<List<TransactionEntity>> getAll({
+    required int accountId,
+    required TransactionTypeEntity transactionType,
+    required int fromTimestamp,
+    required int toTimestamp,
+  }) {
     return isar.transactionEntitys
         .filter()
         .accountIdEqualTo(accountId)
+        .typeEqualTo(transactionType)
+        .createTimestampBetween(fromTimestamp, toTimestamp, includeLower: true, includeUpper: true)
         .watch(fireImmediately: true);
   }
 }
