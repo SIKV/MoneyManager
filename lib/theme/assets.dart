@@ -9,4 +9,5 @@ class Assets {
   static const String sun = 'assets/sun.svg';
   static const String menu = 'assets/menu-hamburger.svg';
   static const String cart = 'assets/cart.svg';
+  static const String filters = 'assets/filters.svg';
 }

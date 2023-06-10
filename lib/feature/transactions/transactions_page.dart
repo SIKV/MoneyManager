@@ -39,7 +39,7 @@ class TransactionsPage extends ConsumerWidget {
         _showChangeAccount(context);
       },
       primaryAction: IconButton(
-        icon: SvgIcon(Assets.menu,
+        icon: SvgIcon(Assets.filters,
           size: 32,
           color: appTheme.colors.alwaysWhite,
         ),
