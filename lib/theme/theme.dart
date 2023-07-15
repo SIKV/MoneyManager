@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanager/theme/colors.dart';
-import 'package:moneymanager/theme/radius.dart';
 
 enum AppThemeType {
   light(0),
@@ -36,8 +35,9 @@ abstract class AppTheme {
           fontSize: 36,
           fontWeight: FontWeight.bold,
         ),
-        bodySmall: const TextStyle(
+        bodySmall: TextStyle(
           fontSize: 14,
+          color: colors.colorScheme.onSurface.withOpacity(0.75),
         ),
       ),
     );

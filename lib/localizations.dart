@@ -6,7 +6,9 @@ class Strings {
   static const String transactionsPageTitle = 'transactionsPageTitle';
   static const String morePageTitle = 'morePageTitle';
   static const String statisticsPageTitle = 'statisticsPageTitle';
-
+  //
+  //
+  //
   static const String add = 'add';
   static const String save = 'save';
   static const String cancel = 'cancel';
@@ -14,8 +16,9 @@ class Strings {
   static const String income = 'income';
   static const String expense = 'expense';
   static const String generalErrorMessage = 'generalErrorMessage';
-
+  //
   // Transaction page
+  //
   static const String date = 'date';
   static const String category = 'category';
   static const String amount = 'amount';
@@ -29,8 +32,9 @@ class Strings {
 
   static const String transaction_validationErrorCategory = 'transaction_validationErrorCategory';
   static const String transaction_validationErrorAmount = 'transaction_validationErrorAmount';
-
+  //
   // Transactions page
+  //
   static const String dayIncome = 'dayIncome';
   static const String dayExpenses = 'dayExpenses';
   static const String weekIncome = 'weekIncome';
@@ -40,31 +44,38 @@ class Strings {
   static const String yearIncome = 'yearIncome';
   static const String yearExpenses = 'yearExpenses';
   static const String transactions_noItems = 'transactions_noItems';
-
+  //
   // Categories page
+  //
   static const String categories_pageTitle = 'categories_pageTitle';
   static const String addCategory = 'addCategory';
   static const String categoryTitle = 'categoryTitle';
   static const String addSubcategory = 'addSubcategory';
   static const String newSubcategory = 'newSubcategory';
-
+  //
   // Search page
+  //
   static const String search_pageTitle = 'search_pageTitle';
-
+  //
   // Add Account page
+  //
   static const String addAccountTitle = 'addAccountTitle';
   static const String addAccountSubtitle = 'addAccountSubtitle';
   static const String addAccountActionButton = 'addAccountActionButton';
   static const String selectCurrencyPlaceholder = 'selectCurrencyPlaceholder';
-
+  //
   // Change Account page
+  //
   static const String changeAccountPage_addAccountTitle = 'changeAccountPage_addAccountTitle';
   static const String changeAccountPage_addAccountSubtitle = 'changeAccountPage_addAccountSubtitle';
 }
 
+const arg1Placeholder = '%arg1';
+
 extension GetLocalizedString on String {
-  String localized(BuildContext context) {
-    return AppLocalizations.of(context).string(this);
+  String localized(BuildContext context, {String? arg1}) {
+    final str = AppLocalizations.of(context).string(this);
+    return arg1 == null ? str : str.replaceAll(arg1Placeholder, arg1);
   }
 }
 
@@ -97,7 +108,9 @@ class AppLocalizations {
       Strings.transactionsPageTitle: 'Transactions',
       Strings.morePageTitle: 'More',
       Strings.statisticsPageTitle: 'Statistics',
-
+      //
+      //
+      //
       Strings.add: 'Add',
       Strings.save: 'Save',
       Strings.cancel: 'Cancel',
@@ -105,8 +118,9 @@ class AppLocalizations {
       Strings.income: 'Income',
       Strings.expense: 'Expense',
       Strings.generalErrorMessage: 'Something went wrong',
-
+      //
       // Transaction page
+      //
       Strings.date: 'Date',
       Strings.category: 'Category',
       Strings.amount: 'Amount',
@@ -118,8 +132,9 @@ class AppLocalizations {
       Strings.transaction_actionAdd: 'Add',
       Strings.transaction_validationErrorCategory: 'Please select a category.',
       Strings.transaction_validationErrorAmount: 'Amount cannot be empty.',
-
+      //
       // Transactions page
+      //
       Strings.dayIncome: 'This day income',
       Strings.dayExpenses: 'This day expenses',
       Strings.weekIncome: 'This week income',
@@ -129,26 +144,30 @@ class AppLocalizations {
       Strings.yearIncome: 'This year income',
       Strings.yearExpenses: 'This year expenses',
       Strings.transactions_noItems: 'No transactions yet',
-
+      //
       // Categories page
+      //
       Strings.categories_pageTitle: 'Categories',
       Strings.addCategory: 'Add category',
       Strings.categoryTitle: 'Category title',
       Strings.addSubcategory: 'Add subcategory',
       Strings.newSubcategory: 'New subcategory',
-
+      //
       // Search page
+      //
       Strings.search_pageTitle: 'Search',
-
+      //
       // Add Account page
+      //
       Strings.addAccountTitle: 'Add Account',
       Strings.addAccountSubtitle: 'Choose a currency for your account ',
       Strings.addAccountActionButton: 'Add Account',
       Strings.selectCurrencyPlaceholder: 'Select currency',
-
+      //
       // Change Account page
+      //
       Strings.changeAccountPage_addAccountTitle: 'Add account',
-      Strings.changeAccountPage_addAccountSubtitle: 'Tap here to create a new account',
+      Strings.changeAccountPage_addAccountSubtitle: 'You can add up to $arg1Placeholder accounts',
     },
     'uk': {
       // TODO: Add translations.

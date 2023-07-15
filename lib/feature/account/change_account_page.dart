@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/controller/change_account_controller.dart';
 import 'package:moneymanager/navigation/routes.dart';
-import 'package:moneymanager/theme/icons.dart';
+import 'package:moneymanager/theme/dimens.dart';
 
 import '../../domain/account.dart';
 import '../../localizations.dart';
@@ -19,7 +19,7 @@ class ChangeAccountPage extends ConsumerWidget {
     return state.when(
       loading: () => Container(),
       error: (_, __) => SizedBox(
-        height: 124,
+        height: Dimens.changeAccountPageHeight,
         child: Center(
           child: Text(Strings.generalErrorMessage.localized(context)),
         ),
@@ -58,10 +58,14 @@ class _AccountsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedValueIcon = Icon(
-      AppIcons.check,
-      size: 32,
+    final selectedIcon = Icon(Icons.radio_button_checked,
       color: Theme.of(context).colorScheme.primary,
+    );
+
+    const unselectedIcon = Icon(Icons.circle_outlined);
+
+    const selectedTextStyle = TextStyle(
+      fontWeight: FontWeight.bold,
     );
 
     return ListView.builder(
@@ -71,17 +75,30 @@ class _AccountsList extends ConsumerWidget {
         if (index >= accounts.length) {
           return ListTile(
             onTap: () => _addAccount(context),
+            leading: const Icon(Icons.add),
             title: Text(Strings.changeAccountPage_addAccountTitle.localized(context)),
-            subtitle: Text(Strings.changeAccountPage_addAccountSubtitle.localized(context)),
+            subtitle: Text(Strings.changeAccountPage_addAccountSubtitle.localized(context, arg1: '?')), // TODO: Get from config.
           );
         } else {
           final account = accounts[index];
 
           return ListTile(
             onTap: () => _selectAccount(context, ref, account),
-            title: Text('${account.currency.emoji ?? ''}  ${account.currency.code}'),
+            contentPadding: const EdgeInsets.only(
+              left: Spacings.four,
+              right: Spacings.three,
+            ),
+            leading: account == currentAccount ? selectedIcon : unselectedIcon,
+            title: Text(account.currency.code,
+              style: account == currentAccount ? selectedTextStyle : null,
+            ),
             subtitle: Text(account.currency.name),
-            trailing: account == currentAccount ? selectedValueIcon : null,
+            trailing: IconButton(
+              onPressed: () {
+                // TODO: Implement.
+              },
+              icon: const Icon(Icons.more_vert),
+            ),
           );
         }
       },
