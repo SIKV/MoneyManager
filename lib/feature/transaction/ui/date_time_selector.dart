@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:moneymanager/feature/transaction/controller/transaction_maker_controller.dart';
-import 'package:moneymanager/localizations.dart';
 
 import '../../../theme/spacings.dart';
 import '../../../utils.dart';
@@ -99,7 +98,7 @@ class _DateTimeSelectorState extends ConsumerState<ConsumerStatefulWidget> {
               padding: const EdgeInsets.only(
                 right: Spacings.four,
               ),
-              child: Text(Strings.selectTimeHint.localized(context),
+              child: Text(AppLocalizations.of(context)!.selectTimeHint,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
@@ -8,7 +9,6 @@ import 'package:moneymanager/feature/categories/ui/categories_list.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
-import '../../localizations.dart';
 import 'controller/categories_controller.dart';
 
 class CategoriesPage extends ConsumerWidget {
@@ -26,7 +26,7 @@ class CategoriesPage extends ConsumerWidget {
           body: CustomScrollView(
             slivers: [
               SliverAppBar.medium(
-                title: Text(Strings.categories_pageTitle.localized(context)),
+                title: Text(AppLocalizations.of(context)!.categories_pageTitle),
                 actions: [
                   IconButton(
                     onPressed: () { },
@@ -49,8 +49,8 @@ class CategoriesPage extends ConsumerWidget {
                         _selectType(ref, transactionType);
                       },
                       children: <TransactionType, Widget>{
-                        TransactionType.income: Text(Strings.income.localized(context)),
-                        TransactionType.expense: Text(Strings.expense.localized(context)),
+                        TransactionType.income: Text(AppLocalizations.of(context)!.income),
+                        TransactionType.expense: Text(AppLocalizations.of(context)!.expense),
                       },
                     ),
                   ),
@@ -65,7 +65,7 @@ class CategoriesPage extends ConsumerWidget {
             ],
           ),
           floatingActionButton: FloatingActionButton.extended(
-            label: Text(Strings.addCategory.localized(context)),
+            label: Text(AppLocalizations.of(context)!.addCategory),
             icon: const Icon(AppIcons.categoriesAddCategory),
             onPressed: () {
               _addCategory(context, ref);

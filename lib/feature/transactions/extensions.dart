@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../localizations.dart';
 import 'domain/transaction_filter.dart';
 
 extension TransactionFilterExtensions on TransactionFilter {
@@ -8,21 +8,21 @@ extension TransactionFilterExtensions on TransactionFilter {
   String getTitle(BuildContext context) {
     switch (this) {
       case TransactionFilter.dayIncome:
-        return Strings.dayIncome.localized(context);
+        return AppLocalizations.of(context)!.dayIncome;
       case TransactionFilter.dayExpenses:
-        return Strings.dayExpenses.localized(context);
+        return AppLocalizations.of(context)!.dayExpenses;
       case TransactionFilter.weekIncome:
-        return Strings.weekIncome.localized(context);
+        return AppLocalizations.of(context)!.weekIncome;
       case TransactionFilter.weekExpenses:
-        return Strings.weekExpenses.localized(context);
+        return AppLocalizations.of(context)!.weekExpenses;
       case TransactionFilter.monthIncome:
-        return Strings.monthIncome.localized(context);
+        return AppLocalizations.of(context)!.monthIncome;
       case TransactionFilter.monthExpenses:
-        return Strings.monthExpenses.localized(context);
+        return AppLocalizations.of(context)!.monthExpenses;
       case TransactionFilter.yearIncome:
-        return Strings.yearIncome.localized(context);
+        return AppLocalizations.of(context)!.yearIncome;
       case TransactionFilter.yearExpenses:
-        return Strings.yearExpenses.localized(context);
+        return AppLocalizations.of(context)!.yearExpenses;
     }
   }
 }

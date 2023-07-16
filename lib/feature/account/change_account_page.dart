@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/controller/change_account_controller.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/dimens.dart';
 
 import '../../domain/account.dart';
-import '../../localizations.dart';
 import '../../theme/spacings.dart';
 import '../../ui/widget/close_circle_button.dart';
 
@@ -21,7 +21,7 @@ class ChangeAccountPage extends ConsumerWidget {
       error: (_, __) => SizedBox(
         height: Dimens.changeAccountPageHeight,
         child: Center(
-          child: Text(Strings.generalErrorMessage.localized(context)),
+          child: Text(AppLocalizations.of(context)!.generalErrorMessage),
         ),
       ),
       data: (state) =>
@@ -76,8 +76,8 @@ class _AccountsList extends ConsumerWidget {
           return ListTile(
             onTap: () => _addAccount(context),
             leading: const Icon(Icons.add),
-            title: Text(Strings.changeAccountPage_addAccountTitle.localized(context)),
-            subtitle: Text(Strings.changeAccountPage_addAccountSubtitle.localized(context, arg1: '?')), // TODO: Get from config.
+            title: Text(AppLocalizations.of(context)!.changeAccountPage_addAccountTitle),
+            subtitle: Text(AppLocalizations.of(context)!.changeAccountPage_addAccountSubtitle(0)), // TODO: Get from config.
           );
         } else {
           final account = accounts[index];

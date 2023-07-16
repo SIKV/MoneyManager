@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/change_account_page.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
@@ -10,7 +11,6 @@ import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
-import '../../localizations.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
@@ -47,19 +47,19 @@ class TransactionsPage extends ConsumerWidget {
       ),
       secondaryActions: [
         HeaderCircleButton(
-          title: Strings.categories_pageTitle.localized(context),
+          title: AppLocalizations.of(context)!.categories_pageTitle,
           iconAsset: Assets.cart,
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.categories);
           },
         ),
         HeaderCircleButton(
-          title: Strings.statisticsPageTitle.localized(context),
+          title: AppLocalizations.of(context)!.statisticsPageTitle,
           iconAsset: Assets.chartVertical,
           onPressed: () { },
         ),
         HeaderCircleButton(
-          title: Strings.search_pageTitle.localized(context),
+          title: AppLocalizations.of(context)!.search_pageTitle,
           iconAsset: Assets.search,
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.search);

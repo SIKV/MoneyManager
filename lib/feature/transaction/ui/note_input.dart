@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/controller/transaction_maker_controller.dart';
-import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
 const _maxLines = 7;
@@ -52,7 +52,7 @@ class _NoteInputState extends ConsumerState<NoteInput> {
         controller: textEditingController,
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: Strings.transaction_enterNoteHint.localized(context),
+          hintText: AppLocalizations.of(context)!.transaction_enterNoteHint,
         ),
         minLines: 1,
         maxLines: _maxLines,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
-import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/icons.dart';
 
 import '../../../theme/spacings.dart';
@@ -21,7 +21,7 @@ class HeaderSettings extends ConsumerWidget {
       error: (_, __) => SizedBox(
         height: 124,
         child: Center(
-          child: Text(Strings.generalErrorMessage.localized(context)),
+          child: Text(AppLocalizations.of(context)!.generalErrorMessage),
         ),
       ),
       data: (config) =>

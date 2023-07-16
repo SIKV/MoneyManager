@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../localizations.dart';
 import '../theme/colors.dart';
 
 enum TransactionType {
@@ -13,9 +13,9 @@ extension TransactionTypeUtils on TransactionType {
   String getTitle(BuildContext context) {
     switch (this) {
       case TransactionType.income:
-        return Strings.income.localized(context);
+        return AppLocalizations.of(context)!.income;
       case TransactionType.expense:
-        return Strings.expense.localized(context);
+        return AppLocalizations.of(context)!.expense;
     }
   }
 

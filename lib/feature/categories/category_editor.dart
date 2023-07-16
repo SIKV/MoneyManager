@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/emoji/emoji_picker_content.dart';
-import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/utils.dart';
 
 import '../../theme/spacings.dart';
@@ -85,8 +85,8 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
                 groupValue: _newCategory.type,
                 onValueChanged: _typeChanged,
                 children: <TransactionType, Widget>{
-                  TransactionType.income: Text(Strings.income.localized(context)),
-                  TransactionType.expense: Text(Strings.expense.localized(context)),
+                  TransactionType.income: Text(AppLocalizations.of(context)!.income),
+                  TransactionType.expense: Text(AppLocalizations.of(context)!.expense),
                 },
               ),
               const Spacer(),
@@ -128,7 +128,7 @@ class _CategoryEditorState extends ConsumerState<CategoryEditor> {
                   autofocus: true,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
-                    labelText: Strings.categoryTitle.localized(context),
+                    labelText: AppLocalizations.of(context)!.categoryTitle,
                   ),
                 ),
               ),
@@ -212,7 +212,7 @@ class _Actions extends StatelessWidget {
     List<Widget> buttons = [
       FilledButton(
         onPressed: onSavePressed,
-        child: Text(Strings.save.localized(context)),
+        child: Text(AppLocalizations.of(context)!.save),
       ),
     ];
 
@@ -226,7 +226,7 @@ class _Actions extends StatelessWidget {
                 .error,
           ),
           onPressed: onDeletePressed,
-          child: Text(Strings.delete.localized(context)),
+          child: Text(AppLocalizations.of(context)!.delete),
         ),
       );
     }

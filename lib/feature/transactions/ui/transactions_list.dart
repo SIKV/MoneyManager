@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/provider/transactions_list_provider.dart';
 import 'package:moneymanager/feature/transactions/ui/transaction_item.dart';
-import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/spacings.dart';
+
 import '../../../navigation/routes.dart';
 import '../../../navigation/transaction_page_args.dart';
 import '../../../ui/widget/no_items.dart';
@@ -31,7 +32,7 @@ class TransactionsList extends ConsumerWidget {
         if (transactions.isEmpty) {
           return SliverFillRemaining(
             child: Center(
-              child: NoItems(title: Strings.transactions_noItems.localized(context)),
+              child: NoItems(title: AppLocalizations.of(context)!.transactions_noItems),
             ),
           );
         } else {

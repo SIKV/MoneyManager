@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/home/controller/home_controller.dart';
 import 'package:moneymanager/feature/home/domain/home_state.dart';
-import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/ui/widget/SvgIcon.dart';
@@ -63,7 +63,7 @@ class _HomeScaffold extends ConsumerWidget {
           NavigationDestination(
             icon: const SvgIcon(Assets.homeOutline),
             selectedIcon: const SvgIcon(Assets.home),
-            label: Strings.transactionsPageTitle.localized(context),
+            label: AppLocalizations.of(context)!.transactionsPageTitle,
           ),
           Center(
             child: Ink(
@@ -87,7 +87,7 @@ class _HomeScaffold extends ConsumerWidget {
           ),
           NavigationDestination(
             icon: const SvgIcon(Assets.menuHorizontal),
-            label: Strings.morePageTitle.localized(context),
+            label: AppLocalizations.of(context)!.morePageTitle,
           ),
         ],
       ),
@@ -120,7 +120,7 @@ class _HomeScaffold extends ConsumerWidget {
                 leading: Icon(AppIcons.addIncome,
                   color: theme.colors.incomeTransaction,
                 ),
-                title: Text(Strings.income.localized(context)),
+                title: Text(AppLocalizations.of(context)!.income),
               ),
               ListTile(
                 onTap: () {
@@ -130,7 +130,7 @@ class _HomeScaffold extends ConsumerWidget {
                 leading: Icon(AppIcons.addExpense,
                   color: theme.colors.expenseTransaction,
                 ),
-                title: Text(Strings.expense.localized(context)),
+                title: Text(AppLocalizations.of(context)!.expense),
               ),
             ],
           ),

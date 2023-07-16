@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.dart';
@@ -11,7 +12,6 @@ import 'package:moneymanager/feature/transaction/ui/transaction_actions.dart';
 import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
-import '../../localizations.dart';
 import '../../navigation/transaction_page_args.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
@@ -125,7 +125,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ),
       const SizedBox(height: Spacings.four),
       PropertyItem(
-        title: Strings.date.localized(context),
+        title: AppLocalizations.of(context)!.date,
         value: state.transaction.formattedCreateDateTime,
         isSelected: state.selectedProperty == TransactionProperty.date,
         onSelected: () {
@@ -134,7 +134,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ),
       const SizedBox(height: Spacings.two),
       PropertyItem(
-        title: Strings.category.localized(context),
+        title: AppLocalizations.of(context)!.category,
         value: categoryTitle,
         isSelected: state.selectedProperty == TransactionProperty.category,
         onSelected: () {
@@ -143,7 +143,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ),
       const SizedBox(height: Spacings.two),
       PropertyItem(
-        title: Strings.amount.localized(context),
+        title: AppLocalizations.of(context)!.amount,
         value: state.transaction.formattedAmount,
         isSelected: state.selectedProperty == TransactionProperty.amount,
         onSelected: () {
@@ -152,7 +152,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ),
       const SizedBox(height: Spacings.two),
       PropertyItem(
-        title: Strings.note.localized(context),
+        title: AppLocalizations.of(context)!.note,
         value: state.transaction.note ?? '...',
         isSelected: state.selectedProperty == TransactionProperty.note,
         onSelected: () {
@@ -179,10 +179,10 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
 
       switch (next) {
         case ValidationError.emptyCategory:
-          errorMessage = Strings.transaction_validationErrorCategory.localized(context);
+          errorMessage = AppLocalizations.of(context)!.transaction_validationErrorCategory;
           break;
         case ValidationError.emptyAmount:
-          errorMessage = Strings.transaction_validationErrorAmount.localized(context);
+          errorMessage = AppLocalizations.of(context)!.transaction_validationErrorAmount;
           break;
         case null:
           errorMessage = null;

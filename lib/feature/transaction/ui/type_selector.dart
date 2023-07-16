@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/transaction_type.dart';
-import '../../../localizations.dart';
 import '../controller/transaction_maker_controller.dart';
 
 class TypeSelector extends ConsumerWidget {
@@ -29,8 +29,8 @@ class TypeSelector extends ConsumerWidget {
                 .setType(type ?? TransactionType.income);
           },
           children: <TransactionType, Widget>{
-            TransactionType.income: Text(Strings.income.localized(context)),
-            TransactionType.expense: Text(Strings.expense.localized(context)),
+            TransactionType.income: Text(AppLocalizations.of(context)!.income),
+            TransactionType.expense: Text(AppLocalizations.of(context)!.expense),
           },
         );
       },

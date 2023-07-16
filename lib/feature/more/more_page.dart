@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/theme/theme.dart';
 
-import '../../localizations.dart';
 import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
 import '../../ui/widget/collapsing_header_page.dart';
@@ -21,7 +21,7 @@ class MorePage extends ConsumerWidget {
       endColor: appTheme.colors.moreHeaderEnd,
       collapsedHeight: 78,
       expandedHeight: 208,
-      title: Strings.morePageTitle.localized(context),
+      title: AppLocalizations.of(context)!.morePageTitle,
       primaryAction: Container(
         decoration: BoxDecoration(
           color: appTheme.colors.alwaysWhite,

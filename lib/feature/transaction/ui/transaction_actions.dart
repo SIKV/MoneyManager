@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
-import '../../../localizations.dart';
 import '../controller/transaction_maker_controller.dart';
 import '../domain/ui_mode.dart';
 
@@ -48,7 +48,7 @@ class _AddModeActions extends ConsumerWidget {
             children: [
               const Icon(Icons.done),
               const SizedBox(width: Spacings.two),
-              Text('${Strings.transaction_actionAdd.localized(context)} ${type.getTitle(context)}'),
+              Text('${AppLocalizations.of(context)!.add} ${type.getTitle(context)}'),
             ],
           ),
         ),
@@ -86,7 +86,7 @@ class _ViewModeActions extends ConsumerWidget {
             children: [
               const Icon(Icons.delete_outline_rounded),
               const SizedBox(width: Spacings.two),
-              Text(Strings.transaction_actionDelete.localized(context)),
+              Text(AppLocalizations.of(context)!.delete),
             ],
           ),
         ),
@@ -101,7 +101,7 @@ class _ViewModeActions extends ConsumerWidget {
             children: [
               const Icon(Icons.done),
               const SizedBox(width: Spacings.two),
-              Text(Strings.transaction_actionSave.localized(context)),
+              Text(AppLocalizations.of(context)!.save),
             ],
           ),
         ),

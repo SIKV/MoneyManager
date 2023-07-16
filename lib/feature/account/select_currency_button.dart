@@ -1,7 +1,7 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
 import 'controller/add_account_controller.dart';
@@ -18,7 +18,7 @@ class SelectCurrencyButton extends ConsumerWidget {
     if (selectedCurrency != null) {
       selectedCurrencyText = '${selectedCurrency.emoji} ${selectedCurrency.name} (${selectedCurrency.symbol})';
     } else {
-      selectedCurrencyText = Strings.selectCurrencyPlaceholder.localized(context);
+      selectedCurrencyText = AppLocalizations.of(context)!.selectCurrencyPlaceholder;
     }
 
     return SizedBox(

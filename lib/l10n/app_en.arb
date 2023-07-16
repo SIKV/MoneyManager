@@ -1,0 +1,55 @@
+{
+  "transactionsPageTitle": "Transactions",
+  "morePageTitle": "More",
+  "statisticsPageTitle": "Statistics",
+
+  "add": "Add",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "income": "Income",
+  "expense": "Expense",
+  "date": "Date",
+  "category": "Category",
+  "amount": "Amount",
+  "note": "Note",
+  "generalErrorMessage": "Something went wrong",
+
+  "selectTimeHint": "Scroll down to select time ▼",
+  "transaction_enterNoteHint": "Enter a note...",
+  "transaction_validationErrorCategory": "Please select a category.",
+  "transaction_validationErrorAmount": "Amount cannot be empty.",
+
+  "dayIncome": "This day income",
+  "dayExpenses": "This day expenses",
+  "weekIncome": "This week income",
+  "weekExpenses": "This week expenses",
+  "monthIncome": "This month income",
+  "monthExpenses": "This month expenses",
+  "yearIncome": "This year income",
+  "yearExpenses": "This year expenses",
+
+  "transactions_noItems": "No transactions yet",
+
+  "categories_pageTitle": "Categories",
+  "addCategory": "Add category",
+  "categoryTitle": "Category title",
+
+  "search_pageTitle": "Search",
+
+  "addAccountTitle": "Add Account",
+  "addAccountSubtitle": "Choose a currency for your account",
+  "addAccountActionButton": "Add Account",
+  "selectCurrencyPlaceholder": "Select currency",
+
+  "changeAccountPage_addAccountTitle": "Add account",
+
+  "changeAccountPage_addAccountSubtitle": "You can add up to {numberOfAccounts} accounts",
+  "@changeAccountPage_addAccountSubtitle": {
+      "placeholders": {
+          "numberOfAccounts": {
+              "type": "num"
+          }
+      }
+  }
+}

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/add_account_page.dart';
 import 'package:moneymanager/feature/categories/categories_page.dart';
 import 'package:moneymanager/feature/search/search_page.dart';
 import 'package:moneymanager/feature/transaction/transaction_page.dart';
-import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/navigation/transaction_page_args.dart';
 import 'package:moneymanager/theme/theme.dart';
@@ -40,15 +39,8 @@ class App extends ConsumerWidget {
         assert(false, '${settings.name} route is not implemented.');
         return null;
       },
-      localizationsDelegates: const [
-        AppLocalizationsDelegate(),
-        GlobalWidgetsLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('uk', ''),
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

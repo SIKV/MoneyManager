@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/select_currency_button.dart';
-import 'package:moneymanager/localizations.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/close_circle_button.dart';
 
@@ -44,13 +44,13 @@ class AddAccountPage extends ConsumerWidget {
 
               const SizedBox(height: Spacings.six),
 
-              Text(Strings.addAccountTitle.localized(context),
+              Text(AppLocalizations.of(context)!.addAccountTitle,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
 
               const SizedBox(height: Spacings.half),
 
-              Text(Strings.addAccountSubtitle.localized(context),
+              Text(AppLocalizations.of(context)!.addAccountSubtitle,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
 
@@ -62,7 +62,7 @@ class AddAccountPage extends ConsumerWidget {
 
               FilledButton(
                 onPressed: state?.selectedCurrency != null ? () => _addAccount(context, ref) : null,
-                child: Text(Strings.addAccountActionButton.localized(context)),
+                child: Text(AppLocalizations.of(context)!.addAccountActionButton),
               ),
             ],
           ),
