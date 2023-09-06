@@ -1,4 +1,5 @@
 import 'package:moneymanager/common/currency_formatter.dart';
+import 'package:moneymanager/common/date_time_utils.dart';
 import 'package:moneymanager/data/repository/transactions_repository.dart';
 
 import '../../../domain/transaction_type.dart';
@@ -12,36 +13,9 @@ class TransactionService {
   TransactionService(this._transactionsRepository, this._currencyFormatter);
 
   Stream<List<TransactionUiModel>> getFiltered(TransactionFilter filter) async* {
-    TransactionType type = TransactionType.income;
-    int fromTimestamp = 0; // TODO: Set correct value.
-    int toTimestamp = DateTime.now().millisecondsSinceEpoch; // TODO: Set correct value.
-
-    switch (filter) {
-      case TransactionFilter.dayIncome:
-        type = TransactionType.income;
-        break;
-      case TransactionFilter.dayExpenses:
-        type = TransactionType.expense;
-        break;
-      case TransactionFilter.weekIncome:
-        type = TransactionType.income;
-        break;
-      case TransactionFilter.weekExpenses:
-        type = TransactionType.expense;
-        break;
-      case TransactionFilter.monthIncome:
-        type = TransactionType.income;
-        break;
-      case TransactionFilter.monthExpenses:
-        type = TransactionType.expense;
-        break;
-      case TransactionFilter.yearIncome:
-        type = TransactionType.income;
-        break;
-      case TransactionFilter.yearExpenses:
-        type = TransactionType.expense;
-        break;
-    }
+    TransactionType type = _getTransactionType(filter);
+    int fromTimestamp = _getFromTimestamp(filter);
+    int toTimestamp = DateTime.now().millisecondsSinceEpoch;
 
     final transactions = _transactionsRepository.getAll(
       type: type,
@@ -62,5 +36,51 @@ class TransactionService {
     });
 
     yield* transactions;
+  }
+
+  TransactionType _getTransactionType(TransactionFilter filter) {
+    TransactionType type = TransactionType.income;
+
+    switch (filter) {
+      case TransactionFilter.dayIncome:
+      case TransactionFilter.weekIncome:
+      case TransactionFilter.monthIncome:
+      case TransactionFilter.yearIncome:
+        type = TransactionType.income;
+        break;
+      case TransactionFilter.dayExpenses:
+      case TransactionFilter.weekExpenses:
+      case TransactionFilter.monthExpenses:
+      case TransactionFilter.yearExpenses:
+        type = TransactionType.expense;
+        break;
+    }
+
+    return type;
+  }
+
+  int _getFromTimestamp(TransactionFilter filter) {
+    var fromDateTime = DateTime.now();
+
+    switch (filter) {
+      case TransactionFilter.dayIncome:
+      case TransactionFilter.dayExpenses:
+        fromDateTime = subtractDay(fromDateTime);
+        break;
+      case TransactionFilter.weekIncome:
+      case TransactionFilter.weekExpenses:
+        fromDateTime = subtractWeek(fromDateTime);
+        break;
+      case TransactionFilter.monthIncome:
+      case TransactionFilter.monthExpenses:
+        fromDateTime = subtractMonth(fromDateTime);
+        break;
+      case TransactionFilter.yearIncome:
+      case TransactionFilter.yearExpenses:
+        fromDateTime = subtractYear(fromDateTime);
+        break;
+    }
+
+    return fromDateTime.millisecondsSinceEpoch;
   }
 }
