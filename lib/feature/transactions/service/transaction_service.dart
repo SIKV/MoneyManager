@@ -1,7 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:moneymanager/common/currency_formatter.dart';
 import 'package:moneymanager/common/date_time_utils.dart';
 import 'package:moneymanager/data/repository/transactions_repository.dart';
+import 'package:moneymanager/feature/transactions/extensions.dart';
 
+import '../../../domain/transaction.dart';
 import '../../../domain/transaction_type.dart';
 import '../domain/transaction_filter.dart';
 import '../domain/transaction_item_ui_model.dart';
@@ -12,75 +15,60 @@ class TransactionService {
 
   TransactionService(this._transactionsRepository, this._currencyFormatter);
 
-  Stream<List<TransactionUiModel>> getFiltered(TransactionFilter filter) async* {
-    TransactionType type = _getTransactionType(filter);
-    int fromTimestamp = _getFromTimestamp(filter);
-    int toTimestamp = DateTime.now().millisecondsSinceEpoch;
+  Stream<List<TransactionItemUiModel>> getFiltered(
+      TransactionFilter filter) async* {
+    TransactionType type = filter.getTransactionType();
+    int fromTimestamp = filter.getFromTimestamp(DateTime.now());
 
     final transactions = _transactionsRepository.getAll(
       type: type,
       fromTimestamp: fromTimestamp,
-      toTimestamp: toTimestamp,
-    ).map((list) {
-      return list.map((it) {
-        return TransactionUiModel(
-          id: it.id,
-          emoji: it.category.emoji,
-          title: it.category.title,
-          amount: _currencyFormatter.format(
-            currency: it.currency,
-            amount: it.amount,
-          ),
-        );
-      }).toList();
+    );
+
+    yield* transactions.map((list) {
+      return _insertSections(list);
+    });
+  }
+
+  List<TransactionItemUiModel> _insertSections(List<Transaction> transactions) {
+    // Sort by date (descending).
+    var sorted = transactions.sortedByCompare((it) => it.createTimestamp, (a,
+        b) => b.compareTo(a));
+
+    // Group by date.
+    var grouped = sorted.groupListsBy((it) {
+      var dateTime = DateTime.fromMillisecondsSinceEpoch(it.createTimestamp);
+      return DateTime(
+          dateTime.year,
+          dateTime.month,
+          dateTime.day,
+          0,
+          0,
+          0,
+          0,
+          0);
     });
 
-    yield* transactions;
-  }
+    List<TransactionItemUiModel> items = [];
 
-  TransactionType _getTransactionType(TransactionFilter filter) {
-    TransactionType type = TransactionType.income;
+    for (var entry in grouped.entries) {
+      items.add(TransactionSectionUiModel(title: formatDate(entry.key)));
 
-    switch (filter) {
-      case TransactionFilter.dayIncome:
-      case TransactionFilter.weekIncome:
-      case TransactionFilter.monthIncome:
-      case TransactionFilter.yearIncome:
-        type = TransactionType.income;
-        break;
-      case TransactionFilter.dayExpenses:
-      case TransactionFilter.weekExpenses:
-      case TransactionFilter.monthExpenses:
-      case TransactionFilter.yearExpenses:
-        type = TransactionType.expense;
-        break;
+      items.addAll(
+          entry.value.map((it) {
+            return TransactionUiModel(
+              id: it.id,
+              emoji: it.category.emoji,
+              title: it.category.title,
+              amount: _currencyFormatter.format(
+                currency: it.currency,
+                amount: it.amount,
+              ),
+            );
+          })
+      );
     }
 
-    return type;
-  }
-
-  int _getFromTimestamp(TransactionFilter filter) {
-    var fromDateTime = DateTime.now();
-
-    switch (filter) {
-      case TransactionFilter.dayIncome:
-      case TransactionFilter.dayExpenses:
-        fromDateTime = subtractDay(fromDateTime);
-        break;
-      case TransactionFilter.weekIncome:
-      case TransactionFilter.weekExpenses:
-        fromDateTime = subtractWeek(fromDateTime);
-        break;
-      case TransactionFilter.monthIncome:
-      case TransactionFilter.monthExpenses:
-        fromDateTime = subtractMonth(fromDateTime);
-        break;
-      case TransactionFilter.yearIncome:
-      case TransactionFilter.yearExpenses:
-        fromDateTime = subtractYear(fromDateTime);
-        break;
-    }
-
-    return fromDateTime.millisecondsSinceEpoch;
+    return items;
   }
 }

@@ -35,13 +35,11 @@ class TransactionsRepository {
   Stream<List<Transaction>> getAll({
     required TransactionType type,
     required int fromTimestamp,
-    required int toTimestamp,
   }) {
     return localDataSource.getAll(
       accountId: currentAccountService.getCurrentAccountId(),
       transactionType: type.toEntity(),
       fromTimestamp: fromTimestamp,
-      toTimestamp: toTimestamp,
     ).asyncMap((list) async {
       final currency = (await currentAccountService.getCurrentAccount()).currency;
       final mapped = list.map((it) => _mapTransaction(it, currency));

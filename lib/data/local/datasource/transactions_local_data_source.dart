@@ -26,13 +26,12 @@ class TransactionsLocalDataSource {
     required int accountId,
     required TransactionTypeEntity transactionType,
     required int fromTimestamp,
-    required int toTimestamp,
   }) {
     return isar.transactionEntitys
         .filter()
         .accountIdEqualTo(accountId)
         .typeEqualTo(transactionType)
-        .createTimestampBetween(fromTimestamp, toTimestamp, includeLower: true, includeUpper: true)
+        .createTimestampGreaterThan(fromTimestamp, include: true)
         .watch(fireImmediately: true);
   }
 }

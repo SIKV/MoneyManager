@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneymanager/common/date_time_utils.dart';
 
-/// Unit tests here were partially or fully written by ChatGPT-3.5.
+// Unit tests here were partially or fully written by ChatGPT-3.5.
 void main() {
   group('subtractDay', () {
     test('Should subtract one day from a given DateTime', () {
