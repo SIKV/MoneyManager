@@ -30,10 +30,15 @@
   "yearExpenses": "This year expenses",
 
   "transactions_noItems": "No transactions yet",
+  "categories_noItems": "No categories yet",
 
   "categories_pageTitle": "Categories",
   "addCategory": "Add category",
   "categoryTitle": "Category title",
+
+  "deleteCategoryTitle": "Delete category",
+  "deleteCategoryDescription": "Are you sure you want to delete this category?",
+  "deleteCategoryWithRelatedTransactions": "Delete related transactions",
 
   "search_pageTitle": "Search",
 
