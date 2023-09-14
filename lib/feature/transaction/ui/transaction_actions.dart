@@ -20,39 +20,17 @@ class TransactionActions extends ConsumerWidget {
       data: (state) {
         switch (state.uiMode) {
           case UiMode.add:
-            return _AddModeActions(type: state.transaction.type);
+            return _AddModeActions(
+              type: state.transaction.type,
+              onAddPressed: () => _saveTransaction(ref),
+            );
           case UiMode.view:
-            return _ViewModeActions(type: state.transaction.type);
+            return _ViewModeActions(
+              type: state.transaction.type,
+              onSavePressed: () => _saveTransaction(ref),
+            );
         }
       }
-    );
-  }
-}
-
-class _AddModeActions extends ConsumerWidget {
-  final TransactionType type;
-
-  const _AddModeActions({
-    Key? key,
-    required this.type,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ButtonBar(
-      alignment: MainAxisAlignment.center,
-      children: [
-        FilledButton(
-          onPressed: () => _saveTransaction(ref),
-          child: Row(
-            children: [
-              const Icon(Icons.done),
-              const SizedBox(width: Spacings.two),
-              Text('${AppLocalizations.of(context)!.add} ${type.getTitle(context)}'),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -62,50 +40,65 @@ class _AddModeActions extends ConsumerWidget {
   }
 }
 
-class _ViewModeActions extends ConsumerWidget {
+class _AddModeActions extends ConsumerWidget {
   final TransactionType type;
+  final VoidCallback onAddPressed;
 
-  const _ViewModeActions({
+  const _AddModeActions({
     Key? key,
     required this.type,
+    required this.onAddPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ButtonBar(
-      alignment: MainAxisAlignment.end,
-      children: [
-        FilledButton(
-          onPressed: () => {
-            // TODO:
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.delete_outline_rounded),
-              const SizedBox(width: Spacings.two),
-              Text(AppLocalizations.of(context)!.delete),
-            ],
-          ),
-        ),
-        FilledButton(
-          onPressed: () => {
-            // TODO:
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.onBackground,
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.done),
-              const SizedBox(width: Spacings.two),
-              Text(AppLocalizations.of(context)!.save),
-            ],
-          ),
-        ),
-      ],
+    IconData icon;
+
+    switch (type) {
+      case TransactionType.income:
+        icon = Icons.arrow_circle_down_outlined;
+        break;
+      case TransactionType.expense:
+        icon = Icons.arrow_circle_up_outlined;
+        break;
+    }
+
+    return FilledButton(
+      onPressed: onAddPressed,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon),
+          const SizedBox(width: Spacings.two),
+          Text('${AppLocalizations.of(context)!.addNew} ${type.getTitle(context)}'),
+        ],
+      ),
+    );
+  }
+}
+
+class _ViewModeActions extends ConsumerWidget {
+  final TransactionType type;
+  final VoidCallback onSavePressed;
+
+  const _ViewModeActions({
+    Key? key,
+    required this.type,
+    required this.onSavePressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FilledButton(
+      onPressed: onSavePressed,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.check_rounded),
+          const SizedBox(width: Spacings.two),
+          Text(AppLocalizations.of(context)!.save),
+        ],
+      ),
     );
   }
 }

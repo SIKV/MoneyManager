@@ -19,6 +19,8 @@ import 'controller/transaction_maker_controller.dart';
 
 const _noValuePlaceholder = '...';
 
+// TODO: Add delete button.
+
 class TransactionPage extends ConsumerStatefulWidget {
   final TransactionPageArgs args;
 
@@ -76,7 +78,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       child: Scaffold(
         appBar: AppBar(
           title: const AccountSelector(),
-          centerTitle: true,
+          centerTitle: false,
         ),
         body: Column(
           children: [

@@ -4,6 +4,7 @@
   "statisticsPageTitle": "Statistics",
 
   "add": "Add",
+  "addNew": "Add New",
   "save": "Save",
   "cancel": "Cancel",
   "delete": "Delete",
@@ -33,7 +34,7 @@
   "categories_noItems": "No categories yet",
 
   "categories_pageTitle": "Categories",
-  "addCategory": "Add category",
+  "addCategory": "Add Category",
   "categoryTitle": "Category title",
 
   "deleteCategoryTitle": "Delete category",

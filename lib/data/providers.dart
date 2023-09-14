@@ -16,6 +16,11 @@ final categoriesRepositoryProvider = Provider((ref) async {
   return CategoriesRepository(localDataSource);
 });
 
+final categoriesRepositoryUpdatedProvider = StreamProvider((ref) async* {
+  final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
+  yield* categoriesRepository.onUpdated;
+});
+
 final transactionsRepositoryProvider = Provider((ref) async {
   final localDataSource = await ref.watch(transactionsLocalDataSourceProvider);
   final categoriesRepository = await ref.watch(categoriesRepositoryProvider);

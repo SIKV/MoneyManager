@@ -20,7 +20,7 @@ class AccountSelector extends ConsumerWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('${currentAccount.currency.emoji} ${currentAccount.currency.code}'),
+                Text(currentAccount.currency.code),
                 const Icon(Icons.keyboard_arrow_down_rounded)
               ],
             ),

@@ -9,16 +9,18 @@ String formatDate(DateTime dateTime) {
     return "Today";
   } else if (dateTime.day == yesterday.day && dateTime.month == yesterday.month && dateTime.year == yesterday.year) {
     return "Yesterday";
-  } else {
+  } else if (dateTime.year == today.year) {
     final DateFormat formatter = DateFormat('d MMMM');
+    return formatter.format(dateTime);
+  } else {
+    final DateFormat formatter = DateFormat('d MMMM yyyy');
     return formatter.format(dateTime);
   }
 }
 
 String formatDateTime(DateTime dateTime) {
-  // TODO:
-  final DateFormat formatter = DateFormat('E dd  h:m a');
-  return formatter.format(dateTime);
+  final DateFormat timeFormat = DateFormat(DateFormat.HOUR_MINUTE);
+  return '${formatDate(dateTime)} ${timeFormat.format(dateTime)}';
 }
 
 DateTime subtractDay(DateTime dateTime) {

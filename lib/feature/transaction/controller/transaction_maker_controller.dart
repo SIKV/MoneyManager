@@ -54,6 +54,9 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     // Rebuild when the current account changed.
     ref.watch(currentAccountProvider);
 
+    // Rebuild when a category added/updated/deleted.
+    ref.watch(categoriesRepositoryUpdatedProvider);
+
     // TODO Do not reset all the properties when the current account changed.
 
     final transaction = await _createBlueprint(_initialTransactionId);
