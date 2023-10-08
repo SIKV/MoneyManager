@@ -1,61 +1,39 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:moneymanager/domain/transaction_type_filter.dart';
 
 import '../../common/date_time_utils.dart';
-import '../../domain/transaction_type.dart';
-import 'domain/transaction_filter.dart';
+import 'domain/transaction_range_filter.dart';
 
-extension TransactionFilterExtensions on TransactionFilter {
+String getFilterTitle(TransactionRangeFilter range, TransactionTypeFilter type) {
+  // TODO: Implement.
+  return '';
+}
+
+extension TransactionRangeFilterExtensions on TransactionRangeFilter {
 
   String getTitle(BuildContext context) {
     switch (this) {
-      case TransactionFilter.dayIncome:
-        return AppLocalizations.of(context)!.dayIncome;
-      case TransactionFilter.dayExpenses:
-        return AppLocalizations.of(context)!.dayExpenses;
-      case TransactionFilter.weekIncome:
-        return AppLocalizations.of(context)!.weekIncome;
-      case TransactionFilter.weekExpenses:
-        return AppLocalizations.of(context)!.weekExpenses;
-      case TransactionFilter.monthIncome:
-        return AppLocalizations.of(context)!.monthIncome;
-      case TransactionFilter.monthExpenses:
-        return AppLocalizations.of(context)!.monthExpenses;
-      case TransactionFilter.yearIncome:
-        return AppLocalizations.of(context)!.yearIncome;
-      case TransactionFilter.yearExpenses:
-        return AppLocalizations.of(context)!.yearExpenses;
-    }
-  }
-
-  TransactionType getTransactionType() {
-    switch (this) {
-      case TransactionFilter.dayIncome:
-      case TransactionFilter.weekIncome:
-      case TransactionFilter.monthIncome:
-      case TransactionFilter.yearIncome:
-        return TransactionType.income;
-      case TransactionFilter.dayExpenses:
-      case TransactionFilter.weekExpenses:
-      case TransactionFilter.monthExpenses:
-      case TransactionFilter.yearExpenses:
-        return TransactionType.expense;
+      case TransactionRangeFilter.day:
+        return AppLocalizations.of(context)!.thisDay;
+      case TransactionRangeFilter.week:
+        return AppLocalizations.of(context)!.thisWeek;
+      case TransactionRangeFilter.month:
+        return AppLocalizations.of(context)!.thisMonth;
+      case TransactionRangeFilter.year:
+        return AppLocalizations.of(context)!.thisYear;
     }
   }
 
   int getFromTimestamp(DateTime now) {
     switch (this) {
-      case TransactionFilter.dayIncome:
-      case TransactionFilter.dayExpenses:
+      case TransactionRangeFilter.day:
         return subtractDay(now).millisecondsSinceEpoch;
-      case TransactionFilter.weekIncome:
-      case TransactionFilter.weekExpenses:
+      case TransactionRangeFilter.week:
         return subtractWeek(now).millisecondsSinceEpoch;
-      case TransactionFilter.monthIncome:
-      case TransactionFilter.monthExpenses:
+      case TransactionRangeFilter.month:
         return subtractMonth(now).millisecondsSinceEpoch;
-      case TransactionFilter.yearIncome:
-      case TransactionFilter.yearExpenses:
+      case TransactionRangeFilter.year:
         return subtractYear(now).millisecondsSinceEpoch;
     }
   }

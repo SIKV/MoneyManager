@@ -17,7 +17,12 @@ final filterServiceProvider = Provider((ref) async {
   return FilterService(prefs);
 });
 
-final currentFilterProvider = StreamProvider((ref) async* {
+final currentTypeFilterProvider = StreamProvider((ref) async* {
   final filterService = await ref.watch(filterServiceProvider);
-  yield* filterService.onFilterChanged;
+  yield* filterService.onTypeChanged;
+});
+
+final currentRangeFilterProvider = StreamProvider((ref) async* {
+  final filterService = await ref.watch(filterServiceProvider);
+  yield* filterService.onRangeChanged;
 });

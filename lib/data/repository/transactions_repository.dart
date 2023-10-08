@@ -1,9 +1,10 @@
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
 import 'package:moneymanager/data/mapping.dart';
 import 'package:moneymanager/domain/currency.dart';
-import 'package:moneymanager/domain/transaction_type.dart';
 
 import '../../domain/transaction.dart';
+import '../../domain/transaction_type.dart';
+import '../../domain/transaction_type_filter.dart';
 import '../../service/current_account_service.dart';
 import '../local/datasource/transactions_local_data_source.dart';
 import 'categories_repository.dart';
@@ -33,16 +34,29 @@ class TransactionsRepository {
   }
 
   Stream<List<Transaction>> getAll({
-    required TransactionType type,
+    required TransactionTypeFilter typeFilter,
     required int fromTimestamp,
   }) {
+
+    typeCondition(TransactionEntity e) {
+      switch (typeFilter) {
+        case TransactionTypeFilter.income:
+          return e.type == TransactionType.income.toEntity();
+        case TransactionTypeFilter.expense:
+          return e.type == TransactionType.expense.toEntity();
+        case TransactionTypeFilter.total:
+          return true;
+      }
+    }
+
     return localDataSource.getAll(
       accountId: currentAccountService.getCurrentAccountId(),
-      transactionType: type.toEntity(),
       fromTimestamp: fromTimestamp,
     ).asyncMap((list) async {
       final currency = (await currentAccountService.getCurrentAccount()).currency;
-      final mapped = list.map((it) => _mapTransaction(it, currency));
+      final mapped = list
+          .where(typeCondition)
+          .map((it) => _mapTransaction(it, currency));
 
       return (await Future.wait(mapped))
           .whereType<Transaction>()

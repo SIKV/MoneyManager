@@ -1,30 +1,50 @@
-import 'package:moneymanager/feature/transactions/domain/transaction_filter.dart';
+import 'package:moneymanager/domain/transaction_type_filter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _keyFilter = 'filter';
+import '../domain/transaction_range_filter.dart';
+
+const _keyRangeFilter = 'rangeFilter';
+const _keyTypeFilter = 'typeFilter';
 
 class FilterService {
   final SharedPreferences _prefs;
 
-  final onFilterChanged = BehaviorSubject<TransactionFilter>();
+  final onTypeChanged = BehaviorSubject<TransactionTypeFilter>();
+  final onRangeChanged = BehaviorSubject<TransactionRangeFilter>();
 
   FilterService(this._prefs) {
-    onFilterChanged.add(getFilter());
+    onTypeChanged.add(getType());
+    onRangeChanged.add(getRange());
   }
 
-  List<TransactionFilter> getAll() {
-    return TransactionFilter.values;
+  List<TransactionTypeFilter> getTypes() {
+    return TransactionTypeFilter.values;
   }
 
-  void setFilter(TransactionFilter filter) {
-    _prefs.setInt(_keyFilter, filter.index); // TODO: Do not use 'index'.
-
-    onFilterChanged.add(filter);
+  List<TransactionRangeFilter> getRanges() {
+    return TransactionRangeFilter.values;
   }
 
-  TransactionFilter getFilter() {
-    int filterIndex = _prefs.getInt(_keyFilter) ?? 0;
-    return getAll()[filterIndex];
+  void setType(TransactionTypeFilter type) {
+    // TODO: Do not use index.
+    _prefs.setInt(_keyTypeFilter, type.index);
+    onTypeChanged.add(type);
+  }
+
+  TransactionTypeFilter getType() {
+    int index = _prefs.getInt(_keyTypeFilter) ?? 0;
+    return getTypes()[index];
+  }
+
+  void setRange(TransactionRangeFilter range) {
+    // TODO: Do not use index.
+    _prefs.setInt(_keyRangeFilter, range.index);
+    onRangeChanged.add(range);
+  }
+
+  TransactionRangeFilter getRange() {
+    int index = _prefs.getInt(_keyRangeFilter) ?? 0;
+    return getRanges()[index];
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/change_account_page.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
-import 'package:moneymanager/feature/transactions/provider/transactions_list_provider.dart';
 import 'package:moneymanager/feature/transactions/ui/transactions_list.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
@@ -14,7 +13,7 @@ import 'package:moneymanager/ui/widget/header_circle_button.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
-import 'ui/header_settings.dart';
+import 'ui/header_filters.dart';
 
 class TransactionsPage extends ConsumerWidget {
   const TransactionsPage({Key? key}) : super(key: key);
@@ -22,8 +21,16 @@ class TransactionsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
-    final headerState = ref.watch(headerControllerProvider);
-    final transactionsList = ref.watch(transactionsListProvider);
+
+    final headerState = ref.watch(headerControllerProvider).value;
+
+    String filterTitle = '';
+    if (headerState != null) {
+      filterTitle = getFilterTitle(headerState.rangeFilter, headerState.typeFilter);
+    }
+
+    // TODO.
+    final transactionsCount = '${headerState?.transactionsCount} transactions';
 
     return CollapsingHeaderPage(
       colors: appTheme.colors,
@@ -31,10 +38,10 @@ class TransactionsPage extends ConsumerWidget {
       endColor: appTheme.colors.transactionsHeaderEnd,
       collapsedHeight: 78,
       expandedHeight: 346,
-      title: headerState.value?.amount ?? '',
-      titleSuffix: ' ${headerState.value?.currentAccount?.currency.symbol}',
-      subtitle: headerState.value?.currentFilter.getTitle(context),
-      tertiaryTitle: '${transactionsList.value?.length ?? 0} transactions', // TODO
+      title: headerState?.amount ?? '',
+      titleSuffix: ' ${headerState?.currentAccount?.currency.symbol}',
+      subtitle: filterTitle,
+      tertiaryTitle: transactionsCount,
       onTitlePressed: () {
         _showChangeAccount(context);
       },
@@ -85,7 +92,7 @@ class TransactionsPage extends ConsumerWidget {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return const HeaderSettings();
+        return const HeaderFilters();
       },
     );
   }

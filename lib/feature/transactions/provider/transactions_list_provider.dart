@@ -11,13 +11,15 @@ final transactionsListProvider = StreamProvider((ref) async* {
   ref.watch(currentAccountProvider);
   // Rebuild when a category added/updated/deleted.
   ref.watch(categoriesRepositoryUpdatedProvider);
-  // Rebuild when the current filter changed.
-  final currentFilter = ref.watch(currentFilterProvider).value;
+  // Rebuild when the current type filter changed.
+  final currentTypeFilter = ref.watch(currentTypeFilterProvider).value;
+  // Rebuild when the current range filter changed.
+  final currentRangeFilter = ref.watch(currentRangeFilterProvider).value;
 
   final transactionService = await ref.watch(transactionServiceProvider);
 
-  if (currentFilter != null) {
-    yield* transactionService.getFiltered(currentFilter);
+  if (currentTypeFilter != null && currentRangeFilter != null) {
+    yield* transactionService.getFiltered(currentTypeFilter, currentRangeFilter);
   } else {
     yield* const Stream.empty();
   }

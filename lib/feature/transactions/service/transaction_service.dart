@@ -5,8 +5,8 @@ import 'package:moneymanager/data/repository/transactions_repository.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
 
 import '../../../domain/transaction.dart';
-import '../../../domain/transaction_type.dart';
-import '../domain/transaction_filter.dart';
+import '../domain/transaction_range_filter.dart';
+import '../../../domain/transaction_type_filter.dart';
 import '../domain/transaction_item_ui_model.dart';
 
 class TransactionService {
@@ -16,12 +16,12 @@ class TransactionService {
   TransactionService(this._transactionsRepository, this._currencyFormatter);
 
   Stream<List<TransactionItemUiModel>> getFiltered(
-      TransactionFilter filter) async* {
-    TransactionType type = filter.getTransactionType();
-    int fromTimestamp = filter.getFromTimestamp(DateTime.now());
+      TransactionTypeFilter type, TransactionRangeFilter range) async* {
+
+    int fromTimestamp = range.getFromTimestamp(DateTime.now());
 
     final transactions = _transactionsRepository.getAll(
-      type: type,
+      typeFilter: type,
       fromTimestamp: fromTimestamp,
     );
 

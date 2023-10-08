@@ -8,14 +8,15 @@ import 'package:moneymanager/domain/currency.dart';
 import 'package:moneymanager/domain/transaction.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
-import 'package:moneymanager/feature/transactions/domain/transaction_filter.dart';
+import 'package:moneymanager/domain/transaction_type_filter.dart';
+import 'package:moneymanager/feature/transactions/domain/transaction_range_filter.dart';
 import 'package:moneymanager/feature/transactions/service/transaction_service.dart';
 
 class TransactionsRepositoryMock extends Mock implements TransactionsRepository { }
 
 class CurrencyFormatterMock extends Mock implements CurrencyFormatter { }
 
-const transactionTypeMock = TransactionType.income;
+const transactionTypeFilterMock = TransactionTypeFilter.total;
 
 const currencyMock = Currency(
   code: '',
@@ -26,7 +27,7 @@ const currencyMock = Currency(
 
 void main() {
   setUpAll(() {
-    registerFallbackValue(transactionTypeMock);
+    registerFallbackValue(transactionTypeFilterMock);
     registerFallbackValue(currencyMock);
   });
 
@@ -43,7 +44,7 @@ void main() {
     transactionsStreamController = StreamController<List<Transaction>>();
 
     when(() => transactionsRepository.getAll(
-      type: any(named: 'type'),
+      typeFilter: any(named: 'typeFilter'),
       fromTimestamp: any(named: 'fromTimestamp'),
     )).thenAnswer((_) => transactionsStreamController.stream);
 
@@ -55,7 +56,8 @@ void main() {
 
   test('getFiltered()', () async {
     // GIVEN
-    const filter = TransactionFilter.monthIncome;
+    const typeFilter = TransactionTypeFilter.income;
+    const rangeFilter = TransactionRangeFilter.month;
 
     final transactions = [
       // Section 1
@@ -69,12 +71,12 @@ void main() {
     transactionsStreamController.add(transactions);
     transactionsStreamController.close();
 
-    final result = await service.getFiltered(filter).toList();
+    final result = await service.getFiltered(typeFilter, rangeFilter).toList();
 
     // THEN
     verify(() =>
       transactionsRepository.getAll(
-        type: TransactionType.income,
+        typeFilter: typeFilter,
         fromTimestamp: any(named: 'fromTimestamp'),
       )
     ).called(1);
