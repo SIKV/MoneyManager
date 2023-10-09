@@ -1,5 +1,5 @@
 enum TransactionTypeFilter {
   income,
-  expense,
-  total,
+  expenses,
+  all,
 }

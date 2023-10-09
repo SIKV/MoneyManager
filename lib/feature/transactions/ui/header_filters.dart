@@ -59,10 +59,10 @@ class HeaderFilters extends ConsumerWidget {
                   children: <TransactionTypeFilter, Widget>{
                     TransactionTypeFilter.income: Text(
                         AppLocalizations.of(context)!.income),
-                    TransactionTypeFilter.expense: Text(
-                        AppLocalizations.of(context)!.expense),
-                    TransactionTypeFilter.total: Text(
-                        AppLocalizations.of(context)!.total),
+                    TransactionTypeFilter.expenses: Text(
+                        AppLocalizations.of(context)!.expenses),
+                    TransactionTypeFilter.all: Text(
+                        AppLocalizations.of(context)!.all),
                   },
                 ),
               ),
@@ -86,7 +86,7 @@ class HeaderFilters extends ConsumerWidget {
                   padding: const EdgeInsets.all(Spacings.four),
                   child: FilledButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text(AppLocalizations.of(context)!.apply),
+                    child: Text(AppLocalizations.of(context)!.done),
                   ),
                 ),
               ),

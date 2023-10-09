@@ -16,7 +16,7 @@ class TransactionsRepositoryMock extends Mock implements TransactionsRepository 
 
 class CurrencyFormatterMock extends Mock implements CurrencyFormatter { }
 
-const transactionTypeFilterMock = TransactionTypeFilter.total;
+const transactionTypeFilterMock = TransactionTypeFilter.all;
 
 const currencyMock = Currency(
   code: '',

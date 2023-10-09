@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:moneymanager/feature/account/change_account_page.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
@@ -25,12 +26,17 @@ class TransactionsPage extends ConsumerWidget {
     final headerState = ref.watch(headerControllerProvider).value;
 
     String filterTitle = '';
-    if (headerState != null) {
-      filterTitle = getFilterTitle(headerState.rangeFilter, headerState.typeFilter);
-    }
+    String transactionsCount = '';
 
-    // TODO.
-    final transactionsCount = '${headerState?.transactionsCount} transactions';
+    if (headerState != null) {
+      filterTitle = getFilterTitle(context, headerState.rangeFilter, headerState.typeFilter);
+
+      transactionsCount = Intl.plural(headerState.transactionsCount,
+        zero: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransactions}',
+        one: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransaction}',
+        other: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransactions}',
+      );
+    }
 
     return CollapsingHeaderPage(
       colors: appTheme.colors,

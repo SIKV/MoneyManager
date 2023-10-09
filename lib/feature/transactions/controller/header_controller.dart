@@ -29,9 +29,11 @@ class HeaderController extends AsyncNotifier<HeaderState> {
       fromTimestamp: fromTimestamp,
     ).first;
 
+    final amount = calculateAmount(transactions).toString();
+
     return HeaderState(
       currentAccount: currentAccount.value,
-      amount: '...', // TODO.
+      amount: amount,
       transactionsCount: transactions.length,
       typeFilter: filterService.getType(),
       rangeFilter: filterService.getRange(),

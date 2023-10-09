@@ -42,9 +42,9 @@ class TransactionsRepository {
       switch (typeFilter) {
         case TransactionTypeFilter.income:
           return e.type == TransactionType.income.toEntity();
-        case TransactionTypeFilter.expense:
+        case TransactionTypeFilter.expenses:
           return e.type == TransactionType.expense.toEntity();
-        case TransactionTypeFilter.total:
+        case TransactionTypeFilter.all:
           return true;
       }
     }
