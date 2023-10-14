@@ -58,8 +58,10 @@ class TransactionService {
           entry.value.map((it) {
             return TransactionUiModel(
               id: it.id,
+              type: it.type,
               emoji: it.category.emoji,
               title: it.category.title,
+              subtitle: it.note,
               amount: _currencyFormatter.format(
                 currency: it.currency,
                 amount: it.amount,

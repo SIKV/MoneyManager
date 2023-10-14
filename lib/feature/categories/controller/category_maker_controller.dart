@@ -99,7 +99,7 @@ class CategoryMakerController extends AutoDisposeNotifier<CategoryMakerState> {
         id: generateUniqueInt(),
         type: _initialType ?? TransactionType.income,
         title: '',
-        emoji: '',
+        emoji: null,
       );
     }
   }

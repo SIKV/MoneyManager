@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/theme/spacings.dart';
+import 'package:moneymanager/ui/extensions.dart';
 
 import '../controller/transaction_maker_controller.dart';
 import '../domain/ui_mode.dart';

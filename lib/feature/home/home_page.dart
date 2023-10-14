@@ -6,10 +6,10 @@ import 'package:moneymanager/feature/home/controller/home_controller.dart';
 import 'package:moneymanager/feature/home/domain/home_state.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
+import 'package:moneymanager/ui/extensions.dart';
 import 'package:moneymanager/ui/widget/SvgIcon.dart';
 
 import '../../navigation/transaction_page_args.dart';
-import '../../theme/icons.dart';
 import '../../theme/spacings.dart';
 import '../../theme/theme_manager.dart';
 import '../more/more_page.dart';
@@ -117,9 +117,7 @@ class _HomeScaffold extends ConsumerWidget {
                   Navigator.pop(context);
                   _openAddTransaction(context, TransactionType.income);
                 },
-                leading: Icon(AppIcons.addIncome,
-                  color: theme.colors.incomeTransaction,
-                ),
+                leading: TransactionType.income.getIcon(theme.colors),
                 title: Text(AppLocalizations.of(context)!.income),
               ),
               ListTile(
@@ -127,9 +125,7 @@ class _HomeScaffold extends ConsumerWidget {
                   Navigator.pop(context);
                   _openAddTransaction(context, TransactionType.expense);
                 },
-                leading: Icon(AppIcons.addExpense,
-                  color: theme.colors.expenseTransaction,
-                ),
+                leading: TransactionType.expense.getIcon(theme.colors),
                 title: Text(AppLocalizations.of(context)!.expense),
               ),
             ],

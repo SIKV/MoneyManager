@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/ui/extensions.dart';
 
 import '../../../theme/spacings.dart';
+import '../../../theme/theme.dart';
+import '../../../theme/theme_manager.dart';
 import '../domain/transaction_item_ui_model.dart';
 
-class TransactionItem extends StatelessWidget {
+class TransactionItem extends ConsumerWidget {
   final TransactionUiModel transaction;
 
   const TransactionItem({
@@ -12,15 +16,13 @@ class TransactionItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppTheme appTheme = ref.watch(appThemeManagerProvider);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(transaction.emoji ?? '',
-          style: const TextStyle(
-            fontSize: 21,
-          ),
-        ),
+        transaction.getIcon(appTheme.colors),
         const SizedBox(width: Spacings.five),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

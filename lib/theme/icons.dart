@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 
 // TODO: Deprecated.
 class AppIcons {
-  static const IconData addIncome = Icons.arrow_circle_down_outlined;
-  static const IconData addExpense = Icons.arrow_circle_up_outlined;
-
   static const IconData check = Icons.check;
 
   static const IconData transactionsHeaderSettingsSelectedValue = Icons.check_rounded;

@@ -4,11 +4,9 @@ import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/radius.dart';
 import 'package:moneymanager/theme/spacings.dart';
+import 'package:moneymanager/ui/extensions.dart';
 
 import '../../../theme/theme_manager.dart';
-
-const _emojiSize = 24.0;
-const _subcategorySeparator = ', ';
 
 class CategoryItem extends ConsumerWidget {
   final TransactionCategory category;
@@ -35,11 +33,7 @@ class CategoryItem extends ConsumerWidget {
         ),
         child: Row(
           children: [
-            Text(category.emoji ?? '',
-              style: const TextStyle(
-                fontSize: _emojiSize,
-              ),
-            ),
+            category.getIcon(appTheme.colors),
             const SizedBox(width: Spacings.five),
             Expanded(
               child: Column(

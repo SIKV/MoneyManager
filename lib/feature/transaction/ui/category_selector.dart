@@ -4,10 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
+import 'package:moneymanager/ui/extensions.dart';
 import 'package:moneymanager/ui/widget/no_items.dart';
 
 import '../../../domain/transaction_type.dart';
 import '../../../theme/spacings.dart';
+import '../../../theme/theme.dart';
+import '../../../theme/theme_manager.dart';
 import '../../categories/category_maker.dart';
 import '../controller/transaction_maker_controller.dart';
 
@@ -16,6 +19,7 @@ class CategorySelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AppTheme appTheme = ref.watch(appThemeManagerProvider);
     final state = ref.watch(transactionMakerControllerProvider);
 
     return state.whenOrNull(
@@ -36,9 +40,9 @@ class CategorySelector extends ConsumerWidget {
                 itemCount: state.categories.length,
                 itemBuilder: (context, index) {
                   final c = state.categories[index];
-                  final title = '${c.emoji ?? ''}  ${c.title}';
                   return ListTile(
-                    title: Text(title),
+                    leading: c.getIcon(appTheme.colors),
+                    title: Text(c.title),
                     onTap: () => _categoryPressed(c, ref),
                   );
                 }

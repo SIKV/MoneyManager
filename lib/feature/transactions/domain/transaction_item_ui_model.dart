@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 
 @immutable
 abstract class TransactionItemUiModel {
@@ -8,6 +9,7 @@ abstract class TransactionItemUiModel {
 @immutable
 class TransactionUiModel extends TransactionItemUiModel {
   final int id;
+  final TransactionType type;
   final String? emoji;
   final String title;
   final String? subtitle;
@@ -15,6 +17,7 @@ class TransactionUiModel extends TransactionItemUiModel {
 
   const TransactionUiModel({
     required this.id,
+    required this.type,
     this.emoji,
     required this.title,
     this.subtitle,
