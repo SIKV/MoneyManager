@@ -18,17 +18,9 @@ class CurrencyFormatterMock extends Mock implements CurrencyFormatter { }
 
 const transactionTypeFilterMock = TransactionTypeFilter.all;
 
-const currencyMock = Currency(
-  code: '',
-  name: '',
-  symbol: '',
-  emoji: ''
-);
-
 void main() {
   setUpAll(() {
     registerFallbackValue(transactionTypeFilterMock);
-    registerFallbackValue(currencyMock);
   });
 
   late TransactionService service;
@@ -48,10 +40,8 @@ void main() {
       fromTimestamp: any(named: 'fromTimestamp'),
     )).thenAnswer((_) => transactionsStreamController.stream);
 
-    when(() => currencyFormatter.format(
-      currency: any(named: 'currency'),
-      amount: any(named: 'amount'),
-    )).thenReturn('formatted_amount');
+    when(() => currencyFormatter.format(any()))
+        .thenReturn('formatted_amount');
   });
 
   test('getFiltered()', () async {

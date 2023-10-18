@@ -241,9 +241,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     final currencyFormatter = ref.read(currencyFormatterProvider);
     double amountNumber = amount.isEmpty ? 0 : double.parse(amount);
 
-    return currencyFormatter.format(
-      currency: currency,
-      amount: amountNumber,
+    return currencyFormatter.format(amountNumber,
       alwaysShowDecimalPoint: amountKeyProcessor.hasDecimalPoint(amount),
     );
   }

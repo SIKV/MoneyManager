@@ -2,12 +2,13 @@ import 'package:collection/collection.dart';
 import 'package:moneymanager/common/currency_formatter.dart';
 import 'package:moneymanager/common/date_time_utils.dart';
 import 'package:moneymanager/data/repository/transactions_repository.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
 
 import '../../../domain/transaction.dart';
-import '../domain/transaction_range_filter.dart';
 import '../../../domain/transaction_type_filter.dart';
 import '../domain/transaction_item_ui_model.dart';
+import '../domain/transaction_range_filter.dart';
 
 class TransactionService {
   final TransactionsRepository _transactionsRepository;
@@ -56,21 +57,21 @@ class TransactionService {
 
       items.addAll(
           entry.value.map((it) {
+            String amount = _currencyFormatter.format(it.amount);
+            if (it.category.type == TransactionType.expense) {
+              amount = '-$amount';
+            }
             return TransactionUiModel(
               id: it.id,
               type: it.type,
               emoji: it.category.emoji,
               title: it.category.title,
               subtitle: it.note,
-              amount: _currencyFormatter.format(
-                currency: it.currency,
-                amount: it.amount,
-              ),
+              amount: amount,
             );
           })
       );
     }
-
     return items;
   }
 }

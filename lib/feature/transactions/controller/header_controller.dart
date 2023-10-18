@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/common/currency_formatter.dart';
 import 'package:moneymanager/common/provider/current_account_provider.dart';
 import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/feature/transactions/domain/header_state.dart';
@@ -20,6 +21,7 @@ class HeaderController extends AsyncNotifier<HeaderState> {
   FutureOr<HeaderState> build() async {
     final currentAccount = ref.watch(currentAccountProvider);
     final filterService = await ref.watch(filterServiceProvider);
+    final currencyFormatter = ref.watch(currencyFormatterProvider);
 
     final transactionsRepository = await ref.watch(transactionsRepositoryProvider);
     int fromTimestamp = filterService.getRange().getFromTimestamp(DateTime.now());
@@ -29,11 +31,13 @@ class HeaderController extends AsyncNotifier<HeaderState> {
       fromTimestamp: fromTimestamp,
     ).first;
 
-    final amount = calculateAmount(transactions).toString();
+    String formattedAmount = currencyFormatter.format(calculateAmount(transactions),
+      compact: true,
+    );
 
     return HeaderState(
       currentAccount: currentAccount.value,
-      amount: amount,
+      amount: formattedAmount,
       transactionsCount: transactions.length,
       typeFilter: filterService.getType(),
       rangeFilter: filterService.getRange(),

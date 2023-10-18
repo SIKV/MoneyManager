@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:moneymanager/domain/currency.dart';
 
 final currencyFormatterProvider = Provider((_) => CurrencyFormatter());
 
+// TODO: Support locales.
 class CurrencyFormatter {
   static const decimalDigits = 2;
 
@@ -13,15 +13,23 @@ class CurrencyFormatter {
   /// Note that this method will always remove the trailing zeros.
   /// If [alwaysShowDecimalPoint] is true the decimal point will always be visible
   /// even after removing the trailing zeros.
-  String format({
-    required Currency currency,
-    required double amount,
+  String format(double amount, {
+    bool compact = false,
     bool alwaysShowDecimalPoint = false,
   }) {
-    String formattedCurrency = NumberFormat.simpleCurrency(
-      name: currency.code,
-      decimalDigits: decimalDigits,
-    ).format(amount);
+    String formattedCurrency = '';
+
+    if (compact) {
+      formattedCurrency = NumberFormat.compactCurrency(
+        symbol: '',
+        decimalDigits: decimalDigits,
+      ).format(amount);
+    } else {
+      formattedCurrency = NumberFormat.currency(
+        symbol: '',
+        decimalDigits: decimalDigits,
+      ).format(amount);
+    }
 
     if (alwaysShowDecimalPoint) {
       formattedCurrency = formattedCurrency.replaceAll(_trailingZeros, '');
