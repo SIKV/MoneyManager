@@ -1,6 +1,7 @@
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
 import 'package:moneymanager/data/mapping.dart';
 import 'package:moneymanager/domain/currency.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../domain/transaction.dart';
 import '../../domain/transaction_type.dart';
@@ -14,12 +15,13 @@ class TransactionsRepository {
   final CategoriesRepository categoriesRepository;
   final CurrentAccountService currentAccountService;
 
+  final onUpdated = BehaviorSubject<Object>();
+
   TransactionsRepository(this.localDataSource, this.categoriesRepository, this.currentAccountService);
 
   Future<void> addOrUpdate(Transaction transaction) async {
-    return localDataSource.addOrUpdate(
-        transaction.toEntity(currentAccountService.getCurrentAccountId())
-    );
+    await localDataSource.addOrUpdate(transaction.toEntity(currentAccountService.getCurrentAccountId()));
+    onUpdated.add(Object);
   }
 
   Future<Transaction?> getById(int id) async {
@@ -37,7 +39,6 @@ class TransactionsRepository {
     required TransactionTypeFilter typeFilter,
     required int fromTimestamp,
   }) {
-
     typeCondition(TransactionEntity e) {
       switch (typeFilter) {
         case TransactionTypeFilter.income:
@@ -65,7 +66,8 @@ class TransactionsRepository {
   }
 
   Future<void> delete(int id) async {
-    return localDataSource.delete(id);
+    await localDataSource.delete(id);
+    onUpdated.add(Object);
   }
 
   Future<Transaction?> _mapTransaction(TransactionEntity entity, Currency currency) async {

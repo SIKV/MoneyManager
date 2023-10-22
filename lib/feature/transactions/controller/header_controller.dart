@@ -23,6 +23,9 @@ class HeaderController extends AsyncNotifier<HeaderState> {
     final filterService = await ref.watch(filterServiceProvider);
     final currencyFormatter = ref.watch(currencyFormatterProvider);
 
+    // Rebuild when a transaction added/updated/deleted.
+    ref.watch(transactionsRepositoryUpdatedProvider);
+
     final transactionsRepository = await ref.watch(transactionsRepositoryProvider);
     int fromTimestamp = filterService.getRange().getFromTimestamp(DateTime.now());
 

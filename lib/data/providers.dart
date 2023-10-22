@@ -28,3 +28,8 @@ final transactionsRepositoryProvider = Provider((ref) async {
 
   return TransactionsRepository(localDataSource, categoriesRepository, currentAccountService);
 });
+
+final transactionsRepositoryUpdatedProvider = StreamProvider((ref) async* {
+  final transactionsRepository = await ref.watch(transactionsRepositoryProvider);
+  yield* transactionsRepository.onUpdated;
+});
