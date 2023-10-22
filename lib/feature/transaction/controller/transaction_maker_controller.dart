@@ -68,6 +68,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       transaction: transaction,
       validationError: null,
       transactionSaved: false,
+      transactionDeleted: false,
     );
   }
 
@@ -189,7 +190,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     ));
   }
 
-  Future<void> save() async {
+  void save() async {
     final transactionsRepository = await ref.read(transactionsRepositoryProvider);
 
     final currentState = await future;
@@ -210,7 +211,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       return;
     }
 
-    transactionsRepository.addOrUpdate(
+    await transactionsRepository.addOrUpdate(
         Transaction(
           id: currentState.transaction.id,
           createTimestamp: currentState.transaction.createDateTime.millisecondsSinceEpoch,
@@ -224,6 +225,16 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
 
     _updateState((state) => state.copyWith(
       transactionSaved: true,
+    ));
+  }
+
+  void delete() async {
+    final transactionsRepository = await ref.read(transactionsRepositoryProvider);
+    final currentState = await future;
+    await transactionsRepository.delete(currentState.transaction.id);
+
+    _updateState((state) => state.copyWith(
+      transactionDeleted: true,
     ));
   }
 

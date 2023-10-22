@@ -31,4 +31,13 @@ class TransactionsLocalDataSource {
         .createTimestampGreaterThan(fromTimestamp, include: true)
         .watch(fireImmediately: true);
   }
+
+  Future<void> delete(int id) async {
+    return isar.writeTxn(() async {
+      await isar.transactionEntitys
+          .filter()
+          .idEqualTo(id)
+          .deleteAll();
+    });
+  }
 }

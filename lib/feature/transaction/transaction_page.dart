@@ -19,8 +19,6 @@ import 'controller/transaction_maker_controller.dart';
 
 const _noValuePlaceholder = '...';
 
-// TODO: Add delete button.
-
 class TransactionPage extends ConsumerStatefulWidget {
   final TransactionPageArgs args;
 
@@ -60,7 +58,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       return Container();
     }
 
-    _listenTransactionSaved();
+    _listenTransactionSavedOrDeleted();
     _listenValidationErrors();
 
     final properties = _createPropertyItems(state);
@@ -164,10 +162,23 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     ];
   }
 
-  void _listenTransactionSaved() {
+  void _listenTransactionSavedOrDeleted() {
     ref.listen(transactionMakerControllerProvider
         .select((state) => state.value?.transactionSaved), (previous, next) {
       if (next == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(AppLocalizations.of(context)!.transactionSaved))
+        );
+        Navigator.pop(context);
+      }
+    });
+
+    ref.listen(transactionMakerControllerProvider
+        .select((state) => state.value?.transactionDeleted), (previous, next) {
+      if (next == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(AppLocalizations.of(context)!.transactionDeleted))
+        );
         Navigator.pop(context);
       }
     });

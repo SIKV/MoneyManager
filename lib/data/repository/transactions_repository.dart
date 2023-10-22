@@ -64,6 +64,10 @@ class TransactionsRepository {
     });
   }
 
+  Future<void> delete(int id) async {
+    return localDataSource.delete(id);
+  }
+
   Future<Transaction?> _mapTransaction(TransactionEntity entity, Currency currency) async {
     final category = await categoriesRepository.getById(entity.categoryId);
 

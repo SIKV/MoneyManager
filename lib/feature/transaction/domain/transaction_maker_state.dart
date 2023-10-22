@@ -17,5 +17,6 @@ class TransactionMakerState with _$TransactionMakerState {
     required TransactionBlueprint transaction,
     required ValidationError? validationError,
     required bool transactionSaved,
+    required bool transactionDeleted,
   }) = _TransactionMakerState;
 }
