@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_mode.dart';
+import 'package:moneymanager/ui/widget/delete_button.dart';
 
 import '../../theme/spacings.dart';
 import '../../ui/widget/close_circle_button.dart';
@@ -252,13 +253,10 @@ class _Actions extends StatelessWidget {
 
     if (mode == CategoryMakerMode.edit) {
       buttons.insert(0,
-        OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.error,
-          ),
+        DeleteButton(
           onPressed: onDeletePressed,
-          child: Text(AppLocalizations.of(context)!.delete),
-        ),
+          title: AppLocalizations.of(context)!.delete,
+        )
       );
     }
 

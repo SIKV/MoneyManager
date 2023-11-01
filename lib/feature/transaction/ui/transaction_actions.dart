@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/spacings.dart';
+import 'package:moneymanager/ui/widget/delete_button.dart';
 
 import '../controller/transaction_maker_controller.dart';
 import '../domain/ui_mode.dart';
@@ -25,24 +26,6 @@ class TransactionActions extends ConsumerWidget {
       ),
     );
 
-    final deleteButton = OutlinedButton(
-      onPressed: () => _deleteTransaction(context, ref),
-      style: OutlinedButton.styleFrom(
-        foregroundColor: Theme
-            .of(context)
-            .colorScheme
-            .error,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.delete_outline_rounded),
-          const SizedBox(width: Spacings.two),
-          Text(AppLocalizations.of(context)!.delete),
-        ],
-      ),
-    );
-
     return stateValue.when(
         loading: () => Container(),
         error: (_, __) => Container(),
@@ -56,7 +39,10 @@ class TransactionActions extends ConsumerWidget {
             case UiMode.view:
               return Row(
                 children: [
-                  deleteButton,
+                  DeleteButton(
+                    onPressed: () => _deleteTransaction(context, ref),
+                    title: AppLocalizations.of(context)!.delete,
+                  ),
                   const SizedBox(width: Spacings.three),
                   Expanded(
                     flex: 2,
