@@ -6,6 +6,7 @@ import 'package:moneymanager/domain/transaction_type_filter.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
 import 'package:moneymanager/theme/icons.dart';
+import 'package:moneymanager/ui/widget/small_section_text.dart';
 
 import '../../../theme/spacings.dart';
 import '../../../ui/widget/close_circle_button.dart';
@@ -110,9 +111,7 @@ class _Section extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: Spacings.four,
       ),
-      child: Text(title,
-        style: Theme.of(context).textTheme.bodySmall,
-      ),
+      child: SmallSectionText(title),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:moneymanager/feature/account/select_currency_button.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/close_circle_button.dart';
 
+import '../../ui/widget/small_section_text.dart';
 import 'controller/add_account_controller.dart';
 
 class AddAccountPage extends ConsumerWidget {
@@ -50,9 +51,7 @@ class AddAccountPage extends ConsumerWidget {
 
               const SizedBox(height: Spacings.half),
 
-              Text(AppLocalizations.of(context)!.addAccountSubtitle,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+              SmallSectionText(AppLocalizations.of(context)!.addAccountSubtitle),
 
               const SizedBox(height: Spacings.eight),
 

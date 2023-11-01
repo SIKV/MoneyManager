@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/provider/transactions_list_provider.dart';
 import 'package:moneymanager/feature/transactions/ui/transaction_item.dart';
 import 'package:moneymanager/theme/spacings.dart';
+import 'package:moneymanager/ui/widget/small_section_text.dart';
 
 import '../../../navigation/routes.dart';
 import '../../../navigation/transaction_page_args.dart';
@@ -59,9 +60,7 @@ class TransactionsList extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: Spacings.two),
                   child: Center(
-                    child: Text(item.title,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
+                    child: SmallSectionText(item.title),
                   ),
                 );
               } else {
