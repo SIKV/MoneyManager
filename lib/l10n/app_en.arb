@@ -64,6 +64,9 @@
   "deleteAccount": "Delete Account",
   "deleteAccountWarning": "This action cannot be undone.",
 
+  "applyFilters": "Apply Filters",
+
+  "changeAccount": "Change Account",
   "changeAccountPage_addAccountSubtitle": "You can add up to {numberOfAccounts} accounts",
   "@changeAccountPage_addAccountSubtitle": {
       "placeholders": {

@@ -6,6 +6,7 @@ import 'package:moneymanager/domain/transaction_type_filter.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
 import 'package:moneymanager/theme/icons.dart';
+import 'package:moneymanager/ui/widget/panel.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
 
 import '../../../theme/spacings.dart';
@@ -29,69 +30,64 @@ class HeaderFilters extends ConsumerWidget {
             ),
           ),
       data: (state) =>
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: EdgeInsets.all(Spacings.four),
-                  child: CloseCircleButton(),
-                ),
-              ),
+          Panel(
+            title: AppLocalizations.of(context)!.applyFilters,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _Section(title: AppLocalizations.of(context)!.type),
+                const SizedBox(height: Spacings.four),
 
-              _Section(title: AppLocalizations.of(context)!.type),
-              const SizedBox(height: Spacings.four),
-
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: Spacings.three,
-                  bottom: Spacings.three,
-                ),
-                child: CupertinoSlidingSegmentedControl<TransactionTypeFilter>(
-                  groupValue: state.typeFilter,
-                  onValueChanged: (value) {
-                    if (value != null) {
-                      ref.read(headerControllerProvider.notifier)
-                          .setTypeFilter(value);
-                    }
-                  },
-                  children: <TransactionTypeFilter, Widget>{
-                    TransactionTypeFilter.income: Text(
-                        AppLocalizations.of(context)!.income),
-                    TransactionTypeFilter.expenses: Text(
-                        AppLocalizations.of(context)!.expenses),
-                    TransactionTypeFilter.all: Text(
-                        AppLocalizations.of(context)!.all),
-                  },
-                ),
-              ),
-
-              const SizedBox(height: Spacings.four),
-              _Section(title: AppLocalizations.of(context)!.range),
-              const SizedBox(height: Spacings.two),
-
-              _ValuesList(
-                values: state.rangeFilters,
-                selectedValue: state.rangeFilter,
-                onSelectValue: (value) {
-                  ref.read(headerControllerProvider.notifier)
-                      .setRangeFilter(value);
-                },
-              ),
-
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(Spacings.four),
-                  child: FilledButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(AppLocalizations.of(context)!.done),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: Spacings.three,
+                    bottom: Spacings.three,
+                  ),
+                  child: CupertinoSlidingSegmentedControl<TransactionTypeFilter>(
+                    groupValue: state.typeFilter,
+                    onValueChanged: (value) {
+                      if (value != null) {
+                        ref.read(headerControllerProvider.notifier)
+                            .setTypeFilter(value);
+                      }
+                    },
+                    children: <TransactionTypeFilter, Widget>{
+                      TransactionTypeFilter.income: Text(
+                          AppLocalizations.of(context)!.income),
+                      TransactionTypeFilter.expenses: Text(
+                          AppLocalizations.of(context)!.expenses),
+                      TransactionTypeFilter.all: Text(
+                          AppLocalizations.of(context)!.all),
+                    },
                   ),
                 ),
-              ),
-            ],
+
+                const SizedBox(height: Spacings.four),
+                _Section(title: AppLocalizations.of(context)!.range),
+                const SizedBox(height: Spacings.two),
+
+                _ValuesList(
+                  values: state.rangeFilters,
+                  selectedValue: state.rangeFilter,
+                  onSelectValue: (value) {
+                    ref.read(headerControllerProvider.notifier)
+                        .setRangeFilter(value);
+                  },
+                ),
+
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(Spacings.four),
+                    child: FilledButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(AppLocalizations.of(context)!.done),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
     );
   }

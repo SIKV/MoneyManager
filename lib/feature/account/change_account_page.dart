@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/controller/change_account_controller.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/dimens.dart';
+import 'package:moneymanager/ui/widget/panel.dart';
 
 import '../../domain/account.dart';
 import '../../theme/spacings.dart';
-import '../../ui/widget/close_circle_button.dart';
 
 class ChangeAccountPage extends ConsumerWidget {
   const ChangeAccountPage({Key? key}) : super(key: key);
@@ -24,24 +24,13 @@ class ChangeAccountPage extends ConsumerWidget {
           child: Text(AppLocalizations.of(context)!.generalErrorMessage),
         ),
       ),
-      data: (state) =>
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: EdgeInsets.all(Spacings.four),
-                  child: CloseCircleButton(),
-                ),
-              ),
-              _AccountsList(
-                accounts: state.accounts,
-                currentAccount: state.currentAccount,
-              ),
-            ],
-          ),
+      data: (state) => Panel(
+        title: AppLocalizations.of(context)!.changeAccount,
+        child: _AccountsList(
+          accounts: state.accounts,
+          currentAccount: state.currentAccount,
+        ),
+      ),
     );
   }
 }
