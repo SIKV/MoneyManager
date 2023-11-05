@@ -60,6 +60,10 @@
 
   "changeAccountPage_addAccountTitle": "Add account",
 
+  "accountSettings": "Account Settings",
+  "deleteAccount": "Delete Account",
+  "deleteAccountWarning": "This action cannot be undone.",
+
   "changeAccountPage_addAccountSubtitle": "You can add up to {numberOfAccounts} accounts",
   "@changeAccountPage_addAccountSubtitle": {
       "placeholders": {
