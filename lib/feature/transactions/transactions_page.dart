@@ -25,10 +25,15 @@ class TransactionsPage extends ConsumerWidget {
 
     final headerState = ref.watch(headerControllerProvider).value;
 
+    String title = '...';
+    String titleSuffix = '';
     String filterTitle = '';
     String transactionsCount = '';
 
     if (headerState != null) {
+      title = headerState.amount;
+      titleSuffix = ' ${headerState.currentAccount?.currency.symbol}';
+
       filterTitle = getFilterTitle(context, headerState.rangeFilter, headerState.typeFilter);
 
       transactionsCount = Intl.plural(headerState.transactionsCount,
@@ -44,8 +49,8 @@ class TransactionsPage extends ConsumerWidget {
       endColor: appTheme.colors.transactionsHeaderEnd,
       collapsedHeight: 78,
       expandedHeight: 346,
-      title: headerState?.amount ?? '',
-      titleSuffix: ' ${headerState?.currentAccount?.currency.symbol}',
+      title: title,
+      titleSuffix: titleSuffix,
       subtitle: filterTitle,
       tertiaryTitle: transactionsCount,
       onTitlePressed: () {
