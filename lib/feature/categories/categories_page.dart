@@ -28,12 +28,6 @@ class CategoriesPage extends ConsumerWidget {
             slivers: [
               SliverAppBar.medium(
                 title: Text(AppLocalizations.of(context)!.categories_pageTitle),
-                actions: [
-                  IconButton(
-                    onPressed: () { },
-                    icon: const Icon(Icons.more_vert_rounded),
-                  )
-                ],
               ),
               SliverToBoxAdapter(
                 child: Padding(
@@ -72,7 +66,7 @@ class CategoriesPage extends ConsumerWidget {
               _addCategory(context, state.selectedType);
             },
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         );
       },
     );

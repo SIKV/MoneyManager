@@ -77,6 +77,7 @@ extension TransactionCategoryEntityToDomain on TransactionCategoryEntity {
   TransactionCategory toDomain() {
     return TransactionCategory(
       id: id,
+      createTimestamp: createTimestamp,
       type: type.toDomain(),
       title: title,
       emoji: emoji,
@@ -88,6 +89,7 @@ extension DomainToTransactionCategoryEntity on TransactionCategory {
   TransactionCategoryEntity toEntity() {
     return TransactionCategoryEntity(
       id: id,
+      createTimestamp: createTimestamp,
       type: type.toEntity(),
       title: title,
       emoji: emoji,

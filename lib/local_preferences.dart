@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:core';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,10 +5,15 @@ import 'package:moneymanager/theme/theme.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'domain/transaction_type.dart';
+
 final localPreferencesProvider = Provider<LocalPreferences>((_) => LocalPreferences());
 
 const _keyCurrentAccount = 'currentAccount';
 const _keyTheme = 'theme';
+
+const _keyIncomeCategoriesCustomOrder = 'incomeCategoriesCustomOrder';
+const _keyExpenseCategoriesCustomOrder = 'expenseCategoriesCustomOrder';
 
 class LocalPreferences {
   late final SharedPreferences _prefs;
@@ -50,5 +54,25 @@ class LocalPreferences {
       _prefs.remove(_keyTheme);
     }
     _theme = theme;
+  }
+
+  List<String> getCategoriesCustomOrder(TransactionType type) {
+    switch (type) {
+      case TransactionType.income:
+        return _prefs.getStringList(_keyIncomeCategoriesCustomOrder) ?? [];
+      case TransactionType.expense:
+        return _prefs.getStringList(_keyExpenseCategoriesCustomOrder) ?? [];
+    }
+  }
+
+  void setCategoriesCustomOrder(List<String> order, TransactionType type) {
+    switch (type) {
+      case TransactionType.income:
+        _prefs.setStringList(_keyIncomeCategoriesCustomOrder, order);
+        break;
+      case TransactionType.expense:
+        _prefs.setStringList(_keyExpenseCategoriesCustomOrder, order);
+        break;
+    }
   }
 }

@@ -6,21 +6,25 @@ part 'transaction_category_entity.g.dart';
 
 @Collection(ignore: {'props'})
 class TransactionCategoryEntity extends Equatable {
-  @Name("id")
+  @Name('id')
   final Id id;
 
-  @Name("type")
+  @Name('createTimestamp')
+  final int createTimestamp;
+
+  @Name('type')
   @Enumerated(EnumType.name)
   final TransactionTypeEntity type;
 
-  @Name("title")
+  @Name('title')
   final String title;
 
-  @Name("emoji")
+  @Name('emoji')
   final String? emoji;
 
   const TransactionCategoryEntity({
     required this.id,
+    required this.createTimestamp,
     required this.type,
     required this.title,
     required this.emoji,

@@ -7,6 +7,7 @@ part 'transaction_category.freezed.dart';
 class TransactionCategory with _$TransactionCategory {
   const factory TransactionCategory({
     required int id,
+    required int createTimestamp,
     required TransactionType type,
     required String title,
     String? emoji,

@@ -20,8 +20,6 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
     final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
     final categories = await categoriesRepository.getAll(selectedType);
 
-    // TODO: Get order from preferences.
-
     return CategoriesState(
       types: TransactionType.values,
       selectedType: selectedType,
@@ -57,21 +55,20 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
 
   void reorder(TransactionCategory category, int oldIndex, int newIndex) async {
     final currentState = await future;
-
-    final categories = currentState.categories.toList();
+    final reorderedCategories = currentState.categories.toList();
 
     if (oldIndex < newIndex) {
-      newIndex = -1;
+      newIndex -= 1;
     }
+    final item = reorderedCategories.removeAt(oldIndex);
+    reorderedCategories.insert(newIndex, item);
 
-    final item = categories.removeAt(oldIndex);
-    categories.insert(newIndex, item);
-
-    // TODO: Save order in preferences.
+    final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
+    categoriesRepository.saveCustomOrder(reorderedCategories, currentState.selectedType);
 
     state = AsyncValue.data(
       currentState.copyWith(
-        categories: categories,
+        categories: reorderedCategories,
       )
     );
   }

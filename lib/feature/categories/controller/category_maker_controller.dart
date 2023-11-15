@@ -97,6 +97,7 @@ class CategoryMakerController extends AutoDisposeNotifier<CategoryMakerState> {
     } else {
       return TransactionCategory(
         id: generateUniqueInt(),
+        createTimestamp: DateTime.now().millisecondsSinceEpoch,
         type: _initialType ?? TransactionType.income,
         title: '',
         emoji: null,

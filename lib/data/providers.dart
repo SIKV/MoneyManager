@@ -4,6 +4,7 @@ import 'package:moneymanager/data/repository/accounts_repository.dart';
 import 'package:moneymanager/data/repository/categories_repository.dart';
 import 'package:moneymanager/data/repository/transactions_repository.dart';
 
+import '../local_preferences.dart';
 import '../service/providers.dart';
 
 final accountsRepositoryProvider = Provider((ref) async {
@@ -13,7 +14,9 @@ final accountsRepositoryProvider = Provider((ref) async {
 
 final categoriesRepositoryProvider = Provider((ref) async {
   final localDataSource = await ref.watch(categoriesLocalDataSourceProvider);
-  return CategoriesRepository(localDataSource);
+  final localPreferences = ref.watch(localPreferencesProvider);
+
+  return CategoriesRepository(localDataSource, localPreferences);
 });
 
 final categoriesRepositoryUpdatedProvider = StreamProvider((ref) async* {

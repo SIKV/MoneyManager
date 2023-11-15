@@ -20,32 +20,42 @@ class CategoriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implement reordering.
-
     if (categories.isEmpty) {
       return SliverFillRemaining(
         child: Center(
-          child: NoItems(title: AppLocalizations.of(context)!.categories_noItems),
+          child: NoItems(
+              title: AppLocalizations.of(context)!.categories_noItems),
         ),
       );
     }
 
-    return SliverList(delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-      final category = categories[index];
-      return Padding(
-        key: Key('${category.id}'),
-        padding: const EdgeInsets.symmetric(
-          horizontal: Spacings.four,
-          vertical: Spacings.one,
-        ),
-        child: CategoryItem(
-          category: category,
-          onPressed: () {
-            _editCategory(context, category);
-          },
-        ),
-      );
-    }, childCount: categories.length));
+    return SliverReorderableList(
+      itemCount: categories.length,
+      itemBuilder: (context, index) {
+        final category = categories[index];
+        return ReorderableDragStartListener(
+          index: index,
+          key: Key('${category.id}'),
+          child: Material(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Spacings.four,
+                vertical: Spacings.one,
+              ),
+              child: CategoryItem(
+                category: category,
+                onPressed: () {
+                  _editCategory(context, category);
+                },
+              ),
+            ),
+          ),
+        );
+      },
+      onReorder: (oldIndex, newIndex) {
+        onReorder(oldIndex, newIndex);
+      },
+    );
   }
 
   void _editCategory(BuildContext context, TransactionCategory category) {
