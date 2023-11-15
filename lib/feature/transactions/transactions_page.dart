@@ -67,21 +67,17 @@ class TransactionsPage extends ConsumerWidget {
         HeaderCircleButton(
           title: AppLocalizations.of(context)!.categories_pageTitle,
           iconAsset: Assets.cart,
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.categories);
-          },
+          onPressed: () => Navigator.pushNamed(context, AppRoutes.categories),
         ),
         HeaderCircleButton(
           title: AppLocalizations.of(context)!.statisticsPageTitle,
           iconAsset: Assets.chartVertical,
-          onPressed: () { },
+          onPressed: () => Navigator.pushNamed(context, AppRoutes.statistics),
         ),
         HeaderCircleButton(
           title: AppLocalizations.of(context)!.search_pageTitle,
           iconAsset: Assets.search,
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.search);
-          },
+          onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
         ),
       ],
       sliver: const TransactionsList(),

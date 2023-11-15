@@ -5,6 +5,7 @@ import 'package:moneymanager/feature/account/add_account_page.dart';
 import 'package:moneymanager/feature/account_settings/account_settings_page.dart';
 import 'package:moneymanager/feature/categories/categories_page.dart';
 import 'package:moneymanager/feature/search/search_page.dart';
+import 'package:moneymanager/feature/statistics/statistics_page.dart';
 import 'package:moneymanager/feature/transaction/transaction_page.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/navigation/transaction_page_args.dart';
@@ -29,6 +30,8 @@ class App extends ConsumerWidget {
             return MaterialPageRoute(builder: (_) => const CategoriesPage());
           case AppRoutes.search:
             return MaterialPageRoute(builder: (_) => const SearchPage());
+          case AppRoutes.statistics:
+            return MaterialPageRoute(builder: (_) => const StatisticsPage());
           case AppRoutes.addTransaction:
           case AppRoutes.viewTransaction:
             return MaterialPageRoute(builder: (_) => TransactionPage(

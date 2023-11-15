@@ -66,6 +66,8 @@
 
   "applyFilters": "Apply Filters",
 
+  "underDevelopment": "This feature is under development.",
+
   "changeAccount": "Change Account",
   "changeAccountPage_addAccountSubtitle": "You can add up to {numberOfAccounts} accounts",
   "@changeAccountPage_addAccountSubtitle": {
