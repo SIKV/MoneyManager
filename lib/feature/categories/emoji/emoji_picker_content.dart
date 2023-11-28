@@ -14,9 +14,6 @@ class EmojiPickerContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EmojiPicker(
-      config: const Config(
-        showRecentsTab: false,
-      ),
       onEmojiSelected: (category, emoji) {
         onEmojiSelected(emoji.emoji);
       },

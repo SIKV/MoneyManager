@@ -13,6 +13,7 @@ void main() {
 
     isar = await Isar.open([AccountEntitySchema],
       name: 'test_db',
+      directory: '',
       inspector: false,
     );
 

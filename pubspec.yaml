@@ -30,6 +30,7 @@ dependencies:
   flutter_time_picker_spinner: ^2.0.0
   rxdart: ^0.27.7
   jiffy: ^6.2.1
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:
