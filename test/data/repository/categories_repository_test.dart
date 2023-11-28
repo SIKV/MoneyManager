@@ -7,35 +7,46 @@ import 'package:moneymanager/data/mapping.dart';
 import 'package:moneymanager/data/repository/categories_repository.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
+import 'package:moneymanager/local_preferences.dart';
 
 class CategoriesLocalDataSourceMock extends Mock implements CategoriesLocalDataSource { }
 
+class LocalPreferencesMock extends Mock implements LocalPreferences { }
+
 const transactionCategoryEntityMock = TransactionCategoryEntity(
   id: 0,
+  createTimestamp: 0,
   type: TransactionTypeEntity.income,
   title: 'Mock',
   emoji: null,
 );
 
 const transactionTypeEntityMock = TransactionTypeEntity.income;
+const transactionTypeMock = TransactionType.income;
 
 void main() {
   setUpAll(() {
     registerFallbackValue(transactionCategoryEntityMock);
     registerFallbackValue(transactionTypeEntityMock);
+    registerFallbackValue(transactionTypeMock);
   });
 
   test('addOrUpdate() updates LocalDataSource', () async {
     // GIVEN
     final localDataSourceMock = CategoriesLocalDataSourceMock();
+    final localPreferencesMock = LocalPreferencesMock();
 
     when(() => localDataSourceMock.addOrUpdate(any()))
         .thenAnswer((_) async { });
 
-    final repository = CategoriesRepository(localDataSourceMock);
+    when(() => localPreferencesMock.getCategoriesCustomOrder(any()))
+        .thenAnswer((_) => []);
+
+    final repository = CategoriesRepository(localDataSourceMock, localPreferencesMock);
 
     const category = TransactionCategory(
       id: 0,
+      createTimestamp: 0,
       type: TransactionType.income,
       title: 'TestCategory',
     );
@@ -55,23 +66,28 @@ void main() {
     const categories = [
       TransactionCategory(
         id: 0,
+        createTimestamp: 0,
         type: TransactionType.income,
         title: 'TestCategory_0',
       ),
       TransactionCategory(
         id: 1,
+        createTimestamp: 0,
         type: TransactionType.expense,
         title: 'TestCategory_1',
       ),
     ];
 
     final localDataSourceMock = CategoriesLocalDataSourceMock();
+    final localPreferencesMock = LocalPreferencesMock();
 
     when(() => localDataSourceMock.getAll(any()))
         .thenAnswer((_) async { return categories.map((it) => it.toEntity()).toList(); });
 
-    final repository = CategoriesRepository(localDataSourceMock);
+    when(() => localPreferencesMock.getCategoriesCustomOrder(any()))
+        .thenAnswer((_) => []);
 
+    final repository = CategoriesRepository(localDataSourceMock, localPreferencesMock);
     const TransactionType type = TransactionType.income;
 
     // WHEN
@@ -87,12 +103,15 @@ void main() {
   test('delete() deletes from LocalDataSource', () async {
     // GIVEN
     final localDataSourceMock = CategoriesLocalDataSourceMock();
+    final localPreferencesMock = LocalPreferencesMock();
 
     when(() => localDataSourceMock.delete(any()))
         .thenAnswer((_) async { });
 
-    final repository = CategoriesRepository(localDataSourceMock);
+    when(() => localPreferencesMock.getCategoriesCustomOrder(any()))
+        .thenAnswer((_) => []);
 
+    final repository = CategoriesRepository(localDataSourceMock, localPreferencesMock);
     const categoryId = 123;
 
     // WHEN

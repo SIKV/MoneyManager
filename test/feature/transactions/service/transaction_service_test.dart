@@ -82,6 +82,7 @@ Transaction _createTransaction(DateTime createDateTime) {
     type: TransactionType.income,
     category: const TransactionCategory(
       id: 0,
+      createTimestamp: 0,
       type: TransactionType.income,
       title: '',
       emoji: '',
