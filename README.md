@@ -1,3 +1,5 @@
+![test](https://github.com/SIKV/MoneyManager/actions/workflows/test.yml/badge.svg)
+
 ### 🚧 Work in progress 🚧
 Easily track your financial transactions.
 
