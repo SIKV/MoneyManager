@@ -6,4 +6,5 @@ class AppRoutes {
   static const accountSettings = '/account-settings';
   static const addTransaction = '/add-transaction';
   static const viewTransaction = '/view-transaction';
+  static const changeTheme = '/change-theme';
 }

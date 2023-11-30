@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../theme/theme.dart';
+
 enum MoreItemType {
   divider,
   accountSettings,
+  darkTheme,
 }
 
 @immutable
@@ -24,5 +27,14 @@ class AccountSettingsMoreItem extends MoreItem {
 
   const AccountSettingsMoreItem(super.type, {
     required this.currentAccountName,
+  });
+}
+
+@immutable
+class DarkThemeMoreItem extends MoreItem {
+  final AppThemeType appTheme;
+
+  const DarkThemeMoreItem(super.type, {
+    required this.appTheme,
   });
 }

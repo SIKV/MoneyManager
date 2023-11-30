@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/add_account_page.dart';
 import 'package:moneymanager/feature/account_settings/account_settings_page.dart';
 import 'package:moneymanager/feature/categories/categories_page.dart';
+import 'package:moneymanager/feature/change_theme/change_theme_page.dart';
 import 'package:moneymanager/feature/search/search_page.dart';
 import 'package:moneymanager/feature/statistics/statistics_page.dart';
 import 'package:moneymanager/feature/transaction/transaction_page.dart';
@@ -41,6 +42,8 @@ class App extends ConsumerWidget {
             return MaterialPageRoute(builder: (_) => const AddAccountPage());
           case AppRoutes.accountSettings:
             return MaterialPageRoute(builder: (_) => const AccountSettingsPage());
+          case AppRoutes.changeTheme:
+            return MaterialPageRoute(builder: (_) => const ChangeThemePage());
         }
         assert(false, '${settings.name} route is not implemented.');
         return null;

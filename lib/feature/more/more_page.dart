@@ -3,13 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/more/controller/more_controller.dart';
 import 'package:moneymanager/feature/more/ui/action_tile.dart';
-import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/theme/theme.dart';
 
 import '../../navigation/routes.dart';
-import '../../theme/theme_manager.dart';
-import '../../ui/widget/SvgIcon.dart';
-import '../../ui/widget/collapsing_header_page.dart';
 import 'domain/more_item.dart';
 
 class MorePage extends ConsumerWidget {
@@ -18,43 +14,17 @@ class MorePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(moreControllerProvider);
-    final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
-    return CollapsingHeaderPage(
-      colors: appTheme.colors,
-      startColor: appTheme.colors.moreHeaderStart,
-      endColor: appTheme.colors.moreHeaderEnd,
-      collapsedHeight: 78,
-      expandedHeight: 208,
-      title: AppLocalizations.of(context)!.morePageTitle,
-      primaryAction: Container(
-        decoration: BoxDecoration(
-          color: appTheme.colors.alwaysWhite,
-          borderRadius: BorderRadius.circular(32),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.morePageTitle),
         ),
-        child: IconButton(
-          icon: SvgIcon(appTheme.type == AppThemeType.light ? Assets.moon : Assets.sun,
-            color: appTheme.colors.alwaysBlack,
-          ),
-          onPressed: () {
-            _updateTheme(ref.read(appThemeManagerProvider.notifier));
-          },
-        ),
-      ),
-      sliver: SliverToBoxAdapter(
-        child: _Items(
+        body: _Items(
           items: state.value?.items ?? [],
         ),
       ),
     );
-  }
-
-  void _updateTheme(AppThemeManager themeManager) {
-    if (themeManager.getType() == AppThemeType.light) {
-      themeManager.setTheme(AppThemeType.dark);
-    } else {
-      themeManager.setTheme(AppThemeType.light);
-    }
   }
 }
 
@@ -79,8 +49,26 @@ class _Items extends StatelessWidget {
           }
           return ActionTile(
             onTap: () => Navigator.pushNamed(context, AppRoutes.accountSettings),
-            leadingIcon: Icons.money,
+            leadingIcon: Icons.account_balance_wallet_rounded,
             title: AppLocalizations.of(context)!.accountSettings,
+            subtitle: subtitle,
+          );
+        case MoreItemType.darkTheme:
+          String? subtitle;
+          if (item is DarkThemeMoreItem) {
+            switch (item.appTheme) {
+              case AppThemeType.light:
+                subtitle = AppLocalizations.of(context)!.off;
+                break;
+              case AppThemeType.dark:
+                subtitle = AppLocalizations.of(context)!.on;
+                break;
+            }
+          }
+          return ActionTile(
+            onTap: () => Navigator.pushNamed(context, AppRoutes.changeTheme),
+            leadingIcon: Icons.contrast_rounded,
+            title: AppLocalizations.of(context)!.darkTheme,
             subtitle: subtitle,
           );
       }

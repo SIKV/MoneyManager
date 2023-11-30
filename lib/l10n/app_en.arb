@@ -64,6 +64,10 @@
   "deleteAccount": "Delete Account",
   "deleteAccountWarning": "This action cannot be undone.",
 
+  "darkTheme": "Dark Theme",
+  "on": "On",
+  "off": "Off",
+
   "applyFilters": "Apply Filters",
 
   "underDevelopment": "This feature is under development.",
