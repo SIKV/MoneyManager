@@ -42,6 +42,21 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    flavorDimensions "default"
+
+    productFlavors {
+        prod {
+            dimension "default"
+            resValue "string", "app_name", "Money Manager"
+        }
+        dev {
+            dimension "default"
+            resValue "string", "app_name", "Money Manager"
+            applicationIdSuffix ".dev"
+            versionNameSuffix ".dev"
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "ua.sikv.moneymanager.moneymanager"
