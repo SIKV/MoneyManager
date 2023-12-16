@@ -1,0 +1,29 @@
+name: build-android
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  flutter_test:
+    name: Run tests and build Android apk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: flutter test
+      - run: flutter build apk --flavor dev --android-project-arg qa
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: MoneyManager.apk
+          path: build/app/outputs/apk/dev/release/app-dev-release.apk
