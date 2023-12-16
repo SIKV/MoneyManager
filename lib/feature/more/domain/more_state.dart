@@ -7,5 +7,6 @@ part 'more_state.freezed.dart';
 class MoreState with _$MoreState {
   const factory MoreState({
     required List<MoreItem> items,
+    required String appVersion,
   }) = _MoreState;
 }

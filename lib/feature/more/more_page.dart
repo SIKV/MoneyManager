@@ -3,7 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/more/controller/more_controller.dart';
 import 'package:moneymanager/feature/more/ui/action_tile.dart';
+import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/theme/theme.dart';
+import 'package:moneymanager/ui/widget/small_section_text.dart';
 
 import '../../navigation/routes.dart';
 import 'domain/more_item.dart';
@@ -22,6 +24,7 @@ class MorePage extends ConsumerWidget {
         ),
         body: _Items(
           items: state.value?.items ?? [],
+          appVersion: state.value?.appVersion ?? '',
         ),
       ),
     );
@@ -30,10 +33,12 @@ class MorePage extends ConsumerWidget {
 
 class _Items extends StatelessWidget {
   final List<MoreItem> items;
+  final String appVersion;
 
   const _Items({
     Key? key,
     required this.items,
+    required this.appVersion,
   }) : super(key: key);
 
   @override
@@ -74,7 +79,15 @@ class _Items extends StatelessWidget {
       }
     }).toList();
 
+    itemTiles.add(
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: Spacings.four),
+          child: SmallSectionText(appVersion),
+        )
+    );
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: itemTiles,
     );
   }

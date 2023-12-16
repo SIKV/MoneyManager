@@ -31,6 +31,7 @@ dependencies:
   rxdart: ^0.27.7
   jiffy: ^6.2.1
   path_provider: ^2.1.1
+  package_info_plus: ^5.0.1
 
 dev_dependencies:
   flutter_test:

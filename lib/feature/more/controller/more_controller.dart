@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/more/domain/more_item.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../common/provider/current_account_provider.dart';
 import '../../../domain/account.dart';
@@ -22,7 +23,9 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
         await _createAccountSettingsItem(),
         _createDivider(),
         await _createDarkThemeItem(),
+        _createDivider(),
       ],
+      appVersion: await _getAppVersion(),
     );
   }
 
@@ -44,5 +47,10 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
     return DarkThemeMoreItem(MoreItemType.darkTheme,
       appTheme: themeManager.getType(),
     );
+  }
+
+  Future<String> _getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
   }
 }
