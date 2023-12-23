@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/account/select_currency_button.dart';
+import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/primary_button.dart';
 
@@ -79,7 +80,11 @@ class AddAccountPage extends ConsumerWidget {
   void _listenAccountAdded(BuildContext context, WidgetRef ref) {
     ref.listen(addAccountControllerProvider, (previous, next) {
       if (next.value?.accountAdded == true) {
-        Navigator.pop(context);
+        if (next.value?.isFirstAccount == true) {
+          Navigator.pushReplacementNamed(context, AppRoutes.home);
+        } else {
+          Navigator.pop(context);
+        }
       }
     });
   }

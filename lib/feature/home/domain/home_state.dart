@@ -6,6 +6,5 @@ part 'home_state.freezed.dart';
 class HomeState with _$HomeState {
   const factory HomeState({
     required int selectedPageIndex,
-    required bool shouldAddAccount,
   }) = _HomeState;
 }

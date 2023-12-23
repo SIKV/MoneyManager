@@ -22,8 +22,6 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeControllerProvider);
 
-    _listenShouldAddAccount(context, ref);
-
     return state.when(
       loading: () => Container(), // TODO: Implement.
       error: (_, __) => Container(), // TODO: Implement.
@@ -31,15 +29,6 @@ class HomePage extends ConsumerWidget {
         state: state,
       ),
     );
-  }
-
-  void _listenShouldAddAccount(BuildContext context, WidgetRef ref) {
-    ref.listen(homeControllerProvider, (previous, next) async {
-      final shouldAddAccount = next.value?.shouldAddAccount;
-      if (shouldAddAccount == true) {
-        Navigator.pushNamed(context, AppRoutes.addAccount);
-      }
-    });
   }
 }
 
