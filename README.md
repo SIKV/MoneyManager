@@ -2,11 +2,11 @@
 
 ## Money Manager
 #### 🚧 Work in progress 🚧
-Easily track your financial transactions.
+Track your financial transactions effortlessly with this open-source app.
 
 ![ic_launcher](https://github.com/SIKV/MoneyManager/assets/11236380/24dd64b4-c156-4c53-b7ab-bba80b222b95)
 
-## Technologies
+## This app uses
 - [Riverpod](https://riverpod.dev) - state management
 - [Isar](https://isar.dev) - database
 - [Shared Preferences](https://github.com/flutter/packages/tree/main/packages/shared_preferences/shared_preferences) - local preferences
