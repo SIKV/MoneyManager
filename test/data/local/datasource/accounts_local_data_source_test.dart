@@ -24,29 +24,24 @@ void main() {
     await isar.close(deleteFromDisk: true);
   });
 
-  test('addOrUpdate adds account to database', () async {
+  test('add() adds account to database', () async {
     const account = AccountEntity(
       id: 1,
       currency: CurrencyEntity(code: 'USD', symbol: '\$'),
     );
 
-    await dataSource.addOrUpdate(account);
+    await dataSource.add(account);
     final result = await dataSource.getById(account.id);
 
     expect(result, equals(account));
   });
 
-  test('getById returns null when account does not exist', () async {
+  test('getById() returns null when account does not exist', () async {
     final result = await dataSource.getById(123);
     expect(result, isNull);
   });
 
-  test('getAll returns empty list when no accounts exist', () async {
-    final result = await dataSource.getAll();
-    expect(result, isEmpty);
-  });
-
-  test('getAll returns all accounts in the database', () async {
+  test('getByCurrencyCode() returns found accounts', () async {
     const account1 = AccountEntity(
       id: 1,
       currency: CurrencyEntity(code: 'USD', symbol: '\$'),
@@ -56,8 +51,31 @@ void main() {
       currency: CurrencyEntity(code: 'EUR', symbol: '€'),
     );
 
-    await dataSource.addOrUpdate(account1);
-    await dataSource.addOrUpdate(account2);
+    await dataSource.add(account1);
+    await dataSource.add(account2);
+
+    final result = await dataSource.getByCurrencyCode('USD');
+
+    expect(result, equals([account1]));
+  });
+
+  test('getAll() returns empty list when no accounts exist', () async {
+    final result = await dataSource.getAll();
+    expect(result, isEmpty);
+  });
+
+  test('getAll() returns all accounts in the database', () async {
+    const account1 = AccountEntity(
+      id: 1,
+      currency: CurrencyEntity(code: 'USD', symbol: '\$'),
+    );
+    const account2 = AccountEntity(
+      id: 2,
+      currency: CurrencyEntity(code: 'EUR', symbol: '€'),
+    );
+
+    await dataSource.add(account1);
+    await dataSource.add(account2);
 
     final result = await dataSource.getAll();
 

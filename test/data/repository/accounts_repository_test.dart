@@ -20,11 +20,11 @@ void main() {
     registerFallbackValue(accountEntityMock);
   });
 
-  test('addOrUpdate() updates LocalDataSource', () async {
+  test('add() updates LocalDataSource', () async {
     // GIVEN
     final localDataSourceMock = AccountsLocalDataSourceMock();
 
-    when(() => localDataSourceMock.addOrUpdate(any()))
+    when(() => localDataSourceMock.add(any()))
         .thenAnswer((_) async {});
 
     final repository = AccountsRepository(localDataSourceMock);
@@ -40,10 +40,10 @@ void main() {
     );
 
     // WHEN
-    await repository.addOrUpdate(account);
+    await repository.add(account);
 
     // THEN
-    verify(() => localDataSourceMock.addOrUpdate(account.toEntity()))
+    verify(() => localDataSourceMock.add(account.toEntity()))
         .called(1);
   });
 
