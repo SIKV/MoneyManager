@@ -11,3 +11,12 @@ final currentAccountProvider = StreamProvider((ref) {
     return (await currentAccountService).getCurrentAccount();
   });
 });
+
+final currentAccountOrNullProvider = StreamProvider((ref) {
+  final currentAccountService = ref.watch(currentAccountServiceProvider);
+  final localPreferences = ref.watch(localPreferencesProvider);
+
+  return localPreferences.onCurrentAccountIdChanged.asyncMap((_) async {
+    return (await currentAccountService).getCurrentAccountOrNull();
+  });
+});

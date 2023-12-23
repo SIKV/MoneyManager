@@ -7,6 +7,7 @@ part 'add_account_state.freezed.dart';
 class AddAccountState with _$AddAccountState {
   const factory AddAccountState({
     required Currency? selectedCurrency,
+    required bool alreadyExists,
     required bool isFirstAccount,
     required bool accountAdded,
   }) = _AddAccountState;

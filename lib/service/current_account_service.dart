@@ -8,6 +8,7 @@ class CurrentAccountService {
 
   CurrentAccountService(this.accountsRepository, this.localPreferences);
 
+  @Deprecated('Use getCurrentAccountOrNull()')
   int getCurrentAccountId() {
     final id = localPreferences.currentAccountId;
     if (id != null) {
@@ -17,12 +18,22 @@ class CurrentAccountService {
     }
   }
 
+  @Deprecated('Use getCurrentAccountOrNull()')
   Future<Account> getCurrentAccount() async {
     final account = await accountsRepository.getById(getCurrentAccountId());
     if (account != null) {
       return account;
     } else {
       return Future.error('No current account is found.');
+    }
+  }
+
+  Future<Account?> getCurrentAccountOrNull() async {
+    final id = localPreferences.currentAccountId;
+    if (id != null) {
+      return await accountsRepository.getById(id);
+    } else {
+      return null;
     }
   }
 }

@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../data/providers.dart';
+import '../../../common/provider/current_account_provider.dart';
+import '../../../domain/account.dart';
 import '../domain/home_state.dart';
 
 final homeControllerProvider = AsyncNotifierProvider<HomeController, HomeState>(() {
@@ -12,12 +13,16 @@ final homeControllerProvider = AsyncNotifierProvider<HomeController, HomeState>(
 class HomeController extends AsyncNotifier<HomeState> {
   @override
   FutureOr<HomeState> build() async {
-    final accountsRepository = await ref.watch(accountsRepositoryProvider);
-    final accounts = await accountsRepository.getAll();
+    final Account? currentAccount = await ref.watch(currentAccountOrNullProvider.future);
+
+
+
+    print('--- --- --- Current account changed: ${currentAccount?.id.toString() ?? 'NULL'}');
+
 
     return HomeState(
       selectedPageIndex: 0,
-      shouldAddAccount: accounts.isEmpty,
+      shouldAddAccount: currentAccount == null,
     );
   }
 

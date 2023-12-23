@@ -26,10 +26,11 @@ final categoriesRepositoryUpdatedProvider = StreamProvider((ref) async* {
 
 final transactionsRepositoryProvider = Provider((ref) async {
   final localDataSource = await ref.watch(transactionsLocalDataSourceProvider);
-  final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
+  final accountsRepository = await ref.watch(accountsRepositoryProvider);
   final currentAccountService = await ref.watch(currentAccountServiceProvider);
+  final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
 
-  return TransactionsRepository(localDataSource, categoriesRepository, currentAccountService);
+  return TransactionsRepository(localDataSource, accountsRepository, currentAccountService, categoriesRepository);
 });
 
 final transactionsRepositoryUpdatedProvider = StreamProvider((ref) async* {

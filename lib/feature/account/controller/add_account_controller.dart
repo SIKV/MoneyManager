@@ -24,6 +24,7 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
 
     return AddAccountState(
       selectedCurrency: null,
+      alreadyExists: false,
       isFirstAccount: accounts.isEmpty,
       accountAdded: false,
     );
@@ -39,8 +40,13 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
         currency: currency,
       );
 
+      final accountExists = await isAccountExist(account.currency.code);
+      if (accountExists) {
+        return;
+      }
+
       final accountsRepository = await ref.read(accountsRepositoryProvider);
-      await accountsRepository.addOrUpdate(account);
+      await accountsRepository.add(account);
 
       ref.read(localPreferencesProvider)
           .setCurrentAccount(account.id);
@@ -58,6 +64,7 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
 
     state = AsyncValue.data(
         currentState.copyWith(
+          alreadyExists: await isAccountExist(currency.code),
           selectedCurrency: Currency(
             code: currency.code,
             name: currency.name,
@@ -66,5 +73,11 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
           ),
         )
     );
+  }
+
+  Future<bool> isAccountExist(String currencyCode) async {
+    final accountsRepository = await ref.read(accountsRepositoryProvider);
+    final accounts = await accountsRepository.getByCurrencyCode(currencyCode);
+    return accounts.isNotEmpty;
   }
 }

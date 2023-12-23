@@ -17,70 +17,74 @@ import '../../ui/widget/SvgIcon.dart';
 import 'ui/header_filters.dart';
 
 class TransactionsPage extends ConsumerWidget {
-  const TransactionsPage({Key? key}) : super(key: key);
+  const TransactionsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
+    final headerState = ref.watch(headerControllerProvider);
 
-    final headerState = ref.watch(headerControllerProvider).value;
-
-    String title = '...';
-    String titleSuffix = '';
-    String filterTitle = '';
-    String transactionsCount = '';
-
-    if (headerState != null) {
-      title = headerState.amount;
-      titleSuffix = ' ${headerState.currentAccount?.currency.symbol}';
-
-      filterTitle = getFilterTitle(context, headerState.rangeFilter, headerState.typeFilter);
-
-      transactionsCount = Intl.plural(headerState.transactionsCount,
-        zero: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransactions}',
-        one: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransaction}',
-        other: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransactions}',
-      );
-    }
-
-    return CollapsingHeaderPage(
-      colors: appTheme.colors,
-      startColor: appTheme.colors.transactionsHeaderStart,
-      endColor: appTheme.colors.transactionsHeaderEnd,
-      collapsedHeight: 78,
-      expandedHeight: 346,
-      title: title,
-      titleSuffix: titleSuffix,
-      subtitle: filterTitle,
-      tertiaryTitle: transactionsCount,
-      onTitlePressed: () {
-        _showChangeAccount(context);
+    return headerState.when(
+      error: (_, __) {
+        // TODO: Implement.
+        return Container();
       },
-      primaryAction: IconButton(
-        icon: SvgIcon(Assets.filters,
-          size: 32,
-          color: appTheme.colors.alwaysWhite,
-        ),
-        onPressed: () => _showMenu(context),
-      ),
-      secondaryActions: [
-        HeaderCircleButton(
-          title: AppLocalizations.of(context)!.categories_pageTitle,
-          iconAsset: Assets.cart,
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.categories),
-        ),
-        HeaderCircleButton(
-          title: AppLocalizations.of(context)!.statisticsPageTitle,
-          iconAsset: Assets.chartVertical,
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.statistics),
-        ),
-        HeaderCircleButton(
-          title: AppLocalizations.of(context)!.search_pageTitle,
-          iconAsset: Assets.search,
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
-        ),
-      ],
-      sliver: const TransactionsList(),
+      loading: () {
+        // TODO: Implement.
+        return Container();
+      },
+      data: (headerState) {
+        String title = headerState.amount;
+        String titleSuffix = ' ${headerState.currentAccount?.currency.symbol}';
+
+        String filterTitle = getFilterTitle(context, headerState.rangeFilter, headerState.typeFilter);
+
+        String transactionsCount = Intl.plural(headerState.transactionsCount,
+            zero: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransactions}',
+            one: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransaction}',
+            other: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransactions}',
+          );
+
+        return CollapsingHeaderPage(
+          colors: appTheme.colors,
+          startColor: appTheme.colors.transactionsHeaderStart,
+          endColor: appTheme.colors.transactionsHeaderEnd,
+          collapsedHeight: 78,
+          expandedHeight: 346,
+          title: title,
+          titleSuffix: titleSuffix,
+          subtitle: filterTitle,
+          tertiaryTitle: transactionsCount,
+          onTitlePressed: () {
+            _showChangeAccount(context);
+          },
+          primaryAction: IconButton(
+            icon: SvgIcon(Assets.filters,
+              size: 32,
+              color: appTheme.colors.alwaysWhite,
+            ),
+            onPressed: () => _showMenu(context),
+          ),
+          secondaryActions: [
+            HeaderCircleButton(
+              title: AppLocalizations.of(context)!.categories_pageTitle,
+              iconAsset: Assets.cart,
+              onPressed: () => Navigator.pushNamed(context, AppRoutes.categories),
+            ),
+            HeaderCircleButton(
+              title: AppLocalizations.of(context)!.statisticsPageTitle,
+              iconAsset: Assets.chartVertical,
+              onPressed: () => Navigator.pushNamed(context, AppRoutes.statistics),
+            ),
+            HeaderCircleButton(
+              title: AppLocalizations.of(context)!.search_pageTitle,
+              iconAsset: Assets.search,
+              onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
+            ),
+          ],
+          sliver: const TransactionsList(),
+        );
+      },
     );
   }
 

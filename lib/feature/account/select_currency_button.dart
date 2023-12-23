@@ -7,7 +7,7 @@ import 'package:moneymanager/theme/spacings.dart';
 import 'controller/add_account_controller.dart';
 
 class SelectCurrencyButton extends ConsumerWidget {
-  const SelectCurrencyButton({Key? key}) : super(key: key);
+  const SelectCurrencyButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,31 +21,26 @@ class SelectCurrencyButton extends ConsumerWidget {
       selectedCurrencyText = AppLocalizations.of(context)!.selectCurrencyPlaceholder;
     }
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 1.5,
-      child: InkWell(
-        onTap: () => _selectCurrency(context, ref),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(selectedCurrencyText,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
+    return InkWell(
+      onTap: () => _selectCurrency(context, ref),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(selectedCurrencyText,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                const Icon(Icons.arrow_drop_down),
-              ],
-            ),
-            const SizedBox(height: Spacings.two),
-            Container(
-              height: 1,
-              color: Theme.of(context).colorScheme.outline,
-            ),
-          ],
-        ),
+              ),
+              const Icon(Icons.arrow_drop_down),
+            ],
+          ),
+          const SizedBox(height: Spacings.two),
+          Container(
+            height: 1,
+            color: Theme.of(context).colorScheme.outline,
+          ),
+        ],
       ),
     );
   }

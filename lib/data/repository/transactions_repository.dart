@@ -1,5 +1,7 @@
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
 import 'package:moneymanager/data/mapping.dart';
+import 'package:moneymanager/data/repository/accounts_repository.dart';
+import 'package:moneymanager/domain/account.dart';
 import 'package:moneymanager/domain/currency.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -12,24 +14,35 @@ import 'categories_repository.dart';
 
 class TransactionsRepository {
   final TransactionsLocalDataSource localDataSource;
-  final CategoriesRepository categoriesRepository;
+  final AccountsRepository accountsRepository;
   final CurrentAccountService currentAccountService;
+  final CategoriesRepository categoriesRepository;
 
   final onUpdated = BehaviorSubject<Object>();
 
-  TransactionsRepository(this.localDataSource, this.categoriesRepository, this.currentAccountService);
+  TransactionsRepository(
+      this.localDataSource,
+      this.accountsRepository,
+      this.currentAccountService,
+      this.categoriesRepository);
 
   Future<void> addOrUpdate(Transaction transaction) async {
-    await localDataSource.addOrUpdate(transaction.toEntity(currentAccountService.getCurrentAccountId()));
-    onUpdated.add(Object);
+    Account? currentAccount = await currentAccountService.getCurrentAccountOrNull();
+    if (currentAccount != null) {
+      await localDataSource.addOrUpdate(transaction.toEntity(currentAccount.id));
+      onUpdated.add(Object);
+    }
   }
 
   Future<Transaction?> getById(int id) async {
     final transaction = await localDataSource.getById(id);
-    final currency = (await currentAccountService.getCurrentAccount()).currency;
-
     if (transaction != null) {
-      return _mapTransaction(transaction, currency);
+      final currency = (await accountsRepository.getById(transaction.accountId))?.currency;
+      if (currency != null) {
+        return _mapTransaction(transaction, currency);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
@@ -38,7 +51,7 @@ class TransactionsRepository {
   Stream<List<Transaction>> getAll({
     required TransactionTypeFilter typeFilter,
     required int fromTimestamp,
-  }) {
+  }) async* {
     typeCondition(TransactionEntity e) {
       switch (typeFilter) {
         case TransactionTypeFilter.income:
@@ -50,19 +63,24 @@ class TransactionsRepository {
       }
     }
 
-    return localDataSource.getAll(
-      accountId: currentAccountService.getCurrentAccountId(),
-      fromTimestamp: fromTimestamp,
-    ).asyncMap((list) async {
-      final currency = (await currentAccountService.getCurrentAccount()).currency;
-      final mapped = list
-          .where(typeCondition)
-          .map((it) => _mapTransaction(it, currency));
+    Account? currentAccount = await currentAccountService.getCurrentAccountOrNull();
 
-      return (await Future.wait(mapped))
-          .whereType<Transaction>()
-          .toList();
-    });
+    if (currentAccount == null) {
+      yield* const Stream.empty();
+    } else {
+      yield* localDataSource.getAll(
+        accountId: currentAccount.id,
+        fromTimestamp: fromTimestamp,
+      ).asyncMap((list) async {
+        final mapped = list
+            .where(typeCondition)
+            .map((it) => _mapTransaction(it, currentAccount.currency));
+
+        return (await Future.wait(mapped))
+            .whereType<Transaction>()
+            .toList();
+      });
+    }
   }
 
   Future<void> delete(int id) async {

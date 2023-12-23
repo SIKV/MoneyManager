@@ -11,7 +11,7 @@ import '../../navigation/routes.dart';
 import 'domain/more_item.dart';
 
 class MorePage extends ConsumerWidget {
-  const MorePage({Key? key}) : super(key: key);
+  const MorePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,9 +22,19 @@ class MorePage extends ConsumerWidget {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.morePageTitle),
         ),
-        body: _Items(
-          items: state.value?.items ?? [],
-          appVersion: state.value?.appVersion ?? '',
+        body: state.when(
+          loading: () {
+            return Container();
+          },
+          error: (_, __) {
+            return Container();
+          },
+          data: (state) {
+            return _Items(
+              items: state.items,
+              appVersion: state.appVersion ?? '',
+            );
+          },
         ),
       ),
     );
@@ -36,10 +46,9 @@ class _Items extends StatelessWidget {
   final String appVersion;
 
   const _Items({
-    Key? key,
     required this.items,
     required this.appVersion,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

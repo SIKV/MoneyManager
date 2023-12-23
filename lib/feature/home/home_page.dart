@@ -22,11 +22,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeControllerProvider);
 
-    ref.listen(homeControllerProvider, (previous, next) {
-      if (next.value?.shouldAddAccount == true) {
-        Navigator.pushNamed(context, AppRoutes.addAccount);
-      }
-    });
+    _listenShouldAddAccount(context, ref);
 
     return state.when(
       loading: () => Container(), // TODO: Implement.
@@ -35,6 +31,15 @@ class HomePage extends ConsumerWidget {
         state: state,
       ),
     );
+  }
+
+  void _listenShouldAddAccount(BuildContext context, WidgetRef ref) {
+    ref.listen(homeControllerProvider, (previous, next) async {
+      final shouldAddAccount = next.value?.shouldAddAccount;
+      if (shouldAddAccount == true) {
+        Navigator.pushNamed(context, AppRoutes.addAccount);
+      }
+    });
   }
 }
 
@@ -48,9 +53,8 @@ class _HomeScaffold extends ConsumerWidget {
   final HomeState state;
 
   const _HomeScaffold({
-    Key? key,
     required this.state,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

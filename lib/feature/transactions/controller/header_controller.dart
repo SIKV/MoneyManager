@@ -19,7 +19,7 @@ class HeaderController extends AsyncNotifier<HeaderState> {
 
   @override
   FutureOr<HeaderState> build() async {
-    final currentAccount = ref.watch(currentAccountProvider);
+    final currentAccountOrNull = ref.watch(currentAccountOrNullProvider);
     final filterService = await ref.watch(filterServiceProvider);
     final currencyFormatter = ref.watch(currencyFormatterProvider);
 
@@ -39,7 +39,7 @@ class HeaderController extends AsyncNotifier<HeaderState> {
     );
 
     return HeaderState(
-      currentAccount: currentAccount.value,
+      currentAccount: currentAccountOrNull.value,
       amount: formattedAmount,
       transactionsCount: transactions.length,
       typeFilter: filterService.getType(),

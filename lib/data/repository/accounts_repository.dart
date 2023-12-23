@@ -8,8 +8,8 @@ class AccountsRepository {
 
   AccountsRepository(this.localDataSource);
 
-  Future<void> addOrUpdate(Account account) async {
-    return localDataSource.addOrUpdate(account.toEntity());
+  Future<void> add(Account account) async {
+    return localDataSource.add(account.toEntity());
   }
 
   Future<Account?> getById(int id) async {
@@ -17,9 +17,15 @@ class AccountsRepository {
     return account?.toDomain();
   }
 
+  Future<List<Account>> getByCurrencyCode(String currencyCode) async {
+    return (await localDataSource.getByCurrencyCode(currencyCode))
+        .map((it) => it.toDomain())
+        .whereType<Account>()
+        .toList();
+  }
+
   Future<List<Account>> getAll() async {
-    final accounts = await localDataSource.getAll();
-    return accounts
+    return (await localDataSource.getAll())
         .map((it) => it.toDomain())
         .whereType<Account>()
         .toList();

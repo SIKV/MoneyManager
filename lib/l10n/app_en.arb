@@ -57,6 +57,7 @@
   "addAccountSubtitle": "Choose a currency for your account",
   "addAccountActionButton": "Add Account",
   "selectCurrencyPlaceholder": "Select currency",
+  "accountAlreadyExistsError": "An account with the selected currency already exists",
 
   "changeAccountPage_addAccountTitle": "Add account",
 
