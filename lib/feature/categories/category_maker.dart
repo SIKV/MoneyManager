@@ -6,6 +6,7 @@ import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_mode.dart';
 import 'package:moneymanager/ui/widget/delete_button.dart';
+import 'package:moneymanager/ui/widget/primary_button.dart';
 
 import '../../theme/spacings.dart';
 import '../../ui/widget/close_circle_button.dart';
@@ -245,9 +246,9 @@ class _Actions extends StatelessWidget {
     }
 
     List<Widget> buttons = [
-      FilledButton(
+      PrimaryButton(
         onPressed: onSavePressed,
-        child: Text(saveButtonTitle),
+        title: saveButtonTitle,
       ),
     ];
 

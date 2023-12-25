@@ -3,27 +3,22 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/delete_button.dart';
+import 'package:moneymanager/ui/widget/primary_button.dart';
 
 import '../controller/transaction_maker_controller.dart';
 import '../domain/ui_mode.dart';
 
 class TransactionActions extends ConsumerWidget {
-  const TransactionActions({Key? key}) : super(key: key);
+  const TransactionActions({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stateValue = ref.watch(transactionMakerControllerProvider);
 
-    final saveButton = FilledButton(
+    final saveButton = PrimaryButton(
       onPressed: () => _saveTransaction(ref),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.check_rounded),
-          const SizedBox(width: Spacings.two),
-          Text(AppLocalizations.of(context)!.save),
-        ],
-      ),
+      icon: Icons.check_rounded,
+      title: AppLocalizations.of(context)!.save,
     );
 
     return stateValue.when(
@@ -77,9 +72,9 @@ class TransactionActions extends ConsumerWidget {
 class _DeleteConfirmation extends StatelessWidget {
   final VoidCallback onDeletePressed;
 
-  const _DeleteConfirmation({Key? key,
+  const _DeleteConfirmation({super.key,
     required this.onDeletePressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

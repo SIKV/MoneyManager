@@ -10,7 +10,7 @@ class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     super.key,
     required this.onPressed,
-    required this.icon,
+    this.icon,
     required this.title,
   });
 
@@ -21,8 +21,8 @@ class PrimaryButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon),
-          const SizedBox(width: Spacings.two),
+          if (icon != null) Icon(icon),
+          if (icon != null) const SizedBox(width: Spacings.two),
           Text(title),
         ],
       ),
