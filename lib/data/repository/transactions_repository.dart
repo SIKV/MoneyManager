@@ -88,6 +88,11 @@ class TransactionsRepository {
     onUpdated.add(Object);
   }
 
+  Future<void> deleteByAccountId(int accountId) async {
+    await localDataSource.deleteByAccountId(accountId);
+    onUpdated.add(Object);
+  }
+
   Future<Transaction?> _mapTransaction(TransactionEntity entity, Currency currency) async {
     final category = await categoriesRepository.getById(entity.categoryId);
 

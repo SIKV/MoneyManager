@@ -40,4 +40,13 @@ class TransactionsLocalDataSource {
           .deleteAll();
     });
   }
+
+  Future<void> deleteByAccountId(int accountId) async {
+    return isar.writeTxn(() async {
+      await isar.transactionEntitys
+          .filter()
+          .accountIdEqualTo(accountId)
+          .deleteAll();
+    });
+  }
 }

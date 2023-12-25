@@ -15,6 +15,12 @@ class AccountsLocalDataSource {
     });
   }
 
+  Future<AccountEntity?> firstOrNull() async {
+    return await isar.accountEntitys
+        .where()
+        .findFirst();
+  }
+
   Future<AccountEntity?> getById(int id) async {
     return await isar.accountEntitys
         .where()
@@ -33,5 +39,14 @@ class AccountsLocalDataSource {
     return await isar.accountEntitys
         .where()
         .findAll();
+  }
+
+  Future<void> delete(int id) async {
+    return isar.writeTxn(() async {
+      await isar.accountEntitys
+          .filter()
+          .idEqualTo(id)
+          .deleteAll();
+    });
   }
 }

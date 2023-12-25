@@ -79,4 +79,6 @@ void main() {
     verify(() => localDataSourceMock.getAll())
         .called(1);
   });
+
+  // TODO: Test delete()
 }

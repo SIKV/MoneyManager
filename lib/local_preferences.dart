@@ -40,10 +40,13 @@ class LocalPreferences {
     }
   }
 
-  void setCurrentAccount(int id) {
-    _prefs.setInt(_keyCurrentAccount, id);
+  void setCurrentAccount(int? id) {
+    if (id == null) {
+      _prefs.remove(_keyCurrentAccount);
+    } else {
+      _prefs.setInt(_keyCurrentAccount, id);
+    }
     _currentAccountId = id;
-
     onCurrentAccountIdChanged.add(_currentAccountId);
   }
 

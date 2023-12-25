@@ -8,6 +8,10 @@ class CurrentAccountService {
 
   CurrentAccountService(this.accountsRepository, this.localPreferences);
 
+  void setCurrentAccount(int? id) {
+    localPreferences.setCurrentAccount(id);
+  }
+
   @Deprecated('Use getCurrentAccountOrNull()')
   int getCurrentAccountId() {
     final id = localPreferences.currentAccountId;
@@ -31,7 +35,7 @@ class CurrentAccountService {
   Future<Account?> getCurrentAccountOrNull() async {
     final id = localPreferences.currentAccountId;
     if (id != null) {
-      return await accountsRepository.getById(id);
+      return accountsRepository.getById(id);
     } else {
       return null;
     }

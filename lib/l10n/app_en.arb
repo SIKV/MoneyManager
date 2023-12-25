@@ -64,6 +64,8 @@
   "accountSettings": "Account Settings",
   "deleteAccount": "Delete Account",
   "deleteAccountWarning": "This action cannot be undone.",
+  "deleteAccountTitle": "Delete account",
+  "deleteAccountDescription": "Are you sure you want to delete this account and all its transactions? This action cannot be undone.",
 
   "darkTheme": "Dark Theme",
   "on": "On",

@@ -81,4 +81,6 @@ void main() {
 
     expect(result, equals([account1, account2]));
   });
+
+  // TODO: Test delete()
 }

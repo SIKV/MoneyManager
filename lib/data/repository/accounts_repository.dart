@@ -12,6 +12,11 @@ class AccountsRepository {
     return localDataSource.add(account.toEntity());
   }
 
+  Future<Account?> firstOrNull() async {
+    final account = await localDataSource.firstOrNull();
+    return account?.toDomain();
+  }
+
   Future<Account?> getById(int id) async {
     final account = await localDataSource.getById(id);
     return account?.toDomain();
@@ -29,5 +34,9 @@ class AccountsRepository {
         .map((it) => it.toDomain())
         .whereType<Account>()
         .toList();
+  }
+
+  Future<void> delete(int id) async {
+    return localDataSource.delete(id);
   }
 }
