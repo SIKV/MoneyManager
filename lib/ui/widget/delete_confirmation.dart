@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:moneymanager/theme/spacings.dart';
 
 class DeleteConfirmation extends StatelessWidget {
   final String title;
   final String description;
+  final Widget? content;
   final VoidCallback onDeletePressed;
 
   const DeleteConfirmation({
     super.key,
     required this.title,
     required this.description,
+    this.content,
     required this.onDeletePressed,
   });
 
@@ -17,7 +20,15 @@ class DeleteConfirmation extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(title),
-      content: Text(description),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: [
+            Text(description),
+            if (content != null) const SizedBox(height: Spacings.four),
+            if (content != null) content!,
+          ],
+        ),
+      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),

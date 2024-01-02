@@ -6,6 +6,7 @@ import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_mode.dart';
 import 'package:moneymanager/ui/widget/delete_button.dart';
+import 'package:moneymanager/ui/widget/delete_confirmation.dart';
 import 'package:moneymanager/ui/widget/primary_button.dart';
 
 import '../../theme/spacings.dart';
@@ -273,9 +274,8 @@ class _DeleteConfirmation extends StatefulWidget {
   final Function(bool) onDeletePressed;
 
   const _DeleteConfirmation({
-    Key? key,
     required this.onDeletePressed,
-  }) : super(key: key);
+  });
 
   @override
   State<_DeleteConfirmation> createState() => _DeleteConfirmationState();
@@ -286,50 +286,30 @@ class _DeleteConfirmationState extends State<_DeleteConfirmation> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.deleteCategoryTitle),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: [
-            Text(AppLocalizations.of(context)!.deleteCategoryDescription),
-            const SizedBox(height: Spacings.five),
-            Row(
-              children: [
-                SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: Checkbox(
-                    value: deleteWithRelatedTransactions,
-                    onChanged: (value) {
-                      setState(() {
-                        deleteWithRelatedTransactions = value ?? false;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(width: Spacings.two),
-                Text(AppLocalizations.of(context)!.deleteCategoryWithRelatedTransactions),
-              ],
+    return DeleteConfirmation(
+      title: AppLocalizations.of(context)!.deleteCategoryTitle,
+      description: AppLocalizations.of(context)!.deleteCategoryDescription,
+      content: Row(
+        children: [
+          SizedBox(
+            width: 24,
+            height: 24,
+            child: Checkbox(
+              value: deleteWithRelatedTransactions,
+              onChanged: (value) {
+                setState(() {
+                  deleteWithRelatedTransactions = value ?? false;
+                });
+              },
             ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.cancel),
-        ),
-        TextButton(
-          onPressed: () {
-            widget.onDeletePressed(deleteWithRelatedTransactions);
-            Navigator.pop(context);
-          },
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.error,
           ),
-          child: Text(AppLocalizations.of(context)!.delete),
-        ),
-      ],
+          const SizedBox(width: Spacings.two),
+          Text(AppLocalizations.of(context)!.deleteCategoryWithRelatedTransactions),
+        ],
+      ),
+      onDeletePressed: () {
+        widget.onDeletePressed(deleteWithRelatedTransactions);
+      },
     );
   }
 }

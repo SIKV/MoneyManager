@@ -5,6 +5,7 @@ import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/delete_button.dart';
 import 'package:moneymanager/ui/widget/primary_button.dart';
 
+import '../../../ui/widget/delete_confirmation.dart';
 import '../controller/transaction_maker_controller.dart';
 import '../domain/ui_mode.dart';
 
@@ -59,41 +60,15 @@ class TransactionActions extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return _DeleteConfirmation(
-            onDeletePressed: () {
-              ref.read(transactionMakerControllerProvider.notifier)
-                  .delete();
-            });
-      },
-    );
-  }
-}
-
-class _DeleteConfirmation extends StatelessWidget {
-  final VoidCallback onDeletePressed;
-
-  const _DeleteConfirmation({super.key,
-    required this.onDeletePressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.deleteTransactionTitle),
-      content: Text(AppLocalizations.of(context)!.deleteTransactionDescription),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.cancel),
-        ),
-        TextButton(
-          onPressed: () {
-            onDeletePressed();
-            Navigator.pop(context);
+        return DeleteConfirmation(
+          title: AppLocalizations.of(context)!.deleteTransactionTitle,
+          description: AppLocalizations.of(context)!.deleteTransactionDescription,
+          onDeletePressed: () {
+            ref.read(transactionMakerControllerProvider.notifier)
+                .delete();
           },
-          child: Text(AppLocalizations.of(context)!.delete),
-        ),
-      ],
+        );
+      },
     );
   }
 }
