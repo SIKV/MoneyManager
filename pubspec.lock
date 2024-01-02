@@ -197,10 +197,10 @@ packages:
     dependency: "direct main"
     description:
       name: currency_picker
-      sha256: "5b87c259dbdb4e032c6b9abd22158782868505b5217b453c6c36445612a3d34c"
+      sha256: eb75deb7bc92e3f31e1b8ad4efacf71371e8e49d7a0eebd1c1a8e9fae58cc23d
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.19"
+    version: "2.0.20"
   dart_style:
     dependency: transitive
     description:
@@ -593,10 +593,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: e595b98692943b4881b219f0a9e3945118d3c16bd7e2813f98ec6e532d905f72
+      sha256: "477184d672607c0a3bf68fbbf601805f92ef79c82b64b4d6eb318cbca4c48668"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -990,10 +990,10 @@ packages:
     dependency: transitive
     description:
       name: web_socket_channel
-      sha256: d88238e5eac9a42bb43ca4e721edba3c08c6354d4a53063afaa568516217621b
+      sha256: "045ec2137c27bf1a32e6ffa0e734d532a6677bf9016a0d1a406c54e499ff945b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.1"
   webkit_inspection_protocol:
     dependency: transitive
     description:
