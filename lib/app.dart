@@ -11,6 +11,7 @@ import 'package:moneymanager/feature/change_theme/change_theme_page.dart';
 import 'package:moneymanager/feature/search/search_page.dart';
 import 'package:moneymanager/feature/statistics/statistics_page.dart';
 import 'package:moneymanager/feature/transaction/transaction_page.dart';
+import 'package:moneymanager/navigation/calculator_page_args.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/navigation/transaction_page_args.dart';
 import 'package:moneymanager/theme/theme.dart';
@@ -19,6 +20,7 @@ import 'package:moneymanager/theme/theme_manager.dart';
 import 'common/provider/current_account_provider.dart';
 import 'domain/account.dart';
 import 'feature/home/home_page.dart';
+import 'feature/transaction/calculator/calculator_page.dart';
 
 part 'app.freezed.dart';
 
@@ -64,6 +66,10 @@ class App extends ConsumerWidget {
             return MaterialPageRoute(builder: (_) => const AccountSettingsPage());
           case AppRoutes.changeTheme:
             return MaterialPageRoute(builder: (_) => const ChangeThemePage());
+          case AppRoutes.calculator:
+            return MaterialPageRoute(builder: (_) => CalculatorPage(
+              args: settings.arguments as CalculatorPageArgs,
+            ));
         }
         assert(false, '${settings.name} route is not implemented.');
         return null;

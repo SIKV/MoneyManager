@@ -8,4 +8,5 @@ class AppRoutes {
   static const addTransaction = '/add-transaction';
   static const viewTransaction = '/view-transaction';
   static const changeTheme = '/change-theme';
+  static const calculator = '/calculator';
 }

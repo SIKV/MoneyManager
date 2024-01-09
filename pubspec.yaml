@@ -32,6 +32,7 @@ dependencies:
   jiffy: ^6.2.1
   path_provider: ^2.1.1
   package_info_plus: ^5.0.1
+  function_tree: ^0.9.1
 
 dev_dependencies:
   flutter_test:

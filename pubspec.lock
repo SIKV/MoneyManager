@@ -349,6 +349,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  function_tree:
+    dependency: "direct main"
+    description:
+      name: function_tree
+      sha256: "098f41f8c8d55952fd162cbeb709e8213a709065ab6fbebffe323701c785a259"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.1"
   glob:
     dependency: transitive
     description:

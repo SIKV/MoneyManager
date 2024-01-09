@@ -11,6 +11,8 @@ import 'package:moneymanager/feature/transaction/domain/amount_key.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_blueprint.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
+import 'package:moneymanager/navigation/calculator_page_args.dart';
+import 'package:moneymanager/navigation/result/caclculator_page_result.dart';
 import 'package:moneymanager/utils.dart';
 
 import '../../../common/date_time_utils.dart';
@@ -69,6 +71,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       validationError: null,
       transactionSaved: false,
       transactionDeleted: false,
+      shouldShowCalculator: null,
     );
   }
 
@@ -161,7 +164,11 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       currentAmount: currentState.transaction.amount,
       key: key,
       onCalculatorPressed: () {
-        // TODO: Implement.
+        final amount = double.tryParse(currentState.transaction.amount);
+
+        _updateState((state) => state.copyWith(
+          shouldShowCalculator: CalculatorPageArgs(value: amount ?? 0),
+        ));
       },
       onDonePressed: () {
         // TODO: Implement.
@@ -236,6 +243,21 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     _updateState((state) => state.copyWith(
       transactionDeleted: true,
     ));
+  }
+
+  void handleNavigationResult(Object? result) async {
+    if (result is CalculatorPageResult) {
+      final currentState = await future;
+      final amount = result.value.toString();
+
+      _updateState((state) =>
+          state.copyWith(
+            transaction: state.transaction.copyWith(
+              amount: amount,
+              formattedAmount: _formatAmount(amount, currentState.transaction.currency),
+            ),
+          ));
+    }
   }
 
   Future<void> _updateState(TransactionMakerState Function(TransactionMakerState state) update) async {

@@ -9,9 +9,17 @@ enum AmountKey implements Comparable<AmountKey> {
   seven(isDigit: true, char: '7'),
   eight(isDigit: true, char: '8'),
   nine(isDigit: true, char: '9'),
+
   decimal(isDigit: false, char: '.'),
+
+  divide(isDigit: false, char: 'div'),
+  multiply(isDigit: false, char: 'mul'),
+  minus(isDigit: false, char: 'min'),
+  plus(isDigit: false, char: 'plus'),
+  equal(isDigit: false, char: 'eq'),
+
   backspace(isDigit: false, char: 'b'),
-  clear(isDigit: false, char: 'c'),
+  clear(isDigit: false, char: 'AC'),
   calculator(isDigit: false, char: 'l'),
   done(isDigit: false, char: 'd');
 

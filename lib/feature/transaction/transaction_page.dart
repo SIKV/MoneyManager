@@ -9,6 +9,7 @@ import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
 import 'package:moneymanager/feature/transaction/ui/transaction_actions.dart';
 import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
+import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/extensions.dart';
 
@@ -58,6 +59,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       return Container();
     }
 
+    _listenShouldShowCalculator();
     _listenTransactionSavedOrDeleted();
     _listenValidationErrors();
 
@@ -160,6 +162,19 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         },
       ),
     ];
+  }
+
+  void _listenShouldShowCalculator() {
+    ref.listen(transactionMakerControllerProvider
+        .select((state) => state.value?.shouldShowCalculator), (previous, next) async {
+      if (next != null) {
+        final result = await Navigator.pushNamed(context, AppRoutes.calculator,
+          arguments: next,
+        );
+        ref.read(transactionMakerControllerProvider.notifier)
+            .handleNavigationResult(result);
+      }
+    });
   }
 
   void _listenTransactionSavedOrDeleted() {
