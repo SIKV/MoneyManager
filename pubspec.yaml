@@ -42,6 +42,7 @@ dev_dependencies:
   test: ^1.21.6
   mocktail: ^1.0.2
   build_runner: ^2.3.3
+  riverpod_generator: ^2.3.9
   isar_generator: ^3.1.0+1
   flutter_lints: ^3.0.1
   freezed: ^2.3.2
@@ -51,3 +52,4 @@ flutter:
   generate: true
   assets:
     - assets/
+    - assets/defaults/categories.json

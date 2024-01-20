@@ -1,0 +1,24 @@
+{
+  "income": [
+    {
+      "title": "Salary",
+      "emoji": "\uD83D\uDCB0"
+    },
+    {
+      "title": "Bonus",
+      "emoji": "\uD83D\uDCB8"
+    },
+    {
+      "title": "Other"
+    }
+  ],
+  "expense": [
+    {
+      "title": "Food",
+      "emoji": "\uD83C\uDF54"
+    },
+    {
+      "title": "Other"
+    }
+  ]
+}

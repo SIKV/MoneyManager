@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 String generateUniqueId() {
   return UniqueKey().toString();
@@ -7,7 +6,7 @@ String generateUniqueId() {
 
 int generateUniqueInt() {
   // TODO Find a better way to generate a random int.
-  return DateTime.now().millisecond;
+  return DateTime.now().microsecondsSinceEpoch;
 }
 
 bool is24HourMode() {

@@ -9,12 +9,13 @@ import 'domain/transaction_type.dart';
 
 final localPreferencesProvider = Provider<LocalPreferences>((_) => LocalPreferences());
 
+const _keyFirstLaunch = '_firstLaunch';
 const _keyCurrentAccount = 'currentAccount';
 const _keyTheme = 'theme';
-
 const _keyIncomeCategoriesCustomOrder = 'incomeCategoriesCustomOrder';
 const _keyExpenseCategoriesCustomOrder = 'expenseCategoriesCustomOrder';
 
+// TODO: Refactor.
 class LocalPreferences {
   late final SharedPreferences _prefs;
 
@@ -38,6 +39,14 @@ class LocalPreferences {
       _theme = AppThemeType.values
           .firstWhere((element) => element.id == themeId);
     }
+  }
+
+  bool isFirstLaunch() {
+    return _prefs.getBool(_keyFirstLaunch) ?? true;
+  }
+
+  void setFirstLaunch() {
+    _prefs.setBool(_keyFirstLaunch, false);
   }
 
   void setCurrentAccount(int? id) {

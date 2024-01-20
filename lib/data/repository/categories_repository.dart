@@ -6,17 +6,31 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../domain/transaction_type.dart';
 import '../../local_preferences.dart';
+import '../default/categories_default_data_source.dart';
 
 class CategoriesRepository {
   final CategoriesLocalDataSource localDataSource;
+  final CategoriesDefaultDataSource defaultDataSource;
   final LocalPreferences localPreferences;
 
   final onUpdated = BehaviorSubject<Object>();
 
-  CategoriesRepository(this.localDataSource, this.localPreferences);
+  CategoriesRepository(this.localDataSource, this.defaultDataSource, this.localPreferences);
+
+  Future<void> initWithDefaultsIfEmpty() async {
+    await _initWithDefaultsIfEmpty(TransactionType.income);
+    await _initWithDefaultsIfEmpty(TransactionType.expense);
+  }
 
   Future<void> addOrUpdate(TransactionCategory category) async {
     await localDataSource.addOrUpdate(category.toEntity());
+    onUpdated.add(Object);
+  }
+
+  Future<void> addAll(List<TransactionCategory> categories) async {
+    for (var category in categories) {
+      await localDataSource.addOrUpdate(category.toEntity());
+    }
     onUpdated.add(Object);
   }
 
@@ -35,16 +49,6 @@ class CategoriesRepository {
     );
   }
 
-  int _position(TransactionCategory category, List<String> order) {
-    final position = order.indexOf(category.id.toString());
-
-    if (position >= 0) {
-      return position;
-    } else {
-      return category.createTimestamp;
-    }
-  }
-
   Future<void> delete(int id) async {
     await localDataSource.delete(id);
     onUpdated.add(Object);
@@ -56,5 +60,24 @@ class CategoriesRepository {
         .toList();
 
     localPreferences.setCategoriesCustomOrder(order, type);
+  }
+
+  int _position(TransactionCategory category, List<String> order) {
+    final position = order.indexOf(category.id.toString());
+
+    if (position >= 0) {
+      return position;
+    } else {
+      return category.createTimestamp;
+    }
+  }
+
+  Future<void> _initWithDefaultsIfEmpty(TransactionType type) async {
+    final categories = await getAll(type);
+
+    if (categories.isEmpty) {
+      final defaultCategories = await defaultDataSource.getAll(type);
+      await addAll(defaultCategories);
+    }
   }
 }
