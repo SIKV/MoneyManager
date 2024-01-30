@@ -12,7 +12,7 @@ void main() {
     await Isar.initializeIsarCore(download: true);
 
     isar = await Isar.open([TransactionCategoryEntitySchema],
-      name: 'test_db',
+      name: 'categories_test_db',
       directory: '',
       inspector: false,
     );

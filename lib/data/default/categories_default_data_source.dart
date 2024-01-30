@@ -7,9 +7,12 @@ import '../../domain/transaction_category.dart';
 import '../../domain/transaction_type.dart';
 
 class CategoriesDefaultDataSource {
+  final String path;
+
+  const CategoriesDefaultDataSource(this.path);
 
   Future<List<TransactionCategory>> getAll(TransactionType type) async {
-    final String jsonData = await rootBundle.loadString('assets/defaults/categories.json');
+    final String jsonData = await rootBundle.loadString(path);
     final map = jsonDecode(jsonData) as Map<String, dynamic>;
     List<TransactionCategory> categories = [];
 
