@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:moneymanager/data/default/categories_default_data_source.dart';
 import 'package:moneymanager/data/local/datasource/categories_local_data_source.dart';
 import 'package:moneymanager/data/local/entity/transaction_category_entity.dart';
 import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
@@ -10,6 +11,8 @@ import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/local_preferences.dart';
 
 class CategoriesLocalDataSourceMock extends Mock implements CategoriesLocalDataSource { }
+
+class CategoriesDefaultDataSourceMock extends Mock implements CategoriesDefaultDataSource { }
 
 class LocalPreferencesMock extends Mock implements LocalPreferences { }
 
@@ -34,6 +37,7 @@ void main() {
   test('addOrUpdate() updates LocalDataSource', () async {
     // GIVEN
     final localDataSourceMock = CategoriesLocalDataSourceMock();
+    final defaultDataSourceMock = CategoriesDefaultDataSourceMock();
     final localPreferencesMock = LocalPreferencesMock();
 
     when(() => localDataSourceMock.addOrUpdate(any()))
@@ -42,7 +46,7 @@ void main() {
     when(() => localPreferencesMock.getCategoriesCustomOrder(any()))
         .thenAnswer((_) => []);
 
-    final repository = CategoriesRepository(localDataSourceMock, localPreferencesMock);
+    final repository = CategoriesRepository(localDataSourceMock, defaultDataSourceMock, localPreferencesMock);
 
     const category = TransactionCategory(
       id: 0,
@@ -79,6 +83,7 @@ void main() {
     ];
 
     final localDataSourceMock = CategoriesLocalDataSourceMock();
+    final defaultDataSourceMock = CategoriesDefaultDataSourceMock();
     final localPreferencesMock = LocalPreferencesMock();
 
     when(() => localDataSourceMock.getAll(any()))
@@ -87,7 +92,7 @@ void main() {
     when(() => localPreferencesMock.getCategoriesCustomOrder(any()))
         .thenAnswer((_) => []);
 
-    final repository = CategoriesRepository(localDataSourceMock, localPreferencesMock);
+    final repository = CategoriesRepository(localDataSourceMock, defaultDataSourceMock, localPreferencesMock);
     const TransactionType type = TransactionType.income;
 
     // WHEN
@@ -103,6 +108,7 @@ void main() {
   test('delete() deletes from LocalDataSource', () async {
     // GIVEN
     final localDataSourceMock = CategoriesLocalDataSourceMock();
+    final defaultDataSourceMock = CategoriesDefaultDataSourceMock();
     final localPreferencesMock = LocalPreferencesMock();
 
     when(() => localDataSourceMock.delete(any()))
@@ -111,7 +117,7 @@ void main() {
     when(() => localPreferencesMock.getCategoriesCustomOrder(any()))
         .thenAnswer((_) => []);
 
-    final repository = CategoriesRepository(localDataSourceMock, localPreferencesMock);
+    final repository = CategoriesRepository(localDataSourceMock, defaultDataSourceMock, localPreferencesMock);
     const categoryId = 123;
 
     // WHEN
