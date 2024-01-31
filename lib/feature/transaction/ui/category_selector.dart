@@ -15,7 +15,7 @@ import '../../categories/category_maker.dart';
 import '../controller/transaction_maker_controller.dart';
 
 class CategorySelector extends ConsumerWidget {
-  const CategorySelector({Key? key}) : super(key: key);
+  const CategorySelector({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,15 +35,16 @@ class CategorySelector extends ConsumerWidget {
             return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 2,
+                  childAspectRatio: 3,
                 ),
                 itemCount: state.categories.length,
+                padding: const EdgeInsets.only(bottom: Spacings.seven),
                 itemBuilder: (context, index) {
                   final c = state.categories[index];
-                  return ListTile(
-                    leading: c.getIcon(appTheme.colors),
-                    title: Text(c.title),
-                    onTap: () => _categoryPressed(c, ref),
+                  return _CategoryItem(
+                    onPressed: () => _selectCategory(c, ref),
+                    icon: c.getIcon(appTheme.colors),
+                    title: c.title,
                   );
                 }
             );
@@ -67,10 +68,46 @@ class CategorySelector extends ConsumerWidget {
     );
   }
 
-  void _categoryPressed(TransactionCategory category, WidgetRef ref) {
+  void _selectCategory(TransactionCategory category, WidgetRef ref) {
     final controller = ref.read(transactionMakerControllerProvider.notifier);
     controller.setCategory(category).whenComplete(() =>
         controller.selectProperty(TransactionProperty.amount)
+    );
+  }
+}
+
+class _CategoryItem extends ConsumerWidget {
+  final VoidCallback? onPressed;
+  final Widget? icon;
+  final String title;
+
+  const _CategoryItem({
+    required this.onPressed,
+    this.icon,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.all(Spacings.two),
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.1),
+      ),
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          foregroundColor: Theme.of(context).colorScheme.onSurface,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) icon!, // TODO: Refactor
+            if (icon != null) const SizedBox(width: Spacings.two),
+            Text(title),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -79,9 +116,8 @@ class _NoCategories extends StatelessWidget {
   final VoidCallback onAddCategoryPressed;
 
   const _NoCategories({
-    Key? key,
     required this.onAddCategoryPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

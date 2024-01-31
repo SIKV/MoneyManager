@@ -5,6 +5,7 @@ import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/domain/validation_error.dart';
 import 'package:moneymanager/feature/transaction/ui/account_selector.dart';
+import 'package:moneymanager/feature/transaction/ui/actions_gradient.dart';
 import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
 import 'package:moneymanager/feature/transaction/ui/transaction_actions.dart';
@@ -67,6 +68,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     // NOTE. Be careful of note property item position.
     final notePropertyItem = properties.last;
 
+    final shouldShowActionsGradient = state.selectedProperty != TransactionProperty.amount;
     final shouldShowOnlyNote = MediaQuery.of(context).viewInsets.bottom > 0.0;
 
     return Theme(
@@ -98,12 +100,28 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
               height: Spacings.one,
               color: Theme.of(context).colorScheme.shadow,
             ),
-            const Expanded(
-              child: SelectorContainer(),
+            Expanded(
+              child: Stack(
+                children: [
+                  const SelectorContainer(),
+
+                  if (shouldShowActionsGradient)
+                    const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ActionsGradient(),
+                    ),
+                ],
+              ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(Spacings.four),
-              child: TransactionActions(),
+            Container(
+              color: Theme.of(context).colorScheme.surface,
+              padding: EdgeInsets.only(
+                top: shouldShowActionsGradient ? 0 : Spacings.four,
+                left: Spacings.four,
+                right: Spacings.four,
+                bottom: Spacings.four,
+              ),
+              child: const TransactionActions(),
             ),
           ],
         ),

@@ -29,7 +29,6 @@
   "morePageTitle": "More",
   "statisticsPageTitle": "Statistics",
 
-  "selectTimeHint": "Scroll down to select time ▼",
   "transaction_enterNoteHint": "Enter a note...",
   "transaction_validationErrorCategory": "Please select a category",
   "transaction_validationErrorAmount": "Amount cannot be empty",
