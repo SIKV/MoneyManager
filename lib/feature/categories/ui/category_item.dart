@@ -10,13 +10,15 @@ import '../../../theme/theme_manager.dart';
 
 class CategoryItem extends ConsumerWidget {
   final TransactionCategory category;
+  final int index;
   final VoidCallback onPressed;
 
   const CategoryItem({
-    Key? key,
+    super.key,
     required this.category,
+    required this.index,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,7 +47,11 @@ class CategoryItem extends ConsumerWidget {
                 ],
               ),
             ),
-            const Icon(AppIcons.categoryItemDrag),
+            const SizedBox(width: Spacings.two),
+            ReorderableDragStartListener(
+              index: index,
+              child: const Icon(AppIcons.categoryItemDrag),
+            ),
           ],
         ),
       ),

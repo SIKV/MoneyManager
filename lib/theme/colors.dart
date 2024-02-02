@@ -27,7 +27,7 @@ class LightAppColors extends AppColors {
   Color get slightlyGray => const Color(0xBFD7D7D7);
 
   @override
-  Color get itemTranslucentBackground => const Color(0xBFFFFFFF);
+  Color get itemTranslucentBackground => Colors.grey.shade100;
 
   @override
   Color get transactionsHeaderStart => colorScheme.primary;

@@ -13,18 +13,17 @@ class CategoriesList extends StatelessWidget {
   final ReorderCallback onReorder;
 
   const CategoriesList({
-    Key? key,
+    super.key,
     required this.categories,
     required this.onReorder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     if (categories.isEmpty) {
       return SliverFillRemaining(
         child: Center(
-          child: NoItems(
-              title: AppLocalizations.of(context)!.categories_noItems),
+          child: NoItems(title: AppLocalizations.of(context)!.categories_noItems),
         ),
       );
     }
@@ -32,22 +31,24 @@ class CategoriesList extends StatelessWidget {
     return SliverReorderableList(
       itemCount: categories.length,
       itemBuilder: (context, index) {
+        final addExtraBottomPadding = index >= categories.length - 1;
+
         final category = categories[index];
-        return ReorderableDragStartListener(
-          index: index,
+        return Material(
           key: Key('${category.id}'),
-          child: Material(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Spacings.four,
-                vertical: Spacings.one,
-              ),
-              child: CategoryItem(
-                category: category,
-                onPressed: () {
-                  _editCategory(context, category);
-                },
-              ),
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: Spacings.one,
+              left: Spacings.four,
+              right: Spacings.four,
+              bottom: addExtraBottomPadding ? 96 : Spacings.one,
+            ),
+            child: CategoryItem(
+              category: category,
+              index: index,
+              onPressed: () {
+                _editCategory(context, category);
+              },
             ),
           ),
         );
