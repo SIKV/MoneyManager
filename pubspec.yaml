@@ -33,6 +33,7 @@ dependencies:
   path_provider: ^2.1.1
   package_info_plus: ^5.0.1
   function_tree: ^0.9.1
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

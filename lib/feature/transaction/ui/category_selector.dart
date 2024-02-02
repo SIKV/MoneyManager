@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -104,7 +105,12 @@ class _CategoryItem extends ConsumerWidget {
           children: [
             if (icon != null) icon!, // TODO: Refactor
             if (icon != null) const SizedBox(width: Spacings.two),
-            Text(title),
+            Expanded(
+              child: AutoSizeText(title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),
