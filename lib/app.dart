@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:moneymanager/feature/account/add_account_page.dart';
 import 'package:moneymanager/feature/account_settings/account_settings_page.dart';
+import 'package:moneymanager/feature/backup/backup_page.dart';
 import 'package:moneymanager/feature/categories/categories_page.dart';
 import 'package:moneymanager/feature/change_theme/change_theme_page.dart';
 import 'package:moneymanager/feature/search/search_page.dart';
@@ -70,6 +71,8 @@ class App extends ConsumerWidget {
             return MaterialPageRoute(builder: (_) => CalculatorPage(
               args: settings.arguments as CalculatorPageArgs,
             ));
+          case AppRoutes.backup:
+            return MaterialPageRoute(builder: (_) => const BackupPage());
         }
         assert(false, '${settings.name} route is not implemented.');
         return null;

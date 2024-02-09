@@ -9,4 +9,5 @@ class AppRoutes {
   static const viewTransaction = '/view-transaction';
   static const changeTheme = '/change-theme';
   static const calculator = '/calculator';
+  static const backup = '/backup';
 }

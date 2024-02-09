@@ -54,9 +54,12 @@ class _Items extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> itemTiles = items.map((item) {
       switch (item.type) {
-        case MoreItemType.divider:
+        // Divider
+        case MoreItemType.divider: {
           return const Divider();
-        case MoreItemType.accountSettings:
+        }
+        // Account settings
+        case MoreItemType.accountSettings: {
           String? subtitle;
           if (item is AccountSettingsMoreItem) {
             subtitle = item.currentAccountName;
@@ -67,8 +70,19 @@ class _Items extends StatelessWidget {
             title: AppLocalizations.of(context)!.accountSettings,
             subtitle: subtitle,
           );
-        case MoreItemType.darkTheme:
+        }
+        // Backup
+        case MoreItemType.backup: {
+          return ActionTile(
+            onTap: () => Navigator.pushNamed(context, AppRoutes.backup),
+            leadingIcon: Icons.import_export_rounded,
+            title: AppLocalizations.of(context)!.backup,
+          );
+        }
+        // Dark theme
+        case MoreItemType.darkTheme: {
           String? subtitle;
+
           if (item is DarkThemeMoreItem) {
             switch (item.appTheme) {
               case AppThemeType.light:
@@ -85,6 +99,7 @@ class _Items extends StatelessWidget {
             title: AppLocalizations.of(context)!.darkTheme,
             subtitle: subtitle,
           );
+        }
       }
     }).toList();
 

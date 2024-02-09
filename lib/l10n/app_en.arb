@@ -1,6 +1,5 @@
 {
   "add": "Add",
-
   "save": "Save",
   "done": "Done",
   "cancel": "Cancel",
@@ -82,5 +81,12 @@
               "type": "num"
           }
       }
-  }
+  },
+
+  "backup": "Backup",
+
+  "exportBackupFileTitle": "Export backup file",
+  "exportBackupFileSubtitle": "Export all data to a file. You can import it later",
+  "importBackupFileTitle": "Import backup file",
+  "importBackupFileSubtitle": "Import data from a file"
 }

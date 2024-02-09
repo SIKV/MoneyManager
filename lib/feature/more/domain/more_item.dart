@@ -6,6 +6,7 @@ import '../../../theme/theme.dart';
 enum MoreItemType {
   divider,
   accountSettings,
+  backup,
   darkTheme,
 }
 
@@ -25,16 +26,14 @@ class GeneralMoreItem extends MoreItem {
 class AccountSettingsMoreItem extends MoreItem {
   final String currentAccountName;
 
-  const AccountSettingsMoreItem(super.type, {
-    required this.currentAccountName,
-  });
+  const AccountSettingsMoreItem(this.currentAccountName)
+      : super(MoreItemType.accountSettings);
 }
 
 @immutable
 class DarkThemeMoreItem extends MoreItem {
   final AppThemeType appTheme;
 
-  const DarkThemeMoreItem(super.type, {
-    required this.appTheme,
-  });
+  const DarkThemeMoreItem(this.appTheme)
+      : super(MoreItemType.darkTheme);
 }

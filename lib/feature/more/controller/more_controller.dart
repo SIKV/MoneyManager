@@ -15,38 +15,35 @@ final moreControllerProvider = AsyncNotifierProvider
 });
 
 class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
+  final _divider = const GeneralMoreItem(MoreItemType.divider);
 
   @override
   FutureOr<MoreState> build() async {
     return MoreState(
       items: [
         await _createAccountSettingsItem(),
-        _createDivider(),
+        _divider,
+        _createBackupItem(),
+        _divider,
         await _createDarkThemeItem(),
-        _createDivider(),
+        _divider,
       ],
       appVersion: await _getAppVersion(),
     );
   }
 
-  MoreItem _createDivider() {
-    return const GeneralMoreItem(MoreItemType.divider);
-  }
-
   Future<MoreItem> _createAccountSettingsItem() async {
     final Account account = await ref.watch(currentAccountProvider.future);
+    return AccountSettingsMoreItem(account.currency.name);
+  }
 
-    return AccountSettingsMoreItem(MoreItemType.accountSettings,
-      currentAccountName: account.currency.name,
-    );
+  MoreItem _createBackupItem() {
+    return const GeneralMoreItem(MoreItemType.backup);
   }
 
   Future<MoreItem> _createDarkThemeItem() async {
     final AppThemeManager themeManager = ref.read(appThemeManagerProvider.notifier);
-
-    return DarkThemeMoreItem(MoreItemType.darkTheme,
-      appTheme: themeManager.getType(),
-    );
+    return DarkThemeMoreItem(themeManager.getType());
   }
 
   Future<String> _getAppVersion() async {
