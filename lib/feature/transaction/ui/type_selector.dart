@@ -18,7 +18,7 @@ class TypeSelector extends ConsumerWidget {
       future: transactionType,
       builder: (context, snapshot) {
         return TransactionTypeSelector(
-          selectedType: snapshot.data ?? TransactionType.income,
+          selectedType: snapshot.data,
           onSelectedTypeChanged: (type) {
             ref.read(transactionMakerControllerProvider.notifier)
                 .setType(type ?? TransactionType.income);

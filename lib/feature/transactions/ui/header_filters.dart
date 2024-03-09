@@ -7,14 +7,14 @@ import 'package:moneymanager/feature/transactions/controller/header_controller.d
 import 'package:moneymanager/feature/transactions/extensions.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/ui/widget/panel.dart';
+import 'package:moneymanager/ui/widget/segmented_control.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
 
 import '../../../theme/spacings.dart';
-import '../../../ui/widget/close_circle_button.dart';
 import '../domain/transaction_range_filter.dart';
 
 class HeaderFilters extends ConsumerWidget {
-  const HeaderFilters({Key? key}) : super(key: key);
+  const HeaderFilters({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,15 +44,15 @@ class HeaderFilters extends ConsumerWidget {
                     left: Spacings.three,
                     bottom: Spacings.three,
                   ),
-                  child: CupertinoSlidingSegmentedControl<TransactionTypeFilter>(
-                    groupValue: state.typeFilter,
-                    onValueChanged: (value) {
+                  child: SegmentedControl<TransactionTypeFilter>(
+                    selectedValue: state.typeFilter,
+                    onSelectedValueChanged: (value) {
                       if (value != null) {
                         ref.read(headerControllerProvider.notifier)
                             .setTypeFilter(value);
                       }
                     },
-                    children: <TransactionTypeFilter, Widget>{
+                    values: <TransactionTypeFilter, Widget>{
                       TransactionTypeFilter.income: Text(
                           AppLocalizations.of(context)!.income),
                       TransactionTypeFilter.expenses: Text(
