@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +9,7 @@ import 'package:moneymanager/feature/categories/ui/categories_list.dart';
 import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
+import '../common/transaction_type_selector.dart';
 import 'controller/categories_controller.dart';
 
 class CategoriesPage extends ConsumerWidget {
@@ -38,14 +38,10 @@ class CategoriesPage extends ConsumerWidget {
                   ),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: CupertinoSlidingSegmentedControl<TransactionType>(
-                      groupValue: state.selectedType,
-                      onValueChanged: (transactionType) {
+                    child: TransactionTypeSelector(
+                      selectedType: state.selectedType,
+                      onSelectedTypeChanged: (transactionType) {
                         _selectType(ref, transactionType);
-                      },
-                      children: <TransactionType, Widget>{
-                        TransactionType.income: Text(AppLocalizations.of(context)!.income),
-                        TransactionType.expense: Text(AppLocalizations.of(context)!.expense),
                       },
                     ),
                   ),
