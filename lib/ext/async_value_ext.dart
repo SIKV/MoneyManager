@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 extension AsyncValueExt<T> on AsyncValue<T> {
 
-  Widget handleData<R>(Widget Function(T data)? data) {
+  Widget handleData(Widget Function(T data)? data) {
     return maybeWhen(
       data: data,
       orElse: () { throw Exception('Unexpected AsyncValue state.'); },
