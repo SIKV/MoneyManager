@@ -75,6 +75,7 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
         children: [
           Row(
             children: [
+              // TODO: Replace with TransactionTypeSelector.
               CupertinoSlidingSegmentedControl<TransactionType>(
                 groupValue: state.category.type,
                 onValueChanged: _typeChanged,

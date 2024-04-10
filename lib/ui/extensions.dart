@@ -37,12 +37,16 @@ extension TransactionUiModelExtensions on TransactionUiModel {
 }
 
 extension TransactionTypeExtensions on TransactionType {
-  String getTitle(BuildContext context) {
+  String getTitle(BuildContext context, {bool usePlural = false}) {
     switch (this) {
       case TransactionType.income:
         return AppLocalizations.of(context)!.income;
       case TransactionType.expense:
-        return AppLocalizations.of(context)!.expense;
+        if (usePlural) {
+          return AppLocalizations.of(context)!.expenses;
+        } else {
+          return AppLocalizations.of(context)!.expense;
+        }
     }
   }
 

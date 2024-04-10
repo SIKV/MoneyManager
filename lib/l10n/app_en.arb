@@ -88,5 +88,11 @@
   "exportBackupFileTitle": "Export backup file",
   "exportBackupFileSubtitle": "Export all data to a file. You can import it later",
   "importBackupFileTitle": "Import backup file",
-  "importBackupFileSubtitle": "Import data from a file"
+  "importBackupFileSubtitle": "Import data from a file",
+
+  "noData": "No data yet",
+
+  "statistics": "Statistics",
+  "monthly": "Monthly",
+  "annually": "Annually"
 }

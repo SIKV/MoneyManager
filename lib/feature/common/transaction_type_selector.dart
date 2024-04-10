@@ -7,11 +7,13 @@ import '../../domain/transaction_type.dart';
 class TransactionTypeSelector extends StatelessWidget {
   final TransactionType? selectedType;
   final Function(TransactionType?) onSelectedTypeChanged;
+  final bool usePlural;
 
   const TransactionTypeSelector({
     super.key,
     required this.selectedType,
     required this.onSelectedTypeChanged,
+    this.usePlural = false,
   });
 
   @override
@@ -19,7 +21,9 @@ class TransactionTypeSelector extends StatelessWidget {
     return SegmentedControl<TransactionType>(
       values: <TransactionType, Widget>{
         TransactionType.income: Text(AppLocalizations.of(context)!.income),
-        TransactionType.expense: Text(AppLocalizations.of(context)!.expense),
+        TransactionType.expense: usePlural
+            ? Text(AppLocalizations.of(context)!.expenses)
+            : Text(AppLocalizations.of(context)!.expense),
       },
       selectedValue: selectedType,
       onSelectedValueChanged: (transactionType) {
