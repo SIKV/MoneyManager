@@ -41,8 +41,20 @@ DateTime subtractMonth(DateTime dateTime) {
       .dateTime;
 }
 
+DateTime addMonth(DateTime dateTime) {
+  return Jiffy.parseFromDateTime(dateTime)
+      .add(months: 1)
+      .dateTime;
+}
+
 DateTime subtractYear(DateTime dateTime) {
   return Jiffy.parseFromDateTime(dateTime)
       .subtract(years: 1)
+      .dateTime;
+}
+
+DateTime addYear(DateTime dateTime) {
+  return Jiffy.parseFromDateTime(dateTime)
+      .add(years: 1)
       .dateTime;
 }

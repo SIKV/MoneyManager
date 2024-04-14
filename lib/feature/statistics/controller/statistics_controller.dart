@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/feature/statistics/domain/period.dart';
 import 'package:moneymanager/feature/statistics/domain/statistics_state.dart';
+import 'package:moneymanager/feature/statistics/period_manager.dart';
 
 import '../../../ext/auto_dispose_async_notifier_ext.dart';
 import '../domain/period_type.dart';
@@ -14,32 +14,39 @@ final statisticsControllerProvider = AsyncNotifierProvider
 
 class StatisticsController extends AutoDisposeAsyncNotifierExt<StatisticsState> {
 
+  late final PeriodManager _periodManager;
+
   @override
   FutureOr<StatisticsState> build() {
+    _periodManager = PeriodManager(PeriodType.monthly);
+
     return StatisticsState(
       periodTypes: PeriodType.values,
-      selectedPeriodType: PeriodType.monthly,
-      selectedPeriod: Period(
-        startTimestamp: 0,
-        endTimestamp: 0,
-        formatted: 'April 2024' // TODO: Mocked value.
-      ),
+      selectedPeriodType: _periodManager.type,
+      selectedPeriod: _periodManager.period,
       incomeData: [],
       expenseData: [],
     );
   }
 
   void setPeriodType(PeriodType type) async {
+    _periodManager.type = type;
+
     updateState((state) => state.copyWith(
-      selectedPeriodType: type,
+      selectedPeriodType: _periodManager.type,
+      selectedPeriod: _periodManager.period,
     ));
   }
 
   void goToPreviousPeriod() {
-    // TODO: Implement.
+    updateState((state) => state.copyWith(
+      selectedPeriod: _periodManager.goToPrevious(),
+    ));
   }
 
   void goToNextPeriod() {
-    // TODO: Implement.
+    updateState((state) => state.copyWith(
+      selectedPeriod: _periodManager.goToNext(),
+    ));
   }
 }

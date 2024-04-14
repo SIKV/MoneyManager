@@ -44,6 +44,7 @@ extension TransactionRangeFilterExtensions on TransactionRangeFilter {
     }
   }
 
+  // TODO: Check if it works correctly.
   int getFromTimestamp(DateTime now) {
     switch (this) {
       case TransactionRangeFilter.day:
