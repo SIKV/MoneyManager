@@ -5,7 +5,6 @@ import 'package:moneymanager/feature/statistics/domain/period_type.dart';
 import '../../common/date_time_utils.dart';
 import 'domain/period.dart';
 
-// TODO: Add unit tests.
 class PeriodManager {
   PeriodType _type;
   late Period _period;
