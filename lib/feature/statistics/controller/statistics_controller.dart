@@ -1,35 +1,29 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/ext/auto_dispose_notifier_ext.dart';
 import 'package:moneymanager/feature/statistics/domain/statistics_state.dart';
-import 'package:moneymanager/feature/statistics/period_manager.dart';
 
-import '../../../ext/auto_dispose_async_notifier_ext.dart';
 import '../domain/period_type.dart';
+import '../util/period_manager.dart';
 
-final statisticsControllerProvider = AsyncNotifierProvider
+final statisticsControllerProvider = NotifierProvider
     .autoDispose<StatisticsController, StatisticsState>(() {
       return StatisticsController();
 });
 
-class StatisticsController extends AutoDisposeAsyncNotifierExt<StatisticsState> {
+class StatisticsController extends AutoDisposeNotifierExt<StatisticsState> {
 
-  late final PeriodManager _periodManager;
+  final PeriodManager _periodManager = PeriodManager(PeriodType.monthly);
 
   @override
-  FutureOr<StatisticsState> build() {
-    _periodManager = PeriodManager(PeriodType.monthly);
-
+  StatisticsState build() {
     return StatisticsState(
       periodTypes: PeriodType.values,
       selectedPeriodType: _periodManager.type,
       selectedPeriod: _periodManager.period,
-      incomeData: [],
-      expenseData: [],
     );
   }
 
-  void setPeriodType(PeriodType type) async {
+  void setPeriodType(PeriodType type) {
     _periodManager.type = type;
 
     updateState((state) => state.copyWith(
@@ -39,14 +33,18 @@ class StatisticsController extends AutoDisposeAsyncNotifierExt<StatisticsState> 
   }
 
   void goToPreviousPeriod() {
+    _periodManager.goToPrevious();
+
     updateState((state) => state.copyWith(
-      selectedPeriod: _periodManager.goToPrevious(),
+      selectedPeriod: _periodManager.period,
     ));
   }
 
   void goToNextPeriod() {
+    _periodManager.goToNext();
+
     updateState((state) => state.copyWith(
-      selectedPeriod: _periodManager.goToNext(),
+      selectedPeriod: _periodManager.period,
     ));
   }
 }

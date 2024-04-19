@@ -1,53 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/theme/spacings.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/feature/statistics/controller/statistics_chart_controller.dart';
+import 'package:moneymanager/feature/statistics/domain/chart_data.dart';
+import 'package:moneymanager/theme/spacings.dart';
+import 'package:moneymanager/ui/widget/something_went_wrong.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../domain/transaction_type.dart';
 import '../../../ui/widget/no_items.dart';
-import '../domain/chart_data.dart';
+import '../domain/chart_item.dart';
 
 class StatisticsChart extends ConsumerWidget {
-  final List<ChartData> data;
+  final TransactionType transactionType;
 
-  const StatisticsChart(this.data, {super.key});
+  const StatisticsChart(this.transactionType, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (data.isEmpty) {
-      return Center(
-        child: NoItems(
-          title: AppLocalizations.of(context)!.noData,
-        ),
-      );
-    }
-    return SfCircularChart(
-      legend: Legend(
-        isVisible: true,
-        padding: 0,
-        height: '65%',
-        itemPadding: 0,
-        position: LegendPosition.bottom,
-        overflowMode: LegendItemOverflowMode.wrap,
-        legendItemBuilder: (legendText, series, point, seriesIndex) {
-          return _LegendItem(data: data[seriesIndex]);
-        },
+    final state = ref.watch(statisticsChartControllerProvider);
+
+    return state.when(
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
       ),
-      series: <PieSeries<ChartData, String>>[
-        PieSeries<ChartData, String>(
-          dataSource: data,
-          xValueMapper: (data, _) => data.category,
-          yValueMapper: (data, _) => data.amount,
-          dataLabelMapper: (data, _) => data.category,
-          pointColorMapper: (data, _) => data.color,
-        ),
-      ],
+      error: (_, __) => const SomethingWentWrong(),
+      data: (state) {
+        ChartData data;
+
+        switch (transactionType) {
+          case TransactionType.income:
+            data = state.incomeData;
+            break;
+          case TransactionType.expense:
+            data = state.expenseData;
+            break;
+        }
+
+        if (data.items.isEmpty) {
+          return Center(
+            child: NoItems(
+              title: AppLocalizations.of(context)!.noData,
+            ),
+          );
+        }
+
+        return SfCircularChart(
+          title: ChartTitle(
+            text: _createTitle(context, data),
+            textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontSize: 11,
+            ),
+          ),
+          legend: Legend(
+            isVisible: true,
+            padding: 0,
+            height: '65%',
+            itemPadding: 0,
+            position: LegendPosition.bottom,
+            overflowMode: LegendItemOverflowMode.wrap,
+            legendItemBuilder: (legendText, series, point, seriesIndex) {
+              return _LegendItem(data: data.items[seriesIndex]);
+            },
+          ),
+          series: <PieSeries<ChartItem, String>>[
+            PieSeries<ChartItem, String>(
+              dataSource: data.items,
+              xValueMapper: (data, _) => data.category,
+              yValueMapper: (data, _) => data.amount,
+              dataLabelMapper: (data, _) => data.category,
+              pointColorMapper: (data, _) => data.color,
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  String _createTitle(BuildContext context, ChartData data) {
+    String total = '';
+
+    switch (data.transactionType) {
+      case TransactionType.income:
+        total = AppLocalizations.of(context)!.totalIncome;
+        break;
+      case TransactionType.expense:
+        total = AppLocalizations.of(context)!.totalExpenses;
+        break;
+    }
+
+    return '$total ${data.totalAmount}\n${AppLocalizations.of(context)!.transactionsCount} ${data.transactionsCount}';
   }
 }
 
 class _LegendItem extends StatelessWidget {
-  final ChartData data;
+  final ChartItem data;
 
   const _LegendItem({
     required this.data,

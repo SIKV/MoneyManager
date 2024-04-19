@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:moneymanager/feature/statistics/domain/period_type.dart';
 
-import '../../common/date_time_utils.dart';
-import 'domain/period.dart';
+import '../../../common/date_time_utils.dart';
+import '../domain/period.dart';
 
 class PeriodManager {
   PeriodType _type;

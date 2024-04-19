@@ -1,15 +1,17 @@
-import 'dart:ui';
+import 'package:moneymanager/domain/transaction_type.dart';
+
+import 'chart_item.dart';
 
 class ChartData {
-  final String category;
-  final num amount;
-  final String formattedAmount;
-  final Color color;
+  final TransactionType transactionType;
+  final String totalAmount;
+  final int transactionsCount;
+  final List<ChartItem> items;
 
   ChartData({
-    required this.category,
-    required this.amount,
-    required this.formattedAmount,
-    required this.color,
+    required this.transactionType,
+    required this.totalAmount,
+    required this.transactionsCount,
+    required this.items,
   });
 }

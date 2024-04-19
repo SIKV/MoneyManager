@@ -24,11 +24,13 @@ class TransactionsLocalDataSource {
   Stream<List<TransactionEntity>> getAll({
     required int accountId,
     required int fromTimestamp,
+    required int toTimestamp,
   }) {
     return isar.transactionEntitys
         .filter()
         .accountIdEqualTo(accountId)
         .createTimestampGreaterThan(fromTimestamp, include: true)
+        .createTimestampLessThan(toTimestamp, include: true)
         .watch(fireImmediately: true);
   }
 

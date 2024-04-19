@@ -51,6 +51,7 @@ class TransactionsRepository {
   Stream<List<Transaction>> getAll({
     required TransactionTypeFilter typeFilter,
     required int fromTimestamp,
+    int? toTimestamp,
   }) async* {
     typeCondition(TransactionEntity e) {
       switch (typeFilter) {
@@ -71,6 +72,7 @@ class TransactionsRepository {
       yield* localDataSource.getAll(
         accountId: currentAccount.id,
         fromTimestamp: fromTimestamp,
+        toTimestamp: toTimestamp ?? DateTime.now().millisecondsSinceEpoch,
       ).asyncMap((list) async {
         final mapped = list
             .where(typeCondition)

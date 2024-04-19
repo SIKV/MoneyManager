@@ -94,5 +94,8 @@
 
   "statistics": "Statistics",
   "monthly": "Monthly",
-  "annually": "Annually"
+  "annually": "Annually",
+  "totalIncome": "Total income:",
+  "totalExpenses": "Total expenses:",
+  "transactionsCount": "Transactions count:"
 }
