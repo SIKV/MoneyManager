@@ -21,8 +21,6 @@ final statisticsChartControllerProvider = AsyncNotifierProvider
 
 class StatisticsChartController extends AutoDisposeAsyncNotifierExt<StatisticsChartState> {
 
-  final ChartItemColorResolver _colorResolver = ChartItemColorResolver();
-
   @override
   FutureOr<StatisticsChartState> build() async {
     final state = ref.watch(statisticsControllerProvider);
@@ -46,11 +44,13 @@ class StatisticsChartController extends AutoDisposeAsyncNotifierExt<StatisticsCh
     final String currencyCode = transactions.firstOrNull?.currency.code ?? '';
     final currencyFormatter = ref.watch(currencyFormatterProvider);
 
+    ChartItemColorResolver colorResolver = ref.watch(chartItemColorResolverProvider);
+
     return ChartData(
       transactionType: transactionType,
       totalAmount: '${currencyFormatter.format(totalAmount)} $currencyCode',
       transactionsCount: transactions.length,
-      items: transactions.toChartItem(currencyFormatter, _colorResolver),
+      items: transactions.toChartItem(currencyFormatter, colorResolver),
     );
   }
 }

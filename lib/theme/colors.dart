@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// TODO: Revise color palette.
+
 abstract class AppColors {
   ColorScheme get colorScheme;
 
@@ -17,6 +19,17 @@ abstract class AppColors {
 
   Color get expenseTransaction => const Color(0xFFF86666);
   Color get incomeTransaction => const Color(0xFF21AB8B);
+
+  Color get chartItemColor0;
+  Color get chartItemColor1;
+  Color get chartItemColor2;
+  Color get chartItemColor3;
+  Color get chartItemColor4;
+  Color get chartItemColor5;
+  Color get chartItemColor6;
+  Color get chartItemColor7;
+  Color get chartItemColor8;
+  Color get chartItemColor9;
 }
 
 class LightAppColors extends AppColors {
@@ -40,6 +53,27 @@ class LightAppColors extends AppColors {
 
   @override
   Color get moreHeaderEnd => colorScheme.tertiary;
+
+  @override
+  Color get chartItemColor0 => const Color(0xffd183c9);
+  @override
+  Color get chartItemColor1 => const Color(0xffd7bcc8);
+  @override
+  Color get chartItemColor2 => const Color(0xfffaa916);
+  @override
+  Color get chartItemColor3 => const Color(0xff725ac1);
+  @override
+  Color get chartItemColor4 => const Color(0xffd69f7e);
+  @override
+  Color get chartItemColor5 => const Color(0xff8fbb99);
+  @override
+  Color get chartItemColor6 => const Color(0xff989c94);
+  @override
+  Color get chartItemColor7 => const Color(0xff21a0a0);
+  @override
+  Color get chartItemColor8 => const Color(0xfffe5d26);
+  @override
+  Color get chartItemColor9 => const Color(0xff9b9ece);
 }
 
 class DarkAppColors extends AppColors {
@@ -63,6 +97,27 @@ class DarkAppColors extends AppColors {
 
   @override
   Color get moreHeaderEnd => colorScheme.tertiaryContainer;
+
+  @override
+  Color get chartItemColor0 => const Color(0xffd183c9);
+  @override
+  Color get chartItemColor1 => const Color(0xffd7bcc8);
+  @override
+  Color get chartItemColor2 => const Color(0xfffaa916);
+  @override
+  Color get chartItemColor3 => const Color(0xff725ac1);
+  @override
+  Color get chartItemColor4 => const Color(0xffd69f7e);
+  @override
+  Color get chartItemColor5 => const Color(0xff8fbb99);
+  @override
+  Color get chartItemColor6 => const Color(0xff989c94);
+  @override
+  Color get chartItemColor7 => const Color(0xff21a0a0);
+  @override
+  Color get chartItemColor8 => const Color(0xfffe5d26);
+  @override
+  Color get chartItemColor9 => const Color(0xff9b9ece);
 }
 
 const lightColorScheme = ColorScheme(
