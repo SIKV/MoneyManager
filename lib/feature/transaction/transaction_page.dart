@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
+import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/feature/transaction/domain/validation_error.dart';
 import 'package:moneymanager/feature/transaction/ui/account_selector.dart';
 import 'package:moneymanager/feature/transaction/ui/actions_gradient.dart';
@@ -13,10 +14,12 @@ import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/extensions.dart';
+import 'package:moneymanager/ui/widget/delete_button.dart';
 
 import '../../navigation/transaction_page_args.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
+import '../../ui/widget/delete_confirmation.dart';
 import 'controller/transaction_maker_controller.dart';
 
 const _noValuePlaceholder = '...';
@@ -43,11 +46,6 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         .initWithArgs(widget.args);
   }
 
-  void _selectProperty(TransactionProperty value) {
-    ref.read(transactionMakerControllerProvider.notifier)
-        .selectProperty(value);
-  }
-
   @override
   Widget build(BuildContext context) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
@@ -71,62 +69,105 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     final shouldShowActionsGradient = state.selectedProperty != TransactionProperty.amount;
     final shouldShowOnlyNote = MediaQuery.of(context).viewInsets.bottom > 0.0;
 
-    return Theme(
-      data: themeData.copyWith(
-        colorScheme: themeData.colorScheme.copyWith(
-          primary: state.transaction.type.getColor(appTheme.colors),
+    return PopScope(
+      canPop: state.uiMode != UiMode.edit,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          _setEditMode(false);
+        }
+      },
+      child: Theme(
+        data: themeData.copyWith(
+          colorScheme: themeData.colorScheme.copyWith(
+            primary: state.transaction.type.getColor(appTheme.colors),
+          ),
         ),
-      ),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const AccountSelector(),
-          centerTitle: false,
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: Spacings.three,
-                left: Spacings.five,
-                right: Spacings.five,
-                bottom: Spacings.four,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: shouldShowOnlyNote ? [notePropertyItem] : properties,
-              ),
+        child: Scaffold(
+          appBar: AppBar(
+            title: AccountSelector(
+              isEnabled: state.uiMode != UiMode.view,
             ),
-            Container(
-              height: Spacings.one,
-              color: Theme.of(context).colorScheme.shadow,
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  const SelectorContainer(),
+            centerTitle: false,
+            actions: _getActions(state),
+          ),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: Spacings.three,
+                  left: Spacings.five,
+                  right: Spacings.five,
+                  bottom: Spacings.four,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: shouldShowOnlyNote ? [notePropertyItem] : properties,
+                ),
+              ),
+              Container(
+                height: Spacings.one,
+                color: Theme.of(context).colorScheme.shadow,
+              ),
+              Expanded(
+                child: Stack(
+                  children: [
+                    const SelectorContainer(),
 
-                  if (shouldShowActionsGradient)
-                    const Align(
-                      alignment: Alignment.bottomCenter,
-                      child: ActionsGradient(),
-                    ),
-                ],
+                    if (shouldShowActionsGradient)
+                      const Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ActionsGradient(),
+                      ),
+                  ],
+                ),
               ),
-            ),
-            Container(
-              color: Theme.of(context).colorScheme.surface,
-              padding: EdgeInsets.only(
-                top: shouldShowActionsGradient ? 0 : Spacings.four,
-                left: Spacings.four,
-                right: Spacings.four,
-                bottom: Spacings.four,
+              Container(
+                color: Theme.of(context).colorScheme.surface,
+                padding: EdgeInsets.only(
+                  top: shouldShowActionsGradient ? 0 : Spacings.four,
+                  left: Spacings.four,
+                  right: Spacings.four,
+                  bottom: Spacings.four,
+                ),
+                child: const TransactionActions(),
               ),
-              child: const TransactionActions(),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void _selectProperty(TransactionProperty value) {
+    ref.read(transactionMakerControllerProvider.notifier)
+        .selectProperty(value);
+  }
+
+  List<Widget> _getActions(TransactionMakerState state) {
+    switch (state.uiMode) {
+      case UiMode.add:
+        return [];
+      case UiMode.view:
+        return [
+          IconButton(
+            onPressed: () => _setEditMode(true),
+            icon: const Icon(Icons.edit),
+          )
+        ];
+      case UiMode.edit:
+        return [
+          DeleteButton(
+            style: DeleteButtonStyle.noBorder,
+            onPressed: _deleteTransaction,
+            showIcon: true,
+          ),
+        ];
+    }
+  }
+
+  void _setEditMode(bool editMode) {
+    ref.watch(transactionMakerControllerProvider.notifier)
+        .setUiMode(editMode ? UiMode.edit : UiMode.view);
   }
 
   List<Widget> _createPropertyItems(TransactionMakerState state) {
@@ -139,16 +180,18 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     }
 
     return [
-      const SizedBox(
+      SizedBox(
         width: double.infinity,
-        child: TypeSelector(),
+        child: TypeSelector(
+          isEnabled: state.uiMode != UiMode.view,
+        ),
       ),
       const SizedBox(height: Spacings.four),
       PropertyItem(
         title: AppLocalizations.of(context)!.date,
         value: state.transaction.formattedCreateDateTime,
         isSelected: state.selectedProperty == TransactionProperty.date,
-        onSelected: () {
+        onSelected: state.uiMode == UiMode.view ? null : () {
           _selectProperty(TransactionProperty.date);
         },
       ),
@@ -157,7 +200,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         title: AppLocalizations.of(context)!.category,
         value: categoryTitle,
         isSelected: state.selectedProperty == TransactionProperty.category,
-        onSelected: () {
+        onSelected: state.uiMode == UiMode.view ? null : () {
           _selectProperty(TransactionProperty.category);
         },
       ),
@@ -166,7 +209,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         title: AppLocalizations.of(context)!.amount,
         value: state.transaction.formattedAmount,
         isSelected: state.selectedProperty == TransactionProperty.amount,
-        onSelected: () {
+        onSelected: state.uiMode == UiMode.view ? null : () {
           _selectProperty(TransactionProperty.amount);
         },
       ),
@@ -175,7 +218,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         title: AppLocalizations.of(context)!.note,
         value: state.transaction.note ?? '...',
         isSelected: state.selectedProperty == TransactionProperty.note,
-        onSelected: () {
+        onSelected: state.uiMode == UiMode.view ? null : () {
           _selectProperty(TransactionProperty.note);
         },
       ),
@@ -246,5 +289,21 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ref.read(transactionMakerControllerProvider.notifier)
           .resetValidationError();
     });
+  }
+
+  void _deleteTransaction() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DeleteConfirmation(
+          title: AppLocalizations.of(context)!.deleteTransactionTitle,
+          description: AppLocalizations.of(context)!.deleteTransactionDescription,
+          onDeletePressed: () {
+            ref.read(transactionMakerControllerProvider.notifier)
+                .delete();
+          },
+        );
+      },
+    );
   }
 }

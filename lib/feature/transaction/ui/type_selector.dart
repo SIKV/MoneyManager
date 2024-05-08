@@ -7,7 +7,12 @@ import '../../../domain/transaction_type.dart';
 import '../controller/transaction_maker_controller.dart';
 
 class TypeSelector extends ConsumerWidget {
-  const TypeSelector({super.key});
+  final bool isEnabled;
+
+  const TypeSelector({
+    super.key,
+    required this.isEnabled,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,6 +24,7 @@ class TypeSelector extends ConsumerWidget {
       builder: (context, snapshot) {
         return TransactionTypeSelector(
           selectedType: snapshot.data,
+          isEnabled: isEnabled,
           onSelectedTypeChanged: (type) {
             ref.read(transactionMakerControllerProvider.notifier)
                 .setType(type ?? TransactionType.income);

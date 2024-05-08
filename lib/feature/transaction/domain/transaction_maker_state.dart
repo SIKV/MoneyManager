@@ -13,7 +13,7 @@ part 'transaction_maker_state.freezed.dart';
 class TransactionMakerState with _$TransactionMakerState {
   const factory TransactionMakerState({
     required UiMode uiMode,
-    required TransactionProperty selectedProperty,
+    required TransactionProperty? selectedProperty,
     required List<TransactionCategory> categories,
     required TransactionBlueprint transaction,
     required ValidationError? validationError,

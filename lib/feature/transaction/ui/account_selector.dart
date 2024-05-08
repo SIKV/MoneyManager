@@ -5,7 +5,12 @@ import '../../../common/provider/current_account_provider.dart';
 import '../../account/change_account_page.dart';
 
 class AccountSelector extends ConsumerWidget {
-  const AccountSelector({super.key});
+  final bool isEnabled;
+
+  const AccountSelector({
+    super.key,
+    this.isEnabled = true,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,14 +19,14 @@ class AccountSelector extends ConsumerWidget {
     return currentAccount.whenOrNull(
       data: (currentAccount) =>
           InkWell(
-            onTap: () {
+            onTap: isEnabled ? () {
               _showChangeAccount(context);
-            },
+            } : null,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(currentAccount.currency.code),
-                const Icon(Icons.keyboard_arrow_down_rounded)
+                if (isEnabled) const Icon(Icons.keyboard_arrow_down_rounded)
               ],
             ),
           )

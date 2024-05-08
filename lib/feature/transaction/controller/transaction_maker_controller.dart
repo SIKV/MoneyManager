@@ -30,7 +30,7 @@ final transactionMakerControllerProvider = AsyncNotifierProvider
 
 class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMakerState> {
   late UiMode _uiMode;
-  late TransactionProperty _initialProperty;
+  late TransactionProperty? _initialProperty;
   TransactionType? _initialType;
   int? _initialTransactionId;
 
@@ -39,15 +39,18 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   void initWithArgs(TransactionPageArgs args) {
     if (args is AddTransactionPageArgs) {
       _uiMode = UiMode.add;
-      _initialProperty = TransactionProperty.category;
       _initialType = args.type;
     } else if (args is ViewTransactionPageArgs) {
       _uiMode = UiMode.view;
-      _initialProperty = TransactionProperty.note;
+      _initialTransactionId = args.id;
+    } else if (args is EditTransactionPageArgs) {
+      _uiMode = UiMode.edit;
       _initialTransactionId = args.id;
     } else {
       throw ArgumentError('Unexpected args: $args');
     }
+    _initialProperty = _getInitialPropertyFor(_uiMode);
+
     ref.invalidateSelf();
   }
 
@@ -87,6 +90,13 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
             note: transaction.note,
           ),
         ));
+  }
+
+  void setUiMode(UiMode uiMode) async {
+    _uiMode = uiMode;
+    _initialProperty = _getInitialPropertyFor(uiMode);
+
+    ref.invalidateSelf();
   }
 
   Future<void> selectProperty(TransactionProperty value) async {
@@ -195,6 +205,17 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     _updateState((state) => state.copyWith(
       validationError: null,
     ));
+  }
+
+  TransactionProperty? _getInitialPropertyFor(UiMode uiMode) {
+    switch (uiMode) {
+      case UiMode.add:
+        return TransactionProperty.category;
+      case UiMode.view:
+        return null;
+      case UiMode.edit:
+        return TransactionProperty.category;
+    }
   }
 
   void save() async {

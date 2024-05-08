@@ -9,15 +9,15 @@ class PropertyItem extends ConsumerWidget {
   final String title;
   final String value;
   final bool isSelected;
-  final VoidCallback onSelected;
+  final VoidCallback? onSelected;
 
   const PropertyItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     required this.isSelected,
     required this.onSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -9,7 +9,7 @@ import '../domain/transaction_property.dart';
 import 'amount_input.dart';
 
 class SelectorContainer extends ConsumerWidget {
-  const SelectorContainer({Key? key}) : super(key: key);
+  const SelectorContainer({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +29,8 @@ class SelectorContainer extends ConsumerWidget {
           case TransactionProperty.note:
             return const NoteInput();
           default:
-            return Container();
+            // [selectedProperty] is null when UiMode.view is active.
+            return const NoteInput();
         }
       },
     );

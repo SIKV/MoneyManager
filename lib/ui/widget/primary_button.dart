@@ -23,7 +23,12 @@ class PrimaryButton extends StatelessWidget {
         children: [
           if (icon != null) Icon(icon),
           if (icon != null) const SizedBox(width: Spacings.two),
-          Text(title),
+          Text(title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 {
   "add": "Add",
   "save": "Save",
+  "saveChanges": "Save changes",
   "done": "Done",
   "cancel": "Cancel",
   "delete": "Delete",
@@ -31,6 +32,8 @@
   "transaction_enterNoteHint": "Enter a note...",
   "transaction_validationErrorCategory": "Please select a category",
   "transaction_validationErrorAmount": "Amount cannot be empty",
+
+  "noNotesAdded": "No notes added.",
 
   "transactions_noItems": "No transactions yet",
   "categories_noItems": "No categories yet",

@@ -23,3 +23,12 @@ class ViewTransactionPageArgs extends TransactionPageArgs {
     required this.id,
   });
 }
+
+@immutable
+class EditTransactionPageArgs extends TransactionPageArgs {
+  final int id;
+
+  const EditTransactionPageArgs({
+    required this.id,
+  });
+}
