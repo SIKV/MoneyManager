@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/domain/transaction_type_filter.dart';
 
-import '../../common/date_time_utils.dart';
 import '../../domain/transaction.dart';
 import 'domain/transaction_range_filter.dart';
 
@@ -44,17 +44,28 @@ extension TransactionRangeFilterExtensions on TransactionRangeFilter {
     }
   }
 
-  // TODO: Check if it works correctly.
   int getFromTimestamp(DateTime now) {
     switch (this) {
       case TransactionRangeFilter.day:
-        return subtractDay(now).millisecondsSinceEpoch;
+        return Jiffy
+            .parseFromDateTime(now)
+            .startOf(Unit.day)
+            .millisecondsSinceEpoch;
       case TransactionRangeFilter.week:
-        return subtractWeek(now).millisecondsSinceEpoch;
+        return Jiffy
+            .parseFromDateTime(now)
+            .startOf(Unit.week)
+            .millisecondsSinceEpoch;
       case TransactionRangeFilter.month:
-        return subtractMonth(now).millisecondsSinceEpoch;
+        return Jiffy
+            .parseFromDateTime(now)
+            .startOf(Unit.month)
+            .millisecondsSinceEpoch;
       case TransactionRangeFilter.year:
-        return subtractYear(now).millisecondsSinceEpoch;
+        return Jiffy
+            .parseFromDateTime(now)
+            .startOf(Unit.year)
+            .millisecondsSinceEpoch;
     }
   }
 }
