@@ -35,6 +35,10 @@ abstract class AppTheme {
           fontSize: 36,
           fontWeight: FontWeight.bold,
         ),
+        titleMedium: const TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w400,
+        ),
         bodySmall: TextStyle(
           fontSize: 14,
           color: colors.colorScheme.onSurface.withOpacity(0.75),

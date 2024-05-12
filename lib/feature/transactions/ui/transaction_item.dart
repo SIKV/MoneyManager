@@ -11,44 +11,45 @@ class TransactionItem extends ConsumerWidget {
   final TransactionUiModel transaction;
 
   const TransactionItem({
-    Key? key,
+    super.key,
     required this.transaction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         transaction.getIcon(appTheme.colors),
+
         const SizedBox(width: Spacings.five),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(transaction.title,
-              style: const TextStyle(
-                fontSize: 18,
+
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(transaction.title,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-            ),
-            if (transaction.subtitle != null) ...[
-              Padding(
-                padding: const EdgeInsets.only(top: Spacings.half),
-                child: Text(transaction.subtitle ?? '',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontSize: 14,
+              if (transaction.subtitle != null) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: Spacings.half),
+                  child: Text(transaction.subtitle ?? '',
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
+              ],
             ],
-          ],
-        ),
-        const Spacer(),
-        Text(transaction.amount,
-          style: const TextStyle(
-            fontSize: 18,
           ),
+        ),
+
+        const SizedBox(width: Spacings.five),
+
+        Text(transaction.amount,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );
