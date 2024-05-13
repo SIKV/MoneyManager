@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../feature/transactions/domain/transaction_item_ui_model.dart';
 import '../theme/colors.dart';
@@ -54,11 +54,11 @@ extension TransactionTypeExtensions on TransactionType {
     switch (this) {
       case TransactionType.income:
         return Icon(Icons.arrow_circle_down_outlined,
-          color: getColor(colors),
+          color: colors.colorScheme.outline,
         );
       case TransactionType.expense:
         return Icon(Icons.arrow_circle_up_outlined,
-          color: getColor(colors),
+          color: colors.colorScheme.outline,
         );
     }
   }
@@ -66,7 +66,7 @@ extension TransactionTypeExtensions on TransactionType {
   Color getColor(AppColors colors) {
     switch (this) {
       case TransactionType.income:
-        return colors.incomeTransaction; // TODO: Change for icons to: colors.colorScheme.outline
+        return colors.incomeTransaction;
       case TransactionType.expense:
         return colors.expenseTransaction;
     }

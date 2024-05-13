@@ -172,9 +172,15 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
 
   List<Widget> _createPropertyItems(TransactionMakerState state) {
     final category = state.transaction.category;
+
     String categoryTitle = '';
+
     if (category != null) {
-      categoryTitle = '${category.emoji ?? ''}   ${category.title}';
+      if (category.emoji != null) {
+        categoryTitle = '${category.emoji}   ${category.title}';
+      } else {
+        categoryTitle = category.title;
+      }
     } else {
        categoryTitle = _noValuePlaceholder;
     }

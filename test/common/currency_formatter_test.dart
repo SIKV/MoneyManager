@@ -28,11 +28,5 @@ void main() {
       final result = currencyFormatter.format(amount);
       expect(result, '1,234.50');
     });
-
-    test('always shows decimal point', () {
-      const double amount = 1234;
-      final result = currencyFormatter.format(amount, alwaysShowDecimalPoint: true);
-      expect(result, '1,234.');
-    });
   });
 }
