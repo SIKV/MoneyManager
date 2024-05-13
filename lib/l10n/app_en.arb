@@ -43,6 +43,10 @@
 
   "categories_pageTitle": "Categories",
   "addCategory": "Add Category",
+
+  "titleAddCategory": "Add category",
+  "titleEditCategory": "Edit category",
+
   "categoryTitle": "Category title",
 
   "deleteCategoryTitle": "Delete category",

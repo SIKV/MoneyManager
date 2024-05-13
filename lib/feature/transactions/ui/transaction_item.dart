@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/ui/extensions.dart';
 
 import '../../../theme/spacings.dart';
@@ -49,7 +50,9 @@ class TransactionItem extends ConsumerWidget {
         const SizedBox(width: Spacings.five),
 
         Text(transaction.amount,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: transaction.type == TransactionType.income ? appTheme.colors.incomeTransaction : null,
+          ),
         ),
       ],
     );

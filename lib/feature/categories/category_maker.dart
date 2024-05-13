@@ -1,22 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
-import 'package:moneymanager/feature/categories/domain/category_maker_mode.dart';
-import 'package:moneymanager/ui/widget/delete_button.dart';
+import 'package:moneymanager/feature/categories/ui/category_maker_actions.dart';
+import 'package:moneymanager/feature/categories/ui/emoji_and_title.dart';
 import 'package:moneymanager/ui/widget/delete_confirmation.dart';
-import 'package:moneymanager/ui/widget/primary_button.dart';
+import 'package:moneymanager/ui/widget/panel.dart';
 
 import '../../theme/spacings.dart';
-import '../../ui/widget/close_circle_button.dart';
+import '../common/transaction_type_selector.dart';
 import 'controller/category_maker_controller.dart';
-import 'domain/category_maker_state.dart';
+import 'domain/category_maker_mode.dart';
 import 'emoji/emoji_picker_content.dart';
-
-const _emojiContainerSize = 48.0;
-const _emojiFontSize = 24.0;
 
 class CategoryMaker extends ConsumerStatefulWidget {
   final CategoryMakerArgs args;
@@ -62,49 +58,50 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
 
     _listenTitleChanged();
 
-    return Padding(
-      padding: EdgeInsets.only(
-        top: Spacings.four,
-        left: Spacings.four,
-        right: Spacings.four,
-        bottom: Spacings.four + MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              // TODO: Replace with TransactionTypeSelector.
-              CupertinoSlidingSegmentedControl<TransactionType>(
-                groupValue: state.category.type,
-                onValueChanged: _typeChanged,
-                children: <TransactionType, Widget>{
-                  TransactionType.income: Text(AppLocalizations.of(context)!.income),
-                  TransactionType.expense: Text(AppLocalizations.of(context)!.expense),
-                },
-              ),
-              const Spacer(),
-              const CloseCircleButton(),
-            ],
-          ),
+    String title = '';
 
-          const SizedBox(height: Spacings.five),
+    switch (state.mode) {
+      case CategoryMakerMode.unknown:
+        title = '';
+        break;
+      case CategoryMakerMode.add:
+        title = AppLocalizations.of(context)!.titleAddCategory;
+        break;
+      case CategoryMakerMode.edit:
+        title = AppLocalizations.of(context)!.titleEditCategory;
+        break;
+    }
 
-          _EmojiAndTitle(
-            state: state,
-            titleTextController: _titleTextController,
-            onSelectEmoji: _selectEmoji,
-          ),
+    return Panel(
+      title: title,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Spacings.four),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TransactionTypeSelector(
+              selectedType: state.category.type,
+              onSelectedTypeChanged: _typeChanged,
+            ),
 
-          const SizedBox(height: Spacings.six),
+            const SizedBox(height: Spacings.five),
 
-          _Actions(
-            mode: state.mode,
-            onSavePressed: state.allowedToSave ? _saveCategory : null,
-            onDeletePressed: _deleteCategory,
-          ),
-        ],
+            EmojiAndTitle(
+              state: state,
+              titleTextController: _titleTextController,
+              onSelectEmoji: _selectEmoji,
+            ),
+
+            const SizedBox(height: Spacings.six),
+
+            CategoryMakerActions(
+              mode: state.mode,
+              onSavePressed: state.allowedToSave ? _saveCategory : null,
+              onDeletePressed: _deleteCategory,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -160,113 +157,6 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
           },
         );
       },
-    );
-  }
-}
-
-class _EmojiAndTitle extends StatelessWidget {
-  final CategoryMakerState state;
-  final TextEditingController titleTextController;
-  final VoidCallback? onSelectEmoji;
-
-  const _EmojiAndTitle({
-    Key? key,
-    required this.state,
-    required this.titleTextController,
-    required this.onSelectEmoji,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InkWell(
-          onTap: onSelectEmoji,
-          child: Container(
-            height: _emojiContainerSize,
-            width: _emojiContainerSize,
-            padding: const EdgeInsets.all(Spacings.two),
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              shape: BoxShape.circle,
-            ),
-            child: Text(state.category.emoji ?? '',
-              style: const TextStyle(
-                fontSize: _emojiFontSize,
-              ),
-            ),
-          ),
-        ),
-
-        const SizedBox(width: Spacings.five),
-
-        Expanded(
-          child: TextField(
-            controller: titleTextController,
-            autofocus: true,
-            maxLength: state.titleMaxLength,
-            textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.categoryTitle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Actions extends StatelessWidget {
-  final CategoryMakerMode mode;
-  final VoidCallback? onSavePressed;
-  final VoidCallback onDeletePressed;
-
-  const _Actions({
-    Key? key,
-    required this.mode,
-    required this.onSavePressed,
-    required this.onDeletePressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    late String saveButtonTitle;
-
-    switch (mode) {
-      case CategoryMakerMode.unknown:
-        break;
-      case CategoryMakerMode.add:
-        saveButtonTitle = AppLocalizations.of(context)!.addCategory;
-        break;
-      case CategoryMakerMode.edit:
-        saveButtonTitle = AppLocalizations.of(context)!.save;
-        break;
-    }
-
-    List<Widget> buttons = [
-      PrimaryButton(
-        onPressed: onSavePressed,
-        title: saveButtonTitle,
-      ),
-    ];
-
-    if (mode == CategoryMakerMode.edit) {
-      buttons.insert(0,
-        DeleteButton(
-          onPressed: onDeletePressed,
-          title: AppLocalizations.of(context)!.delete,
-        )
-      );
-    }
-
-    return ButtonBar(
-      alignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.max,
-      children: buttons,
     );
   }
 }

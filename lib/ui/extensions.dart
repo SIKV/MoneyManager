@@ -66,7 +66,7 @@ extension TransactionTypeExtensions on TransactionType {
   Color getColor(AppColors colors) {
     switch (this) {
       case TransactionType.income:
-        return colors.incomeTransaction;
+        return colors.incomeTransaction; // TODO: Change for icons to: colors.colorScheme.outline
       case TransactionType.expense:
         return colors.expenseTransaction;
     }
