@@ -23,7 +23,7 @@ jobs:
       - run: flutter build apk --flavor dev --android-project-arg qa
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: MoneyManager.apk
           path: build/app/outputs/apk/dev/release/app-dev-release.apk
