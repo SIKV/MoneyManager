@@ -4,7 +4,7 @@ import 'package:moneymanager/theme/theme_manager.dart';
 
 import '../../theme/theme.dart';
 
-class SegmentedControl<T> extends ConsumerWidget {
+class SegmentedControl<T extends Object> extends ConsumerWidget {
   final Map<T, Widget> values;
   final T? selectedValue;
   final Function(T?) onSelectedValueChanged;
