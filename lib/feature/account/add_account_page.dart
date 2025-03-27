@@ -22,14 +22,9 @@ class AddAccountPage extends ConsumerWidget {
     final canAddAccount = state?.selectedCurrency != null &&
         state?.alreadyExists == false;
 
-    Widget leading;
+    Widget? leading;
 
-    if (state?.isFirstAccount == true) {
-      leading = IconButton(
-        onPressed: () => Navigator.pop(context), // TODO: Close the app.
-        icon: const Icon(Icons.close),
-      );
-    } else {
+    if (state?.isFirstAccount == false) {
       leading = IconButton(
         onPressed: () => Navigator.pop(context),
         icon: const Icon(Icons.arrow_back),
