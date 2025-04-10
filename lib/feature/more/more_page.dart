@@ -58,16 +58,16 @@ class _Items extends StatelessWidget {
         case MoreItemType.divider: {
           return const Divider();
         }
-        // Account settings
-        case MoreItemType.accountSettings: {
+        // Wallet settings
+        case MoreItemType.walletSettings: {
           String? subtitle;
-          if (item is AccountSettingsMoreItem) {
-            subtitle = item.currentAccountName;
+          if (item is WalletSettingsMoreItem) {
+            subtitle = item.currentWalletName;
           }
           return ActionTile(
-            onTap: () => Navigator.pushNamed(context, AppRoutes.accountSettings),
+            onTap: () => Navigator.pushNamed(context, AppRoutes.walletSettings),
             leadingIcon: Icons.account_balance_wallet_rounded,
-            title: AppLocalizations.of(context)!.accountSettings,
+            title: AppLocalizations.of(context)!.morePage_walletSettingsItem,
             subtitle: subtitle,
           );
         }

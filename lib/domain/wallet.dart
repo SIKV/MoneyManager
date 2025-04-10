@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:moneymanager/domain/currency.dart';
 
-part 'account.freezed.dart';
+part 'wallet.freezed.dart';
 
 @freezed
-class Account with _$Account {
-  const factory Account({
+class Wallet with _$Wallet {
+  const factory Wallet({
     required int id,
     required Currency currency,
-  }) = _Account;
+  }) = _Wallet;
 }

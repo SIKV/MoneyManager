@@ -1,3 +1,3 @@
 class Dimens {
-  static const double changeAccountPageHeight = 124;
+  static const double changeWalletPageHeight = 124;
 }

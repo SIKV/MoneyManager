@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/data/local/providers.dart';
-import 'package:moneymanager/data/repository/accounts_repository.dart';
+import 'package:moneymanager/data/repository/wallets_repository.dart';
 import 'package:moneymanager/data/repository/categories_repository.dart';
 import 'package:moneymanager/data/repository/transactions_repository.dart';
 
@@ -8,9 +8,9 @@ import '../local_preferences.dart';
 import '../service/providers.dart';
 import 'default/providers.dart';
 
-final accountsRepositoryProvider = Provider((ref) async {
-  final localDataSource = await ref.watch(accountsLocalDataSourceProvider);
-  return AccountsRepository(localDataSource);
+final walletsRepositoryProvider = Provider((ref) async {
+  final localDataSource = await ref.watch(walletsLocalDataSourceProvider);
+  return WalletsRepository(localDataSource);
 });
 
 final categoriesRepositoryProvider = Provider((ref) async {
@@ -28,8 +28,8 @@ final categoriesRepositoryUpdatedProvider = StreamProvider((ref) async* {
 
 final transactionsRepositoryProvider = Provider((ref) async {
   final localDataSource = await ref.watch(transactionsLocalDataSourceProvider);
-  final accountsRepository = await ref.watch(accountsRepositoryProvider);
-  final currentAccountService = await ref.watch(currentAccountServiceProvider);
+  final accountsRepository = await ref.watch(walletsRepositoryProvider);
+  final currentAccountService = await ref.watch(currentWalletServiceProvider);
   final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
 
   return TransactionsRepository(localDataSource, accountsRepository, currentAccountService, categoriesRepository);

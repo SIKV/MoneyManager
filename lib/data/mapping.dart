@@ -1,19 +1,19 @@
-import 'package:moneymanager/domain/account.dart';
+import 'package:moneymanager/domain/wallet.dart';
 
 import '../domain/currency.dart';
 import '../domain/transaction.dart';
 import '../domain/transaction_category.dart';
 import '../domain/transaction_type.dart';
-import 'local/entity/account_entity.dart';
+import 'local/entity/wallet_entity.dart';
 import 'local/entity/currency_entity.dart';
 import 'local/entity/transaction_category_entity.dart';
 import 'local/entity/transaction_entity.dart';
 import 'local/entity/transaction_type_entity.dart';
 
-/// Account
+/// Wallet
 
-extension AccountEntityToDomain on AccountEntity {
-  Account? toDomain() {
+extension WalletEntityToDomain on WalletEntity {
+  Wallet? toDomain() {
     final code = currency.code;
     final name = currency.name;
     final symbol = currency.symbol;
@@ -21,7 +21,7 @@ extension AccountEntityToDomain on AccountEntity {
     if (code == null || name == null || symbol == null) {
       return null;
     }
-    return Account(
+    return Wallet(
       id: id,
       currency: Currency(
         code: code,
@@ -33,9 +33,9 @@ extension AccountEntityToDomain on AccountEntity {
   }
 }
 
-extension DomainToAccountEntity on Account {
-  AccountEntity toEntity() {
-    return AccountEntity(
+extension DomainToWalletEntity on Wallet {
+  WalletEntity toEntity() {
+    return WalletEntity(
       id: id,
       currency: CurrencyEntity(
         code: currency.code,
@@ -117,7 +117,7 @@ extension DomainToTransactionEntity on Transaction {
   TransactionEntity toEntity(int accountId) {
     return TransactionEntity(
       id: id,
-      accountId: accountId,
+      walletId: accountId,
       createTimestamp: createTimestamp,
       type: type.toEntity(),
       categoryId: category.id,

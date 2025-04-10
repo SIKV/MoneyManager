@@ -3,13 +3,13 @@ import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/service/backup/backup_service.dart';
 
 import '../data/providers.dart';
-import '../service/current_account_service.dart';
+import '../service/current_wallet_service.dart';
 
-final currentAccountServiceProvider = Provider((ref) async {
-  final accountsRepository = await ref.watch(accountsRepositoryProvider);
+final currentWalletServiceProvider = Provider((ref) async {
+  final accountsRepository = await ref.watch(walletsRepositoryProvider);
   final localPreferences = ref.watch(localPreferencesProvider);
 
-  return CurrentAccountService(accountsRepository, localPreferences);
+  return CurrentWalletService(accountsRepository, localPreferences);
 });
 
 final backupServiceProvider = Provider.autoDispose((ref) {

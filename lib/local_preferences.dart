@@ -10,7 +10,7 @@ import 'domain/transaction_type.dart';
 final localPreferencesProvider = Provider<LocalPreferences>((_) => LocalPreferences());
 
 const _keyFirstLaunch = '_firstLaunch';
-const _keyCurrentAccount = 'currentAccount';
+const _keyCurrentWallet = 'currentWallet';
 const _keyTheme = 'theme';
 const _keyIncomeCategoriesCustomOrder = 'incomeCategoriesCustomOrder';
 const _keyExpenseCategoriesCustomOrder = 'expenseCategoriesCustomOrder';
@@ -19,10 +19,10 @@ const _keyExpenseCategoriesCustomOrder = 'expenseCategoriesCustomOrder';
 class LocalPreferences {
   late final SharedPreferences _prefs;
 
-  int? _currentAccountId;
-  int? get currentAccountId => _currentAccountId;
+  int? _currentWalletId;
+  int? get currentWalletId => _currentWalletId;
 
-  final onCurrentAccountIdChanged = BehaviorSubject();
+  final onCurrentWalletIdChanged = BehaviorSubject();
 
   AppThemeType? _theme;
   AppThemeType? get theme =>_theme;
@@ -30,9 +30,9 @@ class LocalPreferences {
   Future<void> load() async {
     _prefs = await SharedPreferences.getInstance();
 
-    _currentAccountId = _prefs.getInt(_keyCurrentAccount);
+    _currentWalletId = _prefs.getInt(_keyCurrentWallet);
 
-    onCurrentAccountIdChanged.add(_currentAccountId);
+    onCurrentWalletIdChanged.add(_currentWalletId);
 
     final themeId = _prefs.getInt(_keyTheme);
     if (themeId != null) {
@@ -49,14 +49,14 @@ class LocalPreferences {
     _prefs.setBool(_keyFirstLaunch, false);
   }
 
-  void setCurrentAccount(int? id) {
+  void setCurrentWallet(int? id) {
     if (id == null) {
-      _prefs.remove(_keyCurrentAccount);
+      _prefs.remove(_keyCurrentWallet);
     } else {
-      _prefs.setInt(_keyCurrentAccount, id);
+      _prefs.setInt(_keyCurrentWallet, id);
     }
-    _currentAccountId = id;
-    onCurrentAccountIdChanged.add(_currentAccountId);
+    _currentWalletId = id;
+    onCurrentWalletIdChanged.add(_currentWalletId);
   }
 
   void setTheme(AppThemeType? theme) {

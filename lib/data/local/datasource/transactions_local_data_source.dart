@@ -22,13 +22,13 @@ class TransactionsLocalDataSource {
   }
 
   Stream<List<TransactionEntity>> getAll({
-    required int accountId,
+    required int walletId,
     required int fromTimestamp,
     required int toTimestamp,
   }) {
     return isar.transactionEntitys
         .filter()
-        .accountIdEqualTo(accountId)
+        .walletIdEqualTo(walletId)
         .createTimestampGreaterThan(fromTimestamp, include: true)
         .createTimestampLessThan(toTimestamp, include: true)
         .watch(fireImmediately: true);
@@ -43,11 +43,11 @@ class TransactionsLocalDataSource {
     });
   }
 
-  Future<void> deleteByAccountId(int accountId) async {
+  Future<void> deleteByWalletId(int accountId) async {
     return isar.writeTxn(() async {
       await isar.transactionEntitys
           .filter()
-          .accountIdEqualTo(accountId)
+          .walletIdEqualTo(accountId)
           .deleteAll();
     });
   }

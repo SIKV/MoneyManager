@@ -4,14 +4,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
-import 'controller/add_account_controller.dart';
+import 'controller/add_wallet_controller.dart';
 
 class SelectCurrencyButton extends ConsumerWidget {
   const SelectCurrencyButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(addAccountControllerProvider);
+    final state = ref.watch(addWalletControllerProvider);
 
     final selectedCurrency = state.value?.selectedCurrency;
     String selectedCurrencyText = '';
@@ -49,7 +49,7 @@ class SelectCurrencyButton extends ConsumerWidget {
     showCurrencyPicker(
       context: context,
       onSelect: (currency) {
-        ref.read(addAccountControllerProvider.notifier)
+        ref.read(addWalletControllerProvider.notifier)
             .selectCurrency(currency);
       },
       theme: CurrencyPickerThemeData(

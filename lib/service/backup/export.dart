@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
-import 'package:moneymanager/data/local/entity/account_entity.dart';
 import 'package:moneymanager/data/local/entity/transaction_category_entity.dart';
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
+import 'package:moneymanager/data/local/entity/wallet_entity.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../data/local/providers.dart';
@@ -28,12 +28,12 @@ Future<File> createJsonBackupFile(RootIsolateToken rootIsolateToken) async {
 }
 
 Future<String> _createJsonBackupString(Isar isar) async {
-  final accountsJson = await _toJsonMap(isar.accountEntitys);
+  final walletsJson = await _toJsonMap(isar.walletEntitys);
   final categoriesJson = await _toJsonMap(isar.transactionCategoryEntitys);
   final transactionsJson = await _toJsonMap(isar.transactionEntitys);
 
   Map<String, dynamic> backup = {
-    'accounts' : accountsJson,
+    'wallets' : walletsJson,
     'categories' : categoriesJson,
     'transactions' : transactionsJson
   };

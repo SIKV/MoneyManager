@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:moneymanager/feature/account/change_account_page.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
 import 'package:moneymanager/feature/transactions/ui/transactions_list.dart';
@@ -14,6 +13,7 @@ import 'package:moneymanager/ui/widget/header_circle_button.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
+import '../wallet/change_wallet_page.dart';
 import 'ui/header_filters.dart';
 
 class TransactionsPage extends ConsumerWidget {
@@ -35,7 +35,7 @@ class TransactionsPage extends ConsumerWidget {
       },
       data: (headerState) {
         String title = headerState.amount;
-        String titleSuffix = ' ${headerState.currentAccount?.currency.symbol}';
+        String titleSuffix = ' ${headerState.currentWallet?.currency.symbol}';
 
         String filterTitle = getFilterTitle(context, headerState.rangeFilter, headerState.typeFilter);
 
@@ -56,7 +56,7 @@ class TransactionsPage extends ConsumerWidget {
           subtitle: filterTitle,
           tertiaryTitle: transactionsCount,
           onTitlePressed: () {
-            _showChangeAccount(context);
+            _showChangeWallet(context);
           },
           primaryAction: IconButton(
             icon: SvgIcon(Assets.filters,
@@ -88,12 +88,12 @@ class TransactionsPage extends ConsumerWidget {
     );
   }
 
-  void _showChangeAccount(BuildContext context) {
+  void _showChangeWallet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return const ChangeAccountPage();
+        return const ChangeWalletPage();
       },
     );
   }

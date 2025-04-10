@@ -16,7 +16,7 @@ import 'package:moneymanager/navigation/result/caclculator_page_result.dart';
 import 'package:moneymanager/utils.dart';
 
 import '../../../common/date_time_utils.dart';
-import '../../../common/provider/current_account_provider.dart';
+import '../../../common/provider/current_wallet_provider.dart';
 import '../../../navigation/transaction_page_args.dart';
 import '../../../service/providers.dart';
 import '../amount_key_processor.dart';
@@ -57,7 +57,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   @override
   FutureOr<TransactionMakerState> build() async {
     // Rebuild when the current account changed.
-    ref.watch(currentAccountProvider);
+    ref.watch(currentWalletProvider);
 
     // Rebuild when a category added/updated/deleted.
     ref.watch(categoriesRepositoryUpdatedProvider);
@@ -332,8 +332,8 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   Future<TransactionBlueprint> _createDefaultBlueprint() async {
-    final currentAccountService = await ref.watch(currentAccountServiceProvider);
-    final currentAccount = await currentAccountService.getCurrentAccount();
+    final currentAccountService = await ref.watch(currentWalletServiceProvider);
+    final currentAccount = await currentAccountService.getCurrentWallet();
 
     final createDateTime = DateTime.now();
     const amount = '';

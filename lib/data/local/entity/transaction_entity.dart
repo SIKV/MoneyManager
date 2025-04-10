@@ -9,8 +9,8 @@ class TransactionEntity extends Equatable {
   @Name('id')
   final Id id;
 
-  @Name('accountId')
-  final int accountId;
+  @Name('walletId')
+  final int walletId;
 
   @Name('createTimestamp')
   final int createTimestamp;
@@ -30,7 +30,7 @@ class TransactionEntity extends Equatable {
 
   const TransactionEntity({
     required this.id,
-    required this.accountId,
+    required this.walletId,
     required this.createTimestamp,
     required this.type,
     required this.categoryId,

@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/common/provider/current_account_provider.dart';
+import 'package:moneymanager/common/provider/current_wallet_provider.dart';
 import 'package:moneymanager/feature/transactions/service/providers.dart';
 
 import '../../../data/providers.dart';
 
 final transactionsListProvider = StreamProvider((ref) async* {
   // Rebuild when the current account changed.
-  ref.watch(currentAccountProvider);
+  ref.watch(currentWalletProvider);
   // Rebuild when a category added/updated/deleted.
   ref.watch(categoriesRepositoryUpdatedProvider);
   // Rebuild when the current type filter changed.

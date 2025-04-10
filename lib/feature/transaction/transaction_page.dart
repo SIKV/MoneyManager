@@ -5,7 +5,7 @@ import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/feature/transaction/domain/validation_error.dart';
-import 'package:moneymanager/feature/transaction/ui/account_selector.dart';
+import 'package:moneymanager/feature/transaction/ui/wallet_selector.dart';
 import 'package:moneymanager/feature/transaction/ui/actions_gradient.dart';
 import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
@@ -84,7 +84,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         ),
         child: Scaffold(
           appBar: AppBar(
-            title: AccountSelector(
+            title: WalletSelector(
               isEnabled: state.uiMode != UiMode.view,
             ),
             centerTitle: false,

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/more/domain/more_item.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../../common/provider/current_account_provider.dart';
-import '../../../domain/account.dart';
+import '../../../common/provider/current_wallet_provider.dart';
+import '../../../domain/wallet.dart';
 import '../../../theme/theme_manager.dart';
 import '../domain/more_state.dart';
 
@@ -21,7 +21,7 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
   FutureOr<MoreState> build() async {
     return MoreState(
       items: [
-        await _createAccountSettingsItem(),
+        await _createWalletSettingsItem(),
         _divider,
         _createBackupItem(),
         _divider,
@@ -32,9 +32,9 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
     );
   }
 
-  Future<MoreItem> _createAccountSettingsItem() async {
-    final Account account = await ref.watch(currentAccountProvider.future);
-    return AccountSettingsMoreItem(account.currency.name);
+  Future<MoreItem> _createWalletSettingsItem() async {
+    final Wallet wallet = await ref.watch(currentWalletProvider.future);
+    return WalletSettingsMoreItem(wallet.currency.name);
   }
 
   MoreItem _createBackupItem() {

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:moneymanager/feature/account/add_account_page.dart';
-import 'package:moneymanager/feature/account_settings/account_settings_page.dart';
 import 'package:moneymanager/feature/backup/backup_page.dart';
 import 'package:moneymanager/feature/categories/categories_page.dart';
 import 'package:moneymanager/feature/change_theme/change_theme_page.dart';
@@ -18,10 +16,12 @@ import 'package:moneymanager/navigation/transaction_page_args.dart';
 import 'package:moneymanager/theme/theme.dart';
 import 'package:moneymanager/theme/theme_manager.dart';
 
-import 'common/provider/current_account_provider.dart';
-import 'domain/account.dart';
+import 'common/provider/current_wallet_provider.dart';
+import 'domain/wallet.dart';
 import 'feature/home/home_page.dart';
 import 'feature/transaction/calculator/calculator_page.dart';
+import 'feature/wallet/add_wallet_page.dart';
+import 'feature/wallet_settings/wallet_settings_page.dart';
 
 part 'app.freezed.dart';
 
@@ -37,8 +37,8 @@ class App extends ConsumerWidget {
       loading: () => Container(),
       error: (_, __) => Container(),
       data: (state) {
-        if (state.shouldAddAccount) {
-          return const AddAccountPage();
+        if (state.shouldAddWallet) {
+          return const AddWalletPage();
         } else {
           return const HomePage();
         }
@@ -61,10 +61,10 @@ class App extends ConsumerWidget {
             return MaterialPageRoute(builder: (_) => TransactionPage(
               args: settings.arguments as TransactionPageArgs,
             ));
-          case AppRoutes.addAccount:
-            return MaterialPageRoute(builder: (_) => const AddAccountPage());
-          case AppRoutes.accountSettings:
-            return MaterialPageRoute(builder: (_) => const AccountSettingsPage());
+          case AppRoutes.addWallet:
+            return MaterialPageRoute(builder: (_) => const AddWalletPage());
+          case AppRoutes.walletSettings:
+            return MaterialPageRoute(builder: (_) => const WalletSettingsPage());
           case AppRoutes.changeTheme:
             return MaterialPageRoute(builder: (_) => const ChangeThemePage());
           case AppRoutes.calculator:
@@ -86,7 +86,7 @@ class App extends ConsumerWidget {
 @freezed
 class AppState with _$AppState {
   const factory AppState({
-    required bool shouldAddAccount,
+    required bool shouldAddWallet,
   }) = _AppState;
 }
 
@@ -97,9 +97,9 @@ final appControllerProvider = AsyncNotifierProvider<AppController, AppState>(() 
 class AppController extends AsyncNotifier<AppState> {
   @override
   FutureOr<AppState> build() async {
-    final Account? currentAccount = await ref.watch(currentAccountOrNullProvider.future);
+    final Wallet? currentWallet = await ref.watch(currentWalletOrNullProvider.future);
     return AppState(
-      shouldAddAccount: currentAccount == null,
+      shouldAddWallet: currentWallet == null,
     );
   }
 }

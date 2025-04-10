@@ -4,56 +4,56 @@ import 'package:currency_picker/currency_picker.dart' as currency_picker;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/domain/currency.dart';
-import 'package:moneymanager/feature/account/domain/add_account_state.dart';
 import 'package:moneymanager/local_preferences.dart';
 
-import '../../../domain/account.dart';
+import '../../../domain/wallet.dart';
 import '../../../utils.dart';
+import '../domain/add_wallet_state.dart';
 
-final addAccountControllerProvider = AsyncNotifierProvider
-    .autoDispose<AddAccountController, AddAccountState>(() {
-      return AddAccountController();
+final addWalletControllerProvider = AsyncNotifierProvider
+    .autoDispose<AddWalletController, AddWalletState>(() {
+      return AddWalletController();
     });
 
-class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
+class AddWalletController extends AutoDisposeAsyncNotifier<AddWalletState> {
 
   @override
-  FutureOr<AddAccountState> build() async {
-    final accountRepository = await ref.watch(accountsRepositoryProvider);
+  FutureOr<AddWalletState> build() async {
+    final accountRepository = await ref.watch(walletsRepositoryProvider);
     final accounts = await accountRepository.getAll();
 
-    return AddAccountState(
+    return AddWalletState(
       selectedCurrency: null,
       alreadyExists: false,
-      isFirstAccount: accounts.isEmpty,
-      accountAdded: false,
+      isFirstWallet: accounts.isEmpty,
+      walletAdded: false,
     );
   }
 
-  void addAccount() async {
+  void addWallet() async {
     final currentState = await future;
     final currency = currentState.selectedCurrency;
 
     if (currency != null) {
-      final account = Account(
+      final account = Wallet(
         id: generateUniqueInt(),
         currency: currency,
       );
 
-      final accountExists = await isAccountExist(account.currency.code);
+      final accountExists = await isWalletExist(account.currency.code);
       if (accountExists) {
         return;
       }
 
-      final accountsRepository = await ref.read(accountsRepositoryProvider);
+      final accountsRepository = await ref.read(walletsRepositoryProvider);
       await accountsRepository.add(account);
 
       ref.read(localPreferencesProvider)
-          .setCurrentAccount(account.id);
+          .setCurrentWallet(account.id);
 
       state = AsyncValue.data(
           currentState.copyWith(
-          accountAdded: true,
+          walletAdded: true,
         )
       );
     }
@@ -64,7 +64,7 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
 
     state = AsyncValue.data(
         currentState.copyWith(
-          alreadyExists: await isAccountExist(currency.code),
+          alreadyExists: await isWalletExist(currency.code),
           selectedCurrency: Currency(
             code: currency.code,
             name: currency.name,
@@ -75,8 +75,8 @@ class AddAccountController extends AutoDisposeAsyncNotifier<AddAccountState> {
     );
   }
 
-  Future<bool> isAccountExist(String currencyCode) async {
-    final accountsRepository = await ref.read(accountsRepositoryProvider);
+  Future<bool> isWalletExist(String currencyCode) async {
+    final accountsRepository = await ref.read(walletsRepositoryProvider);
     final accounts = await accountsRepository.getByCurrencyCode(currencyCode);
     return accounts.isNotEmpty;
   }

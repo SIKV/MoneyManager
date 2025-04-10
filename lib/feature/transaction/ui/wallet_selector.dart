@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../common/provider/current_account_provider.dart';
-import '../../account/change_account_page.dart';
+import '../../../common/provider/current_wallet_provider.dart';
+import '../../wallet/change_wallet_page.dart';
 
-class AccountSelector extends ConsumerWidget {
+class WalletSelector extends ConsumerWidget {
   final bool isEnabled;
 
-  const AccountSelector({
+  const WalletSelector({
     super.key,
     this.isEnabled = true,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentAccount = ref.watch(currentAccountProvider);
+    final currentAccount = ref.watch(currentWalletProvider);
 
     return currentAccount.whenOrNull(
       data: (currentAccount) =>
           InkWell(
             onTap: isEnabled ? () {
-              _showChangeAccount(context);
+              _showChangeWallet(context);
             } : null,
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -33,12 +33,12 @@ class AccountSelector extends ConsumerWidget {
     ) ?? Container();
   }
 
-  void _showChangeAccount(BuildContext context) {
+  void _showChangeWallet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return const ChangeAccountPage();
+        return const ChangeWalletPage();
       },
     );
   }

@@ -3,8 +3,8 @@ class AppRoutes {
   static const categories = '/categories';
   static const search = '/search';
   static const statistics = '/statistics';
-  static const addAccount = '/add-account';
-  static const accountSettings = '/account-settings';
+  static const addWallet = '/add-wallet';
+  static const walletSettings = '/wallet-settings';
   static const addTransaction = '/add-transaction';
   static const viewTransaction = '/view-transaction';
   static const changeTheme = '/change-theme';

@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/feature/account/select_currency_button.dart';
+import 'package:moneymanager/feature/wallet/select_currency_button.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/primary_button.dart';
 
 import '../../ui/widget/small_section_text.dart';
-import 'controller/add_account_controller.dart';
+import 'controller/add_wallet_controller.dart';
 
-class AddAccountPage extends ConsumerWidget {
-  const AddAccountPage({super.key});
+class AddWalletPage extends ConsumerWidget {
+  const AddWalletPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(addAccountControllerProvider).value;
+    final state = ref.watch(addWalletControllerProvider).value;
 
-    _listenAccountAdded(context, ref);
-    _listenAccountAlreadyExists(context, ref);
+    _listenWalletAdded(context, ref);
+    _listenWalletAlreadyExists(context, ref);
 
-    final canAddAccount = state?.selectedCurrency != null &&
+    final canAddWallet = state?.selectedCurrency != null &&
         state?.alreadyExists == false;
 
     Widget? leading;
 
-    if (state?.isFirstAccount == false) {
+    if (state?.isFirstWallet == false) {
       leading = IconButton(
         onPressed: () => Navigator.pop(context),
         icon: const Icon(Icons.arrow_back),
@@ -43,22 +43,21 @@ class AddAccountPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Center(
-                child: Text(AppLocalizations.of(context)!.addAccountTitle,
+                child: Text(AppLocalizations.of(context)!.addWalletPage_title,
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ),
               const SizedBox(height: Spacings.half),
               Center(
-                child: SmallSectionText(AppLocalizations.of(context)!.addAccountSubtitle),
+                child: SmallSectionText(AppLocalizations.of(context)!.addWalletPage_subtitle),
               ),
               const SizedBox(height: Spacings.eight),
               const SelectCurrencyButton(),
               const SizedBox(height: Spacings.eight),
 
               PrimaryButton(
-                onPressed: canAddAccount ? () => _addAccount(context, ref) : null,
-                icon: Icons.add,
-                title: AppLocalizations.of(context)!.addAccountActionButton,
+                onPressed: canAddWallet ? () => _addWallet(context, ref) : null,
+                title: AppLocalizations.of(context)!.addWalletPage_addButton,
               ),
             ],
           ),
@@ -67,15 +66,15 @@ class AddAccountPage extends ConsumerWidget {
     );
   }
 
-  void _addAccount(BuildContext context, WidgetRef ref) {
-    ref.read(addAccountControllerProvider.notifier)
-        .addAccount();
+  void _addWallet(BuildContext context, WidgetRef ref) {
+    ref.read(addWalletControllerProvider.notifier)
+        .addWallet();
   }
 
-  void _listenAccountAdded(BuildContext context, WidgetRef ref) {
-    ref.listen(addAccountControllerProvider, (previous, next) {
-      if (next.value?.accountAdded == true) {
-        if (next.value?.isFirstAccount == true) {
+  void _listenWalletAdded(BuildContext context, WidgetRef ref) {
+    ref.listen(addWalletControllerProvider, (previous, next) {
+      if (next.value?.walletAdded == true) {
+        if (next.value?.isFirstWallet == true) {
           Navigator.pushReplacementNamed(context, AppRoutes.home);
         } else {
           Navigator.pop(context);
@@ -84,14 +83,14 @@ class AddAccountPage extends ConsumerWidget {
     });
   }
 
-  void _listenAccountAlreadyExists(BuildContext context, WidgetRef ref) {
-    ref.listen(addAccountControllerProvider
+  void _listenWalletAlreadyExists(BuildContext context, WidgetRef ref) {
+    ref.listen(addWalletControllerProvider
         .select((state) => state.value?.alreadyExists), (previous, next) {
 
       if (next == true) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(AppLocalizations.of(context)!.accountAlreadyExistsError),
+              content: Text(AppLocalizations.of(context)!.addWalletPage_alreadyExistsError),
             )
         );
       }

@@ -6,27 +6,27 @@ import 'package:moneymanager/ui/widget/small_section_text.dart';
 
 import '../../theme/spacings.dart';
 import '../../ui/widget/delete_confirmation.dart';
-import 'controller/account_settings_controller.dart';
+import 'controller/wallet_settings_controller.dart';
 
-class AccountSettingsPage extends ConsumerWidget {
-  const AccountSettingsPage({super.key});
+class WalletSettingsPage extends ConsumerWidget {
+  const WalletSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(accountSettingsControllerProvider);
+    final state = ref.watch(walletSettingsControllerProvider);
 
-    _listenAccountDeleted(context, ref);
+    _listenWalletDeleted(context, ref);
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: Text(AppLocalizations.of(context)!.accountSettings),
+            title: Text(AppLocalizations.of(context)!.walletSettingsPage_title),
           ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: Spacings.four),
-              child: SmallSectionText(state.value?.account?.currency.name ?? ''),
+              child: SmallSectionText(state.value?.wallet?.currency.name ?? ''),
             ),
           ),
           SliverToBoxAdapter(
@@ -37,11 +37,11 @@ class AccountSettingsPage extends ConsumerWidget {
                 children: [
                   const SizedBox(height: Spacings.five),
                   DeleteButton(
-                    onPressed: () => _deleteAccount(context, ref),
-                    title: AppLocalizations.of(context)!.deleteAccount,
+                    onPressed: () => _deleteWallet(context, ref),
+                    title: AppLocalizations.of(context)!.walletSettingsPage_deleteButton,
                   ),
                   const SizedBox(height: Spacings.four),
-                  SmallSectionText(AppLocalizations.of(context)!.deleteAccountWarning),
+                  SmallSectionText(AppLocalizations.of(context)!.walletSettingsPage_warning),
                 ],
               ),
             ),
@@ -51,26 +51,26 @@ class AccountSettingsPage extends ConsumerWidget {
     );
   }
 
-  void _deleteAccount(BuildContext context, WidgetRef ref) {
+  void _deleteWallet(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return DeleteConfirmation(
-          title: AppLocalizations.of(context)!.deleteAccountTitle,
-          description: AppLocalizations.of(context)!.deleteAccountDescription,
+          title: AppLocalizations.of(context)!.walletSettingsPage_deleteConfirmationTitle,
+          description: AppLocalizations.of(context)!.walletSettingsPage_deleteConfirmationDescription,
           onDeletePressed: () {
-            ref.read(accountSettingsControllerProvider.notifier)
-                .deleteAccount();
+            ref.read(walletSettingsControllerProvider.notifier)
+                .deleteWallet();
           },
         );
       },
     );
   }
 
-  void _listenAccountDeleted(BuildContext context, WidgetRef ref) {
-    ref.listen(accountSettingsControllerProvider.selectAsync((data) => data.accountDeleted), (previous, next) {
-      next.then((accountDeleted) {
-        if (accountDeleted) {
+  void _listenWalletDeleted(BuildContext context, WidgetRef ref) {
+    ref.listen(walletSettingsControllerProvider.selectAsync((data) => data.walletDeleted), (previous, next) {
+      next.then((walletDeleted) {
+        if (walletDeleted) {
           Navigator.pop(context);
         }
       });

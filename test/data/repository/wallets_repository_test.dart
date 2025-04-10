@@ -1,35 +1,35 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:moneymanager/data/local/datasource/accounts_local_data_source.dart';
-import 'package:moneymanager/data/local/entity/account_entity.dart';
+import 'package:moneymanager/data/local/datasource/wallets_local_data_source.dart';
+import 'package:moneymanager/data/local/entity/wallet_entity.dart';
 import 'package:moneymanager/data/local/entity/currency_entity.dart';
 import 'package:moneymanager/data/mapping.dart';
-import 'package:moneymanager/data/repository/accounts_repository.dart';
-import 'package:moneymanager/domain/account.dart';
+import 'package:moneymanager/data/repository/wallets_repository.dart';
+import 'package:moneymanager/domain/wallet.dart';
 import 'package:moneymanager/domain/currency.dart';
 
-class AccountsLocalDataSourceMock extends Mock implements AccountsLocalDataSource { }
+class WalletsLocalDataSourceMock extends Mock implements WalletsLocalDataSource { }
 
-const accountEntityMock = AccountEntity(
+const walletEntityMock = WalletEntity(
   id: 0,
   currency: CurrencyEntity(),
 );
 
 void main() {
   setUpAll(() {
-    registerFallbackValue(accountEntityMock);
+    registerFallbackValue(walletEntityMock);
   });
 
   test('add() updates LocalDataSource', () async {
     // GIVEN
-    final localDataSourceMock = AccountsLocalDataSourceMock();
+    final localDataSourceMock = WalletsLocalDataSourceMock();
 
     when(() => localDataSourceMock.add(any()))
         .thenAnswer((_) async {});
 
-    final repository = AccountsRepository(localDataSourceMock);
+    final repository = WalletsRepository(localDataSourceMock);
 
-    const account = Account(
+    const wallet = Wallet(
       id: 0,
       currency: Currency(
         code: 'code',
@@ -40,17 +40,17 @@ void main() {
     );
 
     // WHEN
-    await repository.add(account);
+    await repository.add(wallet);
 
     // THEN
-    verify(() => localDataSourceMock.add(account.toEntity()))
+    verify(() => localDataSourceMock.add(wallet.toEntity()))
         .called(1);
   });
 
   test('getAll() returns entities from LocalDataSource', () async {
     // GIVEN
-    const accounts = [
-      Account(
+    const wallets = [
+      Wallet(
         id: 0,
         currency: Currency(
           code: 'code',
@@ -61,20 +61,20 @@ void main() {
       ),
     ];
 
-    final localDataSourceMock = AccountsLocalDataSourceMock();
+    final localDataSourceMock = WalletsLocalDataSourceMock();
 
     when(() => localDataSourceMock.getAll())
         .thenAnswer((_) async {
-      return accounts.map((it) => it.toEntity()).toList();
+      return wallets.map((it) => it.toEntity()).toList();
     });
 
-    final repository = AccountsRepository(localDataSourceMock);
+    final repository = WalletsRepository(localDataSourceMock);
 
     // WHEN
-    final actualAccounts = await repository.getAll();
+    final actualWallets = await repository.getAll();
 
     // THEN
-    expect(actualAccounts, accounts);
+    expect(actualWallets, wallets);
 
     verify(() => localDataSourceMock.getAll())
         .called(1);

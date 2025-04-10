@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:moneymanager/domain/account.dart';
+import 'package:moneymanager/domain/wallet.dart';
 
 import '../../theme/theme.dart';
 
