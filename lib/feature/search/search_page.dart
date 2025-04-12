@@ -12,7 +12,7 @@ class SearchPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: Text(AppLocalizations.of(context)!.search_pageTitle),
+            title: Text(AppLocalizations.of(context)!.searchPage_title),
           ),
           const SliverToBoxAdapter(
             child: Padding(

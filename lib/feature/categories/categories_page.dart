@@ -27,7 +27,7 @@ class CategoriesPage extends ConsumerWidget {
           body: CustomScrollView(
             slivers: [
               SliverAppBar.medium(
-                title: Text(AppLocalizations.of(context)!.categories_pageTitle),
+                title: Text(AppLocalizations.of(context)!.categoriesPage_title),
               ),
               SliverToBoxAdapter(
                 child: Padding(
@@ -56,7 +56,7 @@ class CategoriesPage extends ConsumerWidget {
             ],
           ),
           floatingActionButton: FloatingActionButton.extended(
-            label: Text(AppLocalizations.of(context)!.addCategory),
+            label: Text(AppLocalizations.of(context)!.categoriesPage_addButton),
             icon: const Icon(AppIcons.categoriesAddCategory),
             onPressed: () {
               _addCategory(context, state.selectedType);

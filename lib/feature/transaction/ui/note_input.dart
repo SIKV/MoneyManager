@@ -56,8 +56,8 @@ class _NoteInputState extends ConsumerState<NoteInput> {
           final readOnly = snapshot.data == UiMode.view;
 
           final hintText = snapshot.data == UiMode.view
-              ? AppLocalizations.of(context)!.noNotesAdded
-              : AppLocalizations.of(context)!.transaction_enterNoteHint;
+              ? AppLocalizations.of(context)!.transactionPage_noNotesAdded
+              : AppLocalizations.of(context)!.transactionPage_noteFieldHint;
 
           return Padding(
             padding: const EdgeInsets.symmetric(

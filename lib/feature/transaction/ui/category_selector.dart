@@ -131,7 +131,7 @@ class _NoCategories extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         NoItems(
-          title: AppLocalizations.of(context)!.categories_noItems,
+          title: AppLocalizations.of(context)!.transactionPage_noCategories,
         ),
         const SizedBox(height: Spacings.two),
         TextButton(
@@ -141,7 +141,7 @@ class _NoCategories extends StatelessWidget {
             children: [
               const Icon(Icons.add),
               const SizedBox(width: Spacings.two),
-              Text(AppLocalizations.of(context)!.addCategory),
+              Text(AppLocalizations.of(context)!.transactionPage_addCategoryButton),
             ],
           ),
         ),

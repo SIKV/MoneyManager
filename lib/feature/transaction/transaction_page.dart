@@ -249,7 +249,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         .select((state) => state.value?.transactionSaved), (previous, next) {
       if (next == true) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(AppLocalizations.of(context)!.transactionSaved))
+            SnackBar(content: Text(AppLocalizations.of(context)!.transactionPage_transactionSaved))
         );
         Navigator.pop(context);
       }
@@ -259,7 +259,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         .select((state) => state.value?.transactionDeleted), (previous, next) {
       if (next == true) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(AppLocalizations.of(context)!.transactionDeleted))
+            SnackBar(content: Text(AppLocalizations.of(context)!.transactionPage_transactionDeleted))
         );
         Navigator.pop(context);
       }
@@ -274,10 +274,10 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
 
       switch (next) {
         case ValidationError.emptyCategory:
-          errorMessage = AppLocalizations.of(context)!.transaction_validationErrorCategory;
+          errorMessage = AppLocalizations.of(context)!.transactionPage_validationErrorCategoryNotSelected;
           break;
         case ValidationError.emptyAmount:
-          errorMessage = AppLocalizations.of(context)!.transaction_validationErrorAmount;
+          errorMessage = AppLocalizations.of(context)!.transactionPage_validationErrorEmptyAmount;
           break;
         case null:
           errorMessage = null;
@@ -302,8 +302,8 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       context: context,
       builder: (BuildContext context) {
         return DeleteConfirmation(
-          title: AppLocalizations.of(context)!.deleteTransactionTitle,
-          description: AppLocalizations.of(context)!.deleteTransactionDescription,
+          title: AppLocalizations.of(context)!.transactionPage_deleteTitle,
+          description: AppLocalizations.of(context)!.transactionPage_deleteDescription,
           onDeletePressed: () {
             ref.read(transactionMakerControllerProvider.notifier)
                 .delete();

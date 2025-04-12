@@ -20,7 +20,7 @@ class MorePage extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.morePageTitle),
+          title: Text(AppLocalizations.of(context)!.morePage_title),
         ),
         body: state.when(
           loading: () {
@@ -76,7 +76,7 @@ class _Items extends StatelessWidget {
           return ActionTile(
             onTap: () => Navigator.pushNamed(context, AppRoutes.backup),
             leadingIcon: Icons.import_export_rounded,
-            title: AppLocalizations.of(context)!.backup,
+            title: AppLocalizations.of(context)!.backupPage_title,
           );
         }
         // Dark theme
@@ -86,17 +86,17 @@ class _Items extends StatelessWidget {
           if (item is DarkThemeMoreItem) {
             switch (item.appTheme) {
               case AppThemeType.light:
-                subtitle = AppLocalizations.of(context)!.off;
+                subtitle = AppLocalizations.of(context)!.changeThemePage_darkThemeOff;
                 break;
               case AppThemeType.dark:
-                subtitle = AppLocalizations.of(context)!.on;
+                subtitle = AppLocalizations.of(context)!.changeThemePage_darkThemeOn;
                 break;
             }
           }
           return ActionTile(
             onTap: () => Navigator.pushNamed(context, AppRoutes.changeTheme),
             leadingIcon: Icons.contrast_rounded,
-            title: AppLocalizations.of(context)!.darkTheme,
+            title: AppLocalizations.of(context)!.changeThemePage_title,
             subtitle: subtitle,
           );
         }

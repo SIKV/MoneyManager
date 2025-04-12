@@ -22,7 +22,7 @@ class BackupPage extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: Text(AppLocalizations.of(context)!.backup),
+            title: Text(AppLocalizations.of(context)!.backupPage_title),
           ),
           SliverToBoxAdapter(
             child: Column(
@@ -31,8 +31,8 @@ class BackupPage extends ConsumerWidget {
                   enabled: isBackupAllowed,
                   onTap: () => _exportJsonFile(ref),
                   leading: exportLeading,
-                  title: Text(AppLocalizations.of(context)!.exportBackupFileTitle),
-                  subtitle: Text(AppLocalizations.of(context)!.exportBackupFileSubtitle),
+                  title: Text(AppLocalizations.of(context)!.backupPage_exportBackupFileTitle),
+                  subtitle: Text(AppLocalizations.of(context)!.backupPage_exportBackupFileSubtitle),
                 ),
                 ListTile(
                   enabled: isBackupAllowed,
@@ -40,8 +40,8 @@ class BackupPage extends ConsumerWidget {
                     // TODO: Implement.
                   },
                   leading: const Icon(Icons.file_download),
-                  title: Text(AppLocalizations.of(context)!.importBackupFileTitle),
-                  subtitle: Text(AppLocalizations.of(context)!.importBackupFileSubtitle),
+                  title: Text(AppLocalizations.of(context)!.backupPage_importBackupFileTitle),
+                  subtitle: Text(AppLocalizations.of(context)!.backupPage_importBackupFileSubtitle),
                 ),
               ],
             ),

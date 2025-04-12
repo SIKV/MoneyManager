@@ -31,7 +31,7 @@ class HeaderFilters extends ConsumerWidget {
           ),
       data: (state) =>
           Panel(
-            title: AppLocalizations.of(context)!.applyFilters,
+            title: AppLocalizations.of(context)!.transactionsPage_applyFiltersTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,

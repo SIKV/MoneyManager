@@ -18,7 +18,7 @@ class SelectCurrencyButton extends ConsumerWidget {
     if (selectedCurrency != null) {
       selectedCurrencyText = '${selectedCurrency.emoji} ${selectedCurrency.name} (${selectedCurrency.symbol})';
     } else {
-      selectedCurrencyText = AppLocalizations.of(context)!.selectCurrencyPlaceholder;
+      selectedCurrencyText = AppLocalizations.of(context)!.addWalletPage_selectCurrencyPlaceholder;
     }
 
     return InkWell(

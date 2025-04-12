@@ -82,14 +82,14 @@ class StatisticsChart extends ConsumerWidget {
 
     switch (data.transactionType) {
       case TransactionType.income:
-        total = AppLocalizations.of(context)!.totalIncome;
+        total = AppLocalizations.of(context)!.statisticsPage_totalIncome;
         break;
       case TransactionType.expense:
-        total = AppLocalizations.of(context)!.totalExpenses;
+        total = AppLocalizations.of(context)!.statisticsPage_totalExpenses;
         break;
     }
 
-    return '$total ${data.totalAmount}\n${AppLocalizations.of(context)!.transactionsCount} ${data.transactionsCount}';
+    return '$total ${data.totalAmount}\n${AppLocalizations.of(context)!.statisticsPage_transactionsCount} ${data.transactionsCount}';
   }
 }
 

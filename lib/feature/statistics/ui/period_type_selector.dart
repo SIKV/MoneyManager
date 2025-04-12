@@ -46,9 +46,9 @@ class PeriodTypeSelector extends StatelessWidget {
   String _getTitle(BuildContext context, PeriodType periodType) {
     switch (periodType) {
       case PeriodType.monthly:
-        return AppLocalizations.of(context)!.monthly;
+        return AppLocalizations.of(context)!.statisticsPage_periodMonthly;
       case PeriodType.annually:
-        return AppLocalizations.of(context)!.annually;
+        return AppLocalizations.of(context)!.statisticsPage_periodAnnually;
     }
   }
 }

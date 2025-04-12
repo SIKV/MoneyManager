@@ -54,7 +54,7 @@ class EmojiAndTitle extends StatelessWidget {
             maxLength: state.titleMaxLength,
             textCapitalization: TextCapitalization.sentences,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.categoryTitle,
+              labelText: AppLocalizations.of(context)!.categoryMakerPage_categoryTitle,
             ),
           ),
         ),

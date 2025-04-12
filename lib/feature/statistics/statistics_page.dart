@@ -23,7 +23,7 @@ class StatisticsPage extends ConsumerWidget {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              title: Text(AppLocalizations.of(context)!.statistics),
+              title: Text(AppLocalizations.of(context)!.statisticsPage_title),
               actions: [
                 PeriodTypeSelector(
                   types: state.periodTypes,

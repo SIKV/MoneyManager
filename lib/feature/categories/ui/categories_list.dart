@@ -23,7 +23,7 @@ class CategoriesList extends StatelessWidget {
     if (categories.isEmpty) {
       return SliverFillRemaining(
         child: Center(
-          child: NoItems(title: AppLocalizations.of(context)!.categories_noItems),
+          child: NoItems(title: AppLocalizations.of(context)!.categoriesPage_noItems),
         ),
       );
     }

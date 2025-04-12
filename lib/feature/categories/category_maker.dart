@@ -65,10 +65,10 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
         title = '';
         break;
       case CategoryMakerMode.add:
-        title = AppLocalizations.of(context)!.titleAddCategory;
+        title = AppLocalizations.of(context)!.categoryMakerPage_addTitle;
         break;
       case CategoryMakerMode.edit:
-        title = AppLocalizations.of(context)!.titleEditCategory;
+        title = AppLocalizations.of(context)!.categoryMakerPage_editTitle;
         break;
     }
 
@@ -178,8 +178,8 @@ class _DeleteConfirmationState extends State<_DeleteConfirmation> {
   @override
   Widget build(BuildContext context) {
     return DeleteConfirmation(
-      title: AppLocalizations.of(context)!.deleteCategoryTitle,
-      description: AppLocalizations.of(context)!.deleteCategoryDescription,
+      title: AppLocalizations.of(context)!.categoryMakerPage_deleteTitle,
+      description: AppLocalizations.of(context)!.categoryMakerPage_deleteDescription,
       content: Row(
         children: [
           SizedBox(
@@ -195,7 +195,7 @@ class _DeleteConfirmationState extends State<_DeleteConfirmation> {
             ),
           ),
           const SizedBox(width: Spacings.two),
-          Text(AppLocalizations.of(context)!.deleteCategoryWithRelatedTransactions),
+          Text(AppLocalizations.of(context)!.categoryMakerPage_deleteWithRelatedTransactions),
         ],
       ),
       onDeletePressed: () {

@@ -6,7 +6,7 @@ import '../../theme/theme.dart';
 import 'change_theme_controller.dart';
 
 class ChangeThemePage extends ConsumerWidget {
-  const ChangeThemePage({Key? key}) : super(key: key);
+  const ChangeThemePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,7 +16,7 @@ class ChangeThemePage extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: Text(AppLocalizations.of(context)!.darkTheme),
+            title: Text(AppLocalizations.of(context)!.changeThemePage_title),
           ),
           SliverToBoxAdapter(
             child: Column(
@@ -25,10 +25,10 @@ class ChangeThemePage extends ConsumerWidget {
                 String title = '';
                 switch (theme) {
                   case AppThemeType.light:
-                    title = AppLocalizations.of(context)!.off;
+                    title = AppLocalizations.of(context)!.changeThemePage_darkThemeOff;
                     break;
                   case AppThemeType.dark:
-                    title = AppLocalizations.of(context)!.on;
+                    title = AppLocalizations.of(context)!.changeThemePage_darkThemeOn;
                     break;
                 }
                 return ListTile(

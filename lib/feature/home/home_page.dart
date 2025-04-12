@@ -56,7 +56,7 @@ class _HomeScaffold extends ConsumerWidget {
           NavigationDestination(
             icon: const SvgIcon(Assets.homeOutline),
             selectedIcon: const SvgIcon(Assets.home),
-            label: AppLocalizations.of(context)!.transactionsPageTitle,
+            label: AppLocalizations.of(context)!.transactionsPage_title,
           ),
           Center(
             child: Ink(
@@ -80,7 +80,7 @@ class _HomeScaffold extends ConsumerWidget {
           ),
           NavigationDestination(
             icon: const SvgIcon(Assets.menuHorizontal),
-            label: AppLocalizations.of(context)!.morePageTitle,
+            label: AppLocalizations.of(context)!.morePage_title,
           ),
         ],
       ),

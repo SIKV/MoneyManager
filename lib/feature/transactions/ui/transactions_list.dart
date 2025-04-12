@@ -12,7 +12,7 @@ import '../../../ui/widget/no_items.dart';
 import '../domain/transaction_item_ui_model.dart';
 
 class TransactionsList extends ConsumerWidget {
-  const TransactionsList({Key? key}) : super(key: key);
+  const TransactionsList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,7 +33,7 @@ class TransactionsList extends ConsumerWidget {
         if (transactions.isEmpty) {
           return SliverFillRemaining(
             child: Center(
-              child: NoItems(title: AppLocalizations.of(context)!.transactions_noItems),
+              child: NoItems(title: AppLocalizations.of(context)!.transactionsPage_noItems),
             ),
           );
         } else {
