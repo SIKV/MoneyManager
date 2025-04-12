@@ -43,7 +43,6 @@ class TransactionActions extends ConsumerWidget {
                   SizedBox(
                     width: double.infinity,
                     child: DeleteButton(
-                      title: AppLocalizations.of(context)!.transactionPage_deleteButton,
                       style: DeleteButtonStyle.outlined,
                       onPressed: () => _deleteTransaction(context, ref),
                     ),
