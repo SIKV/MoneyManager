@@ -5,21 +5,19 @@ import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/feature/transaction/domain/validation_error.dart';
-import 'package:moneymanager/feature/transaction/ui/wallet_selector.dart';
 import 'package:moneymanager/feature/transaction/ui/actions_gradient.dart';
 import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
 import 'package:moneymanager/feature/transaction/ui/transaction_actions.dart';
 import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
+import 'package:moneymanager/feature/transaction/ui/wallet_selector.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/extensions.dart';
-import 'package:moneymanager/ui/widget/delete_button.dart';
 
 import '../../navigation/transaction_page_args.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
-import '../../ui/widget/delete_confirmation.dart';
 import 'controller/transaction_maker_controller.dart';
 
 const _noValuePlaceholder = '...';
@@ -66,7 +64,9 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     // NOTE. Be careful of note property item position.
     final notePropertyItem = properties.last;
 
-    final shouldShowActionsGradient = state.selectedProperty != TransactionProperty.amount;
+    final shouldShowActionsGradient = state.selectedProperty != TransactionProperty.amount
+        && state.uiMode != UiMode.view;
+
     final shouldShowOnlyNote = MediaQuery.of(context).viewInsets.bottom > 0.0;
 
     return PopScope(
@@ -155,13 +155,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
           )
         ];
       case UiMode.edit:
-        return [
-          DeleteButton(
-            style: DeleteButtonStyle.noBorder,
-            onPressed: _deleteTransaction,
-            showIcon: true,
-          ),
-        ];
+        return [];
     }
   }
 
@@ -295,21 +289,5 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ref.read(transactionMakerControllerProvider.notifier)
           .resetValidationError();
     });
-  }
-
-  void _deleteTransaction() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DeleteConfirmation(
-          title: AppLocalizations.of(context)!.transactionPage_deleteTitle,
-          description: AppLocalizations.of(context)!.transactionPage_deleteDescription,
-          onDeletePressed: () {
-            ref.read(transactionMakerControllerProvider.notifier)
-                .delete();
-          },
-        );
-      },
-    );
   }
 }

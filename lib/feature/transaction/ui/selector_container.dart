@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/ui/category_selector.dart';
 import 'package:moneymanager/feature/transaction/ui/date_time_selector.dart';
@@ -30,7 +30,7 @@ class SelectorContainer extends ConsumerWidget {
             return const NoteInput();
           default:
             // [selectedProperty] is null when UiMode.view is active.
-            return const NoteInput();
+            return Container();
         }
       },
     );

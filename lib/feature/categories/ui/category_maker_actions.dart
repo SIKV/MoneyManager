@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../theme/spacings.dart';
 import '../../../ui/widget/delete_button.dart';
 import '../../../ui/widget/primary_button.dart';
 import '../domain/category_maker_mode.dart';
@@ -26,15 +27,10 @@ class CategoryMakerActions extends StatelessWidget {
         saveButton = Container();
         break;
       case CategoryMakerMode.add:
-        saveButton = PrimaryButton(
-          onPressed: onSavePressed,
-          title: AppLocalizations.of(context)!.save,
-        );
-        break;
       case CategoryMakerMode.edit:
         saveButton = PrimaryButton(
           onPressed: onSavePressed,
-          title: AppLocalizations.of(context)!.saveChanges,
+          title: AppLocalizations.of(context)!.actionSave,
         );
         break;
     }
@@ -46,14 +42,14 @@ class CategoryMakerActions extends StatelessWidget {
       );
     } else {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           DeleteButton(
-            style: DeleteButtonStyle.noBorder,
-            showIcon: true,
+            style: DeleteButtonStyle.outlined,
             onPressed: onDeletePressed,
           ),
-          saveButton,
+          const SizedBox(width: Spacings.four),
+          Expanded(child: saveButton),
         ],
       );
     }

@@ -1,7 +1,6 @@
 {
   "add": "Add",
   "save": "Save",
-  "saveChanges": "Save changes",
   "done": "Done",
   "cancel": "Cancel",
   "delete": "Delete",
@@ -26,6 +25,10 @@
   "generalErrorMessage": "Something went wrong",
   "noData": "No data yet",
   "underDevelopment": "This feature is under development.",
+
+
+  "actionSave": "Save",
+  "actionDelete": "Delete",
 
 
   "addWalletPage_title": "Add Wallet",
@@ -58,12 +61,12 @@
   "transactionPage_noteFieldHint": "Enter a note...",
   "transactionPage_validationErrorCategoryNotSelected": "Please select a category",
   "transactionPage_validationErrorEmptyAmount": "Amount cannot be empty",
-  "transactionPage_noNotesAdded": "No notes added.",
   "transactionPage_transactionSaved": "Transaction saved",
   "transactionPage_transactionDeleted": "Transaction deleted",
   "transactionPage_addCategoryButton": "Add Category",
   "transactionPage_noCategories": "No categories yet",
-  "transactionPage_deleteTitle": "Delete transaction",
+  "transactionPage_deleteButton": "Delete Transaction",
+  "transactionPage_deleteTitle": "Delete Transaction",
   "transactionPage_deleteDescription": "Are you sure you want to delete this transaction?",
 
 
@@ -95,10 +98,10 @@
   "backupPage_importBackupFileSubtitle": "Import data from a file",
 
 
-  "categoryMakerPage_addTitle": "Add category",
-  "categoryMakerPage_editTitle": "Edit category",
-  "categoryMakerPage_deleteTitle": "Delete category",
+  "categoryMakerPage_addTitle": "Add Category",
+  "categoryMakerPage_editTitle": "Edit Category",
+  "categoryMakerPage_deleteTitle": "Delete Category",
   "categoryMakerPage_deleteDescription": "Are you sure you want to delete this category?",
   "categoryMakerPage_deleteWithRelatedTransactions": "Delete related transactions",
-  "categoryMakerPage_categoryTitle": "Category title"
+  "categoryMakerPage_categoryTitle": "Category Title"
 }
