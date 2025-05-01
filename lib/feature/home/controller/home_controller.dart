@@ -1,27 +1,23 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/home_state.dart';
 
-final homeControllerProvider = AsyncNotifierProvider<HomeController, HomeState>(() {
+final homeControllerProvider = NotifierProvider<HomeController, HomeState>(() {
   return HomeController();
 });
 
-class HomeController extends AsyncNotifier<HomeState> {
+class HomeController extends Notifier<HomeState> {
+
   @override
-  FutureOr<HomeState> build() async {
+  HomeState build() {
     return const HomeState(
       selectedPageIndex: 0,
     );
   }
 
-  void selectPage(int index) async {
-    final currentState = await future;
-    state = AsyncValue.data(
-      currentState.copyWith(
-        selectedPageIndex: index,
-      )
+  void selectPage(int index) {
+    state = state.copyWith(
+      selectedPageIndex: index,
     );
   }
 }

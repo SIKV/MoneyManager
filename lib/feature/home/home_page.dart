@@ -22,12 +22,8 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeControllerProvider);
 
-    return state.when(
-      loading: () => Container(), // TODO: Implement.
-      error: (_, __) => Container(), // TODO: Implement.
-      data: (state) => _HomeScaffold(
-        state: state,
-      ),
+    return _HomeScaffold(
+      state: state,
     );
   }
 }
@@ -35,7 +31,7 @@ class HomePage extends ConsumerWidget {
 class _HomeScaffold extends ConsumerWidget {
   static final _pages = [
     const TransactionsPage(),
-    Container(), // TODO
+    Container(), // Add transaction item navigates to a separate page. This is just a dummy view.
     const MorePage(),
   ];
 
