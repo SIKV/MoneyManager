@@ -16,7 +16,7 @@ def flutterVersionCode = 1
 def flutterVersionName = '0.1'
 
 android {
-    namespace "ua.sikv.moneymanager.moneymanager"
+    namespace "sikv.moneymanager"
 
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion

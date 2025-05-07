@@ -1,4 +1,4 @@
-package ua.sikv.moneymanager.moneymanager
+package sikv.moneymanager
 
 import io.flutter.embedding.android.FlutterActivity
 
