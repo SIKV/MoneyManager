@@ -16,6 +16,11 @@ final transactionsListProvider = StreamProvider((ref) async* {
   // Rebuild when the current range filter changed.
   final currentRangeFilter = ref.watch(currentRangeFilterProvider).value;
 
+  // TODO: This is a temporary fix.
+  // When a new transaction is added Isar doesn't emit a new value. It works when deleting or updating one.
+  // Rebuild when a transaction added/updated/deleted.
+  ref.watch(transactionsRepositoryUpdatedProvider);
+
   final transactionService = await ref.watch(transactionServiceProvider);
 
   if (currentTypeFilter != null && currentRangeFilter != null) {

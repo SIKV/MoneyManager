@@ -9,6 +9,7 @@ import 'package:moneymanager/ui/widget/small_section_text.dart';
 import '../../../navigation/routes.dart';
 import '../../../navigation/transaction_page_args.dart';
 import '../../../ui/widget/no_items.dart';
+import '../../../ui/widget/something_went_wrong.dart';
 import '../domain/transaction_item_ui_model.dart';
 
 class TransactionsList extends ConsumerWidget {
@@ -20,13 +21,17 @@ class TransactionsList extends ConsumerWidget {
 
     return transactions.when(
       loading: () {
-        return SliverToBoxAdapter(
-          child: Container(),
+        return const SliverFillRemaining(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         );
       },
       error: (_, __) {
-        return SliverToBoxAdapter(
-          child: Container(),
+        return const SliverFillRemaining(
+          child: Center(
+            child: SomethingWentWrong(),
+          ),
         );
       },
       data: (transactions) {
