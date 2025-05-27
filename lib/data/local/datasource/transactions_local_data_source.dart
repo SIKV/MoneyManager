@@ -30,7 +30,7 @@ class TransactionsLocalDataSource {
   }) {
     var query = isar.transactionEntitys
         .where()
-        .walletIdEqualToCreateTimestampBetween(walletId, fromTimestamp, toTimestamp, includeLower: true, includeUpper: true)
+        .walletIdEqualToCreateTimestampBetween(walletId, fromTimestamp, toTimestamp, includeLower: true, includeUpper: true);
 
     if (type != null) {
       return query
