@@ -9,6 +9,7 @@ class TransactionEntity extends Equatable {
   @Name('id')
   final Id id;
 
+  @Index(composite: [CompositeIndex('createTimestamp')])
   @Name('walletId')
   final int walletId;
 
@@ -27,6 +28,12 @@ class TransactionEntity extends Equatable {
 
   @Name('note')
   final String? note;
+
+  @Index(type: IndexType.value, caseSensitive: false)
+  List<String> get contentWords {
+    // TODO: Add amount.
+    return Isar.splitWords(note ?? '');
+  }
 
   const TransactionEntity({
     required this.id,

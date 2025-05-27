@@ -1,8 +1,9 @@
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
+import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
 import 'package:moneymanager/data/mapping.dart';
 import 'package:moneymanager/data/repository/wallets_repository.dart';
-import 'package:moneymanager/domain/wallet.dart';
 import 'package:moneymanager/domain/currency.dart';
+import 'package:moneymanager/domain/wallet.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../domain/transaction.dart';
@@ -53,29 +54,29 @@ class TransactionsRepository {
     required int fromTimestamp,
     int? toTimestamp,
   }) async* {
-    typeCondition(TransactionEntity e) {
-      switch (typeFilter) {
-        case TransactionTypeFilter.income:
-          return e.type == TransactionType.income.toEntity();
-        case TransactionTypeFilter.expenses:
-          return e.type == TransactionType.expense.toEntity();
-        case TransactionTypeFilter.all:
-          return true;
-      }
-    }
 
     Wallet? currentWallet = await currentWalletService.getCurrentWalletOrNull();
+    TransactionTypeEntity? type;
+
+    switch (typeFilter) {
+      case TransactionTypeFilter.income:
+        type = TransactionType.income.toEntity();
+      case TransactionTypeFilter.expenses:
+        type = TransactionType.expense.toEntity();
+      case TransactionTypeFilter.all:
+        type = null;
+    }
 
     if (currentWallet == null) {
       yield* const Stream.empty();
     } else {
       yield* localDataSource.getAll(
         walletId: currentWallet.id,
+        type: type,
         fromTimestamp: fromTimestamp,
         toTimestamp: toTimestamp ?? DateTime.now().millisecondsSinceEpoch,
       ).asyncMap((list) async {
         final mapped = list
-            .where(typeCondition)
             .map((it) => _mapTransaction(it, currentWallet.currency));
 
         return (await Future.wait(mapped))

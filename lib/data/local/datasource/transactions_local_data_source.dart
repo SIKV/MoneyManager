@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:isar/isar.dart';
 import 'package:moneymanager/data/local/entity/transaction_entity.dart';
+import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
 
 class TransactionsLocalDataSource {
   final Isar isar;
@@ -23,31 +24,38 @@ class TransactionsLocalDataSource {
 
   Stream<List<TransactionEntity>> getAll({
     required int walletId,
+    required TransactionTypeEntity? type,
     required int fromTimestamp,
     required int toTimestamp,
   }) {
-    return isar.transactionEntitys
-        .filter()
-        .walletIdEqualTo(walletId)
-        .createTimestampGreaterThan(fromTimestamp, include: true)
-        .createTimestampLessThan(toTimestamp, include: true)
-        .watch(fireImmediately: true);
+    var query = isar.transactionEntitys.where();
+    if (type != null) {
+      return query
+          .walletIdEqualToCreateTimestampBetween(walletId, fromTimestamp, toTimestamp, includeLower: true, includeUpper: true)
+          .filter()
+          .typeEqualTo(type)
+          .watch(fireImmediately: true);
+    } else {
+      return query
+          .walletIdEqualToCreateTimestampBetween(walletId, fromTimestamp, toTimestamp, includeLower: true, includeUpper: true)
+          .watch(fireImmediately: true);
+    }
   }
 
   Future<void> delete(int id) async {
     return isar.writeTxn(() async {
       await isar.transactionEntitys
-          .filter()
+          .where()
           .idEqualTo(id)
           .deleteAll();
     });
   }
 
-  Future<void> deleteByWalletId(int accountId) async {
+  Future<void> deleteByWalletId(int walletId) async {
     return isar.writeTxn(() async {
       await isar.transactionEntitys
-          .filter()
-          .walletIdEqualTo(accountId)
+          .where()
+          .walletIdEqualToAnyCreateTimestamp(walletId)
           .deleteAll();
     });
   }
