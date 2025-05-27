@@ -28,16 +28,17 @@ class TransactionsLocalDataSource {
     required int fromTimestamp,
     required int toTimestamp,
   }) {
-    var query = isar.transactionEntitys.where();
+    var query = isar.transactionEntitys
+        .where()
+        .walletIdEqualToCreateTimestampBetween(walletId, fromTimestamp, toTimestamp, includeLower: true, includeUpper: true)
+
     if (type != null) {
       return query
-          .walletIdEqualToCreateTimestampBetween(walletId, fromTimestamp, toTimestamp, includeLower: true, includeUpper: true)
           .filter()
           .typeEqualTo(type)
           .watch(fireImmediately: true);
     } else {
       return query
-          .walletIdEqualToCreateTimestampBetween(walletId, fromTimestamp, toTimestamp, includeLower: true, includeUpper: true)
           .watch(fireImmediately: true);
     }
   }
