@@ -43,6 +43,15 @@ class TransactionsLocalDataSource {
     }
   }
 
+  Future<List<TransactionEntity>> findByContent(int walletId, String query) async {
+    return await isar.transactionEntitys
+        .where()
+        .walletIdEqualToAnyCreateTimestamp(walletId)
+        .filter()
+        .searchContentContains(query)
+        .findAll();
+  }
+
   Future<void> delete(int id) async {
     return isar.writeTxn(() async {
       await isar.transactionEntitys

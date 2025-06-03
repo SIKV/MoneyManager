@@ -29,10 +29,8 @@ class TransactionEntity extends Equatable {
   @Name('note')
   final String? note;
 
-  @Index(type: IndexType.value, caseSensitive: false)
-  List<String> get contentWords {
-    // TODO: Add amount.
-    return Isar.splitWords(note ?? '');
+  String get searchContent {
+    return "${note ?? ''} $amount";
   }
 
   const TransactionEntity({

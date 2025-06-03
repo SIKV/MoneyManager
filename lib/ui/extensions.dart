@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 
-import '../feature/transactions/domain/transaction_item_ui_model.dart';
+import '../feature/common/domain/transaction_item_ui_model.dart';
 import '../theme/colors.dart';
 
 extension TransactionCategoryExtensions on TransactionCategory {

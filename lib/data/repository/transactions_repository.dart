@@ -86,6 +86,21 @@ class TransactionsRepository {
     }
   }
 
+  Future<List<Transaction>> findByContent(String query) async {
+    Wallet? currentWallet = await currentWalletService.getCurrentWalletOrNull();
+
+    if (currentWallet != null) {
+      var list = await localDataSource.findByContent(currentWallet.id, query);
+      final mapped = list
+          .map((it) => _mapTransaction(it, currentWallet.currency));
+
+      return (await Future.wait(mapped))
+          .whereType<Transaction>()
+          .toList();
+    }
+    return Future.error("Current wallet is not found.");
+  }
+
   Future<void> delete(int id) async {
     await localDataSource.delete(id);
     onUpdated.add(Object);

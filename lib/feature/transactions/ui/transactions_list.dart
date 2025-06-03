@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transactions/provider/transactions_list_provider.dart';
-import 'package:moneymanager/feature/transactions/ui/transaction_item.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
 
@@ -10,7 +9,8 @@ import '../../../navigation/routes.dart';
 import '../../../navigation/transaction_page_args.dart';
 import '../../../ui/widget/no_items.dart';
 import '../../../ui/widget/something_went_wrong.dart';
-import '../domain/transaction_item_ui_model.dart';
+import '../../common/domain/transaction_item_ui_model.dart';
+import '../../common/transaction_item.dart';
 
 class TransactionsList extends ConsumerWidget {
   const TransactionsList({super.key});

@@ -6,7 +6,7 @@ import 'package:moneymanager/ui/extensions.dart';
 import '../../../theme/spacings.dart';
 import '../../../theme/theme.dart';
 import '../../../theme/theme_manager.dart';
-import '../domain/transaction_item_ui_model.dart';
+import 'domain/transaction_item_ui_model.dart';
 
 class TransactionItem extends ConsumerWidget {
   final TransactionUiModel transaction;

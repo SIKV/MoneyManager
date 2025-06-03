@@ -5,11 +5,13 @@ import 'package:moneymanager/feature/transactions/service/transaction_service.da
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/providers.dart';
+import '../../common/transaction_ui_model_mapper.dart';
 
 final transactionServiceProvider = Provider((ref) async {
   final transactionsRepository = await ref.watch(transactionsRepositoryProvider);
   final currencyFormatter = ref.watch(currencyFormatterProvider);
-  return TransactionService(transactionsRepository, currencyFormatter);
+  final mapper = TransactionUiModelMapper(currencyFormatter);
+  return TransactionService(transactionsRepository, mapper);
 });
 
 final filterServiceProvider = Provider((ref) async {
