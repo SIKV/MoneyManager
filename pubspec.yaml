@@ -35,7 +35,7 @@ dependencies:
   function_tree: ^0.9.1
   auto_size_text: ^3.0.0
   file: ^7.0.0
-  share_plus: ^10.0.2
+  share_plus: ^11.0.0
   syncfusion_flutter_charts: ^26.2.14
 
 dev_dependencies:

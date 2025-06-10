@@ -3,7 +3,7 @@ import 'dart:isolate';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'backup_result_status.dart';
+import '../domain/backup_result_status.dart';
 import 'export.dart';
 
 class BackupService {
@@ -24,7 +24,11 @@ class BackupService {
     if (!_canceled) {
       final xFile = XFile(file.path);
 
-      final result = await Share.shareXFiles([xFile]);
+      ShareParams shareParams = ShareParams(
+        files: [xFile],
+      );
+      final result = await SharePlus.instance.share(shareParams);
+
       await file.delete();
 
       return result.status.toBackupResultStatus();

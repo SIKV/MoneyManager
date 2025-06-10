@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../service/backup/backup_result_status.dart';
+import 'backup_result_status.dart';
 
 part 'backup_state.freezed.dart';
 

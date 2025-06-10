@@ -9,7 +9,7 @@ import 'package:moneymanager/data/local/entity/transaction_entity.dart';
 import 'package:moneymanager/data/local/entity/wallet_entity.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../data/local/providers.dart';
+import '../../../data/local/providers.dart';
 
 Future<File> createJsonBackupFile(RootIsolateToken rootIsolateToken) async {
   BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);

@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/backup/domain/backup_state.dart';
-import 'package:moneymanager/service/providers.dart';
+
+import '../service/providers.dart';
 
 final backupControllerProvider = NotifierProvider.autoDispose<BackupController, BackupState>(() {
   return BackupController();
