@@ -98,6 +98,8 @@
   "backupPage_exportBackupFileSubtitle": "Export all data to a file. You can import it later",
   "backupPage_importBackupFileTitle": "Import backup file",
   "backupPage_importBackupFileSubtitle": "Import data from a file",
+  "backupPage_successMessage": "Success",
+  "backupPage_errorMessage": "Something went wrong",
 
 
   "categoryMakerPage_addTitle": "Add Category",

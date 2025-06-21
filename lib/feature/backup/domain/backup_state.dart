@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'backup_result_status.dart';
+import '../../../service/backup/backup_result_status.dart';
 
 part 'backup_state.freezed.dart';
 
@@ -9,5 +9,7 @@ class BackupState with _$BackupState {
   const factory BackupState({
     required bool exportInProgress,
     required BackupResultStatus? exportResult,
+    required bool importInProgress,
+    required BackupResultStatus? importResult,
   }) = _BackupState;
 }

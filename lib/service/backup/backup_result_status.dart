@@ -1,7 +1,7 @@
 import 'package:share_plus/share_plus.dart';
 
 enum BackupResultStatus {
-  success, canceled, unknown,
+  success, error, canceled, unknown,
 }
 
 extension Mapping on ShareResultStatus {

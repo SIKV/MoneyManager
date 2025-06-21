@@ -43,6 +43,15 @@ class TransactionEntity extends Equatable {
     required this.note,
   });
 
+  TransactionEntity.fromJson(Map<String, dynamic> json) :
+        id = json['id'] as Id,
+        walletId = json['walletId'] as int,
+        createTimestamp = json['createTimestamp'] as int,
+        type = transactionTypeEntityFromString(json['type'] as String),
+        categoryId = json['categoryId'] as int,
+        amount = json['amount'] as double,
+        note = json['note'] as String?;
+
   @override
   List<Object?> get props => [id];
 }

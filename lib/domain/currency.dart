@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'currency.freezed.dart';
 
-// TODO: Add more properties.
 @freezed
 class Currency with _$Currency {
   const factory Currency({
