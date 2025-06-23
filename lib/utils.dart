@@ -1,11 +1,5 @@
-import 'package:flutter/material.dart';
-
-String generateUniqueId() {
-  return UniqueKey().toString();
-}
-
+// FYI: Isar (a database this app uses) requires the ID field to be an int.
 int generateUniqueInt() {
-  // TODO Find a better way to generate a random int.
   return DateTime.now().microsecondsSinceEpoch;
 }
 
