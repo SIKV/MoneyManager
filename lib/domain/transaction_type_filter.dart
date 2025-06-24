@@ -1,5 +1,9 @@
 enum TransactionTypeFilter {
-  income,
-  expenses,
-  all,
+  income(1),
+  expenses(2),
+  all(3);
+
+  const TransactionTypeFilter(this.id);
+
+  final int id;
 }
