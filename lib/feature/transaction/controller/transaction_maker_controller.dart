@@ -231,8 +231,9 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       return;
     }
 
-    final amount = double.tryParse(currentState.transaction.amount);
-    if (amount == null) {
+    final amount = double.tryParse(currentState.transaction.amount) ?? 0;
+    // Transactions with amount 0 or less cannot be saved.
+    if (amount <= 0) {
       _updateState((state) => state.copyWith(
         validationError: ValidationError.emptyAmount,
       ));
@@ -268,8 +269,13 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
 
   void handleNavigationResult(Object? result) async {
     if (result is CalculatorPageResult) {
+      var amount = result.value.toString();
+      // Amount cannot be less than 0.
+      if (result.value < 0) {
+        amount = '0';
+      }
+
       final currentState = await future;
-      final amount = result.value.toString();
 
       _updateState((state) =>
           state.copyWith(

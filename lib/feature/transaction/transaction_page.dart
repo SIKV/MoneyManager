@@ -14,6 +14,7 @@ import 'package:moneymanager/feature/transaction/ui/wallet_selector.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/extensions.dart';
+import 'package:moneymanager/ui/widget/panel.dart';
 
 import '../../navigation/transaction_page_args.dart';
 import '../../theme/theme.dart';
@@ -216,10 +217,14 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       const SizedBox(height: Spacings.two),
       PropertyItem(
         title: AppLocalizations.of(context)!.note,
-        value: state.transaction.note ?? '...',
+        value: state.transaction.note ?? _noValuePlaceholder,
         isSelected: state.selectedProperty == TransactionProperty.note,
-        onSelected: state.uiMode == UiMode.view ? null : () {
-          _selectProperty(TransactionProperty.note);
+        onSelected: () {
+          if (state.uiMode == UiMode.view) {
+            _showFullNote(state.transaction.note);
+          } else {
+            _selectProperty(TransactionProperty.note);
+          }
         },
       ),
     ];
@@ -289,5 +294,22 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ref.read(transactionMakerControllerProvider.notifier)
           .resetValidationError();
     });
+  }
+
+  void _showFullNote(String? note) {
+    if (note != null) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return Panel(
+            child: Padding(
+              padding: const EdgeInsets.only(left: Spacings.four, right: Spacings.four, bottom: Spacings.four),
+              child: Text(note),
+            ),
+          );
+        },
+      );
+    }
   }
 }
