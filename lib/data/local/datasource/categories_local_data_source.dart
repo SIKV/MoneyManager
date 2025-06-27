@@ -29,6 +29,15 @@ class CategoriesLocalDataSource {
         .findAll();
   }
 
+  Future<bool> find(String title, TransactionTypeEntity type) async {
+    return (await isar.transactionCategoryEntitys
+        .filter()
+        .typeEqualTo(type)
+        .titleEqualTo(title, caseSensitive: false)
+        .findAll())
+        .isNotEmpty;
+  }
+
   Future<void> delete(int id) async {
     return isar.writeTxn(() async {
       isar.transactionCategoryEntitys

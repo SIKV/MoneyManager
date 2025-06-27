@@ -49,6 +49,10 @@ class CategoriesRepository {
     );
   }
 
+  Future<bool> find(String title, TransactionType type) {
+    return localDataSource.find(title, type.toEntity());
+  }
+
   Future<void> delete(int id) async {
     await localDataSource.delete(id);
     onUpdated.add(Object);

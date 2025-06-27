@@ -1,3 +1,4 @@
 enum CategoryValidationError {
   alreadyExists,
+  emptyTitle,
 }

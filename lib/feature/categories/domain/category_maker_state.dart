@@ -14,5 +14,6 @@ class CategoryMakerState with _$CategoryMakerState {
     required int titleMaxLength,
     required bool allowedToSave,
     required CategoryValidationError? validationError,
+    required bool shouldPopPage,
   }) = _CategoryMakerState;
 }

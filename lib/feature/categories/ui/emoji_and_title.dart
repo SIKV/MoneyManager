@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:moneymanager/feature/categories/domain/category_validation_error.dart';
 
 import '../../../theme/spacings.dart';
 import '../domain/category_maker_state.dart';
@@ -55,10 +56,22 @@ class EmojiAndTitle extends StatelessWidget {
             textCapitalization: TextCapitalization.sentences,
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.categoryMakerPage_categoryTitle,
+              errorText: _getError(context, state),
             ),
           ),
         ),
       ],
     );
+  }
+
+  String? _getError(BuildContext context, CategoryMakerState state) {
+    switch (state.validationError) {
+      case null:
+        return null;
+      case CategoryValidationError.alreadyExists:
+        return AppLocalizations.of(context)!.categoryMakerPage_errorAlreadyExist;
+      case CategoryValidationError.emptyTitle:
+        return AppLocalizations.of(context)!.categoryMakerPage_errorEmptyTitle;
+    }
   }
 }

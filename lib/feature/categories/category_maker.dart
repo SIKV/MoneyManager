@@ -57,6 +57,7 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
     final state = ref.watch(categoryMakerControllerProvider);
 
     _listenTitleChanged();
+    _listenShouldPopPage();
 
     String title = '';
 
@@ -141,8 +142,6 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
   void _saveCategory() {
     ref.read(categoryMakerControllerProvider.notifier)
         .save();
-
-    Navigator.pop(context);
   }
 
   void _deleteCategory() {
@@ -158,6 +157,15 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
         );
       },
     );
+  }
+
+  void _listenShouldPopPage() {
+    ref.listen(categoryMakerControllerProvider
+        .select((value) => value.shouldPopPage), (previous, next) {
+      if (next == true) {
+        Navigator.pop(context);
+      }
+    });
   }
 }
 
