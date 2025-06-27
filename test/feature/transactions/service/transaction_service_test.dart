@@ -9,6 +9,7 @@ import 'package:moneymanager/domain/transaction.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/domain/transaction_type_filter.dart';
+import 'package:moneymanager/feature/common/transaction_ui_model_mapper.dart';
 import 'package:moneymanager/feature/transactions/domain/transaction_range_filter.dart';
 import 'package:moneymanager/feature/transactions/service/transaction_service.dart';
 
@@ -26,13 +27,15 @@ void main() {
   late TransactionService service;
   late TransactionsRepositoryMock transactionsRepository;
   late CurrencyFormatterMock currencyFormatter;
+  late TransactionUiModelMapper mapper;
   late StreamController<List<Transaction>> transactionsStreamController;
 
   setUp(() {
     transactionsRepository = TransactionsRepositoryMock();
     currencyFormatter = CurrencyFormatterMock();
+    mapper = TransactionUiModelMapper(currencyFormatter);
 
-    service = TransactionService(transactionsRepository, currencyFormatter);
+    service = TransactionService(transactionsRepository, mapper);
     transactionsStreamController = StreamController<List<Transaction>>();
 
     when(() => transactionsRepository.getAll(
