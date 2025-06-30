@@ -6,7 +6,6 @@ import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/category_maker.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/categories/ui/categories_list.dart';
-import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
 import '../common/transaction_type_selector.dart';
@@ -57,7 +56,7 @@ class CategoriesPage extends ConsumerWidget {
           ),
           floatingActionButton: FloatingActionButton.extended(
             label: Text(AppLocalizations.of(context)!.categoriesPage_addButton),
-            icon: const Icon(AppIcons.categoriesAddCategory),
+            icon: const Icon(Icons.add),
             onPressed: () {
               _addCategory(context, state.selectedType);
             },

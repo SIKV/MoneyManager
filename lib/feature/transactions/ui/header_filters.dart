@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type_filter.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
-import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/ui/widget/panel.dart';
 import 'package:moneymanager/ui/widget/segmented_control.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
@@ -136,7 +134,7 @@ class _ValuesList extends StatelessWidget {
     );
 
     final selectedValueIcon = Icon(
-      AppIcons.transactionsHeaderSettingsSelectedValue,
+      Icons.check_rounded,
       size: 32,
       color: Theme.of(context).colorScheme.primary,
     );

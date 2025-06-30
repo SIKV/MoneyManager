@@ -5,7 +5,6 @@ import '../../../common/currency_formatter.dart';
 import 'chart_item_color_resolver.dart';
 import '../domain/chart_item.dart';
 
-// TODO: Add unit tests.
 extension ChartItemMapping on List<Transaction> {
 
   List<ChartItem> toChartItem(

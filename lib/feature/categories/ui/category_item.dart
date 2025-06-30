@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
-import 'package:moneymanager/theme/icons.dart';
 import 'package:moneymanager/theme/radius.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/extensions.dart';
@@ -50,7 +49,7 @@ class CategoryItem extends ConsumerWidget {
             const SizedBox(width: Spacings.two),
             ReorderableDragStartListener(
               index: index,
-              child: const Icon(AppIcons.categoryItemDrag),
+              child: const Icon(Icons.drag_handle),
             ),
           ],
         ),

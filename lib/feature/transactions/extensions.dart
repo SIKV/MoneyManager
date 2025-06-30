@@ -7,7 +7,6 @@ import 'package:moneymanager/domain/transaction_type_filter.dart';
 import '../../domain/transaction.dart';
 import 'domain/transaction_range_filter.dart';
 
-// TODO: Add unit tests.
 double calculateAmount(List<Transaction> transactions) {
   return transactions.fold(0.0, (previousValue, element) {
     double amount = element.amount;

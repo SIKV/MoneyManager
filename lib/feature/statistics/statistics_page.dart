@@ -10,6 +10,8 @@ import 'package:moneymanager/ui/extensions.dart';
 
 import 'controller/statistics_controller.dart';
 
+const _appBarBottomHeight = 96.0;
+
 class StatisticsPage extends ConsumerWidget {
   const StatisticsPage({super.key});
 
@@ -33,7 +35,7 @@ class StatisticsPage extends ConsumerWidget {
                 ),
               ],
               bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(96), // TODO: Use constant.
+                  preferredSize: const Size.fromHeight(_appBarBottomHeight),
                   child: Column(
                     children: [
                       PeriodSelector(
