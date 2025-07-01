@@ -23,8 +23,8 @@
   "lTransaction": "transaction",
   "lTransactions": "transactions",
   "generalErrorMessage": "Something went wrong",
+  "appStartupErrorMessage": "Something went wrong. Please try to restart or reinstall the app.",
   "noData": "No data yet",
-  "underDevelopment": "This feature is under development.",
 
 
   "actionSave": "Save",
