@@ -9,16 +9,17 @@ import 'package:moneymanager/feature/transaction/ui/actions_gradient.dart';
 import 'package:moneymanager/feature/transaction/ui/property_item.dart';
 import 'package:moneymanager/feature/transaction/ui/selector_container.dart';
 import 'package:moneymanager/feature/transaction/ui/transaction_actions.dart';
-import 'package:moneymanager/feature/transaction/ui/type_selector.dart';
 import 'package:moneymanager/feature/transaction/ui/wallet_selector.dart';
-import 'package:moneymanager/navigation/routes.dart';
-import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/extensions.dart';
-import 'package:moneymanager/ui/widget/panel.dart';
 
+import '../../domain/transaction_type.dart';
+import '../../navigation/routes.dart';
 import '../../navigation/transaction_page_args.dart';
+import '../../theme/spacings.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
+import '../../ui/widget/panel.dart';
+import '../common/transaction_type_selector.dart';
 import 'controller/transaction_maker_controller.dart';
 
 const _noValuePlaceholder = '...';
@@ -52,11 +53,6 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
 
     final state = ref.watch(transactionMakerControllerProvider).value;
 
-    if (state == null) {
-      // TODO
-      return Container();
-    }
-
     _listenShouldShowCalculator();
     _listenTransactionSavedOrDeleted();
     _listenValidationErrors();
@@ -65,14 +61,19 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     // NOTE. Be careful of note property item position.
     final notePropertyItem = properties.last;
 
-    final shouldShowActionsGradient = state.selectedProperty != TransactionProperty.amount
-        && state.uiMode != UiMode.view;
+    final shouldShowActionsGradient = state?.selectedProperty != TransactionProperty.amount
+        && state?.uiMode != UiMode.view;
 
     final shouldShowOnlyNote = MediaQuery.of(context).viewInsets.bottom > 0.0;
 
+    final primaryColor = state?.transaction.type.getColor(appTheme.colors) ??
+        appTheme.colors.colorScheme.primary;
+
+    final uiMode = state?.uiMode ?? UiMode.view;
+
     return PopScope(
-      canPop: state.uiMode != UiMode.edit,
-      onPopInvoked: (didPop) {
+      canPop: uiMode != UiMode.edit,
+      onPopInvokedWithResult: (didPop, _) {
         if (!didPop) {
           _setEditMode(false);
         }
@@ -80,13 +81,13 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       child: Theme(
         data: themeData.copyWith(
           colorScheme: themeData.colorScheme.copyWith(
-            primary: state.transaction.type.getColor(appTheme.colors),
+            primary: primaryColor,
           ),
         ),
         child: Scaffold(
           appBar: AppBar(
             title: WalletSelector(
-              isEnabled: state.uiMode != UiMode.view,
+              isEnabled: uiMode != UiMode.view,
             ),
             centerTitle: false,
             actions: _getActions(state),
@@ -144,8 +145,10 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         .selectProperty(value);
   }
 
-  List<Widget> _getActions(TransactionMakerState state) {
-    switch (state.uiMode) {
+  List<Widget> _getActions(TransactionMakerState? state) {
+    switch (state?.uiMode) {
+      case null:
+        return [];
       case UiMode.add:
         return [];
       case UiMode.view:
@@ -165,7 +168,20 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
         .setUiMode(editMode ? UiMode.edit : UiMode.view);
   }
 
-  List<Widget> _createPropertyItems(TransactionMakerState state) {
+  List<Widget> _createPropertyItems(TransactionMakerState? state) {
+    if (state == null) {
+      return [
+        const SizedBox(height: Spacings.two),
+        const ShimmerPropertyItem(),
+        const SizedBox(height: Spacings.two),
+        const ShimmerPropertyItem(),
+        const SizedBox(height: Spacings.two),
+        const ShimmerPropertyItem(),
+        const SizedBox(height: Spacings.two),
+        const ShimmerPropertyItem(),
+      ];
+    }
+
     final category = state.transaction.category;
 
     String categoryTitle = '';
@@ -183,8 +199,10 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
     return [
       SizedBox(
         width: double.infinity,
-        child: TypeSelector(
+        child: TransactionTypeSelector(
+          selectedType: state.transaction.type,
           isEnabled: state.uiMode != UiMode.view,
+          onSelectedTypeChanged: _setType,
         ),
       ),
       const SizedBox(height: Spacings.four),
@@ -294,6 +312,11 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       ref.read(transactionMakerControllerProvider.notifier)
           .resetValidationError();
     });
+  }
+
+  void _setType(TransactionType? type) {
+    ref.read(transactionMakerControllerProvider.notifier)
+        .setType(type ?? TransactionType.income);
   }
 
   void _showFullNote(String? note) {

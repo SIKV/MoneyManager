@@ -69,3 +69,45 @@ class PropertyItem extends ConsumerWidget {
     );
   }
 }
+
+class ShimmerPropertyItem extends ConsumerWidget {
+
+  const ShimmerPropertyItem({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appTheme = ref.watch(appThemeManagerProvider);
+
+    final borderColor = appTheme.colors.slightlyGray;
+
+    return Container(
+      padding: const EdgeInsets.all(Spacings.four),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: borderColor,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(AppRadius.one)),
+      ),
+      child: const Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Text(""),
+          ),
+
+          SizedBox(width: Spacings.four),
+
+          Expanded(
+            flex: 2,
+            child: Text("",
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
