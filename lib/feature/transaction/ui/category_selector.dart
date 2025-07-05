@@ -103,7 +103,7 @@ class _CategoryItem extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (icon != null) icon!, // TODO: Refactor
+            if (icon != null) icon!,
             if (icon != null) const SizedBox(width: Spacings.two),
             Expanded(
               child: AutoSizeText(title,

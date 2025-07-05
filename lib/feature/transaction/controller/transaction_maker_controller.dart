@@ -7,6 +7,7 @@ import 'package:moneymanager/domain/currency.dart';
 import 'package:moneymanager/domain/transaction.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
+import 'package:moneymanager/ext/auto_dispose_async_notifier_ext.dart';
 import 'package:moneymanager/feature/transaction/domain/amount_key.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_blueprint.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
@@ -28,7 +29,7 @@ final transactionMakerControllerProvider = AsyncNotifierProvider
       return TransactionMakerController();
 });
 
-class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMakerState> {
+class TransactionMakerController extends AutoDisposeAsyncNotifierExt<TransactionMakerState> {
   late UiMode _uiMode;
   late TransactionProperty? _initialProperty;
   TransactionType? _initialType;
@@ -79,7 +80,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   void setTransaction(Transaction transaction) {
-    _updateState((state) =>
+    updateState((state) =>
         state.copyWith(
           transaction: state.transaction.copyWith(
             id: transaction.id,
@@ -100,7 +101,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   Future<void> selectProperty(TransactionProperty value) async {
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
       selectedProperty: value,
     ));
   }
@@ -108,7 +109,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   void setType(TransactionType type) async {
     final categories = await _getCategories(type);
 
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
       transaction: state.transaction.copyWith(
         type: type,
         category: null,
@@ -130,7 +131,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       0, 0, 0,
     );
 
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
       transaction: state.transaction.copyWith(
         createDateTime: updatedCreateDateTime,
         formattedCreateDateTime: formatDateTime(updatedCreateDateTime),
@@ -151,7 +152,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
       0, 0, 0,
     );
 
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
         transaction: state.transaction.copyWith(
           createDateTime: updatedCreateDateTime,
           formattedCreateDateTime: formatDateTime(updatedCreateDateTime),
@@ -160,7 +161,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   Future<void> setCategory(TransactionCategory category) async {
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
       transaction: state.transaction.copyWith(
         category: category,
       ),
@@ -170,31 +171,35 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   void processAmountKey(AmountKey key) async {
     final currentState = await future;
 
-    String amount = amountKeyProcessor.processAmountKey(
+    AmountKeyProcessorResult result = amountKeyProcessor.processAmountKey(
       currentAmount: currentState.transaction.amount,
       key: key,
-      onCalculatorPressed: () {
-        final amount = double.tryParse(currentState.transaction.amount);
-
-        _updateState((state) => state.copyWith(
-          shouldShowCalculator: CalculatorPageArgs(value: amount ?? 0),
-        ));
-      },
-      onDonePressed: () {
-        // TODO: Implement.
-      },
     );
 
-    _updateState((state) => state.copyWith(
-      transaction: state.transaction.copyWith(
-        amount: amount,
-        formattedAmount: _formatAmount(amount, currentState.transaction.currency),
-      ),
-    ));
+    switch (result) {
+      case AmountKeyProcessorAmountUpdate(): {
+        updateState((state) => state.copyWith(
+          transaction: state.transaction.copyWith(
+            amount: result.amount,
+            formattedAmount: _formatAmount(result.amount, currentState.transaction.currency),
+          ),
+        ));
+      }
+      case AmountKeyProcessorCalculatorPress(): {
+        final amount = double.tryParse(currentState.transaction.amount);
+
+        updateState((state) => state.copyWith(
+          shouldShowCalculator: CalculatorPageArgs(value: amount ?? 0),
+        ));
+      }
+      case AmountKeyProcessorDonePress(): {
+        selectProperty(TransactionProperty.note);
+      }
+    }
   }
 
   void setNote(String? note) {
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
       transaction: state.transaction.copyWith(
         note: note,
       ),
@@ -202,7 +207,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
   }
 
   void resetValidationError() {
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
       validationError: null,
     ));
   }
@@ -225,7 +230,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     final category = currentState.transaction.category;
 
     if (category == null) {
-      _updateState((state) => state.copyWith(
+      updateState((state) => state.copyWith(
         validationError: ValidationError.emptyCategory,
       ));
       return;
@@ -234,7 +239,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     final amount = double.tryParse(currentState.transaction.amount) ?? 0;
     // Transactions with amount 0 or less cannot be saved.
     if (amount <= 0) {
-      _updateState((state) => state.copyWith(
+      updateState((state) => state.copyWith(
         validationError: ValidationError.emptyAmount,
       ));
       return;
@@ -252,7 +257,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
         )
     );
 
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
       transactionSaved: true,
     ));
   }
@@ -262,7 +267,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
     final currentState = await future;
     await transactionsRepository.delete(currentState.transaction.id);
 
-    _updateState((state) => state.copyWith(
+    updateState((state) => state.copyWith(
       transactionDeleted: true,
     ));
   }
@@ -277,7 +282,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
 
       final currentState = await future;
 
-      _updateState((state) =>
+      updateState((state) =>
           state.copyWith(
             transaction: state.transaction.copyWith(
               amount: amount,
@@ -285,11 +290,6 @@ class TransactionMakerController extends AutoDisposeAsyncNotifier<TransactionMak
             ),
           ));
     }
-  }
-
-  Future<void> _updateState(TransactionMakerState Function(TransactionMakerState state) update) async {
-    final currentState = await future;
-    state = AsyncValue.data(update(currentState));
   }
 
   Future<List<TransactionCategory>> _getCategories(TransactionType type) async {

@@ -15,7 +15,7 @@ const _keyTheme = 'theme';
 const _keyIncomeCategoriesCustomOrder = 'incomeCategoriesCustomOrder';
 const _keyExpenseCategoriesCustomOrder = 'expenseCategoriesCustomOrder';
 
-// TODO: Refactor.
+// TODO: Split to separate services.
 class LocalPreferences {
   late final SharedPreferences _prefs;
 

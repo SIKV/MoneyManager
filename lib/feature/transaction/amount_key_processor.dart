@@ -1,19 +1,32 @@
 import '../../common/currency_formatter.dart';
 import 'domain/amount_key.dart';
 
+const _amountLengthLimit = 20;
+
+sealed class AmountKeyProcessorResult { }
+
+class AmountKeyProcessorAmountUpdate extends AmountKeyProcessorResult {
+  final String amount;
+
+  AmountKeyProcessorAmountUpdate(this.amount);
+}
+
+class AmountKeyProcessorCalculatorPress extends AmountKeyProcessorResult { }
+
+class AmountKeyProcessorDonePress extends AmountKeyProcessorResult { }
+
 class AmountKeyProcessor {
 
   bool hasDecimalPoint(String amount) {
     return amount.contains(AmountKey.decimal.char);
   }
 
-  String processAmountKey({
+  AmountKeyProcessorResult processAmountKey({
     required String currentAmount,
     required AmountKey key,
-    required Function onCalculatorPressed,
-    required Function onDonePressed,
   }) {
     String amount = currentAmount;
+    final canUpdateAmount = currentAmount.length < _amountLengthLimit;
 
     if (key.isDigit) {
       final indexOfDecimal = amount.indexOf(AmountKey.decimal.char);
@@ -41,16 +54,15 @@ class AmountKeyProcessor {
           amount = '';
           break;
         case AmountKey.calculator:
-          onCalculatorPressed();
-          break;
+          return AmountKeyProcessorCalculatorPress();
         case AmountKey.done:
-          onDonePressed();
-          break;
+          return AmountKeyProcessorDonePress();
         default:
           // Do nothing.
           break;
       }
     }
-    return amount;
+
+    return AmountKeyProcessorAmountUpdate(canUpdateAmount ? amount : currentAmount);
   }
 }
