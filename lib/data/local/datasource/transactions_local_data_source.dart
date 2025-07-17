@@ -61,11 +61,20 @@ class TransactionsLocalDataSource {
     });
   }
 
-  Future<void> deleteByWalletId(int walletId) async {
+  Future<void> deleteAllByWalletId(int walletId) async {
     return isar.writeTxn(() async {
       await isar.transactionEntitys
           .where()
           .walletIdEqualToAnyCreateTimestamp(walletId)
+          .deleteAll();
+    });
+  }
+
+  Future<void> deleteAllByCategoryId(int categoryId) async {
+    return isar.writeTxn(() async {
+      await isar.transactionEntitys
+          .filter()
+          .categoryIdEqualTo(categoryId)
           .deleteAll();
     });
   }

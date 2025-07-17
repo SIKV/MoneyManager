@@ -149,9 +149,9 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
       context: context,
       builder: (BuildContext context) {
         return _DeleteConfirmation(
-          onDeletePressed: (withRelatedTransactions) {
+          onDeletePressed: () {
             ref.read(categoryMakerControllerProvider.notifier)
-                .delete(withRelatedTransactions);
+                .delete();
             Navigator.pop(context);
           },
         );
@@ -170,7 +170,7 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
 }
 
 class _DeleteConfirmation extends StatefulWidget {
-  final Function(bool) onDeletePressed;
+  final VoidCallback onDeletePressed;
 
   const _DeleteConfirmation({
     required this.onDeletePressed,
@@ -181,34 +181,12 @@ class _DeleteConfirmation extends StatefulWidget {
 }
 
 class _DeleteConfirmationState extends State<_DeleteConfirmation> {
-  bool deleteWithRelatedTransactions = false;
-
   @override
   Widget build(BuildContext context) {
     return DeleteConfirmation(
       title: AppLocalizations.of(context)!.categoryMakerPage_deleteTitle,
       description: AppLocalizations.of(context)!.categoryMakerPage_deleteDescription,
-      content: Row(
-        children: [
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: Checkbox(
-              value: deleteWithRelatedTransactions,
-              onChanged: (value) {
-                setState(() {
-                  deleteWithRelatedTransactions = value ?? false;
-                });
-              },
-            ),
-          ),
-          const SizedBox(width: Spacings.two),
-          Text(AppLocalizations.of(context)!.categoryMakerPage_deleteWithRelatedTransactions),
-        ],
-      ),
-      onDeletePressed: () {
-        widget.onDeletePressed(deleteWithRelatedTransactions);
-      },
+      onDeletePressed: widget.onDeletePressed,
     );
   }
 }

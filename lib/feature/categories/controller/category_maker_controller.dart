@@ -150,8 +150,7 @@ class CategoryMakerController extends AutoDisposeNotifier<CategoryMakerState> {
     );
   }
 
-  void delete(bool withRelatedTransactions) {
-    // TODO: Implement [withRelatedTransactions].
+  void delete() {
     ref.read(categoriesControllerProvider.notifier)
         .deleteCategory(state.category.id);
   }

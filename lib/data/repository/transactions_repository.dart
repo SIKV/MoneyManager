@@ -107,7 +107,12 @@ class TransactionsRepository {
   }
 
   Future<void> deleteByWalletId(int walletId) async {
-    await localDataSource.deleteByWalletId(walletId);
+    await localDataSource.deleteAllByWalletId(walletId);
+    onUpdated.add(Object);
+  }
+
+  Future<void> deleteAllByCategoryId(int categoryId) async {
+    await localDataSource.deleteAllByCategoryId(categoryId);
     onUpdated.add(Object);
   }
 

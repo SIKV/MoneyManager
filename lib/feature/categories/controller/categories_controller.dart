@@ -47,6 +47,10 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
   }
 
   void deleteCategory(int categoryId) async {
+    // Also delete all transactions with this categoryId.
+    final transactionsRepository = await ref.watch(transactionsRepositoryProvider);
+    await transactionsRepository.deleteAllByCategoryId(categoryId);
+
     final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
     await categoriesRepository.delete(categoryId);
 

@@ -105,8 +105,7 @@
   "categoryMakerPage_addTitle": "Add Category",
   "categoryMakerPage_editTitle": "Edit Category",
   "categoryMakerPage_deleteTitle": "Delete Category",
-  "categoryMakerPage_deleteDescription": "Are you sure you want to delete this category?",
-  "categoryMakerPage_deleteWithRelatedTransactions": "Delete related transactions",
+  "categoryMakerPage_deleteDescription": "Are you sure you want to delete this category and all related transactions?",
   "categoryMakerPage_categoryTitle": "Title",
   "categoryMakerPage_errorAlreadyExist": "Category already exists",
   "categoryMakerPage_errorEmptyTitle": "Title cannot be empty"
