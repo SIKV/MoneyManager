@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/controller/transaction_maker_controller.dart';
 import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/something_went_wrong.dart';
+
+import '../../../l10n/app_localizations.dart';
 
 const _maxLines = 7;
 const _maxLength = 512;

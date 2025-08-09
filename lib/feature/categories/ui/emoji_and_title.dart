@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:moneymanager/feature/categories/domain/category_validation_error.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../theme/spacings.dart';
 import '../domain/category_maker_state.dart';
 

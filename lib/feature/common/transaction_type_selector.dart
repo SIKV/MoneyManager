@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:moneymanager/ui/widget/segmented_control.dart';
 
 import '../../domain/transaction_type.dart';
+import '../../l10n/app_localizations.dart';
 
 class TransactionTypeSelector extends StatelessWidget {
   final TransactionType? selectedType;

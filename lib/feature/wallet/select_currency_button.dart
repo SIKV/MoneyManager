@@ -1,9 +1,9 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'controller/add_wallet_controller.dart';
 
 class SelectCurrencyButton extends ConsumerWidget {

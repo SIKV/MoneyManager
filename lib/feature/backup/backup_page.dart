@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/backup/controller/backup_controller.dart';
 import 'package:moneymanager/service/backup/backup_result_status.dart';
+
+import '../../l10n/app_localizations.dart';
 
 class BackupPage extends ConsumerWidget {
   const BackupPage({super.key});

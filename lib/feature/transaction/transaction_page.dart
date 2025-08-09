@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_maker_state.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
@@ -13,6 +12,7 @@ import 'package:moneymanager/feature/transaction/ui/wallet_selector.dart';
 import 'package:moneymanager/ui/extensions.dart';
 
 import '../../domain/transaction_type.dart';
+import '../../l10n/app_localizations.dart';
 import '../../navigation/routes.dart';
 import '../../navigation/transaction_page_args.dart';
 import '../../theme/spacings.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../navigation/routes.dart';
 import '../../../navigation/transaction_page_args.dart';
 import '../../../ui/widget/no_items.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type_filter.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
@@ -8,6 +7,7 @@ import 'package:moneymanager/ui/widget/panel.dart';
 import 'package:moneymanager/ui/widget/segmented_control.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../theme/spacings.dart';
 import '../domain/transaction_range_filter.dart';
 

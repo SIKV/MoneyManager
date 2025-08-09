@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/wallet/select_currency_button.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/primary_button.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../ui/widget/small_section_text.dart';
 import 'controller/add_wallet_controller.dart';
 

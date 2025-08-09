@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
@@ -11,6 +10,7 @@ import 'package:moneymanager/theme/dimens.dart';
 import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';

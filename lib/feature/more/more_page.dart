@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/more/controller/more_controller.dart';
 import 'package:moneymanager/feature/more/ui/action_tile.dart';
@@ -7,6 +6,7 @@ import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/theme/theme.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../navigation/routes.dart';
 import 'domain/more_item.dart';
 

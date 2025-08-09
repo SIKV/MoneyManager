@@ -1,7 +1,7 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:moneymanager/feature/statistics/domain/period.dart';
 import 'package:moneymanager/feature/statistics/domain/period_type.dart';
 import 'package:moneymanager/feature/statistics/util/period_manager.dart';
-import 'package:test/test.dart';
 
 // Written by ChatGPT 3.5.
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/home/controller/home_controller.dart';
@@ -9,6 +8,7 @@ import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/ui/extensions.dart';
 import 'package:moneymanager/ui/widget/SvgIcon.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../navigation/transaction_page_args.dart';
 import '../../theme/spacings.dart';
 import '../../theme/theme_manager.dart';

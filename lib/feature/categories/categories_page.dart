@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
@@ -7,7 +7,6 @@ import 'package:moneymanager/feature/categories/category_maker.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/categories/ui/categories_list.dart';
 import 'package:moneymanager/theme/spacings.dart';
-
 import '../common/transaction_type_selector.dart';
 import 'controller/categories_controller.dart';
 

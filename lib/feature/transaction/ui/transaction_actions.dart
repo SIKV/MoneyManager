@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/ui/widget/primary_button.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../ui/widget/delete_button.dart';
 import '../../../ui/widget/delete_confirmation.dart';
 import '../controller/transaction_maker_controller.dart';

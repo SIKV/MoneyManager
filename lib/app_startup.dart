@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/app.dart';
 import 'package:moneymanager/data/providers.dart';
@@ -18,6 +17,7 @@ import 'feature/transaction/calculator/calculator_page.dart';
 import 'feature/transaction/transaction_page.dart';
 import 'feature/wallet/add_wallet_page.dart';
 import 'feature/wallet_settings/wallet_settings_page.dart';
+import 'l10n/app_localizations.dart';
 import 'navigation/calculator_page_args.dart';
 import 'navigation/routes.dart';
 import 'navigation/transaction_page_args.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/statistics/controller/statistics_chart_controller.dart';
 import 'package:moneymanager/feature/statistics/domain/chart_data.dart';
@@ -8,6 +7,7 @@ import 'package:moneymanager/ui/widget/something_went_wrong.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../domain/transaction_type.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../ui/widget/no_items.dart';
 import '../domain/chart_item.dart';
 

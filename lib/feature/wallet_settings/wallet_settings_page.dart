@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/ui/widget/delete_button.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../theme/spacings.dart';
 import '../../ui/widget/delete_confirmation.dart';
 import 'controller/wallet_settings_controller.dart';

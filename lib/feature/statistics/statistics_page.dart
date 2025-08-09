@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/statistics/domain/period_type.dart';
@@ -8,6 +7,7 @@ import 'package:moneymanager/feature/statistics/ui/period_type_selector.dart';
 import 'package:moneymanager/feature/statistics/ui/statistics_chart.dart';
 import 'package:moneymanager/ui/extensions.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'controller/statistics_controller.dart';
 
 const _appBarBottomHeight = 96.0;

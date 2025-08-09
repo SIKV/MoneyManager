@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/domain/transaction_type_filter.dart';
 
 import '../../domain/transaction.dart';
+import '../../l10n/app_localizations.dart';
 import 'domain/transaction_range_filter.dart';
 
 double calculateAmount(List<Transaction> transactions) {

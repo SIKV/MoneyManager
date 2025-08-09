@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 
 import '../../../domain/transaction_category.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../theme/spacings.dart';
 import '../../../ui/widget/no_items.dart';
 import '../category_maker.dart';
