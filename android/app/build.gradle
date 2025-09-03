@@ -13,7 +13,7 @@ if (localPropertiesFile.exists()) {
 }
 
 def flutterVersionCode = 1
-def flutterVersionName = '0.1'
+def flutterVersionName = '1.0'
 
 android {
     namespace "sikv.moneymanager"
@@ -41,11 +41,17 @@ android {
             dimension "default"
             resValue "string", "app_name", "Money Manager"
         }
+        beta {
+            dimension "default"
+            resValue "string", "app_name", "Money Manager"
+            applicationIdSuffix ".beta"
+            versionNameSuffix "-beta"
+        }
         dev {
             dimension "default"
             resValue "string", "app_name", "Money Manager"
             applicationIdSuffix ".dev"
-            versionNameSuffix ".dev"
+            versionNameSuffix "-dev"
         }
     }
 
