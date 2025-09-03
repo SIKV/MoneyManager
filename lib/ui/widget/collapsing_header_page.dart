@@ -8,6 +8,8 @@ import 'package:moneymanager/ui/widget/header_circle_button.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 
+// TODO: Make title auto-resizable.
+
 class CollapsingHeaderPage extends ConsumerWidget {
   final AppColors colors;
   final Color startColor;
@@ -25,7 +27,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
   final Widget sliver;
 
   const CollapsingHeaderPage({
-    Key? key,
+    super.key,
     required this.colors,
     required this.startColor,
     required this.endColor,
@@ -40,7 +42,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
     this.primaryAction,
     this.secondaryActions,
     required this.sliver,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
