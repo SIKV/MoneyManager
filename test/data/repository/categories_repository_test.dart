@@ -22,6 +22,7 @@ const transactionCategoryEntityMock = TransactionCategoryEntity(
   type: TransactionTypeEntity.income,
   title: 'Mock',
   emoji: null,
+  archived: false,
 );
 
 const transactionTypeEntityMock = TransactionTypeEntity.income;
@@ -53,6 +54,7 @@ void main() {
       createTimestamp: 0,
       type: TransactionType.income,
       title: 'TestCategory',
+      archived: false,
     );
 
     // WHEN
@@ -73,12 +75,14 @@ void main() {
         createTimestamp: 0,
         type: TransactionType.income,
         title: 'TestCategory_0',
+        archived: false,
       ),
       TransactionCategory(
         id: 1,
         createTimestamp: 0,
         type: TransactionType.expense,
         title: 'TestCategory_1',
+        archived: false,
       ),
     ];
 
@@ -86,7 +90,7 @@ void main() {
     final defaultDataSourceMock = CategoriesDefaultDataSourceMock();
     final localPreferencesMock = LocalPreferencesMock();
 
-    when(() => localDataSourceMock.getAll(any()))
+    when(() => localDataSourceMock.getAll(any(), any()))
         .thenAnswer((_) async { return categories.map((it) => it.toEntity()).toList(); });
 
     when(() => localPreferencesMock.getCategoriesCustomOrder(any()))
@@ -96,12 +100,12 @@ void main() {
     const TransactionType type = TransactionType.income;
 
     // WHEN
-    final actualCategories = await repository.getAll(type);
+    final actualCategories = await repository.getAll(type, false);
 
     // THEN
     expect(actualCategories, categories);
 
-    verify(() => localDataSourceMock.getAll(type.toEntity()))
+    verify(() => localDataSourceMock.getAll(type.toEntity(), false))
         .called(1);
   });
 

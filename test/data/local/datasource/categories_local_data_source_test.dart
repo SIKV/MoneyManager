@@ -32,6 +32,7 @@ void main() {
       type: TransactionTypeEntity.expense,
       title: 'Food',
       emoji: null,
+      archived: false,
     );
 
     // WHEN
@@ -56,7 +57,7 @@ void main() {
     // GIVEN
 
     // WHEN
-    final result = await dataSource.getAll(TransactionTypeEntity.income);
+    final result = await dataSource.getAll(TransactionTypeEntity.income, false);
 
     // THEN
     expect(result, isEmpty);
@@ -70,6 +71,7 @@ void main() {
       type: TransactionTypeEntity.expense,
       title: 'Food',
       emoji: null,
+      archived: false,
     );
     const category2 = TransactionCategoryEntity(
       id: 1,
@@ -77,13 +79,14 @@ void main() {
       type: TransactionTypeEntity.income,
       title: 'Something',
       emoji: '',
+      archived: false,
     );
 
     await dataSource.addOrUpdate(category1);
     await dataSource.addOrUpdate(category2);
 
     // WHEN
-    final result = await dataSource.getAll(TransactionTypeEntity.income);
+    final result = await dataSource.getAll(TransactionTypeEntity.income, false);
 
     // THEN
     expect(result, equals([category2]));
@@ -97,6 +100,7 @@ void main() {
       type: TransactionTypeEntity.expense,
       title: 'Food',
       emoji: null,
+      archived: false,
     );
     const category2 = TransactionCategoryEntity(
       id: 1,
@@ -104,6 +108,7 @@ void main() {
       type: TransactionTypeEntity.expense,
       title: 'Drinks',
       emoji: '',
+      archived: false,
     );
 
     await dataSource.addOrUpdate(category1);
@@ -113,7 +118,7 @@ void main() {
     await dataSource.delete(category2.id);
 
     // THEN
-    final result = await dataSource.getAll(TransactionTypeEntity.expense);
+    final result = await dataSource.getAll(TransactionTypeEntity.expense, false);
     expect(result, equals([category1]));
   });
 }

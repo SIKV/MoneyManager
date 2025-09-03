@@ -89,6 +89,7 @@ Transaction _createTransaction(DateTime createDateTime) {
       type: TransactionType.income,
       title: '',
       emoji: '',
+      archived: false,
     ),
     currency: const Currency(
       code: '',
