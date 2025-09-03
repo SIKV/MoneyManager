@@ -11,7 +11,6 @@ final calculatorControllerProvider = NotifierProvider
   return CalculatorController();
 });
 
-// TODO: Not finished yet.
 class CalculatorController extends AutoDisposeNotifier<CalculatorState> {
   double _initialValue = 0;
   String _rawExpression = '0';
