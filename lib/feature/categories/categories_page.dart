@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import '../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/category_maker.dart';
+import 'package:moneymanager/feature/categories/domain/categories_state.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/categories/ui/categories_list.dart';
 import 'package:moneymanager/theme/spacings.dart';
+
+import '../../l10n/app_localizations.dart';
 import '../common/transaction_type_selector.dart';
 import 'controller/categories_controller.dart';
 
 class CategoriesPage extends ConsumerWidget {
-  const CategoriesPage({Key? key}) : super(key: key);
+  const CategoriesPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,6 +28,7 @@ class CategoriesPage extends ConsumerWidget {
             slivers: [
               SliverAppBar.medium(
                 title: Text(AppLocalizations.of(context)!.categoriesPage_title),
+                actions: _getAppBarActions(context, ref, state),
               ),
               SliverToBoxAdapter(
                 child: Padding(
@@ -64,6 +67,29 @@ class CategoriesPage extends ConsumerWidget {
         );
       },
     );
+  }
+
+  List<Widget> _getAppBarActions(BuildContext context, WidgetRef ref, CategoriesState state) {
+    String text = state.showArchived
+        ? AppLocalizations.of(context)!.categoriesPage_hideArchivedMenuItem
+        : AppLocalizations.of(context)!.categoriesPage_showArchivedMenuItem;
+
+    return [
+      PopupMenuButton<void Function()>(
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              value: () {
+                ref.read(categoriesControllerProvider.notifier)
+                    .setShowArchived(!state.showArchived);
+              },
+              child: Text(text),
+            ),
+          ];
+        },
+        onSelected: (fn) => fn(),
+      )
+    ];
   }
 
   void _selectType(WidgetRef ref, TransactionType? type) {

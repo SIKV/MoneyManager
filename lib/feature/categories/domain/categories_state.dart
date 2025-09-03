@@ -11,5 +11,6 @@ class CategoriesState with _$CategoriesState {
     required List<TransactionType> types,
     required TransactionType selectedType,
     required List<TransactionCategory> categories,
+    required bool showArchived,
   }) = _CategoriesState;
 }

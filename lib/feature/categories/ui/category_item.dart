@@ -22,36 +22,40 @@ class CategoryItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appTheme = ref.watch(appThemeManagerProvider);
+    final opacity = category.archived ? 0.5 : 1.0;
 
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(AppRadius.two),
-      child: Container(
-        padding: const EdgeInsets.all(Spacings.four),
-        decoration: BoxDecoration(
-          color: appTheme.colors.itemTranslucentBackground,
-          borderRadius: BorderRadius.circular(AppRadius.two),
-        ),
-        child: Row(
-          children: [
-            category.getIcon(appTheme.colors),
-            const SizedBox(width: Spacings.five),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(category.title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
+    return Opacity(
+      opacity: opacity,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(AppRadius.two),
+        child: Container(
+          padding: const EdgeInsets.all(Spacings.four),
+          decoration: BoxDecoration(
+            color: appTheme.colors.itemTranslucentBackground,
+            borderRadius: BorderRadius.circular(AppRadius.two),
+          ),
+          child: Row(
+            children: [
+              category.getIcon(appTheme.colors),
+              const SizedBox(width: Spacings.five),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(category.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(width: Spacings.two),
-            ReorderableDragStartListener(
-              index: index,
-              child: const Icon(Icons.drag_handle),
-            ),
-          ],
+              const SizedBox(width: Spacings.two),
+              ReorderableDragStartListener(
+                index: index,
+                child: const Icon(Icons.drag_handle),
+              ),
+            ],
+          ),
         ),
       ),
     );

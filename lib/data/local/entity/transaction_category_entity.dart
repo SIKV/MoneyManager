@@ -22,12 +22,16 @@ class TransactionCategoryEntity extends Equatable {
   @Name('emoji')
   final String? emoji;
 
+  @Name('archived')
+  final bool archived;
+
   const TransactionCategoryEntity({
     required this.id,
     required this.createTimestamp,
     required this.type,
     required this.title,
     required this.emoji,
+    required this.archived,
   });
 
   TransactionCategoryEntity.fromJson(Map<String, dynamic> json) :
@@ -35,7 +39,8 @@ class TransactionCategoryEntity extends Equatable {
         createTimestamp = json['createTimestamp'] as int,
         type = transactionTypeEntityFromString(json['type'] as String),
         title = json['title'] as String,
-        emoji = json['emoji'] as String?;
+        emoji = json['emoji'] as String?,
+        archived = json['archived'] as bool;
 
   @override
   List<Object?> get props => [id];

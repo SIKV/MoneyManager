@@ -11,5 +11,6 @@ class TransactionCategory with _$TransactionCategory {
     required TransactionType type,
     required String title,
     String? emoji,
+    required bool archived,
   }) = _TransactionCategory;
 }

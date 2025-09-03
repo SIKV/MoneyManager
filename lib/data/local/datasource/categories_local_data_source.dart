@@ -22,11 +22,18 @@ class CategoriesLocalDataSource {
         .findFirst();
   }
 
-  Future<List<TransactionCategoryEntity>> getAll(TransactionTypeEntity type) async {
-    return await isar.transactionCategoryEntitys
+  Future<List<TransactionCategoryEntity>> getAll(TransactionTypeEntity type, bool includeArchived) async {
+    var query = isar.transactionCategoryEntitys
         .filter()
-        .typeEqualTo(type)
-        .findAll();
+        .typeEqualTo(type);
+
+    if (includeArchived) {
+      return await query.findAll();
+    } else {
+      return await query
+          .archivedEqualTo(false)
+          .findAll();
+    }
   }
 
   Future<bool> find(String title, TransactionTypeEntity type) async {

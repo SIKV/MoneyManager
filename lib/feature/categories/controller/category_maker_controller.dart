@@ -150,6 +150,19 @@ class CategoryMakerController extends AutoDisposeNotifier<CategoryMakerState> {
     );
   }
 
+  void setArchived(bool archived) {
+    final category = state.category.copyWith(
+      archived: archived,
+    );
+
+    ref.read(categoriesControllerProvider.notifier)
+        .addOrUpdateCategory(category);
+
+    state = state.copyWith(
+      shouldPopPage: true,
+    );
+  }
+
   void delete() {
     ref.read(categoriesControllerProvider.notifier)
         .deleteCategory(state.category.id);
@@ -171,6 +184,7 @@ class CategoryMakerController extends AutoDisposeNotifier<CategoryMakerState> {
         type: _initialType ?? TransactionType.income,
         title: '',
         emoji: null,
+        archived: false,
       );
     }
   }

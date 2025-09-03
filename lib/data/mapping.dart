@@ -4,11 +4,11 @@ import '../domain/currency.dart';
 import '../domain/transaction.dart';
 import '../domain/transaction_category.dart';
 import '../domain/transaction_type.dart';
-import 'local/entity/wallet_entity.dart';
 import 'local/entity/currency_entity.dart';
 import 'local/entity/transaction_category_entity.dart';
 import 'local/entity/transaction_entity.dart';
 import 'local/entity/transaction_type_entity.dart';
+import 'local/entity/wallet_entity.dart';
 
 /// Wallet
 
@@ -81,6 +81,7 @@ extension TransactionCategoryEntityToDomain on TransactionCategoryEntity {
       type: type.toDomain(),
       title: title,
       emoji: emoji,
+      archived: archived,
     );
   }
 }
@@ -93,6 +94,7 @@ extension DomainToTransactionCategoryEntity on TransactionCategory {
       type: type.toEntity(),
       title: title,
       emoji: emoji,
+      archived: archived,
     );
   }
 }

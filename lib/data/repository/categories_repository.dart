@@ -39,8 +39,8 @@ class CategoriesRepository {
     return subcategory?.toDomain();
   }
 
-  Future<List<TransactionCategory>> getAll(TransactionType type) async {
-    final categoryEntities = await localDataSource.getAll(type.toEntity());
+  Future<List<TransactionCategory>> getAll(TransactionType type, bool includeArchived) async {
+    final categoryEntities = await localDataSource.getAll(type.toEntity(), includeArchived);
     final order = localPreferences.getCategoriesCustomOrder(type);
 
     return categoryEntities
@@ -77,7 +77,7 @@ class CategoriesRepository {
   }
 
   Future<void> _initWithDefaultsIfEmpty(TransactionType type) async {
-    final categories = await getAll(type);
+    final categories = await getAll(type, false);
 
     if (categories.isEmpty) {
       final defaultCategories = await defaultDataSource.getAll(type);

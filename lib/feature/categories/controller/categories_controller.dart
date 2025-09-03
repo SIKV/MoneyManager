@@ -16,14 +16,16 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
   @override
   Future<CategoriesState> build() async {
     final selectedType = state.value?.selectedType ?? TransactionType.income;
+    final showArchived = state.value?.showArchived ?? false;
 
     final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
-    final categories = await categoriesRepository.getAll(selectedType);
+    final categories = await categoriesRepository.getAll(selectedType, showArchived);
 
     return CategoriesState(
       types: TransactionType.values,
       selectedType: selectedType,
       categories: categories,
+      showArchived: showArchived,
     );
   }
 
@@ -34,6 +36,18 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
       currentState.copyWith(
         selectedType: type,
       )
+    );
+
+    ref.invalidateSelf();
+  }
+
+  void setShowArchived(bool showArchived) async {
+    final currentState = await future;
+
+    state = AsyncValue.data(
+        currentState.copyWith(
+          showArchived: showArchived,
+        )
     );
 
     ref.invalidateSelf();

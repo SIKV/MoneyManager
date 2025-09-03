@@ -38,7 +38,8 @@ class CategoriesDefaultDataSource {
       createTimestamp: DateTime.now().millisecondsSinceEpoch,
       type: type,
       title: json['title'] as String,
-      emoji: json['emoji'] as String?
+      emoji: json['emoji'] as String?,
+      archived: false,
     );
   }
 }

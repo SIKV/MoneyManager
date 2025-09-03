@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
@@ -8,6 +7,7 @@ import 'package:moneymanager/feature/categories/ui/emoji_and_title.dart';
 import 'package:moneymanager/ui/widget/delete_confirmation.dart';
 import 'package:moneymanager/ui/widget/panel.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../theme/spacings.dart';
 import '../common/transaction_type_selector.dart';
 import 'controller/category_maker_controller.dart';
@@ -98,7 +98,16 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
 
             CategoryMakerActions(
               mode: state.mode,
+              categoryArchived: state.category.archived,
               onSavePressed: state.allowedToSave ? _saveCategory : null,
+              onArchivePressed: () {
+                ref.read(categoryMakerControllerProvider.notifier)
+                    .setArchived(true);
+              },
+              onUnarchivePressed: () {
+                ref.read(categoryMakerControllerProvider.notifier)
+                    .setArchived(false);
+              },
               onDeletePressed: _deleteCategory,
             ),
           ],

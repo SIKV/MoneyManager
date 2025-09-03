@@ -4,6 +4,8 @@
   "done": "Done",
   "cancel": "Cancel",
   "delete": "Delete",
+  "archive": "Archive",
+  "unarchive": "Unarchive",
   "income": "Income",
   "lIncome": "income",
   "expense": "Expense",
@@ -78,6 +80,8 @@
   "categoriesPage_title": "Categories",
   "categoriesPage_addButton": "Add Category",
   "categoriesPage_noItems": "No categories yet",
+  "categoriesPage_showArchivedMenuItem": "Show Archived",
+  "categoriesPage_hideArchivedMenuItem": "Hide Archived",
 
 
   "statisticsPage_title": "Statistics",

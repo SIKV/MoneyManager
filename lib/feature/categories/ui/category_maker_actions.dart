@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:moneymanager/ui/widget/more_button.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/spacings.dart';
-import '../../../ui/widget/delete_button.dart';
 import '../../../ui/widget/primary_button.dart';
 import '../domain/category_maker_mode.dart';
 
 class CategoryMakerActions extends StatelessWidget {
   final CategoryMakerMode mode;
+  final bool categoryArchived;
   final VoidCallback? onSavePressed;
+  final VoidCallback onArchivePressed;
+  final VoidCallback onUnarchivePressed;
   final VoidCallback onDeletePressed;
 
   const CategoryMakerActions({
     super.key,
     required this.mode,
+    required this.categoryArchived,
     required this.onSavePressed,
+    required this.onArchivePressed,
+    required this.onUnarchivePressed,
     required this.onDeletePressed,
   });
 
@@ -42,16 +48,54 @@ class CategoryMakerActions extends StatelessWidget {
       );
     } else {
       return Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          DeleteButton(
-            style: DeleteButtonStyle.outlined,
-            onPressed: onDeletePressed,
-          ),
-          const SizedBox(width: Spacings.four),
           Expanded(child: saveButton),
+          const SizedBox(width: Spacings.three),
+          MoreButton(onPressed: () => _showMoreActions(context) ),
         ],
       );
     }
+  }
+
+  void _showMoreActions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Spacings.two,
+            vertical: Spacings.two,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  if (categoryArchived) {
+                    onUnarchivePressed();
+                  } else {
+                    onArchivePressed();
+                  }
+                },
+                title: Text(categoryArchived
+                    ? AppLocalizations.of(context)!.unarchive
+                    : AppLocalizations.of(context)!.archive
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  onDeletePressed();
+                },
+                title: Text(AppLocalizations.of(context)!.delete),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

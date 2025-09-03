@@ -294,7 +294,7 @@ class TransactionMakerController extends AutoDisposeAsyncNotifierExt<Transaction
 
   Future<List<TransactionCategory>> _getCategories(TransactionType type) async {
     final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
-    return await categoriesRepository.getAll(type);
+    return await categoriesRepository.getAll(type, false);
   }
 
   String _formatAmount(String amount, Currency currency) {
