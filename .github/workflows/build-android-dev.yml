@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Run tests and build Android apk
+    name: Build MoneyManagerDev Android
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
