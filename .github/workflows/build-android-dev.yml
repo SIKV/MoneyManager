@@ -1,4 +1,4 @@
-name: build-android
+name: build-android-dev
 on:
   push:
     branches: 
@@ -21,10 +21,10 @@ jobs:
       - run: flutter pub get
       - run: flutter pub run build_runner build --delete-conflicting-outputs
       - run: flutter test
-      - run: flutter build apk --flavor dev --android-project-arg qa
+      - run: flutter build apk --split-per-abi --flavor dev --android-project-arg qa
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: MoneyManager.apk
-          path: build/app/outputs/apk/dev/release/app-dev-release.apk
+          name: MoneyManagerDev
+          path: build/app/outputs/apk/dev/release/

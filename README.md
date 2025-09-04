@@ -1,4 +1,4 @@
-![build-android](https://github.com/SIKV/MoneyManager/actions/workflows/build-android.yml/badge.svg)
+![build-android-dev](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-dev.yml/badge.svg)
 
 ## Money Manager
 #### 🚧 Work in progress 🚧
