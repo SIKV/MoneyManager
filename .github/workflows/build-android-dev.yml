@@ -27,10 +27,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MoneyManagerDev-armeabi-v7a.apk
-          path: build/app/outputs/apk/dev/release/app-armeabi-v7a-release.apk
+          path: build/app/outputs/apk/dev/release/app-dev-armeabi-v7a-release.apk
 
       - name: Upload arm64-v8a artifact
         uses: actions/upload-artifact@v4
         with:
           name: MoneyManagerDev-arm64-v8a.apk
-          path: build/app/outputs/apk/dev/release/app-arm64-v8a-release.apk
+          path: build/app/outputs/apk/dev/release/app-dev-arm64-v8a-release.apk
