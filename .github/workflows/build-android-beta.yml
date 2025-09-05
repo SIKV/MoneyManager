@@ -1,0 +1,36 @@
+name: build-android-dev
+on:
+  push:
+    branches: 
+      - beta
+
+jobs:
+  build:
+    name: Build MoneyManagerBeta Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: 3.32.7
+      - run: flutter pub get
+      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: flutter test
+      - run: flutter build apk --flavor beta --android-project-arg qa
+
+      - name: Upload armeabi-v7a artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MoneyManagerBeta-armeabi-v7a.apk
+          path: build/app/outputs/apk/beta/release/app-armeabi-v7a-release.apk
+
+      - name: Upload arm64-v8a artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MoneyManagerBeta-arm64-v8a.apk
+          path: build/app/outputs/apk/beta/release/app-arm64-v8a-release.apk
