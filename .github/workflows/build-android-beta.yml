@@ -1,4 +1,4 @@
-name: build-android-dev
+name: build-android-beta
 on:
   push:
     branches: 
