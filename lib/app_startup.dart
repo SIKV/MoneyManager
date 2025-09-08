@@ -27,7 +27,6 @@ part 'app_startup.g.dart';
 @Riverpod(keepAlive: true)
 Future<void> appStartup(AppStartupRef ref) async {
   final localPreferences = ref.watch(localPreferencesProvider);
-  await localPreferences.load();
 
   if (localPreferences.isFirstLaunch()) {
     final categoriesRepository = await ref.watch(categoriesRepositoryProvider);

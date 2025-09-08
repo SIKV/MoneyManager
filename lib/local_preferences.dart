@@ -9,13 +9,13 @@ import 'domain/transaction_type.dart';
 
 final localPreferencesProvider = Provider<LocalPreferences>((_) => LocalPreferences());
 
-const _keyFirstLaunch = '_firstLaunch';
+const _keyFirstLaunch = 'firstLaunch';
 const _keyCurrentWallet = 'currentWallet';
 const _keyTheme = 'theme';
 const _keyIncomeCategoriesCustomOrder = 'incomeCategoriesCustomOrder';
 const _keyExpenseCategoriesCustomOrder = 'expenseCategoriesCustomOrder';
 
-// TODO: Split to separate services.
+// TODO: Split to separate services?
 class LocalPreferences {
   late final SharedPreferences _prefs;
 
@@ -24,20 +24,23 @@ class LocalPreferences {
 
   final onCurrentWalletIdChanged = BehaviorSubject();
 
-  AppThemeType? _theme;
+  late AppThemeType? _theme;
   AppThemeType? get theme =>_theme;
 
+  // IMPORTANT. This has to be called in main() before runApp().
   Future<void> load() async {
     _prefs = await SharedPreferences.getInstance();
 
     _currentWalletId = _prefs.getInt(_keyCurrentWallet);
-
     onCurrentWalletIdChanged.add(_currentWalletId);
 
     final themeId = _prefs.getInt(_keyTheme);
     if (themeId != null) {
       _theme = AppThemeType.values
           .firstWhere((element) => element.id == themeId);
+    } else {
+      // Use device theme. See AppThemeManager for more details.
+      _theme = null;
     }
   }
 
@@ -59,12 +62,8 @@ class LocalPreferences {
     onCurrentWalletIdChanged.add(_currentWalletId);
   }
 
-  void setTheme(AppThemeType? theme) {
-    if (theme != null) {
-      _prefs.setInt(_keyTheme, theme.id);
-    } else {
-      _prefs.remove(_keyTheme);
-    }
+  void setTheme(AppThemeType theme) {
+    _prefs.setInt(_keyTheme, theme.id);
     _theme = theme;
   }
 

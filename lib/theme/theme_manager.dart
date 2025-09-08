@@ -51,7 +51,7 @@ class AppThemeManager extends Notifier<AppTheme> {
     }
   }
 
-  void setTheme(AppThemeType? theme) {
+  void setTheme(AppThemeType theme) {
     ref.read(localPreferencesProvider)
         .setTheme(theme);
 
