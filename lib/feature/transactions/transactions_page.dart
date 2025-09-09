@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:moneymanager/domain/transaction_type_filter.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
 import 'package:moneymanager/feature/transactions/ui/transactions_list.dart';
@@ -25,17 +26,17 @@ class TransactionsPage extends ConsumerWidget {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
     final headerState = ref.watch(headerControllerProvider).value;
 
-    String title = headerState?.amount ?? '...';
+    final String title = headerState?.amount ?? '...';
 
-    String titleSuffix = headerState != null
+    final String titleSuffix = headerState != null
         ? ' ${headerState.currentWallet?.currency.symbol}'
         : '';
 
-    String filterTitle = headerState != null
+    final String filterTitle = headerState != null
         ? getFilterTitle(context, headerState.rangeFilter, headerState.typeFilter)
         : '';
 
-    String transactionsCount = headerState != null
+    final String transactionsCount = headerState != null
         ? Intl.plural(headerState.transactionsCount,
             zero: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransactions}',
             one: '${headerState.transactionsCount} ${AppLocalizations.of(context)!.lTransaction}',
@@ -43,10 +44,27 @@ class TransactionsPage extends ConsumerWidget {
         )
         : '';
 
+    Color startColor = appTheme.colors.transactionsAllHeaderStart;
+    Color endColor = appTheme.colors.transactionsAllHeaderEnd;
+
+    switch (headerState?.typeFilter) {
+      case TransactionTypeFilter.income:
+        startColor = appTheme.colors.transactionsIncomeHeaderStart;
+        break;
+      case TransactionTypeFilter.expenses:
+        startColor = appTheme.colors.transactionsExpensesHeaderStart;
+        endColor = appTheme.colors.transactionsExpensesHeaderEnd;
+        break;
+      case TransactionTypeFilter.all:
+        break;
+      case null:
+        break;
+    }
+
     return CollapsingHeaderPage(
       colors: appTheme.colors,
-      startColor: appTheme.colors.transactionsHeaderStart,
-      endColor: appTheme.colors.transactionsHeaderEnd,
+      startColor: startColor,
+      endColor: endColor,
       collapsedHeight: Dimens.transactionsPageCollapsedHeight,
       expandedHeight: Dimens.transactionsPageExpandedHeight,
       title: title,

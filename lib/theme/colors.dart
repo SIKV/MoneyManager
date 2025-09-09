@@ -9,11 +9,11 @@ abstract class AppColors {
   Color get slightlyGray;
   Color get itemTranslucentBackground;
 
-  Color get transactionsHeaderStart;
-  Color get transactionsHeaderEnd;
-
-  Color get moreHeaderStart;
-  Color get moreHeaderEnd;
+  Color get transactionsAllHeaderStart;
+  Color get transactionsAllHeaderEnd;
+  Color get transactionsIncomeHeaderStart;
+  Color get transactionsExpensesHeaderStart;
+  Color get transactionsExpensesHeaderEnd;
 
   Color get expenseTransaction => const Color(0xFFF86666);
   Color get incomeTransaction => const Color(0xFF21AB8B);
@@ -41,16 +41,15 @@ class LightAppColors extends AppColors {
   Color get itemTranslucentBackground => Colors.grey.shade100;
 
   @override
-  Color get transactionsHeaderStart => colorScheme.primary;
-
+  Color get transactionsAllHeaderStart => const Color(0xff8e94f2);
   @override
-  Color get transactionsHeaderEnd => colorScheme.tertiary;
-
+  Color get transactionsAllHeaderEnd => colorScheme.primary;
   @override
-  Color get moreHeaderStart => colorScheme.secondary;
-
+  Color get transactionsIncomeHeaderStart => const Color(0xff60d394);
   @override
-  Color get moreHeaderEnd => colorScheme.tertiary;
+  Color get transactionsExpensesHeaderStart => const Color(0xffff9b85);
+  @override
+  Color get transactionsExpensesHeaderEnd => const Color(0xffa4133c);
 
   @override
   Color get chartItemColor0 => const Color(0xffd183c9);
@@ -85,16 +84,15 @@ class DarkAppColors extends AppColors {
   Color get itemTranslucentBackground => Colors.black12;
 
   @override
-  Color get transactionsHeaderStart => colorScheme.primary;
-
+  Color get transactionsAllHeaderStart => const Color(0xff9fa0ff);
   @override
-  Color get transactionsHeaderEnd => colorScheme.tertiaryContainer;
-
+  Color get transactionsAllHeaderEnd => colorScheme.secondaryContainer;
   @override
-  Color get moreHeaderStart => colorScheme.secondaryContainer;
-
+  Color get transactionsIncomeHeaderStart => const Color(0xff60d394);
   @override
-  Color get moreHeaderEnd => colorScheme.tertiaryContainer;
+  Color get transactionsExpensesHeaderStart => const Color(0xffff9b85);
+  @override
+  Color get transactionsExpensesHeaderEnd => transactionsAllHeaderEnd;
 
   @override
   Color get chartItemColor0 => const Color(0xffd183c9);
@@ -120,8 +118,8 @@ class DarkAppColors extends AppColors {
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xff226487),
-  surfaceTint: Color(0xff226487),
+  primary: Color(0xff2b739a),
+  surfaceTint: Color(0xff2b739a),
   onPrimary: Color(0xffffffff),
   primaryContainer: Color(0xffc7e7ff),
   onPrimaryContainer: Color(0xff004c6c),
