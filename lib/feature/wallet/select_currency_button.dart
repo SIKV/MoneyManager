@@ -49,13 +49,19 @@ class SelectCurrencyButton extends ConsumerWidget {
     showCurrencyPicker(
       context: context,
       onSelect: (currency) {
-        ref.read(addWalletControllerProvider.notifier)
-            .selectCurrency(currency);
+        if (_isCurrencyAllowed(currency)) {
+          ref.read(addWalletControllerProvider.notifier)
+              .selectCurrency(currency);
+        }
       },
       theme: CurrencyPickerThemeData(
         shape: Theme.of(context).bottomSheetTheme.shape,
         bottomSheetHeight: MediaQuery.of(context).size.height / 1.4,
       ),
     );
+  }
+
+  bool _isCurrencyAllowed(Currency currency) {
+    return currency.code != "RUB";
   }
 }
