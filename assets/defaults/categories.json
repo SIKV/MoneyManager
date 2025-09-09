@@ -2,10 +2,18 @@
   "income": [
     {
       "title": "Salary",
-      "emoji": "\uD83D\uDCB0"
+      "emoji": "\uD83D\uDCBC"
     },
     {
-      "title": "Bonus",
+      "title": "Investments",
+      "emoji": "\uD83D\uDCC8"
+    },
+    {
+      "title": "Gifts",
+      "emoji": "\uD83C\uDF81"
+    },
+    {
+      "title": "Refunds",
       "emoji": "\uD83D\uDCB8"
     },
     {
@@ -14,8 +22,68 @@
   ],
   "expense": [
     {
-      "title": "Food",
+      "title": "Housing (Rent/Mortgage, Utilities)",
+      "emoji": "\uD83C\uDFE0"
+    },
+    {
+      "title": "Shopping",
+      "emoji": "\uD83D\uDECD\uFE0F"
+    },
+    {
+      "title": "Food & Groceries",
       "emoji": "\uD83C\uDF54"
+    },
+    {
+      "title": "Restaurants & Cafes",
+      "emoji": "☕"
+    },
+    {
+      "title": "Transportation (Fuel, Public Transit, Taxi)",
+      "emoji": "\uD83D\uDE97"
+    },
+    {
+      "title": "Travel",
+      "emoji": "✈\uFE0F"
+    },
+    {
+      "title": "Entertainment (Movies, Music, Subscriptions)",
+      "emoji": "\uD83C\uDFAC"
+    },
+    {
+      "title": "Health & Fitness (Gym, Sports)",
+      "emoji": "\uD83C\uDFCB\uFE0F"
+    },
+    {
+      "title": "Medical & Insurance",
+      "emoji": "\uD83E\uDE7A"
+    },
+    {
+      "title": "Education & Books",
+      "emoji": "\uD83D\uDCDA"
+    },
+    {
+      "title": "Bills & Utilities",
+      "emoji": "\uD83E\uDDFE"
+    },
+    {
+      "title": "Pets",
+      "emoji": "\uD83D\uDC3E"
+    },
+    {
+      "title": "Gifts & Donations",
+      "emoji": "\uD83C\uDF89"
+    },
+    {
+      "title": "Maintenance / Repairs",
+      "emoji": "\uD83D\uDEE0\uFE0F"
+    },
+    {
+      "title": "Work Expenses",
+      "emoji": "\uD83D\uDCBC"
+    },
+    {
+      "title": "Debt & Loans",
+      "emoji": "\uD83D\uDCB3"
     },
     {
       "title": "Other"
