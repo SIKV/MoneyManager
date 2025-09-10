@@ -15,7 +15,7 @@ void main() {
     final defaultIncomeCategories = await dataSource.getAll(TransactionType.income);
     final defaultExpenseCategories = await dataSource.getAll(TransactionType.expense);
 
-    expect(defaultIncomeCategories.length, 3);
-    expect(defaultExpenseCategories.length, 2);
+    expect(defaultIncomeCategories.length, 5);
+    expect(defaultExpenseCategories.length, 17);
   });
 }
