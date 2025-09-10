@@ -12,9 +12,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterVersionCode = 1
-def flutterVersionName = '1.0'
-
 android {
     namespace "sikv.moneymanager"
 
@@ -36,31 +33,33 @@ android {
 
     flavorDimensions "default"
 
+    defaultConfig {
+        applicationId "sikv.moneymanager"
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+    }
+
     productFlavors {
         prod {
             dimension "default"
             resValue "string", "app_name", "Money Manager"
+            versionCode 1
+            versionName "2025.1"
         }
         beta {
             dimension "default"
             resValue "string", "app_name", "Money Manager"
             applicationIdSuffix ".beta"
-            versionNameSuffix "-beta"
+            versionCode 1
+            versionName "2025.1-beta"
         }
         dev {
             dimension "default"
             resValue "string", "app_name", "Money Manager"
             applicationIdSuffix ".dev"
-            versionNameSuffix "-dev"
+            versionCode 1
+            versionName "2025.1-dev"
         }
-    }
-
-    defaultConfig {
-        applicationId "sikv.moneymanager"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode
-        versionName flutterVersionName
     }
 
     buildTypes {
