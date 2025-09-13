@@ -12,8 +12,14 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
-    namespace "sikv.moneymanager"
+    namespace 'sikv.moneymanager'
 
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -31,34 +37,44 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    flavorDimensions "default"
+    flavorDimensions 'default'
 
     defaultConfig {
-        applicationId "sikv.moneymanager"
+        applicationId 'sikv.moneymanager'
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
     }
 
+    signingConfigs {
+        betaRelease {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     productFlavors {
         prod {
-            dimension "default"
-            resValue "string", "app_name", "Money Manager"
+            dimension 'default'
+            resValue 'string', 'app_name', 'Money Manager'
             versionCode 1
-            versionName "2025.1"
+            versionName '2025.1'
         }
         beta {
-            dimension "default"
-            resValue "string", "app_name", "Money Manager"
-            applicationIdSuffix ".beta"
+            dimension 'default'
+            resValue 'string', 'app_name', 'Money Manager'
+            applicationIdSuffix '.beta'
             versionCode 1
-            versionName "2025.1-beta"
+            versionName '2025.1-beta'
+            buildTypes.release.signingConfig signingConfigs.betaRelease
         }
         dev {
-            dimension "default"
-            resValue "string", "app_name", "Money Manager"
-            applicationIdSuffix ".dev"
+            dimension 'default'
+            resValue 'string', 'app_name', 'Money Manager'
+            applicationIdSuffix '.dev'
             versionCode 1
-            versionName "2025.1-dev"
+            versionName '2025.1-dev'
         }
     }
 
@@ -66,11 +82,7 @@ android {
         debug {
             signingConfig signingConfigs.debug
         }
-        release {
-            if (project.hasProperty('qa')) {
-                signingConfig signingConfigs.debug
-            }
-        }
+        release { }
     }
 }
 

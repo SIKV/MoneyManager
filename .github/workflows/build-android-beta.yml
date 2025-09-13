@@ -14,23 +14,36 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
+
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           flutter-version: 3.32.7
+
       - run: flutter pub get
       - run: flutter pub run build_runner build --delete-conflicting-outputs
       - run: flutter test
-      - run: flutter build apk --flavor beta --android-project-arg qa
+
+      - name: Decode Keystore
+        run: echo "${{ secrets.BETA_KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
+
+      - name: Create key.properties
+        run: |
+          echo "keyAlias=${{ secrets.BETA_KEY_ALIAS }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.BETA_KEY_PASSWORD }}" >> android/key.properties
+          echo "storeFile=keystore.jks" >> android/key.properties
+          echo "storePassword=${{ secrets.BETA_KEYSTORE_PASSWORD }}" > android/key.properties
+
+      - run: flutter build apk --release --split-per-abi --flavor beta
 
       - name: Upload armeabi-v7a artifact
         uses: actions/upload-artifact@v4
         with:
           name: MoneyManagerBeta-armeabi-v7a.apk
-          path: build/app/outputs/apk/beta/release/app-armeabi-v7a-release.apk
+          path: build/app/outputs/apk/beta/release/app-beta-armeabi-v7a-release.apk
 
       - name: Upload arm64-v8a artifact
         uses: actions/upload-artifact@v4
         with:
           name: MoneyManagerBeta-arm64-v8a.apk
-          path: build/app/outputs/apk/beta/release/app-arm64-v8a-release.apk
+          path: build/app/outputs/apk/beta/release/app-beta-arm64-v8a-release.apk
