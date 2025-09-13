@@ -2,7 +2,6 @@
 ![build-android-beta](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-beta.yml/badge.svg)
 
 ## Money Manager
-#### 🚧 Work in progress 🚧
 Track your financial transactions effortlessly with this open-source app.
 
 ![ic_launcher](https://github.com/SIKV/MoneyManager/assets/11236380/24dd64b4-c156-4c53-b7ab-bba80b222b95)
