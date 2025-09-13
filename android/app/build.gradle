@@ -82,7 +82,11 @@ android {
         debug {
             signingConfig signingConfigs.debug
         }
-        release { }
+        release {
+            if (project.hasProperty('qa')) {
+                signingConfig signingConfigs.debug
+            }
+        }
     }
 }
 
