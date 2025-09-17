@@ -32,9 +32,9 @@ jobs:
           echo "keyAlias=${{ secrets.BETA_KEY_ALIAS }}" >> android/key.properties
           echo "keyPassword=${{ secrets.BETA_KEY_PASSWORD }}" >> android/key.properties
           echo "storeFile=keystore.jks" >> android/key.properties
-          echo "storePassword=${{ secrets.BETA_KEYSTORE_PASSWORD }}" > android/key.properties
+          echo "storePassword=${{ secrets.BETA_KEYSTORE_PASSWORD }}" >> android/key.properties
 
-      - run: flutter build apk --release --split-per-abi --flavor beta
+      - run: flutter build apk --release --split-per-abi --flavor beta --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
 
       - name: Upload armeabi-v7a artifact
         uses: actions/upload-artifact@v4
