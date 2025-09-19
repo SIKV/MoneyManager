@@ -26,7 +26,8 @@ class TransactionsPage extends ConsumerWidget {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
     final headerState = ref.watch(headerControllerProvider).value;
 
-    final String title = headerState?.amount ?? '...';
+    final double amount = headerState?.amount ?? 0.0;
+    final String formattedAmount = headerState?.formattedAmount ?? '...';
 
     final String titleSuffix = headerState != null
         ? ' ${headerState.currentWallet?.currency.symbol}'
@@ -67,7 +68,8 @@ class TransactionsPage extends ConsumerWidget {
       endColor: endColor,
       collapsedHeight: Dimens.transactionsPageCollapsedHeight,
       expandedHeight: Dimens.transactionsPageExpandedHeight,
-      title: title,
+      title: formattedAmount,
+      rawTitle: amount,
       titleSuffix: titleSuffix,
       subtitle: filterTitle,
       tertiaryTitle: transactionsCount,

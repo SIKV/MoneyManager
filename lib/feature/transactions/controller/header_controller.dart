@@ -34,13 +34,13 @@ class HeaderController extends AsyncNotifier<HeaderState> {
       fromTimestamp: fromTimestamp,
     ).first;
 
-    String formattedAmount = currencyFormatter.format(calculateAmount(transactions),
-      compact: true,
-    );
+    double amount = calculateAmount(transactions);
+    String formattedAmount = currencyFormatter.format(amount, compact: true);
 
     return HeaderState(
       currentWallet: currentAccountOrNull.value,
-      amount: formattedAmount,
+      amount: amount,
+      formattedAmount: formattedAmount,
       transactionsCount: transactions.length,
       typeFilter: filterService.getType(),
       rangeFilter: filterService.getRange(),

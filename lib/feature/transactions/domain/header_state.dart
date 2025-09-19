@@ -10,7 +10,8 @@ part 'header_state.freezed.dart';
 class HeaderState with _$HeaderState {
   const factory HeaderState({
     required Wallet? currentWallet,
-    required String amount,
+    required double amount,
+    required String formattedAmount,
     required int transactionsCount,
     required TransactionTypeFilter typeFilter,
     required TransactionRangeFilter rangeFilter,

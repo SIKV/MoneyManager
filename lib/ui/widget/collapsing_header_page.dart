@@ -10,6 +10,8 @@ import '../../theme/theme_manager.dart';
 
 // TODO: Make title auto-resizable.
 
+Duration _titleAnimationDuration = const Duration(milliseconds: 1500);
+
 class CollapsingHeaderPage extends ConsumerWidget {
   final AppColors colors;
   final Color startColor;
@@ -18,6 +20,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
   final double expandedHeight;
   final String? titlePrefix;
   final String title;
+  final double? rawTitle; // Use this field to show title with animation.
   final String? titleSuffix;
   final String? subtitle;
   final String? tertiaryTitle;
@@ -35,6 +38,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
     required this.expandedHeight,
     this.titlePrefix,
     required this.title,
+    this.rawTitle,
     this.titleSuffix,
     this.subtitle,
     this.tertiaryTitle,
@@ -62,6 +66,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
               collapsedHeight: collapsedHeight,
               titlePrefix: titlePrefix,
               title: title,
+              rawTitle: rawTitle,
               titleSuffix: titleSuffix,
               subtitle: subtitle,
               tertiaryTitle: tertiaryTitle,
@@ -85,6 +90,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final String? titlePrefix;
   final String title;
+  final double? rawTitle;
   final String? titleSuffix;
   final String? subtitle;
   final String? tertiaryTitle;
@@ -100,6 +106,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.expandedHeight,
     this.titlePrefix,
     required this.title,
+    this.rawTitle,
     this.titleSuffix,
     this.subtitle,
     this.tertiaryTitle,
@@ -190,34 +197,6 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   Widget buildHeader() {
-    final titleTextStyle = TextStyle.lerp(
-        TextStyle(
-          color: colors.alwaysWhite,
-          fontSize: 46,
-          fontWeight: FontWeight.w700,
-        ),
-        TextStyle(
-          color: colors.alwaysWhite,
-          fontSize: 28,
-          fontWeight: FontWeight.w700,
-        ),
-        scrollProgress
-    );
-
-    final titleSuffixTextStyle = TextStyle.lerp(
-        TextStyle(
-          color: colors.alwaysWhite,
-          fontSize: 32,
-          fontWeight: FontWeight.w400,
-        ),
-        TextStyle(
-          color: colors.alwaysWhite,
-          fontSize: 22,
-          fontWeight: FontWeight.w400,
-        ),
-        scrollProgress
-    );
-
     final subtitleTextStyle = TextStyle.lerp(
         TextStyle(
           color: colors.alwaysBlack,
@@ -242,33 +221,6 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
         scrollProgress
     );
 
-    List<InlineSpan> spanChildren = [
-      TextSpan(
-        text: title,
-        style: titleTextStyle,
-      ),
-    ];
-
-    final titlePrefix = this.titlePrefix;
-    if (titlePrefix != null) {
-      spanChildren.insert(0,
-        TextSpan(
-          text: titlePrefix,
-          style: titleTextStyle,
-        ),
-      );
-    }
-
-    final titleSuffix = this.titleSuffix;
-    if (titleSuffix != null) {
-      spanChildren.add(
-        TextSpan(
-          text: titleSuffix,
-          style: titleSuffixTextStyle,
-        ),
-      );
-    }
-
     final titleActionPaddings = EdgeInsets.lerp(
         const EdgeInsets.only(left: 4, top: 9),
         const EdgeInsets.only(left: 4, top: 4),
@@ -282,11 +234,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
         },
         child: Row(
           children: [
-            RichText(
-              text: TextSpan(
-                children: spanChildren,
-              ),
-            ),
+            buildTitle(),
             if (onTitlePressed != null) ...[
               Padding(
                 padding: titleActionPaddings ?? const EdgeInsets.only(),
@@ -351,6 +299,67 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: rowChildren,
       ),
+    );
+  }
+
+  Widget buildTitle() {
+    final titleTextStyle = TextStyle.lerp(
+        TextStyle(
+          color: colors.alwaysWhite,
+          fontSize: 46,
+          fontWeight: FontWeight.w700,
+        ),
+        TextStyle(
+          color: colors.alwaysWhite,
+          fontSize: 28,
+          fontWeight: FontWeight.w700,
+        ),
+        scrollProgress
+    );
+
+    final titleSuffixTextStyle = TextStyle.lerp(
+        TextStyle(
+          color: colors.alwaysWhite,
+          fontSize: 32,
+          fontWeight: FontWeight.w400,
+        ),
+        TextStyle(
+          color: colors.alwaysWhite,
+          fontSize: 22,
+          fontWeight: FontWeight.w400,
+        ),
+        scrollProgress
+    );
+
+    final titleInt = rawTitle?.toInt() ?? 0;
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 0, end: rawTitle ?? 0),
+      duration: _titleAnimationDuration,
+      builder: (context, value, child) {
+        final valueInt = value.toInt();
+
+        return RichText(
+          text: TextSpan(
+            children: [
+              if (titlePrefix != null) TextSpan(
+                text: titlePrefix,
+                style: titleTextStyle,
+              ),
+
+              TextSpan(
+                text: valueInt == titleInt ? title : '$valueInt',
+                style: titleTextStyle,
+              ),
+
+              if (titleSuffix != null) TextSpan(
+                text: titleSuffix,
+                style: titleSuffixTextStyle,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
