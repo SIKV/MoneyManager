@@ -8,6 +8,7 @@ enum MoreItemType {
   walletSettings,
   backup,
   darkTheme,
+  sendFeedback,
 }
 
 @immutable

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/app.dart';
 import 'package:moneymanager/data/providers.dart';
+import 'package:moneymanager/feature/feedback/send_feedback_page.dart';
 import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/theme/theme.dart';
@@ -78,6 +79,8 @@ class AppStartup extends ConsumerWidget {
             ));
           case AppRoutes.backup:
             return MaterialPageRoute(builder: (_) => const BackupPage());
+          case AppRoutes.sendFeedback:
+            return MaterialPageRoute(builder: (_) => const SendFeedbackPage());
         }
         assert(false, '${settings.name} route is not implemented.');
         return null;

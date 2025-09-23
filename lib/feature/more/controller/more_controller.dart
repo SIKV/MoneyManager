@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/config.dart';
 import 'package:moneymanager/feature/more/domain/more_item.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -23,10 +24,12 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
       items: [
         await _createWalletSettingsItem(),
         _divider,
-        _createBackupItem(),
+        const GeneralMoreItem(MoreItemType.backup),
         _divider,
         await _createDarkThemeItem(),
         _divider,
+        if (isFeedbackEnabled()) const GeneralMoreItem(MoreItemType.sendFeedback),
+        if (isFeedbackEnabled()) _divider,
       ],
       appVersion: await _getAppVersion(),
     );
@@ -35,10 +38,6 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
   Future<MoreItem> _createWalletSettingsItem() async {
     final Wallet wallet = await ref.watch(currentWalletProvider.future);
     return WalletSettingsMoreItem(wallet.currency.name);
-  }
-
-  MoreItem _createBackupItem() {
-    return const GeneralMoreItem(MoreItemType.backup);
   }
 
   Future<MoreItem> _createDarkThemeItem() async {

@@ -100,6 +100,14 @@ class _Items extends StatelessWidget {
             subtitle: subtitle,
           );
         }
+        case MoreItemType.sendFeedback: {
+          return ActionTile(
+            onTap: () => Navigator.pushNamed(context, AppRoutes.sendFeedback),
+            leadingIcon: Icons.feedback_rounded,
+            title: AppLocalizations.of(context)!.morePage_sendFeedback_itemTitle,
+            subtitle: AppLocalizations.of(context)!.morePage_sendFeedback_itemSubtitle,
+          );
+        }
       }
     }).toList();
 

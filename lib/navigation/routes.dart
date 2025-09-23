@@ -10,4 +10,5 @@ class AppRoutes {
   static const changeTheme = '/change-theme';
   static const calculator = '/calculator';
   static const backup = '/backup';
+  static const sendFeedback = '/send-feedback';
 }
