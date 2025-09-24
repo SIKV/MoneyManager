@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/common/currency_formatter.dart';
 import 'package:moneymanager/data/providers.dart';
@@ -39,6 +40,9 @@ class StatisticsChartController extends AutoDisposeAsyncNotifierExt<StatisticsCh
       fromTimestamp: period.startTimestamp,
       toTimestamp: period.endTimestamp,
     ).first;
+
+    // Sort by amount (descending).
+    transactions.sort((a, b) => b.amount.compareTo(a.amount));
 
     final double totalAmount = transactions.fold(0, (prev, e) => prev + e.amount);
     final String currencyCode = transactions.firstOrNull?.currency.code ?? '';

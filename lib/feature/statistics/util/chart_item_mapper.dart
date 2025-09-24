@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:moneymanager/domain/transaction.dart';
 
 import '../../../common/currency_formatter.dart';
-import 'chart_item_color_resolver.dart';
 import '../domain/chart_item.dart';
+import 'chart_item_color_resolver.dart';
 
 extension ChartItemMapping on List<Transaction> {
 
@@ -23,6 +23,7 @@ extension ChartItemMapping on List<Transaction> {
         category: category.title,
         amount: amount,
         formattedAmount: '${currencyFormatter.format(amount)} $currencyCode',
+        transactionCount: list.length,
         color: colorResolver.getColorForIndex(result.length),
       );
 

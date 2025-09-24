@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:moneymanager/feature/statistics/controller/statistics_chart_controller.dart';
 import 'package:moneymanager/feature/statistics/domain/chart_data.dart';
 import 'package:moneymanager/theme/spacings.dart';
@@ -102,6 +103,12 @@ class _LegendItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String transactionsCount = Intl.plural(data.transactionCount,
+      zero: '${data.transactionCount} ${AppLocalizations.of(context)!.lTransactions}',
+      one: '${data.transactionCount} ${AppLocalizations.of(context)!.lTransaction}',
+      other: '${data.transactionCount} ${AppLocalizations.of(context)!.lTransactions}',
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: Spacings.three,
@@ -120,7 +127,15 @@ class _LegendItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: Spacings.three),
-          Text(data.category),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(data.category),
+              Text(transactionsCount,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
           const Spacer(),
           Text(data.formattedAmount),
         ],
