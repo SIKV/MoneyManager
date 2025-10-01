@@ -15,7 +15,6 @@ import '../../l10n/app_localizations.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
-import '../wallet/change_wallet_page.dart';
 import 'ui/header_filters.dart';
 
 class TransactionsPage extends ConsumerWidget {
@@ -105,13 +104,7 @@ class TransactionsPage extends ConsumerWidget {
   }
 
   void _showChangeWallet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return const ChangeWalletPage();
-      },
-    );
+    Navigator.pushNamed(context, AppRoutes.changeWalletModal);
   }
 
   void _showMenu(BuildContext context) {

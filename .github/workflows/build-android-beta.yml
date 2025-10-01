@@ -34,7 +34,14 @@ jobs:
           echo "storeFile=keystore.jks" >> android/key.properties
           echo "storePassword=${{ secrets.BETA_KEYSTORE_PASSWORD }}" >> android/key.properties
 
-      - run: flutter build apk --release --split-per-abi --flavor beta --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+      - name: Create firebase.properties
+        run: |
+          echo "googleAppId=${{ secrets.GOOGLE_APP_ID }}" >> android/firebase.properties
+          echo "googleApiKey=${{ secrets.GOOGLE_API_KEY }}" >> android/firebase.properties
+          echo "gcmDefaultSenderId=${{ secrets.GCM_DEFAULT_SENDER_ID }}" >> android/firebase.properties
+          echo "projectId=${{ secrets.PROJECT_ID }}" >> android/firebase.properties  
+
+      - run: flutter build apk --release --split-per-abi --flavor beta --dart-define=FIREBASE_ENABLED=true --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
 
       - name: Upload armeabi-v7a artifact
         uses: actions/upload-artifact@v4

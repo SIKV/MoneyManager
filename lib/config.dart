@@ -1,3 +1,7 @@
+bool isFirebaseEnabled() {
+  return const bool.fromEnvironment('FIREBASE_ENABLED', defaultValue: false);
+}
+
 bool isSentryEnabled() {
   return const bool.hasEnvironment('SENTRY_DSN');
 }

@@ -11,4 +11,5 @@ class AppRoutes {
   static const calculator = '/calculator';
   static const backup = '/backup';
   static const sendFeedback = '/send-feedback';
+  static const changeWalletModal = '/change-wallet-modal';
 }

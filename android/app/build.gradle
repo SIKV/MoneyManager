@@ -1,21 +1,19 @@
 plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
-}
-
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'dev.flutter.flutter-gradle-plugin'
 }
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+def firebaseProperties = new Properties()
+def firebasePropertiesFile = rootProject.file('firebase.properties')
+if (firebasePropertiesFile.exists()) {
+    firebaseProperties.load(new FileInputStream(firebasePropertiesFile))
 }
 
 android {
@@ -41,8 +39,17 @@ android {
 
     defaultConfig {
         applicationId 'sikv.moneymanager'
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23 // flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
+
+        resValue 'string', 'google_app_id', firebaseProperties['googleAppId']
+                ? firebaseProperties['googleAppId'] : ''
+        resValue 'string', 'google_api_key', firebaseProperties['googleApiKey']
+                ? firebaseProperties['googleApiKey'] : ''
+        resValue 'string', 'gcm_defaultSenderId', firebaseProperties['gcmDefaultSenderId']
+                ? firebaseProperties['gcmDefaultSenderId'] : ''
+        resValue 'string', 'project_id', firebaseProperties['projectId']
+                ? firebaseProperties['projectId'] : ''
     }
 
     signingConfigs {
