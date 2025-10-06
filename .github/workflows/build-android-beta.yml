@@ -47,10 +47,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MoneyManager-beta-armeabi-v7a.apk
-          path: build/app/outputs/flutter-apk/app-armeabi-v7a-beta-release.apk
+          path: build/app/outputs/apk/beta/release/app-beta-armeabi-v7a-release.apk
 
       - name: Upload arm64-v8a artifact
         uses: actions/upload-artifact@v4
         with:
           name: MoneyManager-beta-arm64-v8a.apk
-          path: build/app/outputs/flutter-apk/app-arm64-v8a-beta-release.apk
+          path: build/app/outputs/apk/beta/release/app-beta-arm64-v8a-release.apk

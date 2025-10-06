@@ -9,7 +9,7 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
-def keystoreExists = keystoreProperties.hasProperty('storeFile')
+def keystoreFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
 
 def firebaseProperties = new Properties()
 def firebasePropertiesFile = rootProject.file('firebase.properties')
@@ -54,11 +54,11 @@ android {
     }
 
     signingConfigs {
-        if (keystoreExists) {
+        if (keystoreFile?.exists()) {
             betaRelease {
                 keyAlias keystoreProperties['keyAlias']
                 keyPassword keystoreProperties['keyPassword']
-                storeFile = keystoreProperties['storeFile']
+                storeFile keystoreFile
                 storePassword keystoreProperties['storePassword']
             }
         }
@@ -77,7 +77,7 @@ android {
             applicationIdSuffix '.beta'
             versionCode 1
             versionName '2025.1-beta'
-            if (keystoreExists) {
+            if (keystoreFile?.exists()) {
                 buildTypes.release.signingConfig signingConfigs.betaRelease
             }
         }
