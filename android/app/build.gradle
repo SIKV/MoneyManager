@@ -9,6 +9,7 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+def keystoreExists = keystoreProperties.hasProperty('storeFile')
 
 def firebaseProperties = new Properties()
 def firebasePropertiesFile = rootProject.file('firebase.properties')
@@ -20,7 +21,7 @@ android {
     namespace 'sikv.moneymanager'
 
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion '27.0.12077973'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -39,7 +40,7 @@ android {
 
     defaultConfig {
         applicationId 'sikv.moneymanager'
-        minSdkVersion 23 // flutter.minSdkVersion
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
 
         resValue 'string', 'google_app_id', firebaseProperties['googleAppId']
@@ -53,11 +54,13 @@ android {
     }
 
     signingConfigs {
-        betaRelease {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+        if (keystoreExists) {
+            betaRelease {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile = keystoreProperties['storeFile']
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
 
@@ -74,7 +77,9 @@ android {
             applicationIdSuffix '.beta'
             versionCode 1
             versionName '2025.1-beta'
-            buildTypes.release.signingConfig signingConfigs.betaRelease
+            if (keystoreExists) {
+                buildTypes.release.signingConfig signingConfigs.betaRelease
+            }
         }
         dev {
             dimension 'default'
