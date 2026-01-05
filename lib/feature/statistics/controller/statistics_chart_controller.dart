@@ -41,20 +41,21 @@ class StatisticsChartController extends AutoDisposeAsyncNotifierExt<StatisticsCh
       toTimestamp: period.endTimestamp,
     ).first;
 
-    // Sort by amount (descending).
-    transactions.sort((a, b) => b.amount.compareTo(a.amount));
-
     final double totalAmount = transactions.fold(0, (prev, e) => prev + e.amount);
     final String currencyCode = transactions.firstOrNull?.currency.code ?? '';
     final currencyFormatter = ref.watch(currencyFormatterProvider);
 
     ChartItemColorResolver colorResolver = ref.watch(chartItemColorResolverProvider);
 
+    final chartItems = transactions.toChartItem(currencyFormatter, colorResolver);
+    // Sort by amount (descending).
+    chartItems.sort((a, b) => b.amount.compareTo(a.amount));
+
     return ChartData(
       transactionType: transactionType,
       totalAmount: '${currencyFormatter.format(totalAmount)} $currencyCode',
       transactionsCount: transactions.length,
-      items: transactions.toChartItem(currencyFormatter, colorResolver),
+      items: chartItems
     );
   }
 }
