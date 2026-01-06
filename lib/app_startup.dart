@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/app.dart';
 import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/feature/feedback/send_feedback_page.dart';
+import 'package:moneymanager/feature/passcode/passcode_settings_page.dart';
 import 'package:moneymanager/feature/wallet/change_wallet_page.dart';
 import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/theme/spacings.dart';
@@ -109,6 +110,11 @@ class AppStartup extends ConsumerWidget {
           case AppRoutes.backup:
             return MaterialPageRoute(
               builder: (_) => const BackupPage(),
+              settings: settings,
+            );
+          case AppRoutes.passcode:
+            return MaterialPageRoute(
+              builder: (_) => const PasscodeSettingsPage(),
               settings: settings,
             );
           case AppRoutes.sendFeedback:
