@@ -6,6 +6,7 @@ import '../../../theme/theme.dart';
 enum MoreItemType {
   divider,
   walletSettings,
+  passcode,
   backup,
   darkTheme,
   sendFeedback,
