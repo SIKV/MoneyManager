@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:moneymanager/local_preferences.dart';
+import 'package:moneymanager/service/passcode_service.dart';
 
 import '../data/providers.dart';
 import '../service/current_wallet_service.dart';
@@ -20,4 +22,8 @@ final backupServiceProvider = Provider.autoDispose((ref) {
   });
 
   return backupService;
+});
+
+final passcodeServiceProvider = Provider((ref) {
+  return PasscodeService(const FlutterSecureStorage());
 });
