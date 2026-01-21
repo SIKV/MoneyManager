@@ -18,8 +18,8 @@ class PasscodeService {
     return Future.value(false);
   }
 
-  void setPasscode(String passcode) {
-    _storage.write(key: _passcodeKey, value: passcode);
+  Future<void> setPasscode(String passcode) {
+    return _storage.write(key: _passcodeKey, value: passcode);
   }
 
   void deletePasscode() {

@@ -10,7 +10,8 @@ class AppRoutes {
   static const changeTheme = '/change-theme';
   static const calculator = '/calculator';
   static const backup = '/backup';
-  static const passcode = '/passcode';
+  static const passcodeSettings = '/passcode-settings';
+  static const setPasscode = '/set-passcode';
   static const sendFeedback = '/send-feedback';
   static const changeWalletModal = '/change-wallet-modal';
 }

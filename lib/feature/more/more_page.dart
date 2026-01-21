@@ -74,7 +74,7 @@ class _Items extends StatelessWidget {
         // Passcode
         case MoreItemType.passcode: {
           return ActionTile(
-            onTap: () => Navigator.pushNamed(context, AppRoutes.passcode),
+            onTap: () => Navigator.pushNamed(context, AppRoutes.passcodeSettings),
             leadingIcon: Icons.lock,
             title: AppLocalizations.of(context)!.passcodeSettingsPage_title,
           );

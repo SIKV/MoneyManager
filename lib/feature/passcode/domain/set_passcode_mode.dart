@@ -1,0 +1,4 @@
+enum SetPasscodeMode {
+  set,
+  reEnter
+}

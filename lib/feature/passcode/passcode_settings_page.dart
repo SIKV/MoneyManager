@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/passcode/controller/passcode_settings_controller.dart';
+import 'package:moneymanager/feature/passcode/domain/passcode_settings_route.dart';
 import 'package:moneymanager/feature/passcode/domain/passcode_settings_state.dart';
+import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/ui/widget/something_went_wrong.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -14,13 +16,13 @@ class PasscodeSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(passcodeSettingsControllerProvider);
 
+    _listenNavigateTo(context, ref);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: Text(
-                AppLocalizations.of(context)!.passcodeSettingsPage_title),
-          ),
+            title: Text(AppLocalizations.of(context)!.passcodeSettingsPage_title)),
           SliverFillRemaining(
             child: state.when(
               loading: () => Container(),
@@ -42,6 +44,26 @@ class PasscodeSettingsPage extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  void _listenNavigateTo(BuildContext context, WidgetRef ref) {
+    ref.listen(passcodeSettingsControllerProvider
+        .select((state) => state.value?.navigateTo), (previous, next) {
+      switch (next) {
+        case null:
+          // Do nothing.
+          break;
+        case PasscodeSettingsRoute.setPasscode:
+          final result = Navigator.pushNamed(context, AppRoutes.setPasscode);
+
+          ref.read(passcodeSettingsControllerProvider.notifier)
+              .handleNavigationResult(result);
+          break;
+      }
+
+      ref.read(passcodeSettingsControllerProvider.notifier)
+          .didNavigate();
+    });
   }
 }
 
@@ -67,7 +89,7 @@ class _Content extends StatelessWidget {
           title: Text(state.isPasscodeEnabled
               ? AppLocalizations.of(context)!.passcodeSettingsPage_disablePasscodeTitle
               : AppLocalizations.of(context)!.passcodeSettingsPage_enablePasscodeTitle
-          ), //
+          ),
           trailing: Switch(
               value: state.isPasscodeEnabled,
               onChanged: onPasscodeEnabledChanged,
