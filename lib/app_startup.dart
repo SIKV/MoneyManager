@@ -16,6 +16,7 @@ import 'feature/backup/backup_page.dart';
 import 'feature/categories/categories_page.dart';
 import 'feature/change_theme/change_theme_page.dart';
 import 'feature/passcode/set_passcode_page.dart';
+import 'feature/passcode/verify_passcode_page.dart';
 import 'feature/search/search_page.dart';
 import 'feature/statistics/statistics_page.dart';
 import 'feature/transaction/calculator/calculator_page.dart';
@@ -121,6 +122,11 @@ class AppStartup extends ConsumerWidget {
           case AppRoutes.setPasscode:
             return MaterialPageRoute(
               builder: (_) => const SetPasscodePage(),
+              settings: settings,
+            );
+          case AppRoutes.verifyPasscode:
+            return MaterialPageRoute(
+              builder: (_) => const VerifyPasscodePage(),
               settings: settings,
             );
           case AppRoutes.sendFeedback:

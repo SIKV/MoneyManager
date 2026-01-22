@@ -12,6 +12,7 @@ class AppRoutes {
   static const backup = '/backup';
   static const passcodeSettings = '/passcode-settings';
   static const setPasscode = '/set-passcode';
+  static const verifyPasscode = '/verify-passcode';
   static const sendFeedback = '/send-feedback';
   static const changeWalletModal = '/change-wallet-modal';
 }

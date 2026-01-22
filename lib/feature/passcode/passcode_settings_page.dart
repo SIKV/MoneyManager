@@ -49,20 +49,28 @@ class PasscodeSettingsPage extends ConsumerWidget {
   void _listenNavigateTo(BuildContext context, WidgetRef ref) {
     ref.listen(passcodeSettingsControllerProvider
         .select((state) => state.value?.navigateTo), (previous, next) {
+
+      Future<Object?>? navigationResult;
+
       switch (next) {
         case null:
           // Do nothing.
           break;
         case PasscodeSettingsRoute.setPasscode:
-          final result = Navigator.pushNamed(context, AppRoutes.setPasscode);
-
-          ref.read(passcodeSettingsControllerProvider.notifier)
-              .handleNavigationResult(result);
+          navigationResult = Navigator.pushNamed(context, AppRoutes.setPasscode);
+          break;
+        case PasscodeSettingsRoute.verifyPasscode:
+          navigationResult = Navigator.pushNamed(context, AppRoutes.verifyPasscode);
           break;
       }
 
-      ref.read(passcodeSettingsControllerProvider.notifier)
-          .didNavigate();
+      final passcodeSettingsController = ref.read(passcodeSettingsControllerProvider.notifier);
+
+      if (navigationResult != null) {
+        passcodeSettingsController.handleNavigationResult(navigationResult);
+      }
+
+      passcodeSettingsController.didNavigate();
     });
   }
 }

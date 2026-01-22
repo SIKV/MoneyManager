@@ -1,3 +1,4 @@
 enum PasscodeSettingsRoute {
-  setPasscode
+  setPasscode,
+  verifyPasscode,
 }

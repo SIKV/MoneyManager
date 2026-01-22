@@ -6,13 +6,12 @@ import 'package:moneymanager/service/providers.dart';
 
 import '../../../ext/auto_dispose_notifier_ext.dart';
 import '../../transaction/domain/amount_key.dart';
+import '../common.dart';
 
 final setPasscodeControllerProvider = NotifierProvider
     .autoDispose<SetPasscodeController, SetPasscodeState>(() {
   return SetPasscodeController();
 });
-
-const _passcodeLength = 4;
 
 class SetPasscodeController extends AutoDisposeNotifierExt<SetPasscodeState> {
   // It's the current input. It's cleared when the mode is switched.
@@ -25,34 +24,25 @@ class SetPasscodeController extends AutoDisposeNotifierExt<SetPasscodeState> {
   SetPasscodeState build() {
     return SetPasscodeState(
       mode: SetPasscodeMode.set,
-      passcodeLength: _passcodeLength,
+      passcodeLength: passcodeLength,
       currentInputLength: _currentPasscodeInput.length,
       result: null,
     );
   }
 
   void resetResult() {
-    state = state.copyWith(
-      result: null,
-    );
+    updateState((state) => state.copyWith(result: null));
   }
 
   void processKeyEntered(AmountKey key) {
     // Remove last key if the backspace was entered.
     if (key == AmountKey.backspace && _currentPasscodeInput.isNotEmpty) {
       _currentPasscodeInput = _currentPasscodeInput.substring(0, _currentPasscodeInput.length - 1);
-
-      state = state.copyWith(
-        currentInputLength: _currentPasscodeInput.length,
-      );
+      updateState((state) => state.copyWith(currentInputLength: _currentPasscodeInput.length));
     } else if (key.isDigit) {
       // Add the key.
       _currentPasscodeInput = _currentPasscodeInput + key.char;
-
-      state = state.copyWith(
-        currentInputLength: _currentPasscodeInput.length,
-      );
-
+      updateState((state) => state.copyWith(currentInputLength: _currentPasscodeInput.length));
       // Check if it's the last key entered.
       if (_currentPasscodeInput.length >= state.passcodeLength) {
         _handleModeSwitch();
@@ -65,10 +55,10 @@ class SetPasscodeController extends AutoDisposeNotifierExt<SetPasscodeState> {
 
     switch (currentMode) {
       case SetPasscodeMode.set:
-        state = state.copyWith(
+        updateState((state) => state.copyWith(
           mode: SetPasscodeMode.reEnter,
           currentInputLength: 0,
-        );
+        ));
         _passcode = _currentPasscodeInput;
         _currentPasscodeInput = "";
         break;
@@ -77,17 +67,15 @@ class SetPasscodeController extends AutoDisposeNotifierExt<SetPasscodeState> {
         if (_currentPasscodeInput == _passcode) {
           // If 'reEnter' and 'set' inputs are equal, set the passcode.
           _setPasscode();
-          state = state.copyWith(
-            result: SetPasscodeResult.set,
-          );
+          updateState((state) => state.copyWith(result: SetPasscodeResult.set));
         } else {
           // 'reEnter' input is different from 'set'.
           // Show an error and go back to the 'set' mode.
-          state = state.copyWith(
+          updateState((state) => state.copyWith(
             mode: SetPasscodeMode.set,
             currentInputLength: 0,
             result: SetPasscodeResult.validationError,
-          );
+          ));
           _passcode = "";
           _currentPasscodeInput = "";
         }

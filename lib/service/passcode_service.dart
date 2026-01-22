@@ -13,17 +13,17 @@ class PasscodeService {
     return _storage.containsKey(key: _passcodeKey);
   }
 
-  Future<bool> checkPasscode(String passcode) {
-    // TODO: Implement.
-    return Future.value(false);
+  Future<bool> verifyPasscode(String passcode) async {
+    final storedPasscode = await _storage.read(key: _passcodeKey);
+    return passcode == storedPasscode;
   }
 
   Future<void> setPasscode(String passcode) {
     return _storage.write(key: _passcodeKey, value: passcode);
   }
 
-  void deletePasscode() {
-    _storage.delete(key: _passcodeKey);
+  Future<void> deletePasscode() {
+    return _storage.delete(key: _passcodeKey);
   }
 
   Future<bool> isBiometricsEnabled() {
