@@ -26,6 +26,7 @@ class PasscodeSettingsController extends AutoDisposeAsyncNotifierExt<PasscodeSet
 
     return PasscodeSettingsState(
       isPasscodeEnabled: await passcodeService.isPasscodeEnabled(),
+      isBiometricsAvailable: await passcodeService.canCheckBiometrics(),
       isBiometricsEnabled: await passcodeService.isBiometricsEnabled(),
       navigateTo: null,
     );
@@ -48,7 +49,7 @@ class PasscodeSettingsController extends AutoDisposeAsyncNotifierExt<PasscodeSet
     }
   }
 
-  void _runDeferredAction() {
+  void _runDeferredAction() async {
     switch (_deferredAction) {
       case null: // Do nothing.
         break;
@@ -79,6 +80,10 @@ class PasscodeSettingsController extends AutoDisposeAsyncNotifierExt<PasscodeSet
   }
 
   void setBiometricsEnabled(bool enabled) {
-    // TODO: Implement.
+    ref.read(passcodeServiceProvider)
+        .setBiometricsEnabled(enabled)
+        .then((_) {
+          updateState((state) => state.copyWith(isBiometricsEnabled: enabled));
+    });
   }
 }

@@ -18,6 +18,9 @@ class VerifyPasscodeController extends AutoDisposeNotifierExt<VerifyPasscodeStat
 
   @override
   VerifyPasscodeState build() {
+
+    _runBiometricsAuthIfNeeded();
+
     return VerifyPasscodeState(
       passcodeLength: passcodeLength,
       currentInputLength: _currentPasscodeInput.length,
@@ -58,5 +61,20 @@ class VerifyPasscodeController extends AutoDisposeNotifierExt<VerifyPasscodeStat
       currentInputLength: _currentPasscodeInput.length,
       result: result,
     ));
+  }
+
+  void _runBiometricsAuthIfNeeded() async {
+    final passcodeService = ref.read(passcodeServiceProvider);
+    final biometricsEnabled = await passcodeService.isBiometricsEnabled();
+
+    if (biometricsEnabled) {
+      final authenticated = await passcodeService.runBiometricsAuth();
+      if (authenticated) {
+        updateState((state) =>
+            state.copyWith(
+              result: VerifyPasscodeResult.success,
+            ));
+      }
+    }
   }
 }

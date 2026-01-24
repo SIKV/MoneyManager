@@ -103,7 +103,7 @@ class _Content extends StatelessWidget {
               onChanged: onPasscodeEnabledChanged,
           ),
         ),
-        if (state.isPasscodeEnabled)
+        if (state.isBiometricsAvailable && state.isPasscodeEnabled)
           ListTile(
             onTap: () {
               onUseBiometricsChanged(!state.isBiometricsEnabled);

@@ -7,7 +7,8 @@ part 'passcode_settings_state.freezed.dart';
 class PasscodeSettingsState with _$PasscodeSettingsState {
   const factory PasscodeSettingsState({
     required bool isPasscodeEnabled,
+    required bool isBiometricsAvailable,
     required bool isBiometricsEnabled,
-    PasscodeSettingsRoute? navigateTo,
+    required PasscodeSettingsRoute? navigateTo,
   }) = _PasscodeSettingsState;
 }
