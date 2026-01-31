@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/app.dart';
 import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/feature/feedback/send_feedback_page.dart';
+import 'package:moneymanager/feature/passcode/domain/verify_passcode_mode.dart';
 import 'package:moneymanager/feature/passcode/passcode_settings_page.dart';
 import 'package:moneymanager/feature/wallet/change_wallet_page.dart';
 import 'package:moneymanager/local_preferences.dart';
@@ -11,22 +11,23 @@ import 'package:moneymanager/theme/theme.dart';
 import 'package:moneymanager/theme/theme_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'analytics/AnalyticsNavigatorObserver.dart';
-import 'feature/backup/backup_page.dart';
-import 'feature/categories/categories_page.dart';
-import 'feature/change_theme/change_theme_page.dart';
-import 'feature/passcode/set_passcode_page.dart';
-import 'feature/passcode/verify_passcode_page.dart';
-import 'feature/search/search_page.dart';
-import 'feature/statistics/statistics_page.dart';
-import 'feature/transaction/calculator/calculator_page.dart';
-import 'feature/transaction/transaction_page.dart';
-import 'feature/wallet/add_wallet_page.dart';
-import 'feature/wallet_settings/wallet_settings_page.dart';
-import 'l10n/app_localizations.dart';
-import 'navigation/calculator_page_args.dart';
-import 'navigation/routes.dart';
-import 'navigation/transaction_page_args.dart';
+import '../../analytics/AnalyticsNavigatorObserver.dart';
+import '../../l10n/app_localizations.dart';
+import '../../navigation/calculator_page_args.dart';
+import '../../navigation/routes.dart';
+import '../../navigation/transaction_page_args.dart';
+import '../backup/backup_page.dart';
+import '../categories/categories_page.dart';
+import '../change_theme/change_theme_page.dart';
+import '../passcode/set_passcode_page.dart';
+import '../passcode/verify_passcode_page.dart';
+import '../search/search_page.dart';
+import '../statistics/statistics_page.dart';
+import '../transaction/calculator/calculator_page.dart';
+import '../transaction/transaction_page.dart';
+import '../wallet/add_wallet_page.dart';
+import '../wallet_settings/wallet_settings_page.dart';
+import 'app.dart';
 
 part 'app_startup.g.dart';
 
@@ -126,7 +127,7 @@ class AppStartup extends ConsumerWidget {
             );
           case AppRoutes.verifyPasscode:
             return MaterialPageRoute(
-              builder: (_) => const VerifyPasscodePage(),
+              builder: (_) => const VerifyPasscodePage(mode: VerifyPasscodeMode.inApp),
               settings: settings,
             );
           case AppRoutes.sendFeedback:

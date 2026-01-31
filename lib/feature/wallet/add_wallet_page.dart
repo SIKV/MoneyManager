@@ -75,7 +75,7 @@ class AddWalletPage extends ConsumerWidget {
     ref.listen(addWalletControllerProvider, (previous, next) {
       if (next.value?.walletAdded == true) {
         if (next.value?.isFirstWallet == true) {
-          Navigator.pushReplacementNamed(context, AppRoutes.home);
+          Navigator.pushReplacementNamed(context, AppRoutes.root);
         } else {
           Navigator.pop(context);
         }

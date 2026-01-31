@@ -2,24 +2,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/passcode/domain/verify_passcode_result.dart';
 import 'package:moneymanager/service/providers.dart';
 
-import '../../../ext/auto_dispose_notifier_ext.dart';
+import '../../../ext/auto_dispose_family_notifier_ext.dart';
+import '../../../service/session/session_notifier.dart';
 import '../../transaction/domain/amount_key.dart';
 import '../common.dart';
+import '../domain/verify_passcode_mode.dart';
 import '../domain/verify_passcode_state.dart';
 
 final verifyPasscodeControllerProvider = NotifierProvider
-    .autoDispose<VerifyPasscodeController, VerifyPasscodeState>(() {
-  return VerifyPasscodeController();
-});
+    .autoDispose
+    .family<VerifyPasscodeController, VerifyPasscodeState, VerifyPasscodeMode>(VerifyPasscodeController.new);
 
-class VerifyPasscodeController extends AutoDisposeNotifierExt<VerifyPasscodeState> {
-
+class VerifyPasscodeController extends AutoDisposeFamilyNotifierExt<VerifyPasscodeState, VerifyPasscodeMode> {
+  late VerifyPasscodeMode _mode;
   String _currentPasscodeInput = "";
 
   @override
-  VerifyPasscodeState build() {
+  VerifyPasscodeState build(VerifyPasscodeMode mode) {
+    _mode = mode;
 
-    _runBiometricsAuthIfNeeded();
+    _runBiometricsAuthIfNeeded(_mode == VerifyPasscodeMode.startup);
 
     return VerifyPasscodeState(
       passcodeLength: passcodeLength,
@@ -55,26 +57,40 @@ class VerifyPasscodeController extends AutoDisposeNotifierExt<VerifyPasscodeStat
         ? VerifyPasscodeResult.success
         : VerifyPasscodeResult.error;
 
-    _currentPasscodeInput = "";
+    // if _mode == VerifyPasscodeMode.startup -> no need to update the current state,
+    // because this page will be automatically popped.
+    if (_mode == VerifyPasscodeMode.startup && result == VerifyPasscodeResult.success) {
+      _updateSession();
+    } else {
+      _currentPasscodeInput = "";
 
-    updateState((state) => state.copyWith(
-      currentInputLength: _currentPasscodeInput.length,
-      result: result,
-    ));
+      updateState((state) =>
+          state.copyWith(
+            currentInputLength: _currentPasscodeInput.length,
+            result: result,
+          ));
+    }
   }
 
-  void _runBiometricsAuthIfNeeded() async {
+  void _runBiometricsAuthIfNeeded(bool updateSession) async {
     final passcodeService = ref.read(passcodeServiceProvider);
     final biometricsEnabled = await passcodeService.isBiometricsEnabled();
 
     if (biometricsEnabled) {
       final authenticated = await passcodeService.runBiometricsAuth();
       if (authenticated) {
-        updateState((state) =>
-            state.copyWith(
-              result: VerifyPasscodeResult.success,
-            ));
+        if (updateSession) {
+          _updateSession();
+        } else {
+          updateState((state) => state.copyWith(
+            result: VerifyPasscodeResult.success,
+          ));
+        }
       }
     }
+  }
+
+  void _updateSession() {
+    ref.read(sessionProvider.notifier).authenticated();
   }
 }
