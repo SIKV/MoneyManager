@@ -1,0 +1,4 @@
+enum PasscodeSettingsRoute {
+  setPasscode,
+  verifyPasscode,
+}

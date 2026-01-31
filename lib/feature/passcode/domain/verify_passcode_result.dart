@@ -1,0 +1,4 @@
+enum VerifyPasscodeResult {
+  success,
+  error,
+}

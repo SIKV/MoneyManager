@@ -26,6 +26,8 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
         _divider,
         const GeneralMoreItem(MoreItemType.backup),
         _divider,
+        const GeneralMoreItem(MoreItemType.passcode),
+        _divider,
         await _createDarkThemeItem(),
         _divider,
         if (isFeedbackEnabled()) const GeneralMoreItem(MoreItemType.sendFeedback),

@@ -1,0 +1,4 @@
+enum PasscodeSettingsDeferredAction {
+  passcodeSet,
+  disablePasscode,
+}
