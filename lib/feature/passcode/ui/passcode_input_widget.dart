@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,18 +9,22 @@ import '../../transaction/ui/common/fake_key.dart';
 import '../../transaction/ui/common/key_container.dart';
 import '../../transaction/ui/common/text_key.dart';
 
+const int _errorAnimationMillis = 400;
+
 class PasscodeInputWidget extends StatelessWidget {
-  final Function(WidgetRef?, AmountKey) onTap;
   final String title;
   final int passcodeLength;
   final int numberOfEntered;
+  final String? error;
+  final Function(WidgetRef?, AmountKey) onTap;
 
   const PasscodeInputWidget({
     super.key,
-    required this.onTap,
     required this.title,
     required this.passcodeLength,
     required this.numberOfEntered,
+    this.error,
+    required this.onTap,
   });
 
   @override
@@ -41,29 +47,32 @@ class PasscodeInputWidget extends StatelessWidget {
 
                   const SizedBox(height: Spacings.five),
 
-                  Text(title,
+                  Text(
+                    title,
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
 
                   const SizedBox(height: Spacings.five),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(passcodeLength, (index) => Container(
-                      margin: const EdgeInsets.symmetric(horizontal: Spacings.two),
-                      width: 14,
-                      height: 14,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: index < numberOfEntered ? Theme.of(context).colorScheme.onSurface : Colors.transparent,
-                        border: Border.all(
-                            width: 1.5,
-                            color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                  _PasscodeRow(
+                    passcodeLength: passcodeLength,
+                    numberOfEntered: numberOfEntered,
+                    showError: error != null,
+                  ),
+
+                  const SizedBox(height: Spacings.five),
+
+                  AnimatedOpacity(
+                    opacity: error == null ? 0 : 1,
+                    duration: const Duration(milliseconds: _errorAnimationMillis),
+                    child: Text(
+                      error ?? "",
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.error,
                       ),
                     ),
-                    ),
                   ),
+
                 ],
               ),
             ),
@@ -134,6 +143,51 @@ class PasscodeInputWidget extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PasscodeRow extends StatelessWidget {
+  final int passcodeLength;
+  final int numberOfEntered;
+  final bool showError;
+
+  const _PasscodeRow({
+    required this.passcodeLength,
+    required this.numberOfEntered,
+    required this.showError,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder(
+      key: ValueKey(showError),
+      tween: Tween(begin: 0.0, end: showError ? 1.0 : 0.0),
+      duration: const Duration(milliseconds: _errorAnimationMillis),
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(sin(value * pi * 6) * 10, 0),
+          child: child,
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(passcodeLength, (index) =>
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: Spacings.two),
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: index < numberOfEntered ? Theme.of(context).colorScheme.onSurface : Colors.transparent,
+                border: Border.all(
+                  width: 1.5,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ),
         ),
       ),
     );

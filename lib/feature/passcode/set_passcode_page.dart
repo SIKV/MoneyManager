@@ -14,7 +14,7 @@ class SetPasscodePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(setPasscodeControllerProvider);
 
-    _listenResult(context, ref);
+    _listenSetResult(context, ref);
 
     var title = switch (state.mode) {
       SetPasscodeMode.set => AppLocalizations.of(context)!.setPasscodePage_setTitle,
@@ -25,6 +25,9 @@ class SetPasscodePage extends ConsumerWidget {
       title: title,
       passcodeLength: state.passcodeLength,
       numberOfEntered: state.currentInputLength,
+      error: state.result == SetPasscodeResult.validationError
+          ? AppLocalizations.of(context)!.setPasscodePage_validationError
+          : null,
       onTap: (_, key) => {
         ref.read(setPasscodeControllerProvider.notifier)
             .processKeyEntered(key)
@@ -32,26 +35,17 @@ class SetPasscodePage extends ConsumerWidget {
     );
   }
 
-  void _listenResult(BuildContext context, WidgetRef ref) {
+  void _listenSetResult(BuildContext context, WidgetRef ref) {
     ref.listen(setPasscodeControllerProvider.select((s) => s.result), (prev, curr) {
       switch (curr) {
-        case SetPasscodeResult.set: {
+        case SetPasscodeResult.set:
           Navigator.pop(context, curr);
-        }
-        case SetPasscodeResult.validationError: {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context)!.setPasscodePage_validationError),
-              )
-          );
-        }
-        case null:
-          // Do nothing.
+          break;
+        case SetPasscodeResult.validationError: // Handled in build().
+          break;
+        case null: // Do nothing.
           break;
       }
-
-      ref.read(setPasscodeControllerProvider.notifier)
-          .resetResult();
     });
   }
 }

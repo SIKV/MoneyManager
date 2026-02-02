@@ -30,14 +30,13 @@ class VerifyPasscodeController extends AutoDisposeFamilyNotifierExt<VerifyPassco
     );
   }
 
-  void resetResult() {
-    updateState((state) => state.copyWith(result: null));
-  }
-
   void processKeyEntered(AmountKey key) {
+    _resetResult();
+
     // Remove last key if the backspace was entered.
     if (key == AmountKey.backspace && _currentPasscodeInput.isNotEmpty) {
       _currentPasscodeInput = _currentPasscodeInput.substring(0, _currentPasscodeInput.length - 1);
+      updateState((state) => state.copyWith(currentInputLength: _currentPasscodeInput.length));
     } else if (key.isDigit) {
       // Add the key.
       _currentPasscodeInput = _currentPasscodeInput + key.char;
@@ -46,6 +45,12 @@ class VerifyPasscodeController extends AutoDisposeFamilyNotifierExt<VerifyPassco
       if (_currentPasscodeInput.length >= state.passcodeLength) {
         _verifyPasscode();
       }
+    }
+  }
+
+  void _resetResult() {
+    if (state.result != null) {
+      updateState((state) => state.copyWith(result: null));
     }
   }
 

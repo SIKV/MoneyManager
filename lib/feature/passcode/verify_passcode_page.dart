@@ -16,12 +16,15 @@ class VerifyPasscodePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(verifyPasscodeControllerProvider(mode));
 
-    _listenResult(context, ref);
+    _listenSuccessResult(context, ref);
 
     return PasscodeInputWidget(
       title: AppLocalizations.of(context)!.verifyPasscodePage_title,
       passcodeLength: state.passcodeLength,
       numberOfEntered: state.currentInputLength,
+      error: state.result == VerifyPasscodeResult.error
+          ? AppLocalizations.of(context)!.verifyPasscodePage_error
+          : null,
       onTap: (_, key) => {
         ref.read(verifyPasscodeControllerProvider(mode).notifier)
             .processKeyEntered(key)
@@ -29,25 +32,17 @@ class VerifyPasscodePage extends ConsumerWidget {
     );
   }
 
-  void _listenResult(BuildContext context, WidgetRef ref) {
+  void _listenSuccessResult(BuildContext context, WidgetRef ref) {
     ref.listen(verifyPasscodeControllerProvider(mode).select((s) => s.result), (prev, curr) {
       switch (curr) {
-        case VerifyPasscodeResult.success: {
+        case VerifyPasscodeResult.success:
           Navigator.pop(context, curr);
-        }
-        case VerifyPasscodeResult.error: {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context)!.verifyPasscodePage_error),
-              )
-          );
-        }
+          break;
+        case VerifyPasscodeResult.error: // Handled in build().
+          break;
         case null: // Do nothing.
           break;
       }
-
-      ref.read(verifyPasscodeControllerProvider(mode).notifier)
-          .resetResult();
     });
   }
 }

@@ -30,11 +30,9 @@ class SetPasscodeController extends AutoDisposeNotifierExt<SetPasscodeState> {
     );
   }
 
-  void resetResult() {
-    updateState((state) => state.copyWith(result: null));
-  }
-
   void processKeyEntered(AmountKey key) {
+    _resetResult();
+
     // Remove last key if the backspace was entered.
     if (key == AmountKey.backspace && _currentPasscodeInput.isNotEmpty) {
       _currentPasscodeInput = _currentPasscodeInput.substring(0, _currentPasscodeInput.length - 1);
@@ -47,6 +45,12 @@ class SetPasscodeController extends AutoDisposeNotifierExt<SetPasscodeState> {
       if (_currentPasscodeInput.length >= state.passcodeLength) {
         _handleModeSwitch();
       }
+    }
+  }
+
+  void _resetResult() {
+    if (state.result != null) {
+      updateState((state) => state.copyWith(result: null));
     }
   }
 
