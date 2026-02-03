@@ -71,6 +71,14 @@ class _Items extends StatelessWidget {
             subtitle: subtitle,
           );
         }
+        // Passcode
+        case MoreItemType.passcode: {
+          return ActionTile(
+            onTap: () => Navigator.pushNamed(context, AppRoutes.passcodeSettings),
+            leadingIcon: Icons.lock,
+            title: AppLocalizations.of(context)!.passcodeSettingsPage_title,
+          );
+        }
         // Backup
         case MoreItemType.backup: {
           return ActionTile(

@@ -1,0 +1,4 @@
+enum SetPasscodeResult {
+  set,
+  validationError,
+}

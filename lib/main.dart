@@ -5,7 +5,7 @@ import 'package:moneymanager/config.dart';
 import 'package:moneymanager/local_preferences.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-import 'app_startup.dart';
+import 'feature/app/app_startup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

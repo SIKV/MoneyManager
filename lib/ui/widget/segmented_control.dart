@@ -20,8 +20,8 @@ class SegmentedControl<T extends Object> extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appThemeManager = ref.watch(appThemeManagerProvider);
 
-    final Color thumbColor;
-    final Color backgroundColor;
+    Color thumbColor;
+    Color backgroundColor;
 
     switch (appThemeManager.type) {
       case AppThemeType.light:

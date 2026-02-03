@@ -116,5 +116,21 @@
 
 
   "morePage_sendFeedback_itemTitle": "Send Feedback",
-  "morePage_sendFeedback_itemSubtitle": "Send feedback or report a bug"
+  "morePage_sendFeedback_itemSubtitle": "Send feedback or report a bug",
+
+
+  "passcodeSettingsPage_title": "Passcode",
+  "passcodeSettingsPage_enablePasscodeTitle": "Turn on Passcode",
+  "passcodeSettingsPage_disablePasscodeTitle": "Turn off Passcode",
+  "passcodeSettingsPage_biometricsTitle": "Use Biometrics",
+
+
+  "setPasscodePage_setTitle": "Set Passcode",
+  "setPasscodePage_reEnterTitle": "Re-enter Passcode",
+  "setPasscodePage_validationError": "Re-entered passcode is different",
+
+
+  "verifyPasscodePage_title": "Enter Passcode",
+  "verifyPasscodePage_error": "Wrong passcode",
+  "verifyPasscodePage_reason": "Please authenticate to continue"
 }
