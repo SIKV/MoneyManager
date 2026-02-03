@@ -17,7 +17,7 @@ final passcodeSettingsControllerProvider = AsyncNotifierProvider
 
 class PasscodeSettingsController extends AutoDisposeAsyncNotifierExt<PasscodeSettingsState> {
   // An action to be run after navigation result is received.
-  // This approach is not the best and hss to be revised.
+  // This approach is not the best and has to be revised.
   PasscodeSettingsDeferredAction? _deferredAction;
 
   @override
