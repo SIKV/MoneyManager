@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/feature/passcode/domain/verify_passcode_controller_args.dart';
 import 'package:moneymanager/feature/passcode/domain/verify_passcode_mode.dart';
 import 'package:moneymanager/feature/passcode/ui/passcode_input_widget.dart';
 
@@ -14,7 +15,7 @@ class VerifyPasscodePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(verifyPasscodeControllerProvider(mode));
+    final state = ref.watch(verifyPasscodeControllerProvider(_getControllerArgs(context)));
 
     _listenSuccessResult(context, ref);
 
@@ -26,14 +27,14 @@ class VerifyPasscodePage extends ConsumerWidget {
           ? AppLocalizations.of(context)!.verifyPasscodePage_error
           : null,
       onTap: (_, key) => {
-        ref.read(verifyPasscodeControllerProvider(mode).notifier)
+        ref.read(verifyPasscodeControllerProvider(_getControllerArgs(context)).notifier)
             .processKeyEntered(key)
       },
     );
   }
 
   void _listenSuccessResult(BuildContext context, WidgetRef ref) {
-    ref.listen(verifyPasscodeControllerProvider(mode).select((s) => s.result), (prev, curr) {
+    ref.listen(verifyPasscodeControllerProvider(_getControllerArgs(context)).select((s) => s.result), (prev, curr) {
       switch (curr) {
         case VerifyPasscodeResult.success:
           Navigator.pop(context, curr);
@@ -44,5 +45,12 @@ class VerifyPasscodePage extends ConsumerWidget {
           break;
       }
     });
+  }
+
+  VerifyPasscodeControllerArgs _getControllerArgs(BuildContext context) {
+    return VerifyPasscodeControllerArgs(
+      mode: mode,
+      localizedReason: AppLocalizations.of(context)!.verifyPasscodePage_reason,
+    );
   }
 }

@@ -129,6 +129,8 @@
   "setPasscodePage_reEnterTitle": "Re-enter Passcode",
   "setPasscodePage_validationError": "Re-entered passcode is different",
 
+
   "verifyPasscodePage_title": "Enter Passcode",
-  "verifyPasscodePage_error": "Wrong passcode"
+  "verifyPasscodePage_error": "Wrong passcode",
+  "verifyPasscodePage_reason": "Please authenticate to continue"
 }

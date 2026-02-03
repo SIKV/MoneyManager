@@ -2,8 +2,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// TODO: Disable backups.
-
 class PasscodeService {
   final FlutterSecureStorage _secureStorage;
   final SharedPreferencesAsync _sharedPreferences;
@@ -40,14 +38,14 @@ class PasscodeService {
     return _localAuth.isDeviceSupported();
   }
 
-  Future<bool> runBiometricsAuth() async {
+  Future<bool> runBiometricsAuth(String localizedReason) async {
     try {
       final authenticated = await _localAuth.authenticate(
-        localizedReason: 'Please authenticate to continue.', // TODO: Translate.
+        localizedReason: localizedReason,
       );
       return authenticated;
     } catch (e) {
-      // TODO: Log error?
+      // TODO: Log error.
       return false;
     }
   }

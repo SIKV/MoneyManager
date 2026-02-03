@@ -6,22 +6,23 @@ import '../../../ext/auto_dispose_family_notifier_ext.dart';
 import '../../../service/session/session_notifier.dart';
 import '../../transaction/domain/amount_key.dart';
 import '../common.dart';
+import '../domain/verify_passcode_controller_args.dart';
 import '../domain/verify_passcode_mode.dart';
 import '../domain/verify_passcode_state.dart';
 
 final verifyPasscodeControllerProvider = NotifierProvider
     .autoDispose
-    .family<VerifyPasscodeController, VerifyPasscodeState, VerifyPasscodeMode>(VerifyPasscodeController.new);
+    .family<VerifyPasscodeController, VerifyPasscodeState, VerifyPasscodeControllerArgs>(VerifyPasscodeController.new);
 
-class VerifyPasscodeController extends AutoDisposeFamilyNotifierExt<VerifyPasscodeState, VerifyPasscodeMode> {
-  late VerifyPasscodeMode _mode;
+class VerifyPasscodeController extends AutoDisposeFamilyNotifierExt<VerifyPasscodeState, VerifyPasscodeControllerArgs> {
+  late VerifyPasscodeControllerArgs _args;
   String _currentPasscodeInput = "";
 
   @override
-  VerifyPasscodeState build(VerifyPasscodeMode mode) {
-    _mode = mode;
+  VerifyPasscodeState build(VerifyPasscodeControllerArgs args) {
+    _args = args;
 
-    _runBiometricsAuthIfNeeded(_mode == VerifyPasscodeMode.startup);
+    _runBiometricsAuthIfNeeded(args.localizedReason, args.mode == VerifyPasscodeMode.startup);
 
     return VerifyPasscodeState(
       passcodeLength: passcodeLength,
@@ -64,7 +65,7 @@ class VerifyPasscodeController extends AutoDisposeFamilyNotifierExt<VerifyPassco
 
     // if _mode == VerifyPasscodeMode.startup -> no need to update the current state,
     // because this page will be automatically popped.
-    if (_mode == VerifyPasscodeMode.startup && result == VerifyPasscodeResult.success) {
+    if (_args.mode == VerifyPasscodeMode.startup && result == VerifyPasscodeResult.success) {
       _updateSession();
     } else {
       _currentPasscodeInput = "";
@@ -77,12 +78,12 @@ class VerifyPasscodeController extends AutoDisposeFamilyNotifierExt<VerifyPassco
     }
   }
 
-  void _runBiometricsAuthIfNeeded(bool updateSession) async {
+  void _runBiometricsAuthIfNeeded(String localizedReason, bool updateSession) async {
     final passcodeService = ref.read(passcodeServiceProvider);
     final biometricsEnabled = await passcodeService.isBiometricsEnabled();
 
     if (biometricsEnabled) {
-      final authenticated = await passcodeService.runBiometricsAuth();
+      final authenticated = await passcodeService.runBiometricsAuth(localizedReason);
       if (authenticated) {
         if (updateSession) {
           _updateSession();
