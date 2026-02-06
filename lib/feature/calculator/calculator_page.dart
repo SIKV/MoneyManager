@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/feature/transaction/calculator/calculator_controller.dart';
+import 'package:moneymanager/feature/calculator/calculator_controller.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
-import '../../../navigation/calculator_page_args.dart';
-import '../domain/amount_key.dart';
-import '../ui/common/fake_key.dart';
-import '../ui/common/key_container.dart';
-import '../ui/common/text_key.dart';
+import 'domain/calculator_page_args.dart';
+import 'domain/amount_key.dart';
+import 'ui/fake_key.dart';
+import 'ui/key_container.dart';
+import 'ui/text_key.dart';
 
 class CalculatorPage extends ConsumerStatefulWidget {
   final CalculatorPageArgs args;
@@ -45,15 +45,18 @@ class _CalculatorPageState extends ConsumerState<CalculatorPage> {
         child: Column(
           children: [
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: Spacings.six),
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Text(state.expression,
-                    style: const TextStyle(
-                      fontSize: 48, // TODO: Should be auto resizable.
+                  child: FittedBox( // Make the text auto-resizable.
+                    fit: BoxFit.scaleDown,
+                    child: Text(state.expression,
+                      style: const TextStyle(
+                        fontSize: 72,
+                      ),
                     ),
                   ),
                 ),

@@ -1,5 +1,5 @@
 import '../../common/currency_formatter.dart';
-import 'domain/amount_key.dart';
+import '../calculator/domain/amount_key.dart';
 
 const _amountLengthLimit = 20;
 

@@ -5,7 +5,7 @@ import 'package:moneymanager/feature/passcode/domain/set_passcode_state.dart';
 import 'package:moneymanager/service/providers.dart';
 
 import '../../../ext/auto_dispose_notifier_ext.dart';
-import '../../transaction/domain/amount_key.dart';
+import '../../calculator/domain/amount_key.dart';
 import '../common.dart';
 
 final setPasscodeControllerProvider = NotifierProvider

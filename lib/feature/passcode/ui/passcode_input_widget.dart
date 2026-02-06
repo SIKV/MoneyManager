@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../theme/spacings.dart';
-import '../../transaction/domain/amount_key.dart';
-import '../../transaction/ui/common/fake_key.dart';
-import '../../transaction/ui/common/key_container.dart';
-import '../../transaction/ui/common/text_key.dart';
+import '../../calculator/domain/amount_key.dart';
+import '../../calculator/ui/fake_key.dart';
+import '../../calculator/ui/key_container.dart';
+import '../../calculator/ui/text_key.dart';
 
 const int _errorAnimationMillis = 400;
 
