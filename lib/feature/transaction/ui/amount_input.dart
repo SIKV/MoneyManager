@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/transaction/controller/transaction_maker_controller.dart';
-import 'package:moneymanager/feature/transaction/domain/amount_key.dart';
+import 'package:moneymanager/feature/calculator/domain/amount_key.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
-import 'common/fake_key.dart';
-import 'common/key_container.dart';
-import 'common/text_key.dart';
+import '../../calculator/ui/fake_key.dart';
+import '../../calculator/ui/key_container.dart';
+import '../../calculator/ui/text_key.dart';
 
 class AmountInput extends ConsumerWidget {
   const AmountInput({super.key});

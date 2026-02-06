@@ -13,7 +13,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../analytics/AnalyticsNavigatorObserver.dart';
 import '../../l10n/app_localizations.dart';
-import '../../navigation/calculator_page_args.dart';
+import '../calculator/domain/calculator_page_args.dart';
 import '../../navigation/routes.dart';
 import '../../navigation/transaction_page_args.dart';
 import '../backup/backup_page.dart';
@@ -23,7 +23,7 @@ import '../passcode/set_passcode_page.dart';
 import '../passcode/verify_passcode_page.dart';
 import '../search/search_page.dart';
 import '../statistics/statistics_page.dart';
-import '../transaction/calculator/calculator_page.dart';
+import '../calculator/calculator_page.dart';
 import '../transaction/transaction_page.dart';
 import '../wallet/add_wallet_page.dart';
 import '../wallet_settings/wallet_settings_page.dart';

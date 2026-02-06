@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:function_tree/function_tree.dart';
-import 'package:moneymanager/navigation/calculator_page_args.dart';
-import 'package:moneymanager/navigation/result/caclculator_page_result.dart';
+import 'package:moneymanager/feature/calculator/domain/caclculator_page_result.dart';
+import 'package:moneymanager/feature/calculator/domain/calculator_page_args.dart';
 
-import '../domain/amount_key.dart';
 import 'calculator_state.dart';
+import 'domain/amount_key.dart';
+
+const _maxInputLength = 25;
 
 final calculatorControllerProvider = NotifierProvider
     .autoDispose<CalculatorController, CalculatorState>(() {
@@ -39,16 +41,16 @@ class CalculatorController extends AutoDisposeNotifier<CalculatorState> {
           _updateExpression('.');
           break;
         case AmountKey.divide:
-          _updateExpression(' ÷ ');
+          _updateExpression('÷');
           break;
         case AmountKey.multiply:
-          _updateExpression(' × ');
+          _updateExpression('×');
           break;
         case AmountKey.minus:
-          _updateExpression(' - ');
+          _updateExpression('−');
           break;
         case AmountKey.plus:
-          _updateExpression(' + ');
+          _updateExpression('+');
           break;
         case AmountKey.equal:
           _calculateExpression();
@@ -71,7 +73,7 @@ class CalculatorController extends AutoDisposeNotifier<CalculatorState> {
   void _updateExpression(String s) {
     if (_rawExpression == '0') {
       _rawExpression = s;
-    } else {
+    } else if (_rawExpression.length < _maxInputLength) {
       _rawExpression += s;
     }
 
@@ -79,6 +81,7 @@ class CalculatorController extends AutoDisposeNotifier<CalculatorState> {
       expression: _rawExpression,
     );
   }
+
 
   void _removeAll() {
     _rawExpression = '0';
@@ -105,7 +108,12 @@ class CalculatorController extends AutoDisposeNotifier<CalculatorState> {
     _rawExpression = _rawExpression.replaceAll('÷', '/');
     _rawExpression = _rawExpression.replaceAll('×', '*');
 
-    _rawExpression = _removeTrailingZeros(_rawExpression.interpret().toString());
+    try {
+      _rawExpression = _removeTrailingZeros(_rawExpression.interpret().toString());
+    } catch (e) {
+      // Catch all exceptions during calculating the expression.
+      // Do not need to log any errors in this case.
+    }
 
     if (updateState) {
       state = state.copyWith(
