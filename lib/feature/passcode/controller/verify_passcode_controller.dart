@@ -4,7 +4,7 @@ import 'package:moneymanager/service/providers.dart';
 
 import '../../../ext/auto_dispose_family_notifier_ext.dart';
 import '../../../service/session/session_notifier.dart';
-import '../../transaction/domain/amount_key.dart';
+import '../../calculator/domain/amount_key.dart';
 import '../common.dart';
 import '../domain/verify_passcode_controller_args.dart';
 import '../domain/verify_passcode_mode.dart';

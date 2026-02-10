@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moneymanager/feature/transaction/ui/common/text_key.dart';
+import 'package:moneymanager/feature/calculator/ui/text_key.dart';
 
-import '../../domain/amount_key.dart';
+import '../domain/amount_key.dart';
 
 class FakeKey extends StatelessWidget {
   const FakeKey({super.key});

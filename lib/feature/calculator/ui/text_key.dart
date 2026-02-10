@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/amount_key.dart';
+import '../domain/amount_key.dart';
 import 'key_container.dart';
 
 class TextKey extends ConsumerWidget {

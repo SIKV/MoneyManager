@@ -3,7 +3,7 @@ import 'package:moneymanager/feature/transaction/domain/transaction_blueprint.da
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/feature/transaction/domain/validation_error.dart';
-import 'package:moneymanager/navigation/calculator_page_args.dart';
+import 'package:moneymanager/feature/calculator/domain/calculator_page_args.dart';
 
 import '../../../domain/transaction_category.dart';
 
