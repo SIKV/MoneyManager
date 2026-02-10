@@ -1,6 +1,6 @@
 // FYI: Isar (a database this app uses) requires the ID field to be an int.
 // Initialize with current timestamp to avoid conflicts with existing IDs after app restart.
-// Note: Dart's single-threaded execution model means thread safety is not a concern.
+// Note: This generator is isolate-local and only guarantees monotonically increasing IDs within a single isolate.
 int _lastGeneratedId = DateTime.now().microsecondsSinceEpoch;
 
 int generateUniqueInt() {

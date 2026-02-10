@@ -41,7 +41,7 @@ void main() {
     test('Should not generate duplicate IDs for default categories', () {
       // This test simulates the scenario described in the issue
       // where categories are created in a tight loop
-      
+
       // Arrange
       const incomeCount = 5;
       const expenseCount = 17;
