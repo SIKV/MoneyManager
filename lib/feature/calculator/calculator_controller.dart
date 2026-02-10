@@ -1,10 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:function_tree/function_tree.dart';
-import 'package:moneymanager/feature/calculator/domain/caclculator_page_result.dart';
+import 'package:moneymanager/feature/calculator/domain/calculator_page_result.dart';
 import 'package:moneymanager/feature/calculator/domain/calculator_page_args.dart';
 
 import 'calculator_state.dart';
 import 'domain/amount_key.dart';
+
+const _divideSign = '÷';
+const _multiplySign = '×';
+const _minusSign = '-';
+const _plusSign = '+';
 
 const _maxInputLength = 25;
 
@@ -34,23 +39,23 @@ class CalculatorController extends AutoDisposeNotifier<CalculatorState> {
 
   void processKey(AmountKey key) {
     if (key.isDigit) {
-      _updateExpression(key.char);
+      _updateExpression(key.char, false);
     } else {
       switch (key) {
         case AmountKey.decimal:
-          _updateExpression('.');
+          _updateExpression('.', true);
           break;
         case AmountKey.divide:
-          _updateExpression('÷');
+          _updateExpression(_divideSign, true);
           break;
         case AmountKey.multiply:
-          _updateExpression('×');
+          _updateExpression(_multiplySign, true);
           break;
         case AmountKey.minus:
-          _updateExpression('−');
+          _updateExpression(_minusSign, true);
           break;
         case AmountKey.plus:
-          _updateExpression('+');
+          _updateExpression(_plusSign, true);
           break;
         case AmountKey.equal:
           _calculateExpression();
@@ -70,11 +75,20 @@ class CalculatorController extends AutoDisposeNotifier<CalculatorState> {
     }
   }
 
-  void _updateExpression(String s) {
+  void _updateExpression(String s, bool checkDuplicate) {
     if (_rawExpression == '0') {
       _rawExpression = s;
     } else if (_rawExpression.length < _maxInputLength) {
-      _rawExpression += s;
+      // If the [_rawExpression] already ends with [s], do not append it again.
+      if (checkDuplicate && _rawExpression.endsWith(s)) {
+        /** TODO:
+         * Currently, this method doesn't check other incorrect inputs.
+         * For example, typing '÷+÷' or something like this.
+         * Also the _rawExpression cannot be started with an operation.
+         * */
+      } else {
+        _rawExpression += s;
+      }
     }
 
     state = state.copyWith(
@@ -105,11 +119,17 @@ class CalculatorController extends AutoDisposeNotifier<CalculatorState> {
   }
 
   void _calculateExpression({bool updateState = true}) {
-    _rawExpression = _rawExpression.replaceAll('÷', '/');
-    _rawExpression = _rawExpression.replaceAll('×', '*');
+    _rawExpression = _rawExpression.replaceAll(_divideSign, '/');
+    _rawExpression = _rawExpression.replaceAll(_multiplySign, '*');
 
     try {
-      _rawExpression = _removeTrailingZeros(_rawExpression.interpret().toString());
+      final num result = _rawExpression.interpret();
+
+      if (result.isInfinite) {
+        _rawExpression = '0';
+      } else {
+        _rawExpression = _removeTrailingZeros(result.toString());
+      }
     } catch (e) {
       // Catch all exceptions during calculating the expression.
       // Do not need to log any errors in this case.

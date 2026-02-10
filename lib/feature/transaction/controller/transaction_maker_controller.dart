@@ -13,7 +13,7 @@ import 'package:moneymanager/feature/transaction/domain/transaction_blueprint.da
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
 import 'package:moneymanager/feature/transaction/domain/ui_mode.dart';
 import 'package:moneymanager/feature/calculator/domain/calculator_page_args.dart';
-import 'package:moneymanager/feature/calculator/domain/caclculator_page_result.dart';
+import 'package:moneymanager/feature/calculator/domain/calculator_page_result.dart';
 import 'package:moneymanager/utils.dart';
 
 import '../../../common/date_time_utils.dart';

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:moneymanager/feature/calculator/domain/caclculator_page_result.dart';
+import 'package:moneymanager/feature/calculator/domain/calculator_page_result.dart';
 
 part 'calculator_state.freezed.dart';
 
