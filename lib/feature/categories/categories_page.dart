@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
-import 'package:moneymanager/feature/categories/category_maker.dart';
 import 'package:moneymanager/feature/categories/domain/categories_state.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/categories/ui/categories_list.dart';
+import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -105,15 +105,10 @@ class CategoriesPage extends ConsumerWidget {
   }
 
   void _addCategory(BuildContext context, TransactionType transactionType) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: false,
-      builder: (context) => CategoryMaker(
-        args: AddCategoryMakerArgs(
-          type: transactionType,
-        ),
-      ),
+    final args = AddCategoryMakerArgs(
+      type: transactionType,
     );
+
+    Navigator.pushNamed(context, AppRoutes.categoryMakerAddModal, arguments: args);
   }
 }

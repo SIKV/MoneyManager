@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
+import 'package:moneymanager/navigation/routes.dart';
 
 import '../../../domain/transaction_category.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/spacings.dart';
 import '../../../ui/widget/no_items.dart';
-import '../category_maker.dart';
 import 'category_item.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -60,15 +60,10 @@ class CategoriesList extends StatelessWidget {
   }
 
   void _editCategory(BuildContext context, TransactionCategory category) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: false,
-      builder: (context) => CategoryMaker(
-        args: EditCategoryMakerArgs(
-          category: category,
-        ),
-      ),
+    final args = EditCategoryMakerArgs(
+      category: category,
     );
+
+    Navigator.pushNamed(context, AppRoutes.categoryMakerEditModal, arguments: args);
   }
 }

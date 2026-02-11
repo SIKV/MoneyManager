@@ -4,6 +4,7 @@ import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/feature/feedback/send_feedback_page.dart';
 import 'package:moneymanager/feature/passcode/domain/verify_passcode_mode.dart';
 import 'package:moneymanager/feature/passcode/passcode_settings_page.dart';
+import 'package:moneymanager/feature/transactions/ui/transactions_filters_modal.dart';
 import 'package:moneymanager/feature/wallet/change_wallet_page.dart';
 import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/theme/spacings.dart';
@@ -13,17 +14,19 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../analytics/AnalyticsNavigatorObserver.dart';
 import '../../l10n/app_localizations.dart';
-import '../calculator/domain/calculator_page_args.dart';
 import '../../navigation/routes.dart';
 import '../../navigation/transaction_page_args.dart';
 import '../backup/backup_page.dart';
+import '../calculator/calculator_page.dart';
+import '../calculator/domain/calculator_page_args.dart';
 import '../categories/categories_page.dart';
+import '../categories/category_maker.dart';
+import '../categories/domain/category_maker_args.dart';
 import '../change_theme/change_theme_page.dart';
 import '../passcode/set_passcode_page.dart';
 import '../passcode/verify_passcode_page.dart';
 import '../search/search_page.dart';
 import '../statistics/statistics_page.dart';
-import '../calculator/calculator_page.dart';
 import '../transaction/transaction_page.dart';
 import '../wallet/add_wallet_page.dart';
 import '../wallet_settings/wallet_settings_page.dart';
@@ -139,6 +142,30 @@ class AppStartup extends ConsumerWidget {
             return ModalBottomSheetRoute(
               builder: (_) => const ChangeWalletPage(),
               isScrollControlled: true,
+              settings: settings,
+            );
+          case AppRoutes.transactionsFiltersModal:
+            return ModalBottomSheetRoute(
+              builder: (_) => const TransactionsFiltersModal(),
+              isScrollControlled: true,
+              settings: settings,
+            );
+          case AppRoutes.categoryMakerAddModal:
+            return ModalBottomSheetRoute(
+              builder: (_) => CategoryMaker(
+                  args: settings.arguments as AddCategoryMakerArgs
+              ),
+              isScrollControlled: true,
+              isDismissible: false,
+              settings: settings,
+            );
+          case AppRoutes.categoryMakerEditModal:
+            return ModalBottomSheetRoute(
+              builder: (_) => CategoryMaker(
+                  args: settings.arguments as EditCategoryMakerArgs
+              ),
+              isScrollControlled: true,
+              isDismissible: false,
               settings: settings,
             );
         }

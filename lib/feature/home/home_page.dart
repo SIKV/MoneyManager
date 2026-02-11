@@ -94,6 +94,7 @@ class _HomeScaffold extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      routeSettings: const RouteSettings(name: '/add-transaction-type-selector-modal'),
       builder: (context) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: Spacings.two),

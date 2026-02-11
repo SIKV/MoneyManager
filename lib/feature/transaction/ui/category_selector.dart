@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_category.dart';
 import 'package:moneymanager/feature/categories/domain/category_maker_args.dart';
 import 'package:moneymanager/feature/transaction/domain/transaction_property.dart';
+import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/ui/extensions.dart';
 import 'package:moneymanager/ui/widget/no_items.dart';
 
@@ -12,7 +13,6 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/spacings.dart';
 import '../../../theme/theme.dart';
 import '../../../theme/theme_manager.dart';
-import '../../categories/category_maker.dart';
 import '../controller/transaction_maker_controller.dart';
 
 class CategorySelector extends ConsumerWidget {
@@ -55,18 +55,11 @@ class CategorySelector extends ConsumerWidget {
   }
 
   void _addCategory(BuildContext context, TransactionType type) async {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        isDismissible: false,
-        builder: (context) {
-          return CategoryMaker(
-            args: AddCategoryMakerArgs(
-              type: type,
-            ),
-          );
-        }
+    final args = AddCategoryMakerArgs(
+      type: type,
     );
+
+    Navigator.pushNamed(context, AppRoutes.categoryMakerAddModal, arguments: args);
   }
 
   void _selectCategory(TransactionCategory category, WidgetRef ref) {
