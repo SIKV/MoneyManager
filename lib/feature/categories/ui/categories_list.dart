@@ -64,6 +64,7 @@ class CategoriesList extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       isDismissible: false,
+      routeSettings: const RouteSettings(name: '/edit-category'),
       builder: (context) => CategoryMaker(
         args: EditCategoryMakerArgs(
           category: category,

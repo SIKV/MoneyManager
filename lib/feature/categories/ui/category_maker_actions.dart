@@ -61,6 +61,7 @@ class CategoryMakerActions extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      routeSettings: const RouteSettings(name: '/category-actions'),
       builder: (context) {
         return Padding(
           padding: const EdgeInsets.symmetric(

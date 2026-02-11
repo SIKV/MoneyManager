@@ -111,6 +111,7 @@ class TransactionsPage extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      routeSettings: const RouteSettings(name: '/transactions-filters'),
       builder: (context) {
         return const HeaderFilters();
       },

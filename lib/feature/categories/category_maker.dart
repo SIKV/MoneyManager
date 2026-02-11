@@ -137,6 +137,7 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
   void _selectEmoji() {
     showModalBottomSheet(
       context: context,
+      routeSettings: const RouteSettings(name: '/emoji-picker'),
       builder: (context) =>
           EmojiPickerContent(
             onEmojiSelected: (emoji) {

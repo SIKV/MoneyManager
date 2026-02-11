@@ -37,6 +37,7 @@ class WalletSelector extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      routeSettings: const RouteSettings(name: '/change-wallet'),
       builder: (context) {
         return const ChangeWalletPage();
       },
