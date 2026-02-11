@@ -11,8 +11,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/spacings.dart';
 import '../domain/transaction_range_filter.dart';
 
-class HeaderFilters extends ConsumerWidget {
-  const HeaderFilters({super.key});
+class TransactionsFiltersModal extends ConsumerWidget {
+  const TransactionsFiltersModal({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

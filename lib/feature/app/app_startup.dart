@@ -4,7 +4,7 @@ import 'package:moneymanager/data/providers.dart';
 import 'package:moneymanager/feature/feedback/send_feedback_page.dart';
 import 'package:moneymanager/feature/passcode/domain/verify_passcode_mode.dart';
 import 'package:moneymanager/feature/passcode/passcode_settings_page.dart';
-import 'package:moneymanager/feature/transactions/ui/header_filters.dart';
+import 'package:moneymanager/feature/transactions/ui/transactions_filters_modal.dart';
 import 'package:moneymanager/feature/wallet/change_wallet_page.dart';
 import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/theme/spacings.dart';
@@ -144,7 +144,7 @@ class AppStartup extends ConsumerWidget {
             );
           case AppRoutes.transactionsFiltersModal:
             return ModalBottomSheetRoute(
-              builder: (_) => const HeaderFilters(),
+              builder: (_) => const TransactionsFiltersModal(),
               isScrollControlled: true,
               settings: settings,
             );
