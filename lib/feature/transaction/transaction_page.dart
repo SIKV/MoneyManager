@@ -324,7 +324,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage> {
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        routeSettings: const RouteSettings(name: '/transaction-note-modal'),
+        routeSettings: const RouteSettings(name: '/transaction-full-note-modal'),
         builder: (context) {
           return Panel(
             child: Padding(
