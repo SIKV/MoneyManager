@@ -59,7 +59,7 @@ class CategorySelector extends ConsumerWidget {
         context: context,
         isScrollControlled: true,
         isDismissible: false,
-        routeSettings: const RouteSettings(name: '/transaction-add-category'),
+        routeSettings: const RouteSettings(name: '/transaction-add-category-modal'),
         builder: (context) {
           return CategoryMaker(
             args: AddCategoryMakerArgs(

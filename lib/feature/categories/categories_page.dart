@@ -109,7 +109,7 @@ class CategoriesPage extends ConsumerWidget {
       context: context,
       isScrollControlled: true,
       isDismissible: false,
-      routeSettings: const RouteSettings(name: '/categories-add-category'),
+      routeSettings: const RouteSettings(name: '/categories-add-category-modal'),
       builder: (context) => CategoryMaker(
         args: AddCategoryMakerArgs(
           type: transactionType,
