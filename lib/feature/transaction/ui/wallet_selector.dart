@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../common/provider/current_wallet_provider.dart';
-import '../../wallet/change_wallet_page.dart';
+import '../../../navigation/routes.dart';
 
 class WalletSelector extends ConsumerWidget {
   final bool isEnabled;
@@ -34,13 +34,6 @@ class WalletSelector extends ConsumerWidget {
   }
 
   void _showChangeWallet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      routeSettings: const RouteSettings(name: '/change-wallet'),
-      builder: (context) {
-        return const ChangeWalletPage();
-      },
-    );
+    Navigator.pushNamed(context, AppRoutes.changeWalletModal);
   }
 }
