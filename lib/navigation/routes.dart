@@ -16,4 +16,6 @@ class AppRoutes {
   static const sendFeedback = '/send-feedback';
   static const changeWalletModal = '/change-wallet-modal';
   static const transactionsFiltersModal = '/transactions-filters-modal';
+  static const categoryMakerAddModal = '/category-maker-add-modal';
+  static const categoryMakerEditModal = '/category-maker-edit-modal';
 }
