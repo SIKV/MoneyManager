@@ -15,7 +15,6 @@ import '../../l10n/app_localizations.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
-import 'ui/header_filters.dart';
 
 class TransactionsPage extends ConsumerWidget {
   const TransactionsPage({super.key});
@@ -108,13 +107,6 @@ class TransactionsPage extends ConsumerWidget {
   }
 
   void _showMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      routeSettings: const RouteSettings(name: '/transactions-filters'),
-      builder: (context) {
-        return const HeaderFilters();
-      },
-    );
+    Navigator.pushNamed(context, AppRoutes.transactionsFiltersModal);
   }
 }

@@ -15,4 +15,5 @@ class AppRoutes {
   static const verifyPasscode = '/verify-passcode';
   static const sendFeedback = '/send-feedback';
   static const changeWalletModal = '/change-wallet-modal';
+  static const transactionsFiltersModal = '/transactions-filters';
 }
