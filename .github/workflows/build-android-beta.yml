@@ -2,7 +2,7 @@ name: build-android-beta
 on:
   push:
     tags:
-      - 'v*-beta.*'
+      - 'v*-beta'
 jobs:
   build:
     name: Build MoneyManagerBeta Android
