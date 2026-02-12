@@ -1,9 +1,8 @@
 name: build-android-beta
 on:
   push:
-    branches: 
-      - beta
-
+    tags:
+      - 'v*-beta.*'
 jobs:
   build:
     name: Build MoneyManagerBeta Android
