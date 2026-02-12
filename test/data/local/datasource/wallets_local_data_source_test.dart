@@ -5,6 +5,8 @@ import 'package:moneymanager/data/local/entity/wallet_entity.dart';
 import 'package:moneymanager/data/local/entity/currency_entity.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late Isar isar;
   late WalletsLocalDataSource dataSource;
 
