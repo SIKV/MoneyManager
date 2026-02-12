@@ -75,8 +75,8 @@ android {
             dimension 'default'
             resValue 'string', 'app_name', 'Money Manager'
             applicationIdSuffix '.beta'
-            versionCode 2
-            versionName '2025.2-beta'
+            versionCode 3
+            versionName '2026.1-beta'
             if (keystoreFile?.exists()) {
                 buildTypes.release.signingConfig signingConfigs.betaRelease
             }
@@ -85,8 +85,8 @@ android {
             dimension 'default'
             resValue 'string', 'app_name', 'Money Manager'
             applicationIdSuffix '.dev'
-            versionCode 2
-            versionName '2025.2-dev'
+            versionCode 3
+            versionName '2026.1-dev'
         }
     }
 
