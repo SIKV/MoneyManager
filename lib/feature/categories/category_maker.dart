@@ -56,7 +56,6 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
   Widget build(BuildContext context) {
     final state = ref.watch(categoryMakerControllerProvider);
 
-    _listenTitleChanged();
     _listenShouldPopPage();
 
     String title = '';
@@ -120,13 +119,6 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
     if (args is EditCategoryMakerArgs) {
       _titleTextController.text = args.category.title;
     }
-  }
-
-  void _listenTitleChanged() {
-    ref.listen(categoryMakerControllerProvider
-        .select((value) => value.category.title), (previous, next) {
-      _titleTextController.text = next;
-    });
   }
 
   void _typeChanged(TransactionType? type) {
