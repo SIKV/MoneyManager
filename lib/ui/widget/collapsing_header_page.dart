@@ -1,6 +1,8 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/colors.dart';
 import 'package:moneymanager/ui/widget/header_circle_button.dart';
@@ -27,6 +29,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
   final VoidCallback? onTitlePressed;
   final Widget? primaryAction;
   final List<HeaderCircleButton>? secondaryActions;
+  final ScrollPhysics? physics;
   final Widget sliver;
 
   const CollapsingHeaderPage({
@@ -45,6 +48,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
     this.onTitlePressed,
     this.primaryAction,
     this.secondaryActions,
+    this.physics,
     required this.sliver,
   });
 
@@ -54,6 +58,7 @@ class CollapsingHeaderPage extends ConsumerWidget {
 
     return Material(
       child: CustomScrollView(
+        physics: physics,
         slivers: [
           SliverPersistentHeader(
             pinned: true,
@@ -119,6 +124,12 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   double paddingTop = 0;
   double scrollProgress = 0;
 
+  // Without it a pinned header stays glued to the top edge while the content
+  // below it rubber-bands away. With it the header grows by the over-scroll.
+  @override
+  final OverScrollHeaderStretchConfiguration stretchConfiguration =
+      OverScrollHeaderStretchConfiguration();
+
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     paddingTop = MediaQuery.of(context).padding.top;
@@ -126,39 +137,54 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     final scrollProgress = shrinkOffset / (maxExtent - minExtent);
     this.scrollProgress = (scrollProgress > 1.0) ? 1.0 : scrollProgress;
 
-    return Stack(
-      children: [
-        // This is needed to remove a horizontal line between CollapsingHeaderContent and its content.
-        Positioned(
-          height: expandedHeight,
-          left: 0,
-          right: 0,
-          bottom: 1,
-          child: Container(color: startColor),
-        ),
-        // This is needed to remove a horizontal line between CollapsingHeaderContent and its content.
-        Positioned(
-          height: expandedHeight,
-          left: 0,
-          right: 0,
-          bottom: 1,
-          child: buildGradient(),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: paddingTop),
-          child: buildHeader(),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              buildSecondaryActions(),
-              buildContentRoundBorder(context),
-            ],
-          ),
-        ),
-      ],
+    // The header is only rebuilt when it collapses, but it is laid out again on
+    // every over-scroll, so the stretch can only be measured here.
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final height = max(minExtent, maxExtent - shrinkOffset);
+        final stretch = max(0.0, constraints.maxHeight - height);
+
+        return Stack(
+          children: [
+            // This is needed to remove a horizontal line between CollapsingHeaderContent and its content.
+            // Filling the whole header, so that it keeps its color when stretched.
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 1,
+              child: Container(color: startColor),
+            ),
+            // This is needed to remove a horizontal line between CollapsingHeaderContent and its content.
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 1,
+              child: buildGradient(),
+            ),
+            // The rest of the header is aligned to the bottom, so the stretch
+            // moves it on its own. This one has to follow the over-scroll too.
+            Transform.translate(
+              offset: Offset(0, stretch),
+              child: Container(
+                padding: EdgeInsets.only(top: paddingTop),
+                child: buildHeader(),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  buildSecondaryActions(),
+                  buildContentRoundBorder(context),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -331,35 +357,49 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
         scrollProgress
     );
 
-    final titleInt = rawTitle?.toInt() ?? 0;
+    final rawTitle = this.rawTitle;
+
+    if (rawTitle == null) {
+      return buildTitleText(title, titleTextStyle, titleSuffixTextStyle);
+    }
+
+    final titleInt = rawTitle.toInt();
 
     return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 0, end: rawTitle ?? 0),
+      tween: Tween<double>(begin: 0, end: rawTitle),
       duration: _titleAnimationDuration,
       builder: (context, value, child) {
         final valueInt = value.toInt();
 
-        return RichText(
-          text: TextSpan(
-            children: [
-              if (titlePrefix != null) TextSpan(
-                text: titlePrefix,
-                style: titleTextStyle,
-              ),
-
-              TextSpan(
-                text: valueInt == titleInt ? title : '$valueInt',
-                style: titleTextStyle,
-              ),
-
-              if (titleSuffix != null) TextSpan(
-                text: titleSuffix,
-                style: titleSuffixTextStyle,
-              ),
-            ],
-          ),
+        return buildTitleText(valueInt == titleInt ? title : '$valueInt',
+          titleTextStyle,
+          titleSuffixTextStyle,
         );
       },
+    );
+  }
+
+  Widget buildTitleText(String title, TextStyle? titleTextStyle,
+      TextStyle? titleSuffixTextStyle) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          if (titlePrefix != null) TextSpan(
+            text: titlePrefix,
+            style: titleTextStyle,
+          ),
+
+          TextSpan(
+            text: title,
+            style: titleTextStyle,
+          ),
+
+          if (titleSuffix != null) TextSpan(
+            text: titleSuffix,
+            style: titleSuffixTextStyle,
+          ),
+        ],
+      ),
     );
   }
 
