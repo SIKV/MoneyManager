@@ -10,8 +10,6 @@ import 'package:moneymanager/ui/widget/header_circle_button.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 
-// TODO: Make title auto-resizable.
-
 Duration _titleAnimationDuration = const Duration(milliseconds: 1500);
 
 class CollapsingHeaderPage extends ConsumerWidget {
@@ -259,8 +257,10 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
           onTitlePressed?.call();
         },
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            buildTitle(),
+            // Lets the title shrink instead of pushing the action out of the header.
+            Flexible(child: buildTitle()),
             if (onTitlePressed != null) ...[
               Padding(
                 padding: titleActionPaddings ?? const EdgeInsets.only(),
@@ -306,10 +306,13 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     ) ?? const EdgeInsets.all(0);
 
     final List<Widget> rowChildren = [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: children,
+      // Bounds the title width, otherwise there is nothing to fit it into.
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: children,
+        ),
       )
     ];
 
@@ -357,49 +360,106 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
         scrollProgress
     );
 
-    final rawTitle = this.rawTitle;
-
-    if (rawTitle == null) {
-      return buildTitleText(title, titleTextStyle, titleSuffixTextStyle);
-    }
-
-    final titleInt = rawTitle.toInt();
-
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 0, end: rawTitle),
-      duration: _titleAnimationDuration,
-      builder: (context, value, child) {
-        final valueInt = value.toInt();
-
-        return buildTitleText(valueInt == titleInt ? title : '$valueInt',
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Measured against the final title, so that the count up animation
+        // below runs at a single size instead of shrinking on its last frame.
+        final scale = titleScale(context, constraints.maxWidth,
           titleTextStyle,
           titleSuffixTextStyle,
+        );
+
+        final scaledTitleTextStyle = scaleTextStyle(titleTextStyle, scale);
+        final scaledTitleSuffixTextStyle =
+            scaleTextStyle(titleSuffixTextStyle, scale);
+
+        final rawTitle = this.rawTitle;
+
+        if (rawTitle == null) {
+          return buildTitleText(title,
+            scaledTitleTextStyle,
+            scaledTitleSuffixTextStyle,
+          );
+        }
+
+        final titleInt = rawTitle.toInt();
+
+        return TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0, end: rawTitle),
+          duration: _titleAnimationDuration,
+          builder: (context, value, child) {
+            final valueInt = value.toInt();
+
+            return buildTitleText(valueInt == titleInt ? title : '$valueInt',
+              scaledTitleTextStyle,
+              scaledTitleSuffixTextStyle,
+            );
+          },
         );
       },
     );
   }
 
+  /// How much the title has to be scaled down to fit into [maxWidth]. The
+  /// prefix and the suffix are scaled by the same factor, so that the title
+  /// keeps its proportions.
+  double titleScale(BuildContext context, double maxWidth,
+      TextStyle? titleTextStyle, TextStyle? titleSuffixTextStyle) {
+    if (!maxWidth.isFinite || maxWidth <= 0) {
+      return 1;
+    }
+
+    final textPainter = TextPainter(
+      text: buildTitleSpan(title, titleTextStyle, titleSuffixTextStyle),
+      textDirection: Directionality.of(context),
+      maxLines: 1,
+    )..layout();
+
+    final width = textPainter.width;
+    textPainter.dispose();
+
+    if (width <= maxWidth || width == 0) {
+      return 1;
+    }
+
+    return maxWidth / width;
+  }
+
+  TextStyle? scaleTextStyle(TextStyle? style, double scale) {
+    final fontSize = style?.fontSize;
+    if (style == null || fontSize == null || scale == 1) {
+      return style;
+    }
+    return style.copyWith(fontSize: fontSize * scale);
+  }
+
   Widget buildTitleText(String title, TextStyle? titleTextStyle,
       TextStyle? titleSuffixTextStyle) {
     return RichText(
-      text: TextSpan(
-        children: [
-          if (titlePrefix != null) TextSpan(
-            text: titlePrefix,
-            style: titleTextStyle,
-          ),
+      maxLines: 1,
+      text: buildTitleSpan(title, titleTextStyle, titleSuffixTextStyle),
+    );
+  }
 
-          TextSpan(
-            text: title,
-            style: titleTextStyle,
-          ),
+  TextSpan buildTitleSpan(String title, TextStyle? titleTextStyle,
+      TextStyle? titleSuffixTextStyle) {
+    return TextSpan(
+      children: [
+        if (titlePrefix != null) TextSpan(
+          text: titlePrefix,
+          style: titleTextStyle,
+        ),
 
-          if (titleSuffix != null) TextSpan(
-            text: titleSuffix,
-            style: titleSuffixTextStyle,
-          ),
-        ],
-      ),
+        TextSpan(
+          text: title,
+          style: titleTextStyle,
+        ),
+
+        if (titleSuffix != null) TextSpan(
+          text: titleSuffix,
+          style: titleSuffixTextStyle,
+        ),
+      ],
     );
   }
 
