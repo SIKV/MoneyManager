@@ -4,12 +4,14 @@ import 'package:moneymanager/data/local/datasource/categories_local_data_source.
 import 'package:moneymanager/data/local/entity/transaction_category_entity.dart';
 import 'package:moneymanager/data/local/entity/transaction_type_entity.dart';
 
+import '../../../isar_test_utils.dart';
+
 void main() {
   late Isar isar;
   late CategoriesLocalDataSource dataSource;
 
   setUp(() async {
-    await Isar.initializeIsarCore(download: true);
+    await initializeIsarCoreForTests();
 
     isar = await Isar.open([TransactionCategoryEntitySchema],
       name: 'categories_test_db',

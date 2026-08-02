@@ -4,14 +4,14 @@ import 'package:moneymanager/data/local/datasource/wallets_local_data_source.dar
 import 'package:moneymanager/data/local/entity/wallet_entity.dart';
 import 'package:moneymanager/data/local/entity/currency_entity.dart';
 
-void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
+import '../../../isar_test_utils.dart';
 
+void main() {
   late Isar isar;
   late WalletsLocalDataSource dataSource;
 
   setUp(() async {
-    await Isar.initializeIsarCore(download: true);
+    await initializeIsarCoreForTests();
 
     isar = await Isar.open([WalletEntitySchema],
       name: 'wallets_test_db',

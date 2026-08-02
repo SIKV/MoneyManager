@@ -34,6 +34,11 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Isar Core library downloaded by the tests
+libisar.dylib
+libisar.so
+isar.dll
+
 # Symbolication related
 app.*.symbols
 
