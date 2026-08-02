@@ -4,6 +4,7 @@ import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/ui/extensions.dart';
 
 import '../../../theme/spacings.dart';
+import '../anonymous_mode/anonymous_mode_controller.dart';
 import '../../../theme/theme.dart';
 import '../../../theme/theme_manager.dart';
 import 'domain/transaction_item_ui_model.dart';
@@ -19,6 +20,7 @@ class TransactionItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
+    final bool anonymousMode = ref.watch(anonymousModeControllerProvider);
 
     return Row(
       children: [
@@ -49,7 +51,7 @@ class TransactionItem extends ConsumerWidget {
 
         const SizedBox(width: Spacings.five),
 
-        Text(transaction.amount,
+        Text(anonymousMode ? anonymousAmount : transaction.amount,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             color: transaction.type == TransactionType.income ? appTheme.colors.incomeTransaction : null,
           ),

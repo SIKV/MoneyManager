@@ -14,6 +14,7 @@ const _keyCurrentWallet = 'currentWallet';
 const _keyTheme = 'theme';
 const _keyIncomeCategoriesCustomOrder = 'incomeCategoriesCustomOrder';
 const _keyExpenseCategoriesCustomOrder = 'expenseCategoriesCustomOrder';
+const _keyAnonymousMode = 'anonymousMode';
 
 // TODO: Split to separate services?
 class LocalPreferences {
@@ -65,6 +66,14 @@ class LocalPreferences {
   void setTheme(AppThemeType theme) {
     _prefs.setInt(_keyTheme, theme.id);
     _theme = theme;
+  }
+
+  bool isAnonymousMode() {
+    return _prefs.getBool(_keyAnonymousMode) ?? false;
+  }
+
+  void setAnonymousMode(bool enabled) {
+    _prefs.setBool(_keyAnonymousMode, enabled);
   }
 
   List<String> getCategoriesCustomOrder(TransactionType type) {
