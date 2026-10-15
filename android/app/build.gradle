@@ -55,7 +55,7 @@ android {
 
     signingConfigs {
         if (keystoreFile?.exists()) {
-            betaRelease {
+            release {
                 keyAlias keystoreProperties['keyAlias']
                 keyPassword keystoreProperties['keyPassword']
                 storeFile keystoreFile
@@ -68,25 +68,18 @@ android {
         prod {
             dimension 'default'
             resValue 'string', 'app_name', 'Money Manager'
-            versionCode 1
-            versionName ''
-        }
-        beta {
-            dimension 'default'
-            resValue 'string', 'app_name', 'Money Manager'
-            applicationIdSuffix '.beta'
-            versionCode 3
-            versionName '2026.1-beta'
+            versionCode flutter.versionCode
+            versionName flutter.versionName
             if (keystoreFile?.exists()) {
-                buildTypes.release.signingConfig signingConfigs.betaRelease
+                buildTypes.release.signingConfig signingConfigs.release
             }
         }
         dev {
             dimension 'default'
             resValue 'string', 'app_name', 'Money Manager'
             applicationIdSuffix '.dev'
-            versionCode 3
-            versionName '2026.1-dev'
+            versionCode flutter.versionCode
+            versionName "${flutter.versionName}-dev"
         }
     }
 

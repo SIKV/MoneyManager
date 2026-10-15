@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build MoneyManagerDev Android
+    name: Build Money Manager Android [Dev] Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
