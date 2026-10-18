@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneymanager/feature/backup/domain/backup_import_summary.dart';
 import 'package:moneymanager/feature/backup/domain/backup_state.dart';
 import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/service/backup/backup_data.dart';
 import 'package:moneymanager/service/backup/backup_result_status.dart';
 
+import '../../../data/providers.dart';
 import '../../../service/providers.dart';
 
 final backupControllerProvider = NotifierProvider.autoDispose<BackupController, BackupState>(() {
@@ -24,7 +24,7 @@ class BackupController extends AutoDisposeNotifier<BackupState> {
       exportResult: null,
       importInProgress: false,
       importResult: null,
-      importConfirmation: null,
+      importConfirmationRequired: false,
     );
   }
 
@@ -73,15 +73,9 @@ class BackupController extends AutoDisposeNotifier<BackupState> {
 
     _pendingImport = backup;
 
-    final summary = BackupImportSummary(
-      walletsCount: backup.wallets.length,
-      categoriesCount: backup.categories.length,
-      transactionsCount: backup.transactions.length,
-    );
-
     _updateState((state) => state.copyWith(
       importInProgress: false,
-      importConfirmation: summary,
+      importConfirmationRequired: true,
     ));
   }
 
@@ -95,7 +89,7 @@ class BackupController extends AutoDisposeNotifier<BackupState> {
 
     _updateState((state) => state.copyWith(
       importInProgress: true,
-      importConfirmation: null,
+      importConfirmationRequired: false,
     ));
 
     final backupService = ref.watch(backupServiceProvider);
@@ -103,6 +97,9 @@ class BackupController extends AutoDisposeNotifier<BackupState> {
 
     if (result == BackupResultStatus.success) {
       _resetCurrentWallet(backup);
+
+      final categoriesRepository = await ref.read(categoriesRepositoryProvider);
+      categoriesRepository.notifyUpdated();
     }
 
     _updateState((state) => state.copyWith(
@@ -115,7 +112,7 @@ class BackupController extends AutoDisposeNotifier<BackupState> {
     _pendingImport = null;
 
     _updateState((state) => state.copyWith(
-      importConfirmation: null,
+      importConfirmationRequired: false,
     ));
   }
 

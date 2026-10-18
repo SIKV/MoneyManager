@@ -106,20 +106,6 @@
   "backupPage_errorMessage": "Something went wrong",
   "backupPage_importConfirmationTitle": "Replace all data?",
   "backupPage_importConfirmationDescription": "All current wallets, categories and transactions will be deleted and replaced with the data from the backup file. This action cannot be undone.",
-  "backupPage_importConfirmationContents": "The backup file contains:\nWallets: {wallets}\nCategories: {categories}\nTransactions: {transactions}",
-  "@backupPage_importConfirmationContents": {
-    "placeholders": {
-      "wallets": {
-        "type": "int"
-      },
-      "categories": {
-        "type": "int"
-      },
-      "transactions": {
-        "type": "int"
-      }
-    }
-  },
   "backupPage_importConfirmationButton": "Replace",
 
 
