@@ -1,5 +1,5 @@
+![build-android-release](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-release.yml/badge.svg)
 ![build-android-dev](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-dev.yml/badge.svg)
-![build-android-beta](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-beta.yml/badge.svg)
 
 ## Money Manager
 Track your financial transactions effortlessly with this open-source app.
