@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/backup/controller/backup_controller.dart';
+import 'package:moneymanager/feature/backup/domain/backup_import_summary.dart';
 import 'package:moneymanager/service/backup/backup_result_status.dart';
+import 'package:moneymanager/theme/spacings.dart';
 
 import '../../l10n/app_localizations.dart';
 
@@ -14,7 +16,7 @@ class BackupPage extends ConsumerWidget {
 
     _listenResults(ref, context);
 
-    final isBackupAllowed = !state.exportInProgress;
+    final isBackupAllowed = !state.exportInProgress && !state.importInProgress;
 
     final exportLeading = state.exportInProgress
         ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator())
@@ -75,6 +77,32 @@ class BackupPage extends ConsumerWidget {
       _handleBackupResultStatus(context, next);
       _markResultsAsHandled(ref);
     });
+
+    ref.listen(backupControllerProvider.select((state) => state.importConfirmation), (prev, next) {
+      if (next != null) {
+        _confirmImport(context, ref, next);
+      }
+    });
+  }
+
+  void _confirmImport(BuildContext context, WidgetRef ref, BackupImportSummary summary) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return _ImportConfirmation(summary: summary);
+      },
+    );
+
+    if (!context.mounted) {
+      return;
+    }
+
+    final controller = ref.read(backupControllerProvider.notifier);
+    if (confirmed == true) {
+      controller.confirmImport();
+    } else {
+      controller.cancelImport();
+    }
   }
 
   void _markResultsAsHandled(WidgetRef ref) {
@@ -103,5 +131,43 @@ class BackupPage extends ConsumerWidget {
   void _showMessage(BuildContext context, String text) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(text)));
+  }
+}
+
+class _ImportConfirmation extends StatelessWidget {
+  final BackupImportSummary summary;
+
+  const _ImportConfirmation({required this.summary});
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
+    return AlertDialog(
+      title: Text(localizations.backupPage_importConfirmationTitle),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: [
+            Text(localizations.backupPage_importConfirmationDescription),
+            const SizedBox(height: Spacings.four),
+            Text(localizations.backupPage_importConfirmationContents(
+              summary.walletsCount,
+              summary.categoriesCount,
+              summary.transactionsCount,
+            )),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(localizations.cancel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: Text(localizations.backupPage_importConfirmationButton),
+        ),
+      ],
+    );
   }
 }
