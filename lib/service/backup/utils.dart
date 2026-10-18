@@ -10,6 +10,7 @@ import 'package:moneymanager/data/local/entity/wallet_entity.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../data/local/providers.dart';
+import 'backup_data.dart';
 
 const _keyWallets = 'wallets';
 const _keyCategories = 'categories';
@@ -31,28 +32,51 @@ Future<File> createJsonBackupFile(RootIsolateToken rootIsolateToken) async {
   return file;
 }
 
-Future<bool> writeJsonBackupFileToDatabase(String path, RootIsolateToken rootIsolateToken) async {
+/// Reads and parses the whole backup file without touching the database.
+///
+/// Throws if the file is not a valid backup.
+Future<BackupData> readJsonBackupFile(String path) async {
+  final content = await File(path).readAsString();
+  return parseJsonBackup(content);
+}
+
+BackupData parseJsonBackup(String content) {
+  final jsonContent = jsonDecode(content) as Map<String, dynamic>;
+
+  return BackupData(
+    wallets: _jsonToWalletList(jsonContent[_keyWallets] as List<dynamic>),
+    categories: _jsonToTransactionCategoryList(jsonContent[_keyCategories] as List<dynamic>),
+    transactions: _jsonToTransactionList(jsonContent[_keyTransactions] as List<dynamic>),
+  );
+}
+
+Future<bool> replaceDatabaseWithBackup(BackupData backup, RootIsolateToken rootIsolateToken) async {
   BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
 
   final providerContainer = ProviderContainer();
   final isar = await providerContainer.read(isarProvider);
 
   try {
-    File file = File(path);
-
-    final content = await file.readAsString();
-    final jsonContent = jsonDecode(content) as Map<String, dynamic>;
-
-    isar.writeTxnSync(()  {
-      isar.walletEntitys.putAllSync(_jsonToWalletList(jsonContent[_keyWallets]));
-      isar.transactionCategoryEntitys.putAllSync(_jsonToTransactionCategoryList(jsonContent[_keyCategories]));
-      isar.transactionEntitys.putAllSync(_jsonToTransactionList(jsonContent[_keyTransactions]));
-    });
-
+    writeBackupToDatabase(isar, backup);
     return Future.value(true);
   } catch (e) {
     return Future.value(false);
   }
+}
+
+/// Replaces all existing data with the backup.
+///
+/// Everything happens in a single transaction, so if anything fails, the existing data stays untouched.
+void writeBackupToDatabase(Isar isar, BackupData backup) {
+  isar.writeTxnSync(() {
+    isar.walletEntitys.clearSync();
+    isar.transactionCategoryEntitys.clearSync();
+    isar.transactionEntitys.clearSync();
+
+    isar.walletEntitys.putAllSync(backup.wallets);
+    isar.transactionCategoryEntitys.putAllSync(backup.categories);
+    isar.transactionEntitys.putAllSync(backup.transactions);
+  });
 }
 
 List<WalletEntity> _jsonToWalletList(List<dynamic> json) {

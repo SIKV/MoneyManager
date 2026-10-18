@@ -11,5 +11,7 @@ class BackupState with _$BackupState {
     required BackupResultStatus? exportResult,
     required bool importInProgress,
     required BackupResultStatus? importResult,
+    // True while a read backup file is waiting for the user to confirm the import.
+    required bool importConfirmationRequired,
   }) = _BackupState;
 }

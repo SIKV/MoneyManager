@@ -101,9 +101,12 @@
   "backupPage_exportBackupFileTitle": "Export backup file",
   "backupPage_exportBackupFileSubtitle": "Export all data to a file. You can import it later",
   "backupPage_importBackupFileTitle": "Import backup file",
-  "backupPage_importBackupFileSubtitle": "Import data from a file",
+  "backupPage_importBackupFileSubtitle": "Replace all data with the data from a file",
   "backupPage_successMessage": "Success",
   "backupPage_errorMessage": "Something went wrong",
+  "backupPage_importConfirmationTitle": "Replace all data?",
+  "backupPage_importConfirmationDescription": "All current wallets, categories and transactions will be deleted and replaced with the data from the backup file. This action cannot be undone.",
+  "backupPage_importConfirmationButton": "Replace",
 
 
   "categoryMakerPage_addTitle": "Add Category",
