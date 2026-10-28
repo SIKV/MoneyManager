@@ -18,6 +18,9 @@ class CategoriesController extends AsyncNotifier<CategoriesState> {
     final selectedType = state.value?.selectedType ?? TransactionType.income;
     final showArchived = state.value?.showArchived ?? false;
 
+    // Rebuild when categories were changed outside of this controller (e.g. by a backup import).
+    ref.watch(categoriesRepositoryUpdatedProvider);
+
     final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
     final categories = await categoriesRepository.getAll(selectedType, showArchived);
 

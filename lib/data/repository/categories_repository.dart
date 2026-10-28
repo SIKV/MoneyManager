@@ -22,6 +22,11 @@ class CategoriesRepository {
     await _initWithDefaultsIfEmpty(TransactionType.expense);
   }
 
+  // Call when categories were changed outside of this repository (e.g. by a backup import).
+  void notifyUpdated() {
+    onUpdated.add(Object);
+  }
+
   Future<void> addOrUpdate(TransactionCategory category) async {
     await localDataSource.addOrUpdate(category.toEntity());
     onUpdated.add(Object);

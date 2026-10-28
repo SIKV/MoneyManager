@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'backup_data.dart';
 import 'backup_result_status.dart';
 import 'utils.dart';
 
@@ -37,7 +38,10 @@ class BackupService {
     }
   }
 
-  Future<BackupResultStatus> importJsonFile() async {
+  /// Lets the user pick a backup file and reads it without touching the database.
+  ///
+  /// Returns null if the user canceled the picker. Throws if the file is not a valid backup.
+  Future<BackupData?> readJsonFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
@@ -47,17 +51,22 @@ class BackupService {
     final path = result?.files.single.path;
 
     if (path != null) {
-      RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
-      final writeResult = await Isolate.run(() => writeJsonBackupFileToDatabase(path, rootIsolateToken));
-
-      if (writeResult) {
-        return Future.value(BackupResultStatus.success);
-      } else {
-        return Future.value(BackupResultStatus.error);
-      }
+      return Isolate.run(() => readJsonBackupFile(path));
     } else {
       // User canceled the picker.
-      return Future.value(BackupResultStatus.canceled);
+      return null;
+    }
+  }
+
+  /// Replaces all existing data with the backup.
+  Future<BackupResultStatus> replaceAllData(BackupData backup) async {
+    RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
+    final writeResult = await Isolate.run(() => replaceDatabaseWithBackup(backup, rootIsolateToken));
+
+    if (writeResult) {
+      return BackupResultStatus.success;
+    } else {
+      return BackupResultStatus.error;
     }
   }
 }

@@ -14,7 +14,7 @@ class BackupPage extends ConsumerWidget {
 
     _listenResults(ref, context);
 
-    final isBackupAllowed = !state.exportInProgress;
+    final isBackupAllowed = !state.exportInProgress && !state.importInProgress;
 
     final exportLeading = state.exportInProgress
         ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator())
@@ -75,6 +75,32 @@ class BackupPage extends ConsumerWidget {
       _handleBackupResultStatus(context, next);
       _markResultsAsHandled(ref);
     });
+
+    ref.listen(backupControllerProvider.select((state) => state.importConfirmationRequired), (prev, next) {
+      if (next) {
+        _confirmImport(context, ref);
+      }
+    });
+  }
+
+  void _confirmImport(BuildContext context, WidgetRef ref) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return const _ImportConfirmation();
+      },
+    );
+
+    if (!context.mounted) {
+      return;
+    }
+
+    final controller = ref.read(backupControllerProvider.notifier);
+    if (confirmed == true) {
+      controller.confirmImport();
+    } else {
+      controller.cancelImport();
+    }
   }
 
   void _markResultsAsHandled(WidgetRef ref) {
@@ -103,5 +129,32 @@ class BackupPage extends ConsumerWidget {
   void _showMessage(BuildContext context, String text) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(text)));
+  }
+}
+
+class _ImportConfirmation extends StatelessWidget {
+
+  const _ImportConfirmation();
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
+    return AlertDialog(
+      title: Text(localizations.backupPage_importConfirmationTitle),
+      content: SingleChildScrollView(
+        child: Text(localizations.backupPage_importConfirmationDescription),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(localizations.cancel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: Text(localizations.backupPage_importConfirmationButton),
+        ),
+      ],
+    );
   }
 }
