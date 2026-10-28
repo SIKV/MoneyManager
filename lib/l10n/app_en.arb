@@ -38,6 +38,8 @@
   "addWalletPage_addButton": "Done",
   "addWalletPage_alreadyExistsError": "Wallet with the selected currency is already exists.",
   "addWalletPage_selectCurrencyPlaceholder": "Select currency",
+  "addWalletPage_selectCurrencyHint": "Tap to browse all currencies",
+  "addWalletPage_searchCurrencyHint": "Search currency",
 
 
   "changeWalletPage_title": "Change Wallet",

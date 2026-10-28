@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moneymanager/feature/backup/controller/backup_controller.dart';
+import 'package:moneymanager/feature/backup/ui/backup_results_listener.dart';
 import 'package:moneymanager/feature/wallet/select_currency_button.dart';
+import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/primary_button.dart';
@@ -25,10 +28,7 @@ class AddWalletPage extends ConsumerWidget {
     Widget? leading;
 
     if (state?.isFirstWallet == false) {
-      leading = IconButton(
-        onPressed: () => Navigator.pop(context),
-        icon: const Icon(Icons.arrow_back),
-      );
+      leading = const BackButton();
     }
 
     return Scaffold(
@@ -59,6 +59,11 @@ class AddWalletPage extends ConsumerWidget {
                 onPressed: canAddWallet ? () => _addWallet(context, ref) : null,
                 title: AppLocalizations.of(context)!.addWalletPage_addButton,
               ),
+
+              if (state?.isFirstWallet == true) ...[
+                const Spacer(),
+                const _ImportBackupButton(),
+              ],
             ],
           ),
         ),
@@ -95,5 +100,46 @@ class AddWalletPage extends ConsumerWidget {
         );
       }
     });
+  }
+}
+
+class _ImportBackupButton extends ConsumerWidget {
+  const _ImportBackupButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final importInProgress = ref.watch(backupControllerProvider
+        .select((state) => state.importInProgress));
+
+    listenBackupResults(context, ref,
+      onImported: () => _openHomeIfWalletImported(context, ref),
+    );
+
+    final icon = importInProgress
+        ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+        : const Icon(Icons.file_upload);
+
+    return TextButton.icon(
+      onPressed: importInProgress ? null : () => _importJsonFile(ref),
+      icon: icon,
+      label: Text(AppLocalizations.of(context)!.backupPage_importBackupFileTitle,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  void _importJsonFile(WidgetRef ref) {
+    ref.read(backupControllerProvider.notifier)
+        .importJsonFile();
+  }
+
+  // A backup without wallets leaves the user on this page to add one.
+  void _openHomeIfWalletImported(BuildContext context, WidgetRef ref) {
+    if (ref.read(localPreferencesProvider).currentWalletId != null) {
+      Navigator.pushReplacementNamed(context, AppRoutes.root);
+    }
   }
 }
