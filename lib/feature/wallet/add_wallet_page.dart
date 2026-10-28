@@ -131,9 +131,10 @@ class _ImportBackupButton extends ConsumerWidget {
     );
   }
 
+  // There are no wallets or transactions yet, so nothing needs to be confirmed.
   void _importJsonFile(WidgetRef ref) {
     ref.read(backupControllerProvider.notifier)
-        .importJsonFile();
+        .importJsonFile(confirmationRequired: false);
   }
 
   // A backup without wallets leaves the user on this page to add one.

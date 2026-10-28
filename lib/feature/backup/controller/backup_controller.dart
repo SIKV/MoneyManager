@@ -47,7 +47,8 @@ class BackupController extends AutoDisposeNotifier<BackupState> {
     ));
   }
 
-  void importJsonFile() async {
+  // Set [confirmationRequired] to false to replace the data right away, e.g. when there is nothing to lose yet.
+  void importJsonFile({bool confirmationRequired = true}) async {
     _updateState((state) => state.copyWith(importInProgress: true));
 
     final backupService = ref.watch(backupServiceProvider);
@@ -72,6 +73,11 @@ class BackupController extends AutoDisposeNotifier<BackupState> {
     }
 
     _pendingImport = backup;
+
+    if (!confirmationRequired) {
+      confirmImport();
+      return;
+    }
 
     _updateState((state) => state.copyWith(
       importInProgress: false,
