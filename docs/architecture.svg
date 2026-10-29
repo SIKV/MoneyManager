@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="548" viewBox="0 0 640 548" role="img" aria-labelledby="title desc">
+  <title id="title">Money Manager architecture</title>
+  <desc id="desc">A page calls its controller and watches its state. The controller calls a repository (wallets, categories or transactions). Each repository reads and writes through its LocalDataSource, which stores data in the Isar on-device database. The categories repository also loads default categories through CategoriesDefaultDataSource from assets/defaults/categories.json.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M2,1.5 L9,5 L2,8.5" fill="none" stroke="#8E8AA0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .box { fill: #EDE4FB; stroke: #C3ADEF; stroke-width: 1; }
+      .store { fill: #DCF2EA; stroke: #93D1BC; stroke-width: 1; }
+      .edge { fill: none; stroke: #8E8AA0; stroke-width: 1.5; }
+      .dashed { stroke-dasharray: 5 4; }
+      .pill { fill: #F3F0F8; }
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; text-anchor: middle; }
+      .title { font-size: 15px; font-weight: 600; fill: #2A2140; }
+      .sub { font-size: 12.5px; fill: #5B4F73; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+      .store-title { fill: #163A2F; }
+      .store-sub { fill: #3D6B5C; }
+      .label { font-size: 12px; fill: #4A4560; }
+    </style>
+  </defs>
+
+  <!-- Page and controller -->
+  <rect class="box" x="180" y="16" width="280" height="60" rx="10"/>
+  <text class="title" x="320" y="42">Page</text>
+  <text class="sub" x="320" y="61">Flutter widget</text>
+
+  <path class="edge" d="M290,76 V135" marker-end="url(#arrow)"/>
+  <rect class="pill" x="268" y="96" width="44" height="20" rx="10"/>
+  <text class="label" x="290" y="110">calls</text>
+
+  <path class="edge dashed" d="M350,136 V77" marker-end="url(#arrow)"/>
+  <rect class="pill" x="327" y="96" width="46" height="20" rx="10"/>
+  <text class="label" x="350" y="110">state</text>
+
+  <rect class="box" x="180" y="136" width="280" height="60" rx="10"/>
+  <text class="title" x="320" y="162">Controller</text>
+  <text class="sub" x="320" y="181">Riverpod notifier</text>
+
+  <!-- Repository -->
+  <path class="edge" d="M320,196 V243" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="180" y="244" width="280" height="60" rx="10"/>
+  <text class="title" x="320" y="270">Repository</text>
+  <text class="sub" x="320" y="289">wallets, categories, transactions</text>
+
+  <!-- Data sources -->
+  <path class="edge" d="M320,304 V320 Q320,330 310,330 H170 Q160,330 160,340 V355" marker-end="url(#arrow)"/>
+  <path class="edge" d="M320,304 V320 Q320,330 330,330 H470 Q480,330 480,340 V355" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="20" y="356" width="280" height="60" rx="10"/>
+  <text class="title" x="160" y="382">LocalDataSource</text>
+  <text class="sub" x="160" y="401">one per repository</text>
+
+  <rect class="box" x="340" y="356" width="280" height="60" rx="10"/>
+  <text class="title" x="480" y="382">CategoriesDefaultDataSource</text>
+  <text class="sub mono" x="480" y="401">assets/defaults/categories.json</text>
+
+  <!-- Database -->
+  <path class="edge" d="M160,416 V455" marker-end="url(#arrow)"/>
+
+  <path class="store" d="M60,466 A100,10 0 0 1 260,466 V526 A100,10 0 0 1 60,526 Z"/>
+  <path class="store" d="M60,466 A100,10 0 0 0 260,466" fill="none"/>
+  <text class="title store-title" x="160" y="500">Isar</text>
+  <text class="sub store-sub" x="160" y="518">on-device database</text>
+</svg>
