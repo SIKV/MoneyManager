@@ -4,21 +4,21 @@
 - User data is stored only on the device (Isar); there is no backend. 
 - Prod builds also send Firebase Analytics screen views and Sentry crash reports. Both are off unless enabled with `--dart-define` (see `lib/config.dart`).
 
-## Commands
+### Commands
 - After changing `@freezed`, `@riverpod` or Isar classes: `dart run build_runner build --delete-conflicting-outputs`. Generated `*.g.dart` and `*.freezed.dart` files aren't committed, so run this after a fresh checkout too.
 - Run: `flutter run --flavor dev` on Android (it has `dev` and `prod` flavors); plain `flutter run` on iOS.
 
-## Architecture
+### Architecture
 - State: Riverpod, mostly hand-written notifiers. Only `app_startup.dart` uses `@riverpod` codegen.
 - Features live in `lib/feature/<name>/`, usually split into `controller/`, `domain/` and `ui/`.
 - Shared widgets are in `lib/ui/widget/`.
 
-## Navigation conventions
+### Navigation
 - Navigation uses named routes. To add a screen: add a constant to `AppRoutes`, then add a case to `onGenerateRoute` in `app_startup.dart`.
 - Pass arguments as typed `*Args` classes through `settings.arguments`.
 - Bottom-sheet modals use `ModalBottomSheetRoute`, and their route names end in `-modal`.
 
-## UI conventions
+### UI
 - Every user-facing string goes in `lib/l10n/app_en.arb` and is read with `AppLocalizations.of(context)!.key`. Lowercase variants use an `l` prefix (`lIncome`, `lTransactions`).
 - Use `Spacings.*` for padding and gaps. Border radius uses `AppRadius.*` (`theme/radius.dart`), never `Spacings`.
 - Standard Material colors come from `Theme.of(context).colorScheme`. App-specific colors (income/expense, chart, header gradients) come from `ref.watch(appThemeManagerProvider).colors`. Don't hard-code colors.
@@ -32,7 +32,7 @@ Source: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/CLAUDE.md
 Copied: 2026-10-29.
 -->
 
-## 1. Think Before Coding
+### 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
@@ -42,7 +42,7 @@ Before implementing:
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
 
-## 2. Simplicity First
+### 2. Simplicity First
 
 **Minimum code that solves the problem. Nothing speculative.**
 
@@ -54,7 +54,7 @@ Before implementing:
 
 Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-## 3. Surgical Changes
+### 3. Surgical Changes
 
 **Touch only what you must. Clean up only your own mess.**
 
@@ -70,7 +70,7 @@ When your changes create orphans:
 
 The test: Every changed line should trace directly to the user's request.
 
-## 4. Goal-Driven Execution
+### 4. Goal-Driven Execution
 
 **Define success criteria. Loop until verified.**
 
