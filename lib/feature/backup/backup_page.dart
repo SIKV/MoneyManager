@@ -33,12 +33,14 @@ class BackupPage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                ListTile(
-                  enabled: isBackupAllowed,
-                  onTap: () => _exportJsonFile(ref),
-                  leading: exportLeading,
-                  title: Text(AppLocalizations.of(context)!.backupPage_exportBackupFileTitle),
-                  subtitle: Text(AppLocalizations.of(context)!.backupPage_exportBackupFileSubtitle),
+                Builder(
+                  builder: (tileContext) => ListTile(
+                    enabled: isBackupAllowed,
+                    onTap: () => _exportJsonFile(tileContext, ref),
+                    leading: exportLeading,
+                    title: Text(AppLocalizations.of(context)!.backupPage_exportBackupFileTitle),
+                    subtitle: Text(AppLocalizations.of(context)!.backupPage_exportBackupFileSubtitle),
+                  ),
                 ),
                 ListTile(
                   enabled: isBackupAllowed,
@@ -55,9 +57,13 @@ class BackupPage extends ConsumerWidget {
     );
   }
 
-  void _exportJsonFile(WidgetRef ref) {
+  // iOS anchors the share sheet to the tapped tile and fails if no position is given.
+  void _exportJsonFile(BuildContext tileContext, WidgetRef ref) {
+    final box = tileContext.findRenderObject() as RenderBox?;
+    final sharePositionOrigin = box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+
     ref.read(backupControllerProvider.notifier)
-        .exportJsonFile();
+        .exportJsonFile(sharePositionOrigin: sharePositionOrigin);
   }
 
   void _importJsonFile(WidgetRef ref) {

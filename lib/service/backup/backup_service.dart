@@ -17,24 +17,31 @@ class BackupService {
     _canceled = true;
   }
 
-  Future<BackupResultStatus> exportJsonFile() async {
+  /// Creates a backup file and opens the share sheet for it.
+  ///
+  /// [sharePositionOrigin] is where the share sheet is anchored on iPad and on iOS 26+.
+  Future<BackupResultStatus> exportJsonFile({Rect? sharePositionOrigin}) async {
     _canceled = false;
 
     RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
     final file = await Isolate.run(() => createJsonBackupFile(rootIsolateToken));
 
-    if (!_canceled) {
+    try {
+      if (_canceled) {
+        return BackupResultStatus.canceled;
+      }
+
       final xFile = XFile(file.path);
 
       ShareParams shareParams = ShareParams(
         files: [xFile],
+        sharePositionOrigin: sharePositionOrigin,
       );
       final result = await SharePlus.instance.share(shareParams);
-      await file.delete();
 
       return result.status.toBackupResultStatus();
-    } else {
-      return BackupResultStatus.canceled;
+    } finally {
+      await file.delete();
     }
   }
 
