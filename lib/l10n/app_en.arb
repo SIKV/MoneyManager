@@ -120,6 +120,20 @@
   "categoryMakerPage_errorEmptyTitle": "Title cannot be empty",
 
 
+  "emojiPicker_title": "Choose Emoji",
+  "emojiPicker_searchHint": "Search emoji",
+  "emojiPicker_noResults": "No emoji found",
+  "emojiPicker_smileysEmotion": "Smileys & Emotion",
+  "emojiPicker_peopleBody": "People & Body",
+  "emojiPicker_animalsNature": "Animals & Nature",
+  "emojiPicker_foodDrink": "Food & Drink",
+  "emojiPicker_travelPlaces": "Travel & Places",
+  "emojiPicker_activities": "Activities",
+  "emojiPicker_objects": "Objects",
+  "emojiPicker_symbols": "Symbols",
+  "emojiPicker_flags": "Flags",
+
+
   "morePage_sendFeedback_itemTitle": "Send Feedback",
   "morePage_sendFeedback_itemSubtitle": "Send feedback or report a bug",
 

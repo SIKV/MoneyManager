@@ -129,6 +129,8 @@ class _CategoryMakerState extends ConsumerState<CategoryMaker> {
   void _selectEmoji() {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
       routeSettings: const RouteSettings(name: '/emoji-picker-modal'),
       builder: (context) =>
           EmojiPickerContent(

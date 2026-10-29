@@ -249,14 +249,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  emoji_picker_flutter:
+  emojis:
     dependency: "direct main"
     description:
-      name: emoji_picker_flutter
-      sha256: "3bf6d4cadc188215570a15c80fd7aeecec312b1cb3168ab08394e0faa4161fcb"
+      name: emojis
+      sha256: "36d382349255a3d90a33fa5e01b57b5213578d90a493aad98d2955dac79df74f"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.2.0"
   equatable:
     dependency: "direct main"
     description:
