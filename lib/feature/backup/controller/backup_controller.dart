@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/backup/domain/backup_state.dart';
@@ -35,11 +36,17 @@ class BackupController extends AutoDisposeNotifier<BackupState> {
     ));
   }
 
-  void exportJsonFile() async {
+  void exportJsonFile({Rect? sharePositionOrigin}) async {
     _updateState((state) => state.copyWith(exportInProgress: true));
 
     final backupService = ref.watch(backupServiceProvider);
-    final result = await backupService.exportJsonFile();
+
+    BackupResultStatus result;
+    try {
+      result = await backupService.exportJsonFile(sharePositionOrigin: sharePositionOrigin);
+    } catch (e) {
+      result = BackupResultStatus.error;
+    }
 
     _updateState((state) => state.copyWith(
       exportInProgress: false,
