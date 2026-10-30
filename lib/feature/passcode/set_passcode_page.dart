@@ -28,7 +28,7 @@ class SetPasscodePage extends ConsumerWidget {
       error: state.result == SetPasscodeResult.validationError
           ? AppLocalizations.of(context)!.setPasscodePage_validationError
           : null,
-      onTap: (_, key) => {
+      onTap: (key) => {
         ref.read(setPasscodeControllerProvider.notifier)
             .processKeyEntered(key)
       },
