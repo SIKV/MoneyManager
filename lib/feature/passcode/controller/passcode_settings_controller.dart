@@ -79,8 +79,16 @@ class PasscodeSettingsController extends AutoDisposeAsyncNotifierExt<PasscodeSet
     updateState((state) => state.copyWith(navigateTo: navigateTo));
   }
 
-  void setBiometricsEnabled(bool enabled) {
-    ref.read(passcodeServiceProvider)
+  void setBiometricsEnabled(bool enabled, String localizedReason) async {
+    final passcodeService = ref.read(passcodeServiceProvider);
+
+    // Authenticate before turning biometrics on.
+    // On iOS the first attempt shows the system Face ID permission prompt.
+    if (enabled && !await passcodeService.runBiometricsAuth(localizedReason)) {
+      return;
+    }
+
+    passcodeService
         .setBiometricsEnabled(enabled)
         .then((_) {
           updateState((state) => state.copyWith(isBiometricsEnabled: enabled));
