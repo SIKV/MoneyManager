@@ -30,7 +30,7 @@ class EmojiAndTitle extends StatelessWidget {
           child: Container(
             height: _emojiContainerSize,
             width: _emojiContainerSize,
-            padding: const EdgeInsets.all(Spacings.two),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1,
