@@ -34,7 +34,10 @@ class PasscodeSettingsPage extends ConsumerWidget {
                     },
                     onUseBiometricsChanged: (enabled) => {
                       ref.read(passcodeSettingsControllerProvider.notifier)
-                          .setBiometricsEnabled(enabled)
+                          .setBiometricsEnabled(
+                            enabled,
+                            AppLocalizations.of(context)!.passcodeSettingsPage_biometricsReason,
+                          )
                     },
                     state: data,
                   ),

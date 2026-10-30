@@ -142,6 +142,7 @@
   "passcodeSettingsPage_enablePasscodeTitle": "Turn on Passcode",
   "passcodeSettingsPage_disablePasscodeTitle": "Turn off Passcode",
   "passcodeSettingsPage_biometricsTitle": "Use Biometrics",
+  "passcodeSettingsPage_biometricsReason": "Authenticate to turn on biometrics",
 
 
   "setPasscodePage_setTitle": "Set Passcode",
