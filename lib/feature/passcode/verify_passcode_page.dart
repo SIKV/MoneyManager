@@ -26,7 +26,7 @@ class VerifyPasscodePage extends ConsumerWidget {
       error: state.result == VerifyPasscodeResult.error
           ? AppLocalizations.of(context)!.verifyPasscodePage_error
           : null,
-      onTap: (_, key) => {
+      onTap: (key) => {
         ref.read(verifyPasscodeControllerProvider(_getControllerArgs(context)).notifier)
             .processKeyEntered(key)
       },
