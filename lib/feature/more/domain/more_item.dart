@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../theme/theme.dart';
 
 enum MoreItemType {
   divider,
@@ -34,8 +31,8 @@ class WalletSettingsMoreItem extends MoreItem {
 
 @immutable
 class DarkThemeMoreItem extends MoreItem {
-  final AppThemeType appTheme;
+  final ThemeMode themeMode;
 
-  const DarkThemeMoreItem(this.appTheme)
+  const DarkThemeMoreItem(this.themeMode)
       : super(MoreItemType.darkTheme);
 }

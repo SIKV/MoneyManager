@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../theme/theme.dart';
 import 'change_theme_controller.dart';
 
 class ChangeThemePage extends ConsumerWidget {
@@ -21,22 +20,26 @@ class ChangeThemePage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: state.value?.themes.map((theme) {
+              children: state.value?.themeModes.map((themeMode) {
                 String title = '';
-                switch (theme) {
-                  case AppThemeType.light:
-                    title = AppLocalizations.of(context)!.changeThemePage_darkThemeOff;
+                switch (themeMode) {
+                  case ThemeMode.system:
+                    title = AppLocalizations.of(context)!.changeThemePage_followSystem;
                     break;
-                  case AppThemeType.dark:
+                  case ThemeMode.dark:
                     title = AppLocalizations.of(context)!.changeThemePage_darkThemeOn;
+                    break;
+                  case ThemeMode.light:
+                    title = AppLocalizations.of(context)!.changeThemePage_darkThemeOff;
                     break;
                 }
                 return ListTile(
+                  onTap: () => _changeThemeMode(ref, themeMode),
                   title: Text(title),
                   leading: Radio(
-                    value: theme,
-                    groupValue: state.value?.currentTheme,
-                    onChanged: (value) => _changeTheme(ref, value),
+                    value: themeMode,
+                    groupValue: state.value?.currentThemeMode,
+                    onChanged: (value) => _changeThemeMode(ref, value),
                   ),
                 );
               }).toList() ?? [],
@@ -47,9 +50,9 @@ class ChangeThemePage extends ConsumerWidget {
     );
   }
 
-  void _changeTheme(WidgetRef ref, AppThemeType? theme) {
-    if (theme != null) {
-      ref.read(changeThemeControllerProvider.notifier).changeTheme(theme);
+  void _changeThemeMode(WidgetRef ref, ThemeMode? themeMode) {
+    if (themeMode != null) {
+      ref.read(changeThemeControllerProvider.notifier).changeThemeMode(themeMode);
     }
   }
 }

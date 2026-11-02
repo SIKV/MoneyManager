@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/local_preferences.dart';
 import 'package:moneymanager/theme/colors.dart';
@@ -10,10 +9,13 @@ final appThemeManagerProvider = NotifierProvider<AppThemeManager, AppTheme>(() =
     AppThemeManager()
 );
 
-class AppThemeManager extends Notifier<AppTheme> {
+class AppThemeManager extends Notifier<AppTheme> with WidgetsBindingObserver {
 
   @override
   AppTheme build() {
+    WidgetsBinding.instance.addObserver(this);
+    ref.onDispose(() => WidgetsBinding.instance.removeObserver(this));
+
     switch (getType()) {
       case AppThemeType.light:
         return LightAppTheme();
@@ -51,10 +53,31 @@ class AppThemeManager extends Notifier<AppTheme> {
     }
   }
 
-  void setTheme(AppThemeType theme) {
+  ThemeMode getThemeMode() {
+    return switch (ref.read(localPreferencesProvider).theme) {
+      null => ThemeMode.system,
+      AppThemeType.light => ThemeMode.light,
+      AppThemeType.dark => ThemeMode.dark,
+    };
+  }
+
+  void setThemeMode(ThemeMode themeMode) {
+    final AppThemeType? theme = switch (themeMode) {
+      ThemeMode.system => null,
+      ThemeMode.light => AppThemeType.light,
+      ThemeMode.dark => AppThemeType.dark,
+    };
+
     ref.read(localPreferencesProvider)
         .setTheme(theme);
 
     ref.invalidateSelf();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    if (getThemeMode() == ThemeMode.system) {
+      ref.invalidateSelf();
+    }
   }
 }

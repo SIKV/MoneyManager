@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/feature/more/controller/more_controller.dart';
 import 'package:moneymanager/feature/more/ui/action_tile.dart';
 import 'package:moneymanager/theme/spacings.dart';
-import 'package:moneymanager/theme/theme.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -92,11 +91,14 @@ class _Items extends StatelessWidget {
           String? subtitle;
 
           if (item is DarkThemeMoreItem) {
-            switch (item.appTheme) {
-              case AppThemeType.light:
+            switch (item.themeMode) {
+              case ThemeMode.system:
+                subtitle = AppLocalizations.of(context)!.changeThemePage_followSystem;
+                break;
+              case ThemeMode.light:
                 subtitle = AppLocalizations.of(context)!.changeThemePage_darkThemeOff;
                 break;
-              case AppThemeType.dark:
+              case ThemeMode.dark:
                 subtitle = AppLocalizations.of(context)!.changeThemePage_darkThemeOn;
                 break;
             }

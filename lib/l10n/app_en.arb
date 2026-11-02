@@ -95,8 +95,9 @@
 
 
   "changeThemePage_title": "Dark Theme",
-  "changeThemePage_darkThemeOn": "On",
-  "changeThemePage_darkThemeOff": "Off",
+  "changeThemePage_darkThemeOn": "Always On",
+  "changeThemePage_darkThemeOff": "Always Off",
+  "changeThemePage_followSystem": "Match Device",
 
 
   "backupPage_title": "Backup",

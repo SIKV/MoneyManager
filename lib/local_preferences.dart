@@ -63,8 +63,13 @@ class LocalPreferences {
     onCurrentWalletIdChanged.add(_currentWalletId);
   }
 
-  void setTheme(AppThemeType theme) {
-    _prefs.setInt(_keyTheme, theme.id);
+  // Pass null to use device theme.
+  void setTheme(AppThemeType? theme) {
+    if (theme == null) {
+      _prefs.remove(_keyTheme);
+    } else {
+      _prefs.setInt(_keyTheme, theme.id);
+    }
     _theme = theme;
   }
 

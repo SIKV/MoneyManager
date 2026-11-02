@@ -43,8 +43,10 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
   }
 
   Future<MoreItem> _createDarkThemeItem() async {
+    // Watch to refresh the subtitle when the theme setting changes.
+    ref.watch(appThemeManagerProvider);
     final AppThemeManager themeManager = ref.read(appThemeManagerProvider.notifier);
-    return DarkThemeMoreItem(themeManager.getType());
+    return DarkThemeMoreItem(themeManager.getThemeMode());
   }
 
   Future<String> _getAppVersion() async {
