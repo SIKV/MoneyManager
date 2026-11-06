@@ -32,6 +32,8 @@ class MoreController extends AutoDisposeAsyncNotifier<MoreState> {
         _divider,
         if (isFeedbackEnabled()) const GeneralMoreItem(MoreItemType.sendFeedback),
         if (isFeedbackEnabled()) _divider,
+        const GeneralMoreItem(MoreItemType.privacyPolicy),
+        _divider,
       ],
       appVersion: await _getAppVersion(),
     );
