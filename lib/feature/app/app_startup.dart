@@ -7,6 +7,7 @@ import 'package:moneymanager/feature/passcode/passcode_settings_page.dart';
 import 'package:moneymanager/feature/transactions/ui/transactions_filters_modal.dart';
 import 'package:moneymanager/feature/wallet/change_wallet_page.dart';
 import 'package:moneymanager/local_preferences.dart';
+import 'package:moneymanager/service/providers.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/theme/theme.dart';
 import 'package:moneymanager/theme/theme_manager.dart';
@@ -41,6 +42,10 @@ Future<void> appStartup(AppStartupRef ref) async {
   if (localPreferences.isFirstLaunch()) {
     final categoriesRepository = await ref.watch(categoriesRepositoryProvider);
     await categoriesRepository.initWithDefaultsIfEmpty();
+
+    // The iOS Keychain keeps the passcode after the app is deleted,
+    // so a reinstall would ask for a passcode the user may not remember.
+    await ref.read(passcodeServiceProvider).deletePasscode();
 
     localPreferences.setFirstLaunch();
   }
