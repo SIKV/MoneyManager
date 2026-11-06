@@ -1,6 +1,6 @@
 # Money Manager
 
-[![build-android-release](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-release.yml/badge.svg)](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-release.yml)
+[![build-android-prod](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-prod.yml/badge.svg)](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-prod.yml)
 [![build-android-dev](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-dev.yml/badge.svg)](https://github.com/SIKV/MoneyManager/actions/workflows/build-android-dev.yml)
 
 An open-source personal finance tracker for Android and iOS, built with Flutter.
