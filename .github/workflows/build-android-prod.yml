@@ -1,18 +1,20 @@
-name: build-android-release
+name: build-android-prod
 on:
   push:
     tags:
       - 'v*'
+permissions:
+  contents: read
 jobs:
   build:
-    name: Build Money Manager Android Release
+    name: Build Android (prod)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '17'
 
       - uses: subosito/flutter-action@v2
         with:
@@ -20,7 +22,7 @@ jobs:
           flutter-version: 3.38.5
 
       - run: flutter pub get
-      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Decode Keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
@@ -37,18 +39,18 @@ jobs:
           echo "googleAppId=${{ secrets.GOOGLE_APP_ID }}" >> android/firebase.properties
           echo "googleApiKey=${{ secrets.GOOGLE_API_KEY }}" >> android/firebase.properties
           echo "gcmDefaultSenderId=${{ secrets.GCM_DEFAULT_SENDER_ID }}" >> android/firebase.properties
-          echo "projectId=${{ secrets.PROJECT_ID }}" >> android/firebase.properties  
+          echo "projectId=${{ secrets.PROJECT_ID }}" >> android/firebase.properties
 
       - run: flutter build apk --release --split-per-abi --flavor prod --dart-define=FIREBASE_ENABLED=true --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
 
       - name: Upload armeabi-v7a artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: MoneyManager-armeabi-v7a.apk
           path: build/app/outputs/apk/prod/release/app-prod-armeabi-v7a-release.apk
 
       - name: Upload arm64-v8a artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: MoneyManager-arm64-v8a.apk
           path: build/app/outputs/apk/prod/release/app-prod-arm64-v8a-release.apk
