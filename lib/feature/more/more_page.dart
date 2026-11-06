@@ -4,10 +4,13 @@ import 'package:moneymanager/feature/more/controller/more_controller.dart';
 import 'package:moneymanager/feature/more/ui/action_tile.dart';
 import 'package:moneymanager/theme/spacings.dart';
 import 'package:moneymanager/ui/widget/small_section_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../navigation/routes.dart';
 import 'domain/more_item.dart';
+
+const _privacyPolicyUrl = 'https://github.com/SIKV/MoneyManager/blob/master/docs/privacy-policy.md';
 
 class MorePage extends ConsumerWidget {
   const MorePage({super.key});
@@ -116,6 +119,16 @@ class _Items extends StatelessWidget {
             leadingIcon: Icons.feedback_rounded,
             title: AppLocalizations.of(context)!.morePage_sendFeedback_itemTitle,
             subtitle: AppLocalizations.of(context)!.morePage_sendFeedback_itemSubtitle,
+          );
+        }
+        case MoreItemType.privacyPolicy: {
+          return ActionTile(
+            onTap: () => launchUrl(
+              Uri.parse(_privacyPolicyUrl),
+              mode: LaunchMode.externalApplication,
+            ),
+            leadingIcon: Icons.privacy_tip_rounded,
+            title: AppLocalizations.of(context)!.morePage_privacyPolicyItem,
           );
         }
       }
