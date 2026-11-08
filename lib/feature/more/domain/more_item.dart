@@ -7,6 +7,7 @@ enum MoreItemType {
   backup,
   darkTheme,
   sendFeedback,
+  privacyPolicy,
 }
 
 @immutable
