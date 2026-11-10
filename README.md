@@ -7,6 +7,11 @@ An open-source personal finance tracker for Android and iOS, built with Flutter.
 
 It works fully offline. There's no account and no server: your wallets, categories and transactions are stored only on your device.
 
+## Get the App
+
+[![Android](https://img.shields.io/badge/Android-Download%20APK-3DDC84)](https://github.com/SIKV/MoneyManager/releases/latest)
+[![ TestFlight](https://img.shields.io/badge/%20TestFlight-Join%20Beta-0D96F6)](https://testflight.apple.com/join/t5DcX2Jm)
+
 ## Features
 
 - **Wallets.** Keep one wallet per currency and switch between them from the header.
