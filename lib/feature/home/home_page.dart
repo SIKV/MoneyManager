@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
+import 'package:moneymanager/feature/categories/categories_page.dart';
 import 'package:moneymanager/feature/home/controller/home_controller.dart';
 import 'package:moneymanager/feature/home/domain/home_state.dart';
+import 'package:moneymanager/feature/statistics/statistics_page.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/ui/extensions.dart';
@@ -31,7 +33,9 @@ class HomePage extends ConsumerWidget {
 class _HomeScaffold extends ConsumerWidget {
   static final _pages = [
     const TransactionsPage(),
+    const CategoriesPage(),
     Container(), // Add transaction item navigates to a separate page. This is just a dummy view.
+    const StatisticsPage(),
     const MorePage(),
   ];
 
@@ -54,6 +58,11 @@ class _HomeScaffold extends ConsumerWidget {
             selectedIcon: const SvgIcon(Assets.home),
             label: AppLocalizations.of(context)!.transactionsPage_title,
           ),
+          NavigationDestination(
+            icon: const SvgIcon(Assets.cart),
+            selectedIcon: const SvgIcon(Assets.cart),
+            label: AppLocalizations.of(context)!.categoriesPage_title,
+          ),
           Center(
             child: Ink(
               decoration: ShapeDecoration(
@@ -73,6 +82,11 @@ class _HomeScaffold extends ConsumerWidget {
                 icon: const Icon(Icons.add),
               ),
             ),
+          ),
+          NavigationDestination(
+            icon: const SvgIcon(Assets.chartVertical),
+            selectedIcon: const SvgIcon(Assets.chartVertical),
+            label: AppLocalizations.of(context)!.statisticsPage_title,
           ),
           NavigationDestination(
             icon: const SvgIcon(Assets.menuHorizontal),
