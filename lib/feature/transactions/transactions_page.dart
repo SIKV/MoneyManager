@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:moneymanager/domain/transaction_type_filter.dart';
 import 'package:moneymanager/feature/anonymous_mode/anonymous_mode_controller.dart';
 import 'package:moneymanager/feature/transactions/controller/header_controller.dart';
 import 'package:moneymanager/feature/transactions/extensions.dart';
@@ -10,7 +9,6 @@ import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/theme/dimens.dart';
 import 'package:moneymanager/ui/widget/collapsing_header_page.dart';
-import 'package:moneymanager/ui/widget/header_circle_button.dart';
 import 'package:moneymanager/ui/widget/pull_to_activate.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -19,6 +17,7 @@ import '../../theme/spacings.dart';
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
 import '../../ui/widget/SvgIcon.dart';
+import '../../ui/widget/pill_button.dart';
 
 class TransactionsPage extends ConsumerWidget {
   const TransactionsPage({super.key});
@@ -34,9 +33,9 @@ class TransactionsPage extends ConsumerWidget {
         ? anonymousAmount
         : headerState?.formattedAmount ?? '...';
 
-    final String titleSuffix = headerState != null
-        ? ' ${headerState.currentWallet?.currency.symbol}'
-        : '';
+    final String coins = anonymousMode
+        ? ''
+        : headerState?.coins ?? '';
 
     final String filterTitle = headerState != null
         ? getFilterTitle(context, headerState.rangeFilter, headerState.typeFilter)
@@ -50,23 +49,6 @@ class TransactionsPage extends ConsumerWidget {
         )
         : '';
 
-    Color startColor = appTheme.colors.transactionsAllHeaderStart;
-    Color endColor = appTheme.colors.transactionsAllHeaderEnd;
-
-    switch (headerState?.typeFilter) {
-      case TransactionTypeFilter.income:
-        startColor = appTheme.colors.transactionsIncomeHeaderStart;
-        break;
-      case TransactionTypeFilter.expenses:
-        startColor = appTheme.colors.transactionsExpensesHeaderStart;
-        endColor = appTheme.colors.transactionsExpensesHeaderEnd;
-        break;
-      case TransactionTypeFilter.all:
-        break;
-      case null:
-        break;
-    }
-
     return PullToActivate(
       onActivate: () {
         ref.read(anonymousModeControllerProvider.notifier).toggle();
@@ -78,30 +60,38 @@ class TransactionsPage extends ConsumerWidget {
       },
       child: CollapsingHeaderPage(
         colors: appTheme.colors,
-        startColor: startColor,
-        endColor: endColor,
         collapsedHeight: Dimens.transactionsPageCollapsedHeight,
         expandedHeight: Dimens.transactionsPageExpandedHeight,
         // Required to over-scroll on Android, where the default physics clamps.
         physics: const BouncingScrollPhysics(
           parent: AlwaysScrollableScrollPhysics(),
         ),
+        leadingWidget: PillButton(
+            title: headerState?.currentWallet?.currency.name ?? "",
+            onPressed: () => _showChangeWallet(context),
+        ),
         title: formattedAmount,
         // Skip the count up animation, there is no number to count up to.
         rawTitle: anonymousMode ? null : amount,
-        titleSuffix: titleSuffix,
-        subtitle: filterTitle,
-        tertiaryTitle: transactionsCount,
-        onTitlePressed: () {
-          _showChangeWallet(context);
-        },
-        primaryAction: IconButton(
-          icon: SvgIcon(Assets.filters,
-            size: 32,
-            color: appTheme.colors.alwaysWhite,
+        titleSuffix: coins,
+        upperTitle: filterTitle,
+        subTitle: "Nov 1-24 • $transactionsCount", // TODO: Provide real data.
+        actions: [
+          IconButton(
+            icon: SvgIcon(Assets.search,
+              size: 24,
+              color: appTheme.colors.alwaysWhite,
+            ),
+            onPressed: () => _showMenu(context),
           ),
-          onPressed: () => _showMenu(context),
-        ),
+          IconButton(
+            icon: SvgIcon(Assets.filters,
+              size: 24,
+              color: appTheme.colors.alwaysWhite,
+            ),
+            onPressed: () => _showMenu(context),
+          )
+        ],
         sliver: const TransactionsList(),
       ),
     );

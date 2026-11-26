@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/theme/colors.dart';
-import 'package:moneymanager/ui/widget/header_circle_button.dart';
+import 'package:moneymanager/theme/spacings.dart';
 
 import '../../theme/theme.dart';
 import '../../theme/theme_manager.dart';
@@ -14,38 +14,30 @@ Duration _titleAnimationDuration = const Duration(milliseconds: 1500);
 
 class CollapsingHeaderPage extends ConsumerWidget {
   final AppColors colors;
-  final Color startColor;
-  final Color endColor;
   final double collapsedHeight;
   final double expandedHeight;
-  final String? titlePrefix;
+  final Widget leadingWidget;
   final String title;
   final double? rawTitle; // Use this field to show title with animation.
-  final String? titleSuffix;
-  final String? subtitle;
-  final String? tertiaryTitle;
-  final VoidCallback? onTitlePressed;
-  final Widget? primaryAction;
-  final List<HeaderCircleButton>? secondaryActions;
+  final String titleSuffix;
+  final String upperTitle;
+  final String subTitle;
+  final List<Widget> actions;
   final ScrollPhysics? physics;
   final Widget sliver;
 
   const CollapsingHeaderPage({
     super.key,
     required this.colors,
-    required this.startColor,
-    required this.endColor,
     required this.collapsedHeight,
     required this.expandedHeight,
-    this.titlePrefix,
+    required this.leadingWidget,
     required this.title,
     this.rawTitle,
-    this.titleSuffix,
-    this.subtitle,
-    this.tertiaryTitle,
-    this.onTitlePressed,
-    this.primaryAction,
-    this.secondaryActions,
+    required this.titleSuffix,
+    required this.upperTitle,
+    required this.subTitle,
+    required this.actions,
     this.physics,
     required this.sliver,
   });
@@ -55,31 +47,60 @@ class CollapsingHeaderPage extends ConsumerWidget {
     final AppTheme appTheme = ref.watch(appThemeManagerProvider);
 
     return Material(
-      child: CustomScrollView(
-        physics: physics,
-        slivers: [
-          SliverPersistentHeader(
-            pinned: true,
-            floating: false,
-            delegate: _HeaderDelegate(
-              colors: appTheme.colors,
-              startColor: startColor,
-              endColor: endColor,
-              expandedHeight: expandedHeight,
-              collapsedHeight: collapsedHeight,
-              titlePrefix: titlePrefix,
-              title: title,
-              rawTitle: rawTitle,
-              titleSuffix: titleSuffix,
-              subtitle: subtitle,
-              tertiaryTitle: tertiaryTitle,
-              onTitlePressed: onTitlePressed,
-              primaryAction: primaryAction,
-              secondaryActions: secondaryActions,
+      color: Theme.of(context).colorScheme.surfaceContainer,
+      child: NotificationListener<ScrollEndNotification>(
+        onNotification: (notification) {
+          // Never stop halfway. Snap it to fully open or fully closed when scrolling ends
+          final range = expandedHeight - collapsedHeight;
+          final offset = notification.metrics.pixels;
+          if (notification.depth == 0 && offset > 0 && offset < range) {
+            final target = offset < range / 2 ? 0.0 : range;
+            // Let the finished scroll activity wrap up before starting a new one.
+            Future.microtask(() => Scrollable.of(notification.context!).position
+                .animateTo(target,
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeOut));
+          }
+          return false; // Keep bubbling, so PullToActivate still gets notifications.
+        },
+        child: CustomScrollView(
+          physics: physics,
+          slivers: [
+            SliverPersistentHeader(
+              pinned: true,
+              floating: false,
+              delegate: _HeaderDelegate(
+                colors: appTheme.colors,
+                paddingTop: MediaQuery.paddingOf(context).top,
+                expandedHeight: expandedHeight,
+                collapsedHeight: collapsedHeight,
+                leadingWidget: leadingWidget,
+                title: title,
+                rawTitle: rawTitle,
+                titleSuffix: titleSuffix,
+                upperTitle: upperTitle,
+                subTitle: subTitle,
+                actions: actions,
+              ),
             ),
-          ),
-          sliver,
-        ],
+            sliver,
+            // A short list can't scroll far enough to collapse the header, so the header
+            // gets stuck halfway. This pads the list until the header can collapse fully.
+            // Long lists get no padding. The snap in onNotification needs this too:
+            // otherwise it can't reach the collapsed state and keeps retrying.
+            SliverLayoutBuilder(
+              builder: (context, constraints) {
+                final collapseRange = expandedHeight - collapsedHeight;
+                final missing = constraints.viewportMainAxisExtent
+                    + collapseRange
+                    - constraints.precedingScrollExtent;
+                return SliverToBoxAdapter(
+                  child: SizedBox(height: max(0, missing)),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -87,39 +108,32 @@ class CollapsingHeaderPage extends ConsumerWidget {
 
 class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   final AppColors colors;
-  final Color startColor;
-  final Color endColor;
+  final double paddingTop;
   final double collapsedHeight;
   final double expandedHeight;
-  final String? titlePrefix;
+  final Widget leadingWidget;
   final String title;
   final double? rawTitle;
-  final String? titleSuffix;
-  final String? subtitle;
-  final String? tertiaryTitle;
-  final VoidCallback? onTitlePressed;
-  final Widget? primaryAction;
-  final List<HeaderCircleButton>? secondaryActions;
+  final String titleSuffix;
+  final String upperTitle;
+  final String subTitle;
+  final List<Widget> actions;
 
   _HeaderDelegate({
     required this.colors,
-    required this.startColor,
-    required this.endColor,
+    required this.paddingTop,
     required this.collapsedHeight,
     required this.expandedHeight,
-    this.titlePrefix,
+    required this.leadingWidget,
     required this.title,
     this.rawTitle,
-    this.titleSuffix,
-    this.subtitle,
-    this.tertiaryTitle,
-    this.onTitlePressed,
-    this.primaryAction,
-    this.secondaryActions,
+    required this.titleSuffix,
+    required this.upperTitle,
+    required this.subTitle,
+    required this.actions,
   });
 
   final double contentBorderHeight = 16;
-  double paddingTop = 0;
   double scrollProgress = 0;
 
   // Without it a pinned header stays glued to the top edge while the content
@@ -130,8 +144,6 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    paddingTop = MediaQuery.of(context).padding.top;
-
     final scrollProgress = shrinkOffset / (maxExtent - minExtent);
     this.scrollProgress = (scrollProgress > 1.0) ? 1.0 : scrollProgress;
 
@@ -151,7 +163,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
               left: 0,
               right: 0,
               bottom: 1,
-              child: Container(color: startColor),
+              child: Container(color: Theme.of(context).primaryColor),
             ),
             // This is needed to remove a horizontal line between CollapsingHeaderContent and its content.
             Positioned(
@@ -159,15 +171,16 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
               left: 0,
               right: 0,
               bottom: 1,
-              child: buildGradient(),
+              child: buildGradient(context),
             ),
-            // The rest of the header is aligned to the bottom, so the stretch
-            // moves it on its own. This one has to follow the over-scroll too.
-            Transform.translate(
-              offset: Offset(0, stretch),
-              child: Container(
+            Positioned(
+              top: stretch,
+              left: 0,
+              right: 0,
+              // No bottom: the child gets unlimited height and keeps its natural size.
+              child: Padding(
                 padding: EdgeInsets.only(top: paddingTop),
-                child: buildHeader(),
+                child: buildHeader(context),
               ),
             ),
             Align(
@@ -175,7 +188,6 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  buildSecondaryActions(),
                   buildContentRoundBorder(context),
                 ],
               ),
@@ -187,7 +199,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => expandedHeight;
+  double get maxExtent => paddingTop + expandedHeight;
 
   @override
   double get minExtent => paddingTop + collapsedHeight;
@@ -197,7 +209,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     return true;
   }
 
-  Widget buildGradient() {
+  Widget buildGradient(BuildContext context) {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 150),
       opacity: 1 - scrollProgress,
@@ -211,8 +223,8 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
               1.0,
             ],
             colors: [
-              startColor,
-              endColor,
+              Theme.of(context).colorScheme.surface,
+              Theme.of(context).colorScheme.surface,
             ],
           ),
         ),
@@ -220,90 +232,42 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  Widget buildHeader() {
-    final subtitleTextStyle = TextStyle.lerp(
-        TextStyle(
-          color: colors.alwaysBlack,
-          fontSize: 15,
-        ),
-        TextStyle(
-          color: colors.alwaysBlack,
-          fontSize: 13,
-        ),
-        scrollProgress
+  Widget buildHeader(BuildContext context) {
+    final upperTitleTextStyle = TextStyle(
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+        fontSize: 15,
     );
 
-    final tertiaryTitleTextStyle = TextStyle.lerp(
-        TextStyle(
-          color: colors.alwaysBlack,
-          fontSize: 15,
-        ),
-        const TextStyle(
-          color: Colors.transparent,
-          fontSize: 0,
-        ),
-        scrollProgress
-    );
-
-    final titleActionPaddings = EdgeInsets.lerp(
-        const EdgeInsets.only(left: 4, top: 9),
-        const EdgeInsets.only(left: 4, top: 4),
-        scrollProgress
-    );
+    final subTitleTextStyle = upperTitleTextStyle;
 
     final List<Widget> children = [
-      InkWell(
-        onTap: () {
-          onTitlePressed?.call();
-        },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Lets the title shrink instead of pushing the action out of the header.
-            Flexible(child: buildTitle()),
-            if (onTitlePressed != null) ...[
-              Padding(
-                padding: titleActionPaddings ?? const EdgeInsets.only(),
-                child: Icon(Icons.arrow_drop_down,
-                  color: colors.alwaysWhite,
-                ),
-              ),
-            ],
-          ],
-        ),
+      Row(
+        children: [
+          leadingWidget,
+          const Spacer(),
+          ...actions
+        ],
       ),
+
+      const SizedBox(height: Spacings.four),
+
+      Text(upperTitle,
+        style: upperTitleTextStyle,
+      ),
+
+      buildTitle(context),
+
+      Text(subTitle,
+        style: subTitleTextStyle,
+      )
     ];
 
-    final subtitle = this.subtitle;
-    if (subtitle != null) {
-      children.add(
-        Padding(
-          padding: EdgeInsets.lerp(
-            const EdgeInsets.only(top: 6),
-            const EdgeInsets.only(top: 0),
-            scrollProgress,
-          ) ?? const EdgeInsets.only(top: 0),
-          child: Text(subtitle,
-            style: subtitleTextStyle,
-          ),
-        ),
-      );
-    }
-
-    final tertiaryTitle = this.tertiaryTitle;
-    if (tertiaryTitle != null) {
-      children.add(
-        Text(tertiaryTitle,
-          style: tertiaryTitleTextStyle,
-        ),
-      );
-    }
-
     final padding = EdgeInsets.lerp(
-      const EdgeInsets.only(left: 36, top: 48, right: 36),
-      const EdgeInsets.only(left: 24, top: 16, right: 16),
+      const EdgeInsets.only(left: 16, top: 16, right: 16),
+      const EdgeInsets.only(left: 16, top: 16, right: 16),
       scrollProgress,
     ) ?? const EdgeInsets.all(0);
+
 
     final List<Widget> rowChildren = [
       // Bounds the title width, otherwise there is nothing to fit it into.
@@ -316,11 +280,6 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
       )
     ];
 
-    final primaryAction = this.primaryAction;
-    if (primaryAction != null) {
-      rowChildren.add(primaryAction);
-    }
-
     return Padding(
       padding: padding,
       child: Row(
@@ -331,55 +290,30 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  Widget buildTitle() {
-    final titleTextStyle = TextStyle.lerp(
-        TextStyle(
-          color: colors.alwaysWhite,
-          fontSize: 46,
-          fontWeight: FontWeight.w700,
-        ),
-        TextStyle(
-          color: colors.alwaysWhite,
-          fontSize: 28,
-          fontWeight: FontWeight.w700,
-        ),
-        scrollProgress
+  Widget buildTitle(BuildContext context) {
+    final titleTextStyle = TextStyle(
+      color: Theme.of(context).colorScheme.onSurface,
+      fontSize: 58,
+      fontWeight: FontWeight.w900,
     );
 
-    final titleSuffixTextStyle = TextStyle.lerp(
-        TextStyle(
-          color: colors.alwaysWhite,
-          fontSize: 32,
-          fontWeight: FontWeight.w400,
-        ),
-        TextStyle(
-          color: colors.alwaysWhite,
-          fontSize: 22,
-          fontWeight: FontWeight.w400,
-        ),
-        scrollProgress
+    final titleSuffixTextStyle = titleTextStyle.copyWith(
+        color: Theme.of(context).colorScheme.outline
     );
 
     return LayoutBuilder(
       builder: (context, constraints) {
         // Measured against the final title, so that the count up animation
         // below runs at a single size instead of shrinking on its last frame.
-        final scale = titleScale(context, constraints.maxWidth,
-          titleTextStyle,
-          titleSuffixTextStyle,
-        );
+        final scale = titleScale(context, constraints.maxWidth, titleTextStyle, titleSuffixTextStyle);
 
         final scaledTitleTextStyle = scaleTextStyle(titleTextStyle, scale);
-        final scaledTitleSuffixTextStyle =
-            scaleTextStyle(titleSuffixTextStyle, scale);
+        final scaledTitleSuffixTextStyle = scaleTextStyle(titleSuffixTextStyle, scale);
 
         final rawTitle = this.rawTitle;
 
         if (rawTitle == null) {
-          return buildTitleText(title,
-            scaledTitleTextStyle,
-            scaledTitleSuffixTextStyle,
-          );
+          return buildTitleText(title, scaledTitleTextStyle, titleSuffixTextStyle);
         }
 
         final titleInt = rawTitle.toInt();
@@ -389,11 +323,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
           duration: _titleAnimationDuration,
           builder: (context, value, child) {
             final valueInt = value.toInt();
-
-            return buildTitleText(valueInt == titleInt ? title : '$valueInt',
-              scaledTitleTextStyle,
-              scaledTitleSuffixTextStyle,
-            );
+            return buildTitleText(valueInt == titleInt ? title : '$valueInt', scaledTitleTextStyle, scaledTitleSuffixTextStyle);
           },
         );
       },
@@ -403,14 +333,13 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   /// How much the title has to be scaled down to fit into [maxWidth]. The
   /// prefix and the suffix are scaled by the same factor, so that the title
   /// keeps its proportions.
-  double titleScale(BuildContext context, double maxWidth,
-      TextStyle? titleTextStyle, TextStyle? titleSuffixTextStyle) {
+  double titleScale(BuildContext context, double maxWidth, TextStyle? titleTextStyle, TextStyle? titleSuffixTextStyle) {
     if (!maxWidth.isFinite || maxWidth <= 0) {
       return 1;
     }
 
     final textPainter = TextPainter(
-      text: buildTitleSpan(title, titleTextStyle, titleSuffixTextStyle),
+      text: buildTitleSpan(title, titleSuffix, titleTextStyle, titleSuffixTextStyle),
       textDirection: Directionality.of(context),
       maxLines: 1,
     )..layout();
@@ -433,29 +362,21 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     return style.copyWith(fontSize: fontSize * scale);
   }
 
-  Widget buildTitleText(String title, TextStyle? titleTextStyle,
-      TextStyle? titleSuffixTextStyle) {
+  Widget buildTitleText(String title, TextStyle? titleTextStyle, TextStyle? titleSuffixTextStyle) {
     return RichText(
       maxLines: 1,
-      text: buildTitleSpan(title, titleTextStyle, titleSuffixTextStyle),
+      text: buildTitleSpan(title, titleSuffix, titleTextStyle, titleSuffixTextStyle),
     );
   }
 
-  TextSpan buildTitleSpan(String title, TextStyle? titleTextStyle,
-      TextStyle? titleSuffixTextStyle) {
+  TextSpan buildTitleSpan(String title, String titleSuffix, TextStyle? titleTextStyle, TextStyle? titleSuffixTextStyle) {
     return TextSpan(
       children: [
-        if (titlePrefix != null) TextSpan(
-          text: titlePrefix,
-          style: titleTextStyle,
-        ),
-
         TextSpan(
           text: title,
           style: titleTextStyle,
         ),
-
-        if (titleSuffix != null) TextSpan(
+        TextSpan(
           text: titleSuffix,
           style: titleSuffixTextStyle,
         ),
@@ -467,35 +388,12 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     return Container(
       height: lerpDouble(contentBorderHeight, 0, scrollProgress),
       decoration: BoxDecoration(
-        color: Theme.of(context).canvasColor,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
         ),
       ),
     );
-  }
-
-  Widget buildSecondaryActions() {
-    final actions = secondaryActions;
-    if (actions != null && actions.isNotEmpty) {
-      final double opacity = 1 - scrollProgress;
-      return Opacity(
-        opacity: opacity,
-        child: Visibility(
-          visible: opacity > 0.4,
-          child: Container(
-            padding: const EdgeInsets.only(bottom: 24),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: actions,
-            ),
-          ),
-        ),
-      );
-    } else {
-      return Container();
-    }
   }
 }
