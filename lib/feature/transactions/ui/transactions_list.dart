@@ -54,7 +54,7 @@ class TransactionsList extends ConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: Spacings.four,
-                      vertical: Spacings.three,
+                      vertical: Spacings.two,
                     ),
                     child: TransactionItem(
                       transaction: item,
@@ -62,8 +62,10 @@ class TransactionsList extends ConsumerWidget {
                   ),
                 );
               } else if (item is TransactionSectionUiModel) {
+                final paddingTop = index == 0 ? Spacings.one : Spacings.four;
+
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: Spacings.two),
+                  padding: EdgeInsets.only(top: paddingTop, bottom: Spacings.four),
                   child: Center(
                     child: SmallSectionText(item.title),
                   ),
