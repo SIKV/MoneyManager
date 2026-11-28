@@ -4,9 +4,9 @@ import 'package:moneymanager/domain/transaction_type.dart';
 import 'package:moneymanager/ui/extensions.dart';
 
 import '../../../theme/spacings.dart';
-import '../anonymous_mode/anonymous_mode_controller.dart';
 import '../../../theme/theme.dart';
 import '../../../theme/theme_manager.dart';
+import '../anonymous_mode/anonymous_mode_controller.dart';
 import 'domain/transaction_item_ui_model.dart';
 
 class TransactionItem extends ConsumerWidget {
@@ -26,7 +26,7 @@ class TransactionItem extends ConsumerWidget {
       children: [
         transaction.getIcon(appTheme.colors),
 
-        const SizedBox(width: Spacings.five),
+        const SizedBox(width: Spacings.four),
 
         Expanded(
           child: Column(
@@ -35,16 +35,14 @@ class TransactionItem extends ConsumerWidget {
               Text(transaction.title,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              if (transaction.subtitle != null) ...[
-                Padding(
-                  padding: const EdgeInsets.only(top: Spacings.half),
-                  child: Text(transaction.subtitle ?? '',
-                    style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(top: Spacings.half),
+                child: Text(transaction.subtitle,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ],
+              ),
             ],
           ),
         ),
@@ -54,6 +52,7 @@ class TransactionItem extends ConsumerWidget {
         Text(anonymousMode ? anonymousAmount : transaction.amount,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             color: transaction.type == TransactionType.income ? appTheme.colors.incomeTransaction : null,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],

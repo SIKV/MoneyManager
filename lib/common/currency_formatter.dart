@@ -11,6 +11,7 @@ class CurrencyFormatter {
   final _trailingZerosWithDecimalPoint = RegExp(r'\.0*$');
 
   String format(double amount, {
+    String? symbol,
     bool compact = false,
     bool removeTrailingZeros = true,
   }) {
@@ -18,12 +19,12 @@ class CurrencyFormatter {
 
     if (compact) {
       formattedCurrency = NumberFormat.compactCurrency(
-        symbol: '',
+        symbol: symbol ?? '',
         decimalDigits: decimalDigits,
       ).format(amount);
     } else {
       formattedCurrency = NumberFormat.currency(
-        symbol: '',
+        symbol: symbol ?? '',
         decimalDigits: decimalDigits,
       ).format(amount);
     }

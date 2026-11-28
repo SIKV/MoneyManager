@@ -35,12 +35,22 @@ class HeaderController extends AsyncNotifier<HeaderState> {
     ).first;
 
     double amount = calculateAmount(transactions);
-    String formattedAmount = currencyFormatter.format(amount, compact: true);
+
+    String formattedAmount = currencyFormatter.format(
+        amount,
+        symbol: currentAccountOrNull.value?.currency.symbol
+    );
+
+    // Extract coins.
+    final dotIndex = formattedAmount.indexOf('.');
+    final coins = dotIndex != -1 ? formattedAmount.substring(dotIndex) : '.00';
+    final formattedAmountWithoutCoins = dotIndex != -1 ? formattedAmount.substring(0, dotIndex) : formattedAmount;
 
     return HeaderState(
       currentWallet: currentAccountOrNull.value,
       amount: amount,
-      formattedAmount: formattedAmount,
+      formattedAmount: formattedAmountWithoutCoins,
+      coins: coins,
       transactionsCount: transactions.length,
       typeFilter: filterService.getType(),
       rangeFilter: filterService.getRange(),

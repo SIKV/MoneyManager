@@ -11,7 +11,8 @@ class HeaderState with _$HeaderState {
   const factory HeaderState({
     required Wallet? currentWallet,
     required double amount,
-    required String formattedAmount,
+    required String formattedAmount, // Without coins.
+    required String coins, // Ex: '.99'.
     required int transactionsCount,
     required TransactionTypeFilter typeFilter,
     required TransactionRangeFilter rangeFilter,

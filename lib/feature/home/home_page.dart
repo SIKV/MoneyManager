@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moneymanager/domain/transaction_type.dart';
+import 'package:moneymanager/feature/categories/categories_page.dart';
 import 'package:moneymanager/feature/home/controller/home_controller.dart';
 import 'package:moneymanager/feature/home/domain/home_state.dart';
+import 'package:moneymanager/feature/home/ui/glass_navigation_bar.dart';
+import 'package:moneymanager/feature/statistics/statistics_page.dart';
 import 'package:moneymanager/navigation/routes.dart';
 import 'package:moneymanager/theme/assets.dart';
 import 'package:moneymanager/ui/extensions.dart';
-import 'package:moneymanager/ui/widget/SvgIcon.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../navigation/transaction_page_args.dart';
@@ -29,10 +31,11 @@ class HomePage extends ConsumerWidget {
 }
 
 class _HomeScaffold extends ConsumerWidget {
-  static final _pages = [
-    const TransactionsPage(),
-    Container(), // Add transaction item navigates to a separate page. This is just a dummy view.
-    const MorePage(),
+  static const _pages = [
+    TransactionsPage(),
+    CategoriesPage(),
+    StatisticsPage(),
+    MorePage(),
   ];
 
   final HomeState state;
@@ -44,41 +47,37 @@ class _HomeScaffold extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      // The navigation bar floats, so the pages scroll under its glass.
+      extendBody: true,
       body: _pages[state.selectedPageIndex],
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: GlassNavigationBar(
         selectedIndex: state.selectedPageIndex,
         onDestinationSelected: (index) => _onDestinationSelected(index, ref),
         destinations: [
-          NavigationDestination(
-            icon: const SvgIcon(Assets.homeOutline),
-            selectedIcon: const SvgIcon(Assets.home),
+          GlassNavigationDestination(
+            icon: Assets.homeOutline,
+            selectedIcon: Assets.home,
             label: AppLocalizations.of(context)!.transactionsPage_title,
           ),
-          Center(
-            child: Ink(
-              decoration: ShapeDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.primary.withOpacity(0.5),
-                  ],
-                ),
-                shape: const CircleBorder(),
-              ),
-              child: IconButton(
-                onPressed: () => _addTransaction(context, ref),
-                color: Colors.white,
-                icon: const Icon(Icons.add),
-              ),
-            ),
+          GlassNavigationDestination(
+            icon: Assets.cart,
+            selectedIcon: Assets.cartFilled,
+            label: AppLocalizations.of(context)!.categoriesPage_title,
           ),
-          NavigationDestination(
-            icon: const SvgIcon(Assets.menuHorizontal),
+          GlassNavigationDestination(
+            icon: Assets.chartVertical,
+            selectedIcon: Assets.chartVerticalFilled,
+            label: AppLocalizations.of(context)!.statisticsPage_title,
+          ),
+          GlassNavigationDestination(
+            icon: Assets.menuHorizontal,
+            selectedIcon: Assets.menuHorizontal,
             label: AppLocalizations.of(context)!.morePage_title,
           ),
         ],
+        actionIcon: const Icon(Icons.add),
+        actionLabel: AppLocalizations.of(context)!.add,
+        onActionPressed: () => _addTransaction(context, ref),
       ),
     );
   }

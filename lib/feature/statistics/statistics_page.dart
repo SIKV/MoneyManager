@@ -55,12 +55,16 @@ class StatisticsPage extends ConsumerWidget {
                   )
               ),
             ),
-            const SliverFillRemaining(
-              child: TabBarView(
-                children: [
-                  StatisticsChart(TransactionType.income),
-                  StatisticsChart(TransactionType.expense),
-                ],
+            SliverFillRemaining(
+              // Keeps the chart legend above the home page's floating navigation bar.
+              child: Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+                child: const TabBarView(
+                  children: [
+                    StatisticsChart(TransactionType.income),
+                    StatisticsChart(TransactionType.expense),
+                  ],
+                ),
               ),
             ),
           ],

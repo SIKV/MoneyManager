@@ -12,7 +12,7 @@ class TransactionUiModel extends TransactionItemUiModel {
   final TransactionType type;
   final String? emoji;
   final String title;
-  final String? subtitle;
+  final String subtitle;
   final String amount;
 
   const TransactionUiModel({
@@ -20,7 +20,7 @@ class TransactionUiModel extends TransactionItemUiModel {
     required this.type,
     this.emoji,
     required this.title,
-    this.subtitle,
+    required this.subtitle,
     required this.amount,
   });
 }
