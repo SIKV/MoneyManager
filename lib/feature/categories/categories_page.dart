@@ -48,20 +48,28 @@ class CategoriesPage extends ConsumerWidget {
                   ),
                 ),
               ),
-              CategoriesList(
-                categories: state.categories,
-                onReorder: (oldIndex, newIndex) {
-                  _reorder(ref, state.categories[oldIndex], oldIndex, newIndex);
-                },
+              // Keeps the last category above the home page's floating navigation bar.
+              SliverPadding(
+                padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+                sliver: CategoriesList(
+                  categories: state.categories,
+                  onReorder: (oldIndex, newIndex) {
+                    _reorder(ref, state.categories[oldIndex], oldIndex, newIndex);
+                  },
+                ),
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton.extended(
-            label: Text(AppLocalizations.of(context)!.categoriesPage_addButton),
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              _addCategory(context, state.selectedType);
-            },
+          // Lifts the button above the home page's floating navigation bar.
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+            child: FloatingActionButton.extended(
+              label: Text(AppLocalizations.of(context)!.categoriesPage_addButton),
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                _addCategory(context, state.selectedType);
+              },
+            ),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         );

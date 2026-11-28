@@ -92,7 +92,11 @@ class TransactionsPage extends ConsumerWidget {
             onPressed: () => _showMenu(context),
           )
         ],
-        sliver: const TransactionsList(),
+        // Keeps the last transaction above the home page's floating navigation bar.
+        sliver: SliverPadding(
+          padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+          sliver: const TransactionsList(),
+        ),
       ),
     );
   }
